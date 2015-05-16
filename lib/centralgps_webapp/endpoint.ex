@@ -1,17 +1,20 @@
 defmodule CentralGPSWebApp.Endpoint do
-  use Phoenix.Endpoint, otp_app: :centralgps_webapp
+  use Phoenix.Endpoint, otp_app: :central_g_p_s_web_app
 
-  # Serve at "/" the given assets from "priv/static" directory
+  # Serve at "/" the static files from "priv/static" directory.
+  #
+  # You should set gzip to true if you are running phoenix.digest
+  # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :centralgps_webapp, gzip: true,
+    at: "/", from: :central_g_p_s_web_app, gzip: false,
     only: ~w(css images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
-  #if code_reloading? do
-  #  plug Phoenix.LiveReloader
-  #  plug Phoenix.CodeReloader
-  #end
+  if code_reloading? do
+    plug Phoenix.LiveReloader
+    plug Phoenix.CodeReloader
+  end
 
   plug Plug.Logger
 
@@ -26,8 +29,7 @@ defmodule CentralGPSWebApp.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_centralgps_webapp_key",
-    signing_salt: "D6yZI1UC",
-    encryption_salt: "LE6VQN6r"
+    signing_salt: "oAPtYKsJ"
 
   plug :router, CentralGPSWebApp.Router
 end

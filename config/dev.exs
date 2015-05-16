@@ -6,15 +6,15 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :centralgps_webapp, CentralGPSWebApp.Endpoint,
+config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch"]]
+  watchers: []
 
 # Watch static and templates for browser reloading.
-config :centralgps_webapp, CentralGPSWebApp.Endpoint,
+config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif)$},
@@ -25,10 +25,3 @@ config :centralgps_webapp, CentralGPSWebApp.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
-
-# Configure your database
-config :centralgps_webapp, CentralGPSWebApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "centralgps_webapp_dev"

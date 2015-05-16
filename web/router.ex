@@ -1,5 +1,5 @@
 defmodule CentralGPSWebApp.Router do
-  use Phoenix.Router
+  use CentralGPSWebApp.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,12 +12,17 @@ defmodule CentralGPSWebApp.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", CentralGPSWebApp do
+  scope "/", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", LoginController, :login
   end
 
+  scope "/entity", CentralGPSWebApp.Entity do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", LoginController, :login
+  end
   # Other scopes may use custom stacks.
   # scope "/api", CentralGPSWebApp do
   #   pipe_through :api

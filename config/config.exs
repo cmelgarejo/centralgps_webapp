@@ -6,19 +6,20 @@
 use Mix.Config
 
 # Configures the endpoint
-config :centralgps_webapp, CentralGPSWebApp.Endpoint,
+config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   url: [host: "localhost"],
-  root: Path.expand("..", __DIR__),
-  secret_key_base: "0C9gKgAU1sdlEG+iY7m70694xjNg/zRB9qT7cMAHmjHE526Ag7sRy0DWelQ11RQ+",
-  debug_errors: false,
-  pubsub: [name: CentralGPSWebApp.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  root: Path.dirname(__DIR__),
+  secret_key_base: "4lRqXzOIYxiVuta7PzAy6YcXsb6PyJItgIlZ6lvycAmlWQQ4HVf2X5IVWFKUqk/W",
+  debug_errors: false
+  #pubsub: [name: CentralGPSWebApp.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :http_client,
+  http_client_base_url: "http://api.centralgps.net:8080/api/v1"
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

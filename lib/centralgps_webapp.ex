@@ -9,8 +9,6 @@ defmodule CentralGPSWebApp do
     children = [
       # Start the endpoint when the application starts
       supervisor(CentralGPSWebApp.Endpoint, []),
-      # Start the Ecto repository
-      worker(CentralGPSWebApp.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(CentralGPSWebApp.Worker, [arg1, arg2, arg3]),
     ]
@@ -19,6 +17,10 @@ defmodule CentralGPSWebApp do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: CentralGPSWebApp.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  def http_client_config(name) do
+    Application.get_env(:http_client, name)
   end
 
   # Tell Phoenix to update the endpoint configuration

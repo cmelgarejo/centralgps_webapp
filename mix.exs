@@ -2,37 +2,41 @@ defmodule CentralGPSWebApp.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :centralgps_webapp,
+    [app: :central_g_p_s_web_app,
      version: "0.0.1",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     package: package,
      deps: deps]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type `mix help compile.app` for more information
-  def application do
-    [mod: {CentralGPSWebApp, []},
-     applications: [:phoenix, :cowboy, :logger]]
+  defp package do
+      [ contributors: ["cmelgarejo, gabik077"],
+        licenses: ["Licensed Closed Source"],
+        links: %{"GitLab" => "https://gitlab.com/CentralGPS/centralgps_webapp"} ]
   end
 
-  # Specifies which paths to compile per environment
+  def application do
+    apps = [:phoenix, :phoenix_html, :cowboy, :logger, :logger_file_backend, :httpoison ]
+    dev_apps = Mix.env == :dev && [ :reprise ] || []
+    [ mod: {CentralGPSWebApp, []}, applications: dev_apps ++ apps ]
+  end
+
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
   defp elixirc_paths(_),     do: ["lib", "web"]
 
-  # Specifies your project dependencies
-  #
-  # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, github: "phoenixframework/phoenix", override: true},
-     #{:phoenix_ecto, "~> 0.3"},
-     #{:postgrex, ">= 0.0.0"},
-     # TODO bump to 0.3 for phoenix 0.11 release
-     #{:phoenix_live_reload, "~> 0.3"},
-     {:cowboy, "~> 1.0"}]
+    [{:exrm,                github: "bitwalker/exrm"},
+     {:reprise,             github: "herenowcoder/reprise", only: :dev},
+     {:httpoison,           github: "edgurgel/httpoison"},
+     {:logger_file_backend, github: "onkel-dirtus/logger_file_backend"},
+     {:cowboy, "~> 1.0"},
+     {:phoenix, "~> 0.13"},
+     {:phoenix_html, "~> 1.0"},
+     {:phoenix_live_reload, "~> 0.4", only: :dev}]
   end
+
 end

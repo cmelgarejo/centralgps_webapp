@@ -16,12 +16,15 @@ defmodule CentralGPSWebApp.Web do
   below.
   """
 
+  def model do
+    quote do
+      # Define common model functionality
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller
-
-      # Alias the data repository and import query/model functions
-      alias CentralGPSWebApp.Repo
 
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
@@ -33,7 +36,7 @@ defmodule CentralGPSWebApp.Web do
       use Phoenix.View, root: "web/templates"
 
       # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_flash: 2]
+      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
 
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
@@ -43,12 +46,15 @@ defmodule CentralGPSWebApp.Web do
     end
   end
 
+  def router do
+    quote do
+      use Phoenix.Router
+    end
+  end
+
   def channel do
     quote do
       use Phoenix.Channel
-
-      # Alias the data repository and import query/model functions
-      alias CentralGPSWebApp.Repo
 
     end
   end
