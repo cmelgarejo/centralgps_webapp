@@ -20,7 +20,7 @@ defmodule CentralGPSWebApp.Mixfile do
   end
 
   def application do
-    apps = [:phoenix, :phoenix_html, :cowboy, :logger, :logger_file_backend, :httpoison ]
+    apps = [:phoenix, :phoenix_html, :cowboy, :logger, :logger_file_backend, :httpoison, :gettext ]
     dev_apps = Mix.env == :dev && [ :reprise ] || []
     [ mod: {CentralGPSWebApp, []}, applications: dev_apps ++ apps ]
   end
@@ -30,8 +30,9 @@ defmodule CentralGPSWebApp.Mixfile do
 
   defp deps do
     [{:exrm,                github: "bitwalker/exrm"},
-     {:reprise,             github: "herenowcoder/reprise", only: :dev},
      {:httpoison,           github: "edgurgel/httpoison"},
+     {:gettext,             github: "elixir-lang/gettext"},
+     {:reprise,             github: "herenowcoder/reprise", only: :dev},
      {:logger_file_backend, github: "onkel-dirtus/logger_file_backend"},
      {:cowboy, "~> 1.0"},
      {:phoenix, "~> 0.13"},

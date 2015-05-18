@@ -15,7 +15,8 @@ defmodule CentralGPSWebApp.Router do
   scope "/", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
 
-    get "/", LoginController, :login
+    get  "/", LoginController, :index
+    post "/", LoginController, :login
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

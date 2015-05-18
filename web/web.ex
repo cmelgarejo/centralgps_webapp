@@ -28,6 +28,7 @@ defmodule CentralGPSWebApp.Web do
 
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
+
     end
   end
 
@@ -36,13 +37,19 @@ defmodule CentralGPSWebApp.Web do
       use Phoenix.View, root: "web/templates"
 
       # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
+      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2,
+      view_module: 1, action_name: 1, controller_module: 1 ]
 
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+
+      def gettext(lang, domain, id) do
+        {_, msg} = CentralGPS.L10n.lgettext(lang, domain, id)
+        msg
+      end
     end
   end
 

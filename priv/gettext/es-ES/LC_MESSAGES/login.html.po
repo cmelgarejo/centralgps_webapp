@@ -1,0 +1,11 @@
+msgid  "PAGE_TITLE"
+msgstr "Ingresar"
+
+msgid  "BUTTON_TEXT_LOGIN"
+msgstr "Ingresar"
+
+msgid  "LABEL_USERNAME"
+msgstr "Usuario"
+
+msgid  "LABEL_PASSWORD"
+msgstr "Contraseña"

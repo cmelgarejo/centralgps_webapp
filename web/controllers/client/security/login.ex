@@ -3,16 +3,12 @@ defmodule CentralGPSWebApp.Client.LoginController do
   #import CentralGPSWebApp
   plug :action
 
-  def login(conn, _params) do
-    #CentralGPSWebApp.HttpClient.start
-    # response = nil
-    # {ok, response} = HttpClient.get("/device/venues",
-    # [{"Authorization", "CentralGPS token=b451717ffeb3006805bcc88d99cbc86f6e73795c,type=A"}],
-    # [ hackney: [:insecure] ])
-    # IO.puts "#{inspect response}"
-    # r = (if ok == :ok, do: (hd  response.body[:list_update])["name"], else: response)
-    # conn = conn
-    # |> assign(:json_result, r)
-    render conn, "login.html"
+  def index(conn, _params) do
+    render conn |> put_layout("oob.html"), "login.html"
   end
+
+  def login(conn, _params) do
+    json conn, %{ok: true, params: _params}
+  end
+
 end
