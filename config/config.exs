@@ -19,7 +19,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :http_client,
-  http_client_base_url: "http://api.centralgps.net:8080/api/v1"
+  http_client_base_url: "http://api.centralgps.net/api/v1"
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

@@ -1,0 +1,14 @@
+msgid  "PAGE_TITLE"
+msgstr "Bienvenido, por favor ingrese sus credenciales"
+
+msgid  "JUMBO_TITLE"
+msgstr "Ingresar a Checkpoint Manager"
+
+msgid  "TEXT_LOGIN_BUTTON"
+msgstr "Ingresar"
+
+msgid  "LABEL_USERNAME"
+msgstr "Usuario"
+
+msgid  "LABEL_PASSWORD"
+msgstr "Contraseña"

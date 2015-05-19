@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <title>Welcome, please Log in</title>
+    <title> <%= l10n(@conn, "PAGE_TITLE") %> </title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CentralGPS">
     <meta name="author" content="cmelgarejo">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/material.min.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-fullpalete.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/bootstrap.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/roboto.min.css") %>">
-  </head>
-
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/material.min.css") %>">
+    <!-- <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-fullpalette.min.css") %>"> -->
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/ripples.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   <body>
     <div class="container">
       <%= @inner %>
     </div>
     <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/ripples.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/material.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script>require("web/static/js/app")</script>
+    <script>$(function(){$.material.init();});</script>
   </body>
 </html>

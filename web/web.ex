@@ -15,7 +15,6 @@ defmodule CentralGPSWebApp.Web do
   Do NOT define functions inside the quoted expressions
   below.
   """
-
   def model do
     quote do
       # Define common model functionality
@@ -29,6 +28,8 @@ defmodule CentralGPSWebApp.Web do
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
 
+      #import the localization manager
+      import CentralGPS.L10n
     end
   end
 
@@ -46,10 +47,8 @@ defmodule CentralGPSWebApp.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      def gettext(lang, domain, id) do
-        {_, msg} = CentralGPS.L10n.lgettext(lang, domain, id)
-        msg
-      end
+      #import the localization manager
+      import CentralGPS.L10n
     end
   end
 

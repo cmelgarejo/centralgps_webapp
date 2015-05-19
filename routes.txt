@@ -1,0 +1,3 @@
+login_path  GET   /        CentralGPSWebApp.Client.LoginController.index/2
+login_path  POST  /        CentralGPSWebApp.Client.LoginController.login/2
+login_path  GET   /entity  CentralGPSWebApp.Entity.LoginController.login/2
