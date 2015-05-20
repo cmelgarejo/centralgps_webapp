@@ -13,13 +13,16 @@ config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   debug_errors: false,
   pubsub: [name: CentralGPSWebApp.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :app_config, entity_tag: "@acme@edge"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :http_client,
-  http_client_base_url: "http://api.centralgps.net/api/v1"
+config :rest_client,
+  rest_client_base_url: "http://api.centralgps.net/api/v1"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

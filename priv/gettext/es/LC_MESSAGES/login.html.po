@@ -2,7 +2,7 @@ msgid  "PAGE_TITLE"
 msgstr "Bienvenido, por favor ingrese sus credenciales"
 
 msgid  "JUMBO_TITLE"
-msgstr "Ingresar a Checkpoint Manager"
+msgstr "Checkpoint"
 
 msgid  "TEXT_LOGIN_BUTTON"
 msgstr "Ingresar"

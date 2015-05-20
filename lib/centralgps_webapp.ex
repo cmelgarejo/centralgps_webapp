@@ -19,8 +19,12 @@ defmodule CentralGPSWebApp do
     Supervisor.start_link(children, opts)
   end
 
-  def http_client_config(name) do
-    Application.get_env(:http_client, name)
+  def app_config(name) do
+    Application.get_env(:app_config, name)
+  end
+
+  def rest_client_config(name) do
+    Application.get_env(:rest_client, name)
   end
 
   # Tell Phoenix to update the endpoint configuration

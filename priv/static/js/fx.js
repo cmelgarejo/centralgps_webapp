@@ -1,4 +1,3 @@
-
 /*
 * Layout
 */
@@ -277,7 +276,7 @@ $(document).ready(function(){
      */
     if ($('#weather-widget')[0]) {
         $.simpleWeather({
-            location: 'Austin, TX',
+            location: 'Asuncion, PY',
             woeid: '',
             unit: 'f',
             success: function(weather) {
@@ -587,27 +586,9 @@ $(document).ready(function(){
      * Bootstrap Growl - Notifications popups
      */
     function notify(message, type){
-        $.growl({
-            message: message
-        },{
-            type: type,
-            allow_dismiss: false,
-            label: 'Cancel',
-            className: 'btn-xs btn-inverse',
-            placement: {
-                from: 'top',
-                align: 'right'
-            },
-            delay: 2500,
-            animate: {
-                    enter: 'animated bounceIn',
-                    exit: 'animated bounceOut'
-            },
-            offset: {
-                x: 20,
-                y: 85
-            }
-        });
+        Snarl({
+            text: message
+        })
     };
 
     /*
@@ -693,26 +674,6 @@ $(document).ready(function(){
             $(this).toggleClass('open');
             $('.ms-menu').toggleClass('toggled');
         });
-    }
-
-    /*
-     * Login
-     */
-    if ($('.login-content')[0]) {
-        //Add class to HTML. This is used to center align the logn box
-        $('html').addClass('login-content');
-
-        $('body').on('click', '.login-navigation > li', function(){
-            var z = $(this).data('block');
-            var t = $(this).closest('.lc-block');
-
-            t.removeClass('toggled');
-
-            setTimeout(function(){
-                $(z).addClass('toggled');
-            });
-
-        })
     }
 
     /*

@@ -1,32 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="login-content">
   <head>
     <title> <%= "CentralGPS :: " <> l10n(@conn, "PAGE_TITLE") %> </title>
-    <link rel="shortcut icon" href="<%= static_path(@conn, "images/favicon.ico")%>" type="image/x-icon">
+    <link rel="shortcut icon" href="<%= static_path(@conn, "/images/favicon.ico")%>" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CentralGPS">
     <meta name="author" content="cmelgarejo">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
-  <body>
-    <div class="container">
-      <%= @inner %>
-    </div>
+  <body class="login-content">
+    <%= @inner %>
     <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/waves.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/snarl.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/bootstrap-datetimepicker.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/app_fn.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script>require("web/static/js/app")</script>
-
+    <script src="<%= static_path(@conn, "/js/login.js") %>"></script>
   </body>
 </html>
