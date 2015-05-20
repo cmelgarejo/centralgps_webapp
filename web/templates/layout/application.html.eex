@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CentralGPS">
     <meta name="author" content="cmelgarejo">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/material.min.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-fullpalete.min.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/roboto.min.css") %>">
   </head>
 
   <body>
@@ -19,8 +19,15 @@
       <pre> <%= handler_info @conn %> </pre>
     </div>
     <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/material.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/waves.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/snarl.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/bootstrap-datetimepicker.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/app_fn.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script>require("web/static/js/app")</script>
+
   </body>
 </html>

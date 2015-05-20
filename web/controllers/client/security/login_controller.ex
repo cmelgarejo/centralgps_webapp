@@ -4,9 +4,9 @@ defmodule CentralGPSWebApp.Client.LoginController do
   plug :action
 
   def index(conn, _params) do
-    user_data = get_session conn, :user_data
-    IO.puts "user: #{inspect user_data}"
-    conn = conn |> assign(:user_data, "poop")
+    user_data = get_session(conn, :user_data)
+    IO.puts "user_data: #{inspect user_data}"
+    conn = conn |> assign(:user_data, (if (user_data != nil), do: (user_data), else: "poop"))
     render conn |> put_layout("oob.html"), "login.html"
   end
 
@@ -16,11 +16,13 @@ defmodule CentralGPSWebApp.Client.LoginController do
       _login_user: base64_encode(_params["username"]),
       _password: base64_encode(_params["password"])
     }), [ {"Content-Type", "application/json;charset=utf-8"} ]
-    IO.puts "res: #{inspect res}"
+    #IO.puts "res: #{inspect res}"
     if status == :ok do
       {status, res} = {res.status_code, res.body}
       case status do
-        201 -> put_session conn, :user_data, res
+        201 ->
+          res = Poison.decode!(res) |> objectify_map
+          conn = put_session conn, :user_data, res
         _ -> nil
       end
     else
