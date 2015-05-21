@@ -9,13 +9,17 @@
     <meta name="description" content="CentralGPS">
     <meta name="author" content="cmelgarejo">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/pace.css") %>">
+    <script src="<%= static_path(@conn, "/js/pace.min.js") %>"></script>
   </head>
   <body class="login-content">
     <%= @inner %>
     <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/waves.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/login.js") %>"></script>
   </body>

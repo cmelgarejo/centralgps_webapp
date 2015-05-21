@@ -3,31 +3,35 @@
       <h2><%= l10n(@conn, "JUMBO_TITLE") %></h2>
   </div>
   <div class="card-body card-padding">
-      <form role="form" method="post">
-          <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>">
-          <div class="form-group fg-float">
-            <div class="fg-line fg-toggled">
-              <input class="form-control" type="text" name="username" required autofocus toggled>
-            </div>
-            <label class="fg-label"><%= l10n(@conn, "LABEL_USERNAME") %></label>
+    <form role="form" method="post" action="/">
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <input class="form-control" type="text" id="username" name="username" required autofocus toggled>
           </div>
-          <div class="clearfix"/>
-          <div class="form-group fg-float">
-            <div class="fg-line">
-              <input class="form-control" type="password" name="password" required>
-            </div>
-            <label class="fg-label"><%= l10n(@conn, "LABEL_PASSWORD") %></label>
+          <label class="fg-label"><%= l10n(@conn, "LABEL_USERNAME") %></label>
+        </div>
+        <div class="clearfix"/>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="password" id="password" name="password" required>
           </div>
-          <button class="btn btn-login btn-danger btn-float waves-effect waves-button waves-float" type="submit"><i class="md md-arrow-forward"></i></button>
-      </form>
+          <label class="fg-label"><%= l10n(@conn, "LABEL_PASSWORD") %></label>
+        </div>
+        <div class="clearfix"/>
+        <button class="btn btn-login btn-danger btn-float" type="submit">
+          <i class="md md-arrow-forward"></i>
+        </button>
+        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>">
+    </form>
   </div>
+  <div id="alert"></div>
 </div>
 <!-- Older IE warning message -->
 <!-- [if lt IE 9]>
     <div class="ie-warning">
         <p>You are using an outdated version of Microsoft Internet Explorer,<br/>
         upgrade to any of the following web browsers in order to access all </br>
-        the functionality of this website.</p>
+        the functionality of this website. Take a look:</p>
         <ul class="iew-download">
             <li>
                 <a href="http://www.google.com/chrome/">

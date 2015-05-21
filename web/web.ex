@@ -38,7 +38,7 @@ defmodule CentralGPSWebApp.Web do
       use Phoenix.View, root: "web/templates"
 
       # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2,
+      import Phoenix.Controller, only: [get_csrf_token: 0, #get_flash: 2,
       view_module: 1, action_name: 1, controller_module: 1 ]
 
       # Import URL helpers from the router
@@ -49,6 +49,7 @@ defmodule CentralGPSWebApp.Web do
 
       #import the localization manager
       import CentralGPS.L10n
+      import CentralGPSWebApp.Utilities
     end
   end
 

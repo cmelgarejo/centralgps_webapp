@@ -4,7 +4,7 @@ defmodule CentralGPSWebApp.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    #plug :fetch_flash
     plug :protect_from_forgery
   end
 
@@ -17,6 +17,9 @@ defmodule CentralGPSWebApp.Router do
 
     get  "/", LoginController, :index
     post "/", LoginController, :login
+
+    post "/app", AppController, :index
+    get "/app", AppController, :index
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

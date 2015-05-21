@@ -1,16 +1,4 @@
 $(document).ready(function(){
- // $("form").on("submit", function(event) {
- //   event.preventDefault();
- //   $that = this;
- //   $.ajax({
- //     url: $that.getAttribute('action'),
- //     type: "POST",
- //     contentType:"application/json;charset=utf-8"
- //     data: $('form').serialize(), success: function(data) {
- //       console.log(data.result)
- //     }
- //   });
- // });
 
   (function(){
      Waves.attach('.btn', ['waves-button', 'waves-float']);
@@ -45,4 +33,26 @@ $(document).ready(function(){
          }
      });
   }
+  //The form HAS to have an action.
+  $("form").on("submit", function(event) {
+   event.preventDefault();
+   $that = this;
+   $($that).find(':button:not(:disabled)').prop('disabled',true);
+   Pace.track(function(){
+    $.post($that.getAttribute('action'), $($that).serialize(),
+     function(data) {
+       $($that).find(':button:disabled').prop('disabled',false);
+       $($that).find('#password').val("");
+       if(data.status) {
+         $.post($that.getAttribute('action') + "app", $($that).serialize(),
+          function(html){$(document).html(html);});
+       } else {
+         $($that).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
+           + data.msg + "</div>")
+         //swal({title: "Error", type: "error", text: data.msg});
+       }
+     });
+    });
+   });
+
 });

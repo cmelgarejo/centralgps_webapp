@@ -11,21 +11,22 @@ defmodule CentralGPSWebApp.Client.LoginController do
   end
 
   def login(conn, _params) do
-    {status, res} = CentralGPS.RestClient.post "/security/login/C",
+    {status, res} =
+    CentralGPS.RestClient.login_api_post_json "/security/login/", "C",
     Poison.encode!(%{
       _login_user: base64_encode("#{_params["username"]}#{app_config(:entity_tag)}"),
-      _password: base64_encode(_params["password"])
+      _password:   base64_encode(_params["password"])
     }), [ {"Content-Type", "application/json;charset=utf-8"} ]
     if status == :ok do
+      res = res.body
       case status do
-        201 -> conn = put_session conn, :user_data, res.body
-        _ -> nil
+        201 -> conn = put_session(conn, :user_data, res)
+        _   -> nil
       end
-    #else
-    #  res = %{ status: false, msg: nil}
+    else # if :error
+      res = %{ status: false, msg: res.reason, res: res}
     end
-    json conn, res.body
-    #render conn |> put_layout("oob.html"), "login.html"
+    json conn, res
   end
 
 end
