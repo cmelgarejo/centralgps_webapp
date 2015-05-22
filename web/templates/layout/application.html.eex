@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
   <head>
-    <title> <%= "CentralGPS :: " <> l10n(@conn, "PAGE_TITLE") %> </title>
+    <title>Checkpoint :: App</title>
     <link rel="shortcut icon" href="<%= static_path(@conn, "/images/favicon.ico")%>" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CentralGPS">
+    <meta name="description" content="CentralGPS - Checkpoint module">
     <meta name="author" content="cmelgarejo">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/pace.css") %>">
+    <script src="<%= static_path(@conn, "/js/pace.min.js") %>"></script>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/pace.css") %>">
-    <script src="<%= static_path(@conn, "/js/pace.min.js") %>"></script>
   </head>
   <body>
     <div class="container">
@@ -21,13 +21,12 @@
     </div>
     <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>
+    <!--<script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>-->
     <script src="<%= static_path(@conn, "/js/waves.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/snarl.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/bootstrap-datetimepicker.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/app_fn.js") %>"></script>
+    <!--<script src="<%= static_path(@conn, "/js/bootstrap-datetimepicker.min.js") %>"></script>-->
+    <script src="<%= static_path(@conn, "/js/fx.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script>require("web/static/js/app")</script>
   </body>
 </html>

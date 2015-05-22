@@ -12,3 +12,6 @@ msgstr "Usuario"
 
 msgid  "LABEL_PASSWORD"
 msgstr "Contraseña"
+
+msgid  "ERROR_NXDOMAIN"
+msgstr "Parece ser que no tiene conexion a internet, conéctese y vuelva a intentarlo nuevamente en unos instantes"

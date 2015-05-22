@@ -2,7 +2,7 @@ msgid  "PAGE_TITLE"
 msgstr "Welcome, please log in"
 
 msgid  "JUMBO_TITLE"
-msgstr "Log In"
+msgstr "Checkpoint"
 
 msgid  "TEXT_LOGIN_BUTTON"
 msgstr "Login"
@@ -12,3 +12,6 @@ msgstr "Username"
 
 msgid  "LABEL_PASSWORD"
 msgstr "Password"
+
+msgid  "ERROR_NXDOMAIN"
+msgstr "Seems like there is no connection active, please check your connection and try again in a few moments"

@@ -1,0 +1,50 @@
+msgid  "PAGE_TITLE"
+msgstr "Dashboard"
+
+msgid  "MENU_TITLE"
+msgstr "Checkpoint"
+
+msgid  "DASHBOARD_LINK_TEXT"
+msgstr "Dashboard"
+
+msgid  "MAINTENANCE_LINK_TEXT"
+msgstr "Maintenance"
+
+msgid  "ACCOUNT_LINK_TEXT"
+msgstr "Accounts"
+
+msgid  "ACTION_LINK_TEXT"
+msgstr "Actions"
+
+msgid  "REASON_LINK_TEXT"
+msgstr "Reasons"
+
+msgid  "VENUE_TYPE_LINK_TEXT"
+msgstr "Venue Types"
+
+msgid  "VENUE_LINK_TEXT"
+msgstr "Venues"
+
+msgid  "MARK_LINK_TEXT"
+msgstr "Marks"
+
+msgid  "POSITIONS_LINK_TEXT"
+msgstr "Positions"
+
+msgid "CLS_TITLE_SURE"
+msgstr "Are you sure?"
+
+msgid "CLS_REMOVED"
+msgstr "All view preferences (in localStorage) will be eliminated"
+
+msgid "CLS_CONFIRM_TEXT"
+msgstr "Yes, remove them"
+
+msgid "CLS_CANCEL_TEXT"
+msgstr "Cancel"
+
+msgid "CLS_TITLE_DONE"
+msgstr "Done!"
+
+msgid "CLS_TEXT_DONE"
+msgstr "Your view preferences have been removed"

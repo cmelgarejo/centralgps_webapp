@@ -1,0 +1,50 @@
+msgid  "PAGE_TITLE"
+msgstr "Dashboard"
+
+msgid  "MENU_TITLE"
+msgstr "Checkpoint"
+
+msgid  "DASHBOARD_LINK_TEXT"
+msgstr "Dashboard"
+
+msgid  "MAINTENANCE_LINK_TEXT"
+msgstr "Mantenimiento"
+
+msgid  "ACCOUNT_LINK_TEXT"
+msgstr "Cuentas"
+
+msgid  "ACTION_LINK_TEXT"
+msgstr "Acciones"
+
+msgid  "REASON_LINK_TEXT"
+msgstr "Razones"
+
+msgid  "VENUE_TYPE_LINK_TEXT"
+msgstr "Tipos de Lugares"
+
+msgid  "VENUE_LINK_TEXT"
+msgstr "Lugares"
+
+msgid  "MARK_LINK_TEXT"
+msgstr "Marcas"
+
+msgid  "POSITIONS_LINK_TEXT"
+msgstr "Posiciones"
+
+msgid "CLS_TITLE_SURE"
+msgstr "Está seguro?"
+
+msgid "CLS_REMOVED"
+msgstr "Toda las preferencias de vista (localStorage) serán eliminadas"
+
+msgid "CLS_CONFIRM_TEXT"
+msgstr "Sí, eliminelas"
+
+msgid "CLS_CANCEL_TEXT"
+msgstr "Cancelar"
+
+msgid "CLS_TITLE_DONE"
+msgstr "Listo!"
+
+msgid "CLS_TEXT_DONE"
+msgstr "Las preferencias han sido eliminadas"

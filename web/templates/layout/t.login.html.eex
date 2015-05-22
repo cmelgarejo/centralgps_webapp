@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html class="login-content">
   <head>
-    <title> <%= "CentralGPS :: " <> l10n(@conn, "PAGE_TITLE") %> </title>
+    <title> <%= "Checkpoint :: " <> l10n(@conn, "PAGE_TITLE") %> </title>
     <link rel="shortcut icon" href="<%= static_path(@conn, "/images/favicon.ico")%>" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CentralGPS">
+    <meta name="description" content="CentralGPS - Checkpoint module">
     <meta name="author" content="cmelgarejo">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">

@@ -59,7 +59,7 @@ $(document).ready(function(){
      */
     (function(){
         //Toggle
-        $('body').on('click', '#menu-trigger, #chat-trigger', function(e){
+        $('body').on('click', '#menu-trigger', function(e){
             e.preventDefault();
             var x = $(this).data('trigger');
 
@@ -82,28 +82,6 @@ $(document).ready(function(){
                 $elem = '#sidebar';
                 $elem2 = '#menu-trigger';
 
-                $('#chat-trigger').removeClass('open');
-
-                if (!$('#chat').hasClass('toggled')) {
-                    $('#header').toggleClass('sidebar-toggled');
-                }
-                else {
-                    $('#chat').removeClass('toggled');
-                }
-            }
-
-            if (x == '#chat') {
-                $elem = '#chat';
-                $elem2 = '#chat-trigger';
-
-                $('#menu-trigger').removeClass('open');
-
-                if (!$('#sidebar').hasClass('toggled')) {
-                    $('#header').toggleClass('sidebar-toggled');
-                }
-                else {
-                    $('#sidebar').removeClass('toggled');
-                }
             }
 
             //When clicking outside
@@ -206,177 +184,11 @@ $(document).ready(function(){
     }
 
     /*
-     * Calendar Widget
-     */
-    if($('#calendar-widget')[0]) {
-        (function(){
-            $('#calendar-widget').fullCalendar({
-		        contentHeight: 'auto',
-		        theme: true,
-                header: {
-                    right: '',
-                    center: 'prev, title, next',
-                    left: ''
-                },
-                defaultDate: '2014-06-12',
-                editable: true,
-                events: [
-                    {
-                        title: 'All Day',
-                        start: '2014-06-01',
-                        className: 'bgm-cyan'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: '2014-06-07',
-                        end: '2014-06-10',
-                        className: 'bgm-orange'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeat',
-                        start: '2014-06-09',
-                        className: 'bgm-lightgreen'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeat',
-                        start: '2014-06-16',
-                        className: 'bgm-blue'
-                    },
-                    {
-                        title: 'Meet',
-                        start: '2014-06-12',
-                        end: '2014-06-12',
-                        className: 'bgm-teal'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: '2014-06-12',
-                        className: 'bgm-gray'
-                    },
-                    {
-                        title: 'Birthday',
-                        start: '2014-06-13',
-                        className: 'bgm-pink'
-                    },
-                    {
-                        title: 'Google',
-                        url: 'http://google.com/',
-                        start: '2014-06-28',
-                        className: 'bgm-bluegray'
-                    }
-                ]
-            });
-        })();
-    }
-
-    /*
-     * Weather Widget
-     */
-    if ($('#weather-widget')[0]) {
-        $.simpleWeather({
-            location: 'Asuncion, PY',
-            woeid: '',
-            unit: 'f',
-            success: function(weather) {
-                html = '<div class="weather-status">'+weather.temp+'&deg;'+weather.units.temp+'</div>';
-                html += '<ul class="weather-info"><li>'+weather.city+', '+weather.region+'</li>';
-                html += '<li class="currently">'+weather.currently+'</li></ul>';
-                html += '<div class="weather-icon wi-'+weather.code+'"></div>';
-                html += '<div class="dash-widget-footer"><div class="weather-list tomorrow">';
-                html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[1].high+'/'+weather.forecast[1].low+'</span><span>'+weather.forecast[1].text+'</span>';
-                html += '</div>';
-                html += '<div class="weather-list after-tomorrow">';
-                html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[2].high+'/'+weather.forecast[2].low+'</span><span>'+weather.forecast[2].text+'</span>';
-                html += '</div></div>';
-                $("#weather-widget").html(html);
-            },
-            error: function(error) {
-                $("#weather-widget").html('<p>'+error+'</p>');
-            }
-        });
-    }
-
-    /*
-     * Todo Add new item
-     */
-    if ($('#todo-lists')[0]) {
-    	//Add Todo Item
-    	$('body').on('click', '#add-tl-item .add-new-item', function(){
-    	    $(this).parent().addClass('toggled');
-    	});
-
-            //Dismiss
-            $('body').on('click', '.add-tl-actions > a', function(e){
-                e.preventDefault();
-                var x = $(this).closest('#add-tl-item');
-                var y = $(this).data('tl-action');
-
-                if (y == "dismiss") {
-                    x.find('textarea').val('');
-                    x.removeClass('toggled');
-                }
-
-                if (y == "save") {
-                    x.find('textarea').val('');
-                    x.removeClass('toggled');
-                }
-    	});
-    }
-
-    /*
      * Auto Hight Textarea
      */
     if ($('.auto-size')[0]) {
 	   $('.auto-size').autosize();
     }
-
-    /*
-     * Custom Scrollbars
-     */
-     /*function scrollbar(className, color, cursorWidth) {
-         $(className).niceScroll({
-             cursorcolor: color,
-             cursorborder: 0,
-             cursorborderradius: 0,
-             cursorwidth: cursorWidth,
-             bouncescroll: true,
-             mousescrollstep: 100
-         });
-     }*/
-
-    //Scrollbar for HTML(not mobile) but not for login page
-    /*if (!$('html').hasClass('ismobile')) {
-        if (!$('.login-content')[0]) {
-            scrollbar('html', 'rgba(0,0,0,0.3)', '5px');
-        }
-
-        //Scrollbar Tables
-        if ($('.table-responsive')[0]) {
-            scrollbar('.table-responsive', 'rgba(0,0,0,0.5)', '5px');
-        }
-
-        //Scroll bar for Chosen
-        if ($('.chosen-results')[0]) {
-            scrollbar('.chosen-results', 'rgba(0,0,0,0.5)', '5px');
-        }
-
-        //Scroll bar for tabs
-        if ($('.tab-nav')[0]) {
-            scrollbar('.tab-nav', 'rgba(0,0,0,0)', '1px');
-        }
-
-        //Scroll bar for dropdowm-menu
-        if ($('.dropdown-menu .c-overflow')[0]) {
-            scrollbar('.dropdown-menu .c-overflow', 'rgba(0,0,0,0.5)', '0px');
-        }
-
-        //Scrollbar for rest
-        if ($('.c-overflow')[0]) {
-            scrollbar('.c-overflow', 'rgba(0,0,0,0.5)', '5px');
-        }
-    }*/
 
 
     /*
@@ -725,16 +537,17 @@ $(document).ready(function(){
             e.preventDefault();
 
             swal({
-                title: "Are you sure?",
-                text: "All your saved localStorage values will be removed",
+                title: _cls_title_sure, //"Are you sure?",
+                text: _cls_removed, //"All your saved localStorage values will be removed",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: _cls_confirm_text,//"Yes, delete it!",
+                cancelButtonText: _cls_cancel_text,
                 closeOnConfirm: false
             }, function(){
                 localStorage.clear();
-                swal("Done!", "localStorage is cleared", "success");
+                swal(_cls_title_done/*"Done!"*/, _cls_text_done/*"localStorage is cleared"*/, "success");
             });
         });
     }

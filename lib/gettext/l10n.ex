@@ -6,6 +6,7 @@ defmodule CentralGPS.L10n do
   """
   def l10n(lang, domain, id) do
     {_, msg} = lgettext(lang, domain, id)
+    IO.puts "LANG: #{lang} DOMAIN: #{domain} ID: #{id} = #{msg}"
     msg
   end
 
@@ -18,7 +19,6 @@ defmodule CentralGPS.L10n do
     lang = headers |> List.keyfind("accept-language", 0) |> elem(1) |> String.split(~r";|,|(q=([0-9]*\.[0-9]+|[0-9]+));?", trim: true) |> hd
     lang = Regex.run(~r/^[a-z]{2}/, lang)
     if (lang != nil), do: lang = lang |> hd
-    {_, msg} = lgettext(lang, domain, id)
-    msg
+    l10n(lang, domain, id)
   end
 end

@@ -8,15 +8,15 @@
             </div>
         </li>
 
-        <li class="logo hidden-xs">
-            CentralGPS Admin
-        </li>
+        <!-- <li class="logo hidden-xs ">
+            <a>Checkpoint</a>
+        </li> -->
 
         <li class="pull-right">
         <ul class="top-menu">
             <li id="toggle-width">
                 <div class="toggle-switch">
-                    <input id="tw-switch" type="checkbox" hidden="hidden">
+                    <input id="tw-switch" type="checkbox" hidden>
                     <label for="tw-switch" class="ts-helper"></label>
                 </div>
             </li>
@@ -41,7 +41,7 @@
                             <a class="lv-item" href="">
                                 <div class="media">
                                     <div class="pull-left">
-                                        <img class="lv-img-sm" src="images/vehicles/1.jpg" alt="">
+                                        <img class="lv-img-sm" src="images/vehicle/1.jpg" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="lv-title">Toyota Corolla</div>
@@ -53,8 +53,8 @@
                     </div>
                 </div>
             </li>
-            <li class="dropdown hidden-xs">
-                <a data-toggle="dropdown" class="tm-task" href=""><i class="tmn-counts">2</i></a>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="tm-task" href=""><i class="tmn-counts">5</i></a>
                 <div class="dropdown-menu pull-right dropdown-menu-lg">
                     <div class="listview">
                         <div class="lv-header">
@@ -133,7 +133,6 @@
         <i id="top-search-close">&times;</i>
     </div>
 </header>
-
 <section id="main">
     <aside id="sidebar">
         <div class="sidebar-inner">
@@ -141,12 +140,10 @@
                 <div class="profile-menu">
                     <a href="">
                         <div class="profile-pic">
-                            <img src="imges/profile/1.jpg" alt="">
+                            <img src="images/profile/1.jpg" alt="">
                         </div>
-
                         <div class="profile-info">
                             Christian Melgarejo
-
                             <i class="md md-arrow-drop-down"></i>
                         </div>
                     </a>
@@ -166,7 +163,6 @@
                     <li><a href="users"><i class="md md-format-underline"></i> Users</a></li>
                     <li class="sub-menu">
                         <a href=""><i class="md md-now-widgets"></i> Accounts</a>
-
                         <ul>
                             <li><a href="adduser">Add</a></li>
                             <li><a class="active" href="deleteuser">Delete</a></li>
@@ -182,10 +178,18 @@
         <div class="container">
             <div class="block-header">
                 <h2>Dashboard</h2>
-    <br/>
-    Welcome to CentralGPS
+                <br/>Welcome to CentralGPS
+                Here should be called/injected the dashboard.html via render ,and every page in the menu.
             </div>
             </div>
         </div>
     </section>
 </section>
+<script>
+var _cls_title_sure   = "<%= l10n(@conn, "CLS_TITLE_SURE") %>";
+var _cls_removed      = "<%= l10n(@conn, "CLS_REMOVED") %>";
+var _cls_confirm_text = "<%= l10n(@conn, "CLS_CONFIRM_TEXT") %>";
+var _cls_cancel_text  = "<%= l10n(@conn, "CLS_CANCEL_TEXT") %>";
+var _cls_title_done   = "<%= l10n(@conn, "CLS_TITLE_DONE") %>";
+var _cls_text_done    = "<%= l10n(@conn, "CLS_TEXT_DONE") %>";
+</script>

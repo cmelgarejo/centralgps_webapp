@@ -3,7 +3,7 @@
       <h2><%= l10n(@conn, "JUMBO_TITLE") %></h2>
   </div>
   <div class="card-body card-padding">
-    <form role="form" method="post" action="/">
+    <form role="form" method="post" action="<%= login_path Endpoint, :login %>">
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control" type="text" id="username" name="username" required autofocus toggled>
@@ -26,6 +26,9 @@
   </div>
   <div id="alert"></div>
 </div>
+<script>
+var _err_msg = "<%= l10n(@conn, "ERROR_NXDOMAIN") %>";
+</script>
 <!-- Older IE warning message -->
 <!-- [if lt IE 9]>
     <div class="ie-warning">
