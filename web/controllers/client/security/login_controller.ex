@@ -21,7 +21,7 @@ defmodule CentralGPSWebApp.Client.LoginController do
       status = res.status_code
       res = res.body
       case status do
-        201 -> conn = put_session conn, :user_data, res
+        201 -> conn = put_session conn, :user_data, res.res |> objectify_map
                res = res |> Map.put(:res, app_url(Endpoint, :index))
         _   -> nil
       end

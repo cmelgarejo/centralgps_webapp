@@ -20,6 +20,8 @@ defmodule CentralGPSWebApp.Router do
 
     post "/", AppController, :index
     get  "/", AppController, :index
+
+    get  "/asset", AssetController, :index
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

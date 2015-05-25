@@ -15,7 +15,7 @@
             setTimeout(function(){
                 $('body').addClass('toggled sw-toggled');
                 localStorage.setItem('ma-layout-status', 1);
-                animateMainmenu(0, 100);
+                //animateMainmenu(0, 100);
             }, 250);
         }
         else {

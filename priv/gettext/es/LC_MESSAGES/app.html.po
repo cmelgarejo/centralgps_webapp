@@ -4,8 +4,23 @@ msgstr "Dashboard"
 msgid  "MENU_TITLE"
 msgstr "Checkpoint"
 
+msgid  "MENU_TEXT_TOGGLE_FULLSCREEN"
+msgstr "Cambiar a pantalla completa"
+
+msgid  "MENU_TEXT_CLS"
+msgstr "Eliminar almacenamiento local"
+
+msgid  "MENU_TEXT_NOTIFICATIONS"
+msgstr "Notificaciones"
+
 msgid  "DASHBOARD_LINK_TEXT"
 msgstr "Dashboard"
+
+msgid  "PROFILE_LINK_TEXT"
+msgstr "Ver Perfil"
+
+msgid  "LOGOUT_LINK_TEXT"
+msgstr "Salir"
 
 msgid  "MAINTENANCE_LINK_TEXT"
 msgstr "Mantenimiento"
@@ -28,7 +43,7 @@ msgstr "Lugares"
 msgid  "MARK_LINK_TEXT"
 msgstr "Marcas"
 
-msgid  "POSITIONS_LINK_TEXT"
+msgid  "POSITION_LINK_TEXT"
 msgstr "Posiciones"
 
 msgid "CLS_TITLE_SURE"

@@ -4,8 +4,23 @@ msgstr "Dashboard"
 msgid  "MENU_TITLE"
 msgstr "Checkpoint"
 
+msgid  "MENU_TEXT_TOGGLE_FULLSCREEN"
+msgstr "Toggle Fullscreen"
+
+msgid  "MENU_TEXT_CLS"
+msgstr "Clear Local Storage"
+
+msgid  "MENU_TEXT_NOTIFICATIONS"
+msgstr "Notifications"
+
 msgid  "DASHBOARD_LINK_TEXT"
 msgstr "Dashboard"
+
+msgid  "PROFILE_LINK_TEXT"
+msgstr "View Profile"
+
+msgid  "LOGOUT_LINK_TEXT"
+msgstr "Logout"
 
 msgid  "MAINTENANCE_LINK_TEXT"
 msgstr "Maintenance"

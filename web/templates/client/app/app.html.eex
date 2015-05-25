@@ -1,195 +1,277 @@
 <header id="header">
-    <ul class="header-inner">
-        <li id="menu-trigger" data-trigger="#sidebar">
-            <div class="line-wrap">
-                <div class="line top"></div>
-                <div class="line center"></div>
-                <div class="line bottom"></div>
-            </div>
-        </li>
-
-        <!-- <li class="logo hidden-xs ">
-            <a>Checkpoint</a>
-        </li> -->
-
-        <li class="pull-right">
+  <ul class="header-inner">
+    <li id="menu-trigger" data-trigger="#sidebar">
+      <div class="line-wrap">
+        <div class="line top">
+        </div>
+        <div class="line center">
+        </div>
+        <div class="line bottom">
+        </div>
+      </div>
+    </li>
+    <li class="logo hidden-xs ">
+      <a>
+        <%= l10n(@language, "app.html", "MENU_TITLE") %>
+        </a>
+      </li>
+      <li class="pull-right">
         <ul class="top-menu">
-            <li id="toggle-width">
-                <div class="toggle-switch">
-                    <input id="tw-switch" type="checkbox" hidden>
-                    <label for="tw-switch" class="ts-helper"></label>
-                </div>
-            </li>
-            <li id="top-search">
-                <a class="tm-search" href=""></a>
-            </li>
-            <li class="dropdown">
-                <a data-toggle="dropdown" class="tm-notification" href=""><i class="tmn-counts">1</i></a>
-                <div class="dropdown-menu dropdown-menu-lg pull-right">
-                    <div class="listview" id="notifications">
-                        <div class="lv-header">
-                            Notifications
-                            <ul class="actions">
-                                <li class="dropdown">
-                                    <a href="" data-clear="notification">
-                                        <i class="md md-done-all"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="lv-body c-overflow">
-                            <a class="lv-item" href="">
-                                <div class="media">
-                                    <div class="pull-left">
-                                        <img class="lv-img-sm" src="images/vehicle/1.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lv-title">Toyota Corolla</div>
-                                        <small class="lv-small">SOS Alert!!</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a data-toggle="dropdown" class="tm-task" href=""><i class="tmn-counts">5</i></a>
-                <div class="dropdown-menu pull-right dropdown-menu-lg">
-                    <div class="listview">
-                        <div class="lv-header">
-                            Tasks
-                        </div>
-                        <div class="lv-body">
-                            <div class="lv-item">
-                                <div class="lv-title m-b-5">HTML5 Validation Report</div>
-
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
-                                        <span class="sr-only">95% Complete (success)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lv-item">
-                                <div class="lv-title m-b-5">Google Chrome Extension</div>
-
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80% Complete (success)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lv-item">
-                                <div class="lv-title m-b-5">Social Intranet Projects</div>
-
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        <span class="sr-only">20% Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lv-item">
-                                <div class="lv-title m-b-5">Bootstrap Admin Template</div>
-
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60% Complete (warning)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lv-item">
-                                <div class="lv-title m-b-5">Youtube Client App</div>
-
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a class="lv-footer" href="">View All</a>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a data-toggle="dropdown" class="tm-settings" href=""></a>
-                <ul class="dropdown-menu dm-icon pull-right">
-                    <li>
-                        <a data-action="fullscreen" href=""><i class="md md-fullscreen"></i> Toggle Fullscreen</a>
+          <li id="toggle-width">
+            <div class="toggle-switch">
+              <input id="tw-switch" type="checkbox" hidden>
+              <label for="tw-switch" class="ts-helper">
+              </label>
+            </div>
+          </li>
+          <li id="top-search">
+            <a class="tm-search" href="">
+            </a>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" class="tm-notification" href="">
+              <i class="tmn-counts">
+                1
+              </i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg pull-right">
+              <div class="listview" id="notifications">
+                <div class="lv-header">
+                  <%= l10n(@language, "app.html", "MENU_TEXT_NOTIFICATIONS") %>
+                  <ul class="actions">
+                    <li class="dropdown">
+                      <a href="" data-clear="notification">
+                        <i class="md md-done-all">
+                        </i>
+                      </a>
                     </li>
-                    <li>
-                        <a data-action="clear-localstorage" href=""><i class="md md-delete"></i> Clear Local Storage</a>
-                    </li>
-                </ul>
-            </li>
+                  </ul>
+                </div>
+                <div class="lv-body c-overflow">
+                  <a class="lv-item" href="">
+                    <div class="media">
+                      <div class="pull-left">
+                        <img class="lv-img-sm" src="images/vehicle/1.jpg" alt="">
+                      </div>
+                      <div class="media-body">
+                        <div class="lv-title">
+                          Toyota Corolla
+                        </div>
+                        <small class="lv-small">
+                          SOS Alert!!
+                        </small>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- <li class="dropdown">
+            <a data-toggle="dropdown" class="tm-task" href="">
+              <i class="tmn-counts">
+                5
+              </i>
+            </a>
+            <div class="dropdown-menu pull-right dropdown-menu-lg">
+              <div class="listview">
+                <div class="lv-header">
+                  Tasks
+                </div>
+                <div class="lv-body">
+                  <div class="lv-item">
+                    <div class="lv-title m-b-5">
+                      HTML5 Validation Report
+                    </div>
+
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
+                        <span class="sr-only">
+                          100% Complete (success)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="lv-item">
+                    <div class="lv-title m-b-5">
+                      App template
+                    </div>
+
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                        <span class="sr-only">
+                          80% Complete (success)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="lv-item">
+                    <div class="lv-title m-b-5">
+                      ABMs
+                    </div>
+
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                        <span class="sr-only">
+                          20% Complete
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <a class="lv-footer" href="">
+                  View All
+                </a>
+              </div>
+            </div>
+          </li> -->
+          <li class="dropdown">
+            <a data-toggle="dropdown" class="tm-settings" href="">
+            </a>
+            <ul class="dropdown-menu dm-icon pull-right">
+              <li>
+                <a data-action="fullscreen" href="">
+                  <i class="md md-fullscreen">
+                  </i>
+                  <%= l10n(@language, "app.html", "MENU_TEXT_TOGGLE_FULLSCREEN") %>
+                </a>
+              </li>
+              <li>
+                <a data-action="clear-localstorage" href="">
+                  <i class="md md-delete">
+                  </i>
+                  <%= l10n(@language, "app.html", "MENU_TEXT_CLS") %>
+                </a>
+              </li>
             </ul>
-        </li>
-    </ul>
-
-    <!-- Top Search Content -->
-    <div id="top-search-wrap">
-        <input type="text">
-        <i id="top-search-close">&times;</i>
-    </div>
+          </li>
+          </ul>
+      </li>
+  </ul>
+  <div id="top-search-wrap">
+    <input type="text">
+    <i id="top-search-close">
+      &times;
+    </i>
+  </div>
 </header>
 <section id="main">
-    <aside id="sidebar">
-        <div class="sidebar-inner">
-            <div class="si-inner">
-                <div class="profile-menu">
-                    <a href="">
-                        <div class="profile-pic">
-                            <img src="images/profile/1.jpg" alt="">
-                        </div>
-                        <div class="profile-info">
-                            Christian Melgarejo
-                            <i class="md md-arrow-drop-down"></i>
-                        </div>
+  <aside id="sidebar">
+    <div class="sidebar-inner">
+      <div class="si-inner">
+        <div class="profile-menu" style="background: url(images/client/_placeholder.png) no-repeat left top;background-size:100%;">
+          <a href="" style="background: url(<%= @client_profile_image %>) no-repeat left top;background-size:100%;">
+            <div class="profile-pic">
+              <img src="<%= @profile_image %>" alt="">
+            </div>
+            <div class="profile-info">
+              <%= @name %>
+                <i class="md md-arrow-drop-down">
+                </i>
+              </div>
+            </a>
+
+            <ul class="main-menu">
+              <li>
+                <a href="profile">
+                  <i class="md md-person">
+                  </i>
+                  <%= l10n(@language, "app.html", "PROFILE_LINK_TEXT") %>
+                  </a>
+                </li>
+                <li>
+                  <a href="">
+                    <i class="md md-history">
+                    </i>
+                    <%= l10n(@language, "app.html", "LOGOUT_LINK_TEXT") %>
                     </a>
+                  </li>
+              </ul>
+          </div>
 
-                    <ul class="main-menu">
-                        <li>
-                            <a href="profile"><i class="md md-person"></i> View Profile</a>
-                        </li>
-                        <li>
-                            <a href=""><i class="md md-history"></i> Logout</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <ul class="main-menu">
-                    <li class="active"><a href="/"><i class="md md-home"></i> Home</a></li>
-                    <li><a href="users"><i class="md md-format-underline"></i> Users</a></li>
-                    <li class="sub-menu">
-                        <a href=""><i class="md md-now-widgets"></i> Accounts</a>
-                        <ul>
-                            <li><a href="adduser">Add</a></li>
-                            <li><a class="active" href="deleteuser">Delete</a></li>
-                        </ul>
+        <ul class="main-menu">
+          <li class="active">
+            <a href="/">
+              <i class="md md-home">
+              </i>
+              <%= l10n(@language, "app.html", "DASHBOARD_LINK_TEXT") %>
+              </a>
+            </li>
+            <li class="sub-menu">
+              <a href="">
+                <i class="md md-now-widgets">
+                </i>
+                <%= l10n(@language, "app.html", "MAINTENANCE_LINK_TEXT") %>
+                </a>
+                <ul>
+                  <li>
+                    <a href="">
+                      <%= l10n(@language, "app.html", "ACCOUNT_LINK_TEXT") %>
+                      </a>
                     </li>
-                    <li><a href="actions"><i class="md md-today"></i>Actions (check in's)</a></li>
-                    <li><a href="assets"><i class="md md-layers"></i>Assets</a></li>
-                </ul>
-            </div>
-        </div>
-    </aside>
-    <section id="content">
+                    <li>
+                      <a href="">
+                        <%= l10n(@language, "app.html", "ACTION_LINK_TEXT") %>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="">
+                          <%= l10n(@language, "app.html", "REASON_LINK_TEXT") %>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="">
+                            <%= l10n(@language, "app.html", "VENUE_TYPE_LINK_TEXT") %>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="">
+                              <%= l10n(@language, "app.html", "VENUE_LINK_TEXT") %>
+                              </a>
+                            </li>
+                          </ul>
+                      </li>
+                      <li>
+                        <a href="actions">
+                          <i class="md md-today">
+                          </i>
+                          <%= l10n(@language, "app.html", "MARK_LINK_TEXT") %>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" onclick="get_page('asset');">
+                          <i class="md md-layers">
+                          </i>
+                          <%= l10n(@language, "app.html", "POSITION_LINK_TEXT") %>
+                        </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </aside>
+      <section id="content">
         <div class="container">
-            <div class="block-header">
-                <h2>Dashboard</h2>
-                <br/>Welcome to CentralGPS
-                Here should be called/injected the dashboard.html via render ,and every page in the menu.
+        <div id="_centralgps_container">
+          <%=  %>
+          <!--<div class="block-header">
+            <h2>
+              <%= l10n(@language, "app.html", "PAGE_TITLE") %>
+              </h2>
+              <br/>
+              Welcome to CentralGPS
+              <br/>
+              Here should be called/injected the dashboard.html via render, and every page in the menu.
             </div>
-            </div>
-        </div>
-    </section>
-</section>
-<script>
-var _cls_title_sure   = "<%= l10n(@conn, "CLS_TITLE_SURE") %>";
-var _cls_removed      = "<%= l10n(@conn, "CLS_REMOVED") %>";
-var _cls_confirm_text = "<%= l10n(@conn, "CLS_CONFIRM_TEXT") %>";
-var _cls_cancel_text  = "<%= l10n(@conn, "CLS_CANCEL_TEXT") %>";
-var _cls_title_done   = "<%= l10n(@conn, "CLS_TITLE_DONE") %>";
-var _cls_text_done    = "<%= l10n(@conn, "CLS_TEXT_DONE") %>";
-</script>
+          </div>-->
+        </div></div>
+      </section>
+  </section>
+  <script>
+    var _cls_title_sure   = "<%= l10n(@conn, "CLS_TITLE_SURE") %>";
+    var _cls_removed      = "<%= l10n(@conn, "CLS_REMOVED") %>";
+    var _cls_confirm_text = "<%= l10n(@conn, "CLS_CONFIRM_TEXT") %>";
+    var _cls_cancel_text  = "<%= l10n(@conn, "CLS_CANCEL_TEXT") %>";
+    var _cls_title_done   = "<%= l10n(@conn, "CLS_TITLE_DONE") %>";
+    var _cls_text_done    = "<%= l10n(@conn, "CLS_TEXT_DONE") %>";
+  </script>
