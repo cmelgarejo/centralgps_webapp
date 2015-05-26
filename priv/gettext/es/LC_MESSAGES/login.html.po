@@ -10,6 +10,9 @@ msgstr "Ingresar"
 msgid  "LABEL_USERNAME"
 msgstr "Usuario"
 
+msgid  "LABEL_DOMAIN"
+msgstr "Dominio"
+
 msgid  "LABEL_PASSWORD"
 msgstr "Contraseña"
 

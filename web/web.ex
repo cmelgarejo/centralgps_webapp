@@ -28,7 +28,9 @@ defmodule CentralGPSWebApp.Web do
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
       alias CentralGPSWebApp.Endpoint
-      
+
+      import CentralGPSWebApp.Utilities
+
     end
   end
 

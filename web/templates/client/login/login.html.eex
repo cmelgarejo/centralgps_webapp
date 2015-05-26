@@ -18,6 +18,13 @@
           <label class="fg-label"><%= l10n(@conn, "LABEL_PASSWORD") %></label>
         </div>
         <div class="clearfix"/>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="domain" name="domain" required>
+          </div>
+          <label class="fg-label"><%= l10n(@conn, "LABEL_DOMAIN") %></label>
+        </div>
+        <div class="clearfix"/>
         <button class="btn btn-login btn-danger btn-float" type="submit">
           <i class="md md-arrow-forward"></i>
         </button>

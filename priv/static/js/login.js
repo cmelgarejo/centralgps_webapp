@@ -49,6 +49,7 @@ $(document).ready(function(){
          if(data.msg == "nxdomain") data.msg = _msg;
          $($that).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
            + data.msg + "</div>")
+         $($that).find('#password').focus();
          //swal({title: "Error", type: "error", text: data.msg});
        }
      });

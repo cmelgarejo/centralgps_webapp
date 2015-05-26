@@ -10,6 +10,9 @@ msgstr "Login"
 msgid  "LABEL_USERNAME"
 msgstr "Username"
 
+msgid  "LABEL_DOMAIN"
+msgstr "Domain"
+
 msgid  "LABEL_PASSWORD"
 msgstr "Password"
 

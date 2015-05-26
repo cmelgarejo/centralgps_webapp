@@ -1,6 +1,6 @@
 <div class="block-header">
   <h2>
-    <%= l10n(@language, "asset.html", "PAGE_TITLE") %>
+    <%= l10n(@language_code, "asset.html", "PAGE_TITLE") %>
     </h2>
     <br/>
     Welcome to CentralGPS

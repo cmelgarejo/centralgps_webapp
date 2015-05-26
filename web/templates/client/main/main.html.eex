@@ -12,7 +12,7 @@
     </li>
     <li class="logo hidden-xs ">
       <a>
-        <%= l10n(@language, "app.html", "MENU_TITLE") %>
+        <%= l10n(@language_code, "main.html", "MENU_TITLE") %>
         </a>
       </li>
       <li class="pull-right">
@@ -37,7 +37,7 @@
             <div class="dropdown-menu dropdown-menu-lg pull-right">
               <div class="listview" id="notifications">
                 <div class="lv-header">
-                  <%= l10n(@language, "app.html", "MENU_TEXT_NOTIFICATIONS") %>
+                  <%= l10n(@language_code, "main.html", "MENU_TEXT_NOTIFICATIONS") %>
                   <ul class="actions">
                     <li class="dropdown">
                       <a href="" data-clear="notification">
@@ -134,14 +134,14 @@
                 <a data-action="fullscreen" href="">
                   <i class="md md-fullscreen">
                   </i>
-                  <%= l10n(@language, "app.html", "MENU_TEXT_TOGGLE_FULLSCREEN") %>
+                  <%= l10n(@language_code, "main.html", "MENU_TEXT_TOGGLE_FULLSCREEN") %>
                 </a>
               </li>
               <li>
                 <a data-action="clear-localstorage" href="">
                   <i class="md md-delete">
                   </i>
-                  <%= l10n(@language, "app.html", "MENU_TEXT_CLS") %>
+                  <%= l10n(@language_code, "main.html", "MENU_TEXT_CLS") %>
                 </a>
               </li>
             </ul>
@@ -177,14 +177,14 @@
                 <a href="profile">
                   <i class="md md-person">
                   </i>
-                  <%= l10n(@language, "app.html", "PROFILE_LINK_TEXT") %>
+                  <%= l10n(@language_code, "main.html", "PROFILE_LINK_TEXT") %>
                   </a>
                 </li>
                 <li>
-                  <a href="">
+                  <a href="logout">
                     <i class="md md-history">
                     </i>
-                    <%= l10n(@language, "app.html", "LOGOUT_LINK_TEXT") %>
+                    <%= l10n(@language_code, "main.html", "LOGOUT_LINK_TEXT") %>
                     </a>
                   </li>
               </ul>
@@ -195,39 +195,39 @@
             <a href="/">
               <i class="md md-home">
               </i>
-              <%= l10n(@language, "app.html", "DASHBOARD_LINK_TEXT") %>
+              <%= l10n(@language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
               </a>
             </li>
             <li class="sub-menu">
               <a href="">
                 <i class="md md-now-widgets">
                 </i>
-                <%= l10n(@language, "app.html", "MAINTENANCE_LINK_TEXT") %>
+                <%= l10n(@language_code, "main.html", "MAINTENANCE_LINK_TEXT") %>
                 </a>
                 <ul>
                   <li>
                     <a href="">
-                      <%= l10n(@language, "app.html", "ACCOUNT_LINK_TEXT") %>
+                      <%= l10n(@language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
                       </a>
                     </li>
                     <li>
                       <a href="">
-                        <%= l10n(@language, "app.html", "ACTION_LINK_TEXT") %>
+                        <%= l10n(@language_code, "main.html", "ACTION_LINK_TEXT") %>
                         </a>
                       </li>
                       <li>
                         <a href="">
-                          <%= l10n(@language, "app.html", "REASON_LINK_TEXT") %>
+                          <%= l10n(@language_code, "main.html", "REASON_LINK_TEXT") %>
                           </a>
                         </li>
                         <li>
                           <a href="">
-                            <%= l10n(@language, "app.html", "VENUE_TYPE_LINK_TEXT") %>
+                            <%= l10n(@language_code, "main.html", "VENUE_TYPE_LINK_TEXT") %>
                             </a>
                           </li>
                           <li>
                             <a href="">
-                              <%= l10n(@language, "app.html", "VENUE_LINK_TEXT") %>
+                              <%= l10n(@language_code, "main.html", "VENUE_LINK_TEXT") %>
                               </a>
                             </li>
                           </ul>
@@ -236,14 +236,14 @@
                         <a href="actions">
                           <i class="md md-today">
                           </i>
-                          <%= l10n(@language, "app.html", "MARK_LINK_TEXT") %>
+                          <%= l10n(@language_code, "main.html", "MARK_LINK_TEXT") %>
                         </a>
                       </li>
                       <li>
                         <a href="#" onclick="get_page('asset');">
                           <i class="md md-layers">
                           </i>
-                          <%= l10n(@language, "app.html", "POSITION_LINK_TEXT") %>
+                          <%= l10n(@language_code, "main.html", "POSITION_LINK_TEXT") %>
                         </a>
                       </li>
                   </ul>
@@ -256,7 +256,7 @@
           <%=  %>
           <!--<div class="block-header">
             <h2>
-              <%= l10n(@language, "app.html", "PAGE_TITLE") %>
+              <%= l10n(@language_code, "main.html", "PAGE_TITLE") %>
               </h2>
               <br/>
               Welcome to CentralGPS
@@ -268,10 +268,11 @@
       </section>
   </section>
   <script>
-    var _cls_title_sure   = "<%= l10n(@conn, "CLS_TITLE_SURE") %>";
-    var _cls_removed      = "<%= l10n(@conn, "CLS_REMOVED") %>";
-    var _cls_confirm_text = "<%= l10n(@conn, "CLS_CONFIRM_TEXT") %>";
-    var _cls_cancel_text  = "<%= l10n(@conn, "CLS_CANCEL_TEXT") %>";
-    var _cls_title_done   = "<%= l10n(@conn, "CLS_TITLE_DONE") %>";
-    var _cls_text_done    = "<%= l10n(@conn, "CLS_TEXT_DONE") %>";
+    var _cls_title_sure   = "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>";
+    var _cls_removed      = "<%= l10n(@language_code, "main.html", "CLS_REMOVED") %>";
+    var _cls_confirm_text = "<%= l10n(@language_code, "main.html", "CLS_CONFIRM_TEXT") %>";
+    var _cls_cancel_text  = "<%= l10n(@language_code, "main.html", "CLS_CANCEL_TEXT") %>";
+    var _cls_title_done   = "<%= l10n(@language_code, "main.html", "CLS_TITLE_DONE") %>";
+    var _cls_text_done    = "<%= l10n(@language_code, "main.html", "CLS_TEXT_DONE") %>";
+    var _err_connection_refused = "<%= l10n(@language_code, "main.html", "_ERR_CONNECTION_REFUSED") %>";
   </script>

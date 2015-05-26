@@ -13,7 +13,7 @@ config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   debug_errors: false,
   pubsub: [name: CentralGPSWebApp.PubSub, adapter: Phoenix.PubSub.PG2]
 
-config :app_config, entity_tag: "@acme@edge"
+config :app_config, entity_tag: "edge"
 
 # Configures Elixir's Logger
 config :logger, :console,

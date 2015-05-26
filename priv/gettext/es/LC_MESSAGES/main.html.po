@@ -63,3 +63,6 @@ msgstr "Listo!"
 
 msgid "CLS_TEXT_DONE"
 msgstr "Las preferencias han sido eliminadas"
+
+msgid "_ERR_CONNECTION_REFUSED"
+msgstr "Error al tratar de cargar la página, puede ser que esté fuera de linea"

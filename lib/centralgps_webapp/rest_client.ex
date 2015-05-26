@@ -2,10 +2,18 @@ defmodule CentralGPS.RestClient do
   use HTTPoison.Base
   import CentralGPS.Repo.Utilities
 
-  def login_api_post_json(method_path, type, data, headers \\ []) do
-    method_path = method_path <> "/" <> type
+  def login_api_post_json(type, data, headers \\ []) do
+    method_path = "/security/login/" <> type
     headers
     || [ {"Content-Type", "application/json;charset=utf-8"} ]
+    post method_path, data, headers
+  end
+
+  def logout_api_post_json(token, type, data \\ "{ok: true}", headers \\ []) do
+    method_path = "/security/logout/" <> type
+    headers
+    || [ {"Content-Type", "application/json;charset=utf-8"} ]
+    || [ {"Content-Type", "CentralGPS token=#{token},type=#{type}"} ]
     post method_path, data, headers
   end
 

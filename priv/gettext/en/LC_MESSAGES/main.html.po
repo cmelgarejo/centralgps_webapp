@@ -43,7 +43,7 @@ msgstr "Venues"
 msgid  "MARK_LINK_TEXT"
 msgstr "Marks"
 
-msgid  "POSITIONS_LINK_TEXT"
+msgid  "POSITION_LINK_TEXT"
 msgstr "Positions"
 
 msgid "CLS_TITLE_SURE"
@@ -63,3 +63,6 @@ msgstr "Done!"
 
 msgid "CLS_TEXT_DONE"
 msgstr "Your view preferences have been removed"
+
+msgid "_ERR_CONNECTION_REFUSED"
+msgstr "Error requesting page, you might be offline"

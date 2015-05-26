@@ -15,13 +15,16 @@ defmodule CentralGPSWebApp.Router do
   scope "/", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
 
-    get  "/login", LoginController, :index
-    post "/login", LoginController, :login
+    get  "/", MainController, :index
 
-    post "/", AppController, :index
-    get  "/", AppController, :index
+    get  "ping", PingController, :ping
+
+    get  "/login",  LoginController, :index
+    post "/login",  LoginController, :login
+    get  "/logout", LoginController, :logout
 
     get  "/asset", AssetController, :index
+
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

@@ -25,3 +25,26 @@ function on_submit_form(event) {
    });
   });
 }
+
+$( document ).ajaxError(function( event, request, settings ) {
+  Snarl.addNotification({
+        title: 'Error requesting page, you might be offline',
+        text: '<li>' + settings.url + '</li>',
+    });
+});
+
+
+function hostReachable() {
+  // Handle IE and more capable browsers
+  var xhr = new ( window.ActiveXObject || XMLHttpRequest )( "Microsoft.XMLHTTP" );
+  var status;
+  // Open new request as a HEAD to the root hostname with a random param to bust the cache
+  xhr.open( "GET", "//" + window.location.hostname + "/ping?rand=" + Math.floor((1 + Math.random()) * 0x10000), false );
+  // Issue request and handle response
+  try {
+    xhr.send();
+    return swal('offline!');
+  } catch (error) {
+    return swal('error');
+  }
+}
