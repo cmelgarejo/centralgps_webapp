@@ -27,24 +27,27 @@ function on_submit_form(event) {
 }
 
 $( document ).ajaxError(function( event, request, settings ) {
+  var msg = "";
+  switch(event.status)
+  {
+    case 500: msg = __centralgps_settings.__err_status_500;
+      break;
+    default: msg = __centralgps_settings.__err_conn_refused;
+      break;
+  }
+  console.log(event)
   Snarl.addNotification({
-        title: 'Error requesting page, you might be offline',
-        text: '<li>' + settings.url + '</li>',
-    });
+    title: settings.url, text: msg, icon: '<i class="md md-error"></i>'
+  });
 });
 
 
 function hostReachable() {
-  // Handle IE and more capable browsers
-  var xhr = new ( window.ActiveXObject || XMLHttpRequest )( "Microsoft.XMLHTTP" );
-  var status;
-  // Open new request as a HEAD to the root hostname with a random param to bust the cache
-  xhr.open( "GET", "//" + window.location.hostname + "/ping?rand=" + Math.floor((1 + Math.random()) * 0x10000), false );
-  // Issue request and handle response
-  try {
-    xhr.send();
-    return swal('offline!');
-  } catch (error) {
-    return swal('error');
-  }
+  $.get(__centralgps_settings.__root_url + "/ping", //?r="+Math.floor((1+Math.random()) * 0x10000),
+    function() { Snarl.addNotification({
+        title: __centralgps_settings.__online_title,
+        text:  __centralgps_settings.__online_text,
+        icon: '<i class="md-done"></i>'
+      });
+  });
 }

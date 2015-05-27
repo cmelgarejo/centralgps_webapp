@@ -1,4 +1,4 @@
-defmodule CentralGPSWebApp.Client.AssetController do
+defmodule CentralGPSWebApp.Client.AssetsController do
   use CentralGPSWebApp.Web, :controller
   plug :action
 
@@ -7,7 +7,7 @@ defmodule CentralGPSWebApp.Client.AssetController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else
-      render conn, "asset.html"
+      render conn, "assets.html"
     end
   end
 

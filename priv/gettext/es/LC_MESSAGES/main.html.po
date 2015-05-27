@@ -2,7 +2,7 @@ msgid  "PAGE_TITLE"
 msgstr "Dashboard"
 
 msgid  "MENU_TITLE"
-msgstr "Checkpoint"
+msgstr ""
 
 msgid  "MENU_TEXT_TOGGLE_FULLSCREEN"
 msgstr "Cambiar a pantalla completa"
@@ -22,29 +22,29 @@ msgstr "Ver Perfil"
 msgid  "LOGOUT_LINK_TEXT"
 msgstr "Salir"
 
-msgid  "MAINTENANCE_LINK_TEXT"
-msgstr "Mantenimiento"
+msgid  "CHECKPOINT_MENU_TEXT"
+msgstr "Checkpoint"
+
+msgid  "CHECKPOINT_ACTION_LINK_TEXT"
+msgstr "Acciones"
+
+msgid  "CHECKPOINT_REASON_LINK_TEXT"
+msgstr "Motivos"
+
+msgid  "CHECKPOINT_VENUE_TYPE_LINK_TEXT"
+msgstr "Tipos de Lugar"
+
+msgid  "CHECKPOINT_VENUE_LINK_TEXT"
+msgstr "Lugares"
+
+msgid  "CHECKPOINT_MARK_LINK_TEXT"
+msgstr "Marcaciones"
 
 msgid  "ACCOUNT_LINK_TEXT"
 msgstr "Cuentas"
 
-msgid  "ACTION_LINK_TEXT"
-msgstr "Acciones"
-
-msgid  "REASON_LINK_TEXT"
-msgstr "Razones"
-
-msgid  "VENUE_TYPE_LINK_TEXT"
-msgstr "Tipos de Lugares"
-
-msgid  "VENUE_LINK_TEXT"
-msgstr "Lugares"
-
-msgid  "MARK_LINK_TEXT"
-msgstr "Marcas"
-
-msgid  "POSITION_LINK_TEXT"
-msgstr "Posiciones"
+msgid  "ASSET_LINK_TEXT"
+msgstr "Sus Activos"
 
 msgid "CLS_TITLE_SURE"
 msgstr "Está seguro?"
@@ -64,5 +64,14 @@ msgstr "Listo!"
 msgid "CLS_TEXT_DONE"
 msgstr "Las preferencias han sido eliminadas"
 
-msgid "_ERR_CONNECTION_REFUSED"
+msgid "__ERR_CONNECTION_REFUSED"
 msgstr "Error al tratar de cargar la página, puede ser que esté fuera de linea"
+
+msgid "__ERR_STATUS_500"
+msgstr "Ocurrió un error en el servidor, por favor inténtelo nuevamente en unos instantes"
+
+msgid "__ONLINE_TITLE"
+msgstr "En línea!"
+
+msgid "__ONLINE_TEXT"
+msgstr "La conexión con el servidor es correcta."

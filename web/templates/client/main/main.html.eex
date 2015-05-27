@@ -193,57 +193,57 @@
         <ul class="main-menu">
           <li class="active">
             <a href="/">
-              <i class="md md-home">
+              <i class="md md-dashboard">
               </i>
               <%= l10n(@language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
               </a>
             </li>
+            <li>
+              <a href="#">
+                <%= l10n(@language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
+              </a>
+            </li>
             <li class="sub-menu">
-              <a href="">
-                <i class="md md-now-widgets">
+              <a href="#">
+                <i class="md md-view-module">
                 </i>
-                <%= l10n(@language_code, "main.html", "MAINTENANCE_LINK_TEXT") %>
+                <%= l10n(@language_code, "main.html", "CHECKPOINT_MENU_TEXT") %>
                 </a>
                 <ul>
-                  <li>
-                    <a href="">
-                      <%= l10n(@language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
-                      </a>
-                    </li>
                     <li>
-                      <a href="">
-                        <%= l10n(@language_code, "main.html", "ACTION_LINK_TEXT") %>
+                      <a href="#">
+                        <%= l10n(@language_code, "main.html", "CHECKPOINT_ACTION_LINK_TEXT") %>
                         </a>
                       </li>
                       <li>
-                        <a href="">
-                          <%= l10n(@language_code, "main.html", "REASON_LINK_TEXT") %>
+                        <a href="#">
+                          <%= l10n(@language_code, "main.html", "CHECKPOINT_REASON_LINK_TEXT") %>
                           </a>
                         </li>
                         <li>
-                          <a href="">
-                            <%= l10n(@language_code, "main.html", "VENUE_TYPE_LINK_TEXT") %>
+                          <a href="#">
+                            <%= l10n(@language_code, "main.html", "CHECKPOINT_VENUE_TYPE_LINK_TEXT") %>
                             </a>
                           </li>
                           <li>
-                            <a href="">
-                              <%= l10n(@language_code, "main.html", "VENUE_LINK_TEXT") %>
-                              </a>
-                            </li>
-                          </ul>
+                            <a href="#">
+                              <%= l10n(@language_code, "main.html", "CHECKPOINT_VENUE_LINK_TEXT") %>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="actions">
+                              <i class="md md-beenhere">
+                              </i>
+                              <%= l10n(@language_code, "main.html", "CHECKPOINT_MARK_LINK_TEXT") %>
+                            </a>
+                          </li>
+                        </ul>
                       </li>
                       <li>
-                        <a href="actions">
-                          <i class="md md-today">
+                        <a href="#" onclick="get_page('assets');">
+                          <i class="md md-pin-drop">
                           </i>
-                          <%= l10n(@language_code, "main.html", "MARK_LINK_TEXT") %>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#" onclick="get_page('asset');">
-                          <i class="md md-layers">
-                          </i>
-                          <%= l10n(@language_code, "main.html", "POSITION_LINK_TEXT") %>
+                          <%= l10n(@language_code, "main.html", "ASSET_LINK_TEXT") %>
                         </a>
                       </li>
                   </ul>
@@ -254,25 +254,23 @@
         <div class="container">
         <div id="_centralgps_container">
           <%=  %>
-          <!--<div class="block-header">
-            <h2>
-              <%= l10n(@language_code, "main.html", "PAGE_TITLE") %>
-              </h2>
-              <br/>
-              Welcome to CentralGPS
-              <br/>
-              Here should be called/injected the dashboard.html via render, and every page in the menu.
-            </div>
-          </div>-->
         </div></div>
       </section>
   </section>
   <script>
-    var _cls_title_sure   = "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>";
-    var _cls_removed      = "<%= l10n(@language_code, "main.html", "CLS_REMOVED") %>";
-    var _cls_confirm_text = "<%= l10n(@language_code, "main.html", "CLS_CONFIRM_TEXT") %>";
-    var _cls_cancel_text  = "<%= l10n(@language_code, "main.html", "CLS_CANCEL_TEXT") %>";
-    var _cls_title_done   = "<%= l10n(@language_code, "main.html", "CLS_TITLE_DONE") %>";
-    var _cls_text_done    = "<%= l10n(@language_code, "main.html", "CLS_TEXT_DONE") %>";
-    var _err_connection_refused = "<%= l10n(@language_code, "main.html", "_ERR_CONNECTION_REFUSED") %>";
+    var __centralgps_settings =
+      {
+        _cls_title_sure    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>",
+        _cls_title_sure    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>",
+        _cls_removed       : "<%= l10n(@language_code, "main.html", "CLS_REMOVED") %>",
+        _cls_confirm_text  : "<%= l10n(@language_code, "main.html", "CLS_CONFIRM_TEXT") %>",
+        _cls_cancel_text   : "<%= l10n(@language_code, "main.html", "CLS_CANCEL_TEXT") %>",
+        _cls_title_done    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_DONE") %>",
+        _cls_text_done     : "<%= l10n(@language_code, "main.html", "CLS_TEXT_DONE") %>",
+        __err_conn_refused : "<%= l10n(@language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>",
+        __err_status_500   : "<%= l10n(@language_code, "main.html", "__ERR_STATUS_500") %>",
+        __root_url         : "<%= @__root_url %>",
+        __online_title     : "<%= l10n(@language_code, "main.html", "__ONLINE_TITLE") %>",
+        __online_text      : "<%= l10n(@language_code, "main.html", "__ONLINE_TEXT") %>",
+      }
   </script>
