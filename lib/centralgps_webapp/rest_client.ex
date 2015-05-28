@@ -20,7 +20,7 @@ defmodule CentralGPS.RestClient do
     post method_path, data, headers ++ ct_json_header ++ auth_header(token, type)
   end
 
-  def api_get_json(method_path, token, type, headers) do
+  def api_get_json(method_path, token, type, headers \\ []) do
     get method_path, (headers ++ auth_header(token, type))
   end
 

@@ -261,7 +261,6 @@
     var __centralgps_settings =
       {
         _cls_title_sure    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>",
-        _cls_title_sure    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>",
         _cls_removed       : "<%= l10n(@language_code, "main.html", "CLS_REMOVED") %>",
         _cls_confirm_text  : "<%= l10n(@language_code, "main.html", "CLS_CONFIRM_TEXT") %>",
         _cls_cancel_text   : "<%= l10n(@language_code, "main.html", "CLS_CANCEL_TEXT") %>",
@@ -272,5 +271,9 @@
         __root_url         : "<%= @__root_url %>",
         __online_title     : "<%= l10n(@language_code, "main.html", "__ONLINE_TITLE") %>",
         __online_text      : "<%= l10n(@language_code, "main.html", "__ONLINE_TEXT") %>",
+        __geolocation_message_title        : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_MESSAGE_TITLE") %>",
+        __geolocation_permission_denied    : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>",
+        __geolocation_position_unavailable : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>",
+        __geolocation_timeout              : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>",
       }
   </script>

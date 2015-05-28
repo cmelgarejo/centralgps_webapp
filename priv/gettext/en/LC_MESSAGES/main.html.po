@@ -75,3 +75,15 @@ msgstr "Online!"
 
 msgid "__ONLINE_TEXT"
 msgstr "The connection with the server is up."
+
+msgid "__GEOLOCATION_MESSAGE_TITLE"
+msgstr "Geolocation Error"
+
+msgid "__GEOLOCATION_PERMISSION_DENIED"
+msgstr "Permission denied by the user"
+
+msgid "__GEOLOCATION_POSITION_UNAVAILABLE"
+msgstr "The Geolocation is unavailable"
+
+msgid "__GEOLOCATION_TIMEOUT"
+msgstr "The Geolocation service communication has timed out"

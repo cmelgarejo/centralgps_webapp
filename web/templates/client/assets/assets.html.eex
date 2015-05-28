@@ -1,0 +1,36 @@
+<div id="_asset_map"></div>
+<script src="<%= static_path(@conn, "/js/leaflet.js") %>"></script>
+<script>
+var _asset_map;
+if(typeof($) === "undefined") {
+  console.log(window.location);
+  window.location = "/";
+}
+$(document).ready(function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);
+  } else {
+    _browser_geo_error;
+  }
+  _asset_map = L.map('_asset_map').setView([0, 0], 2);
+  mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  { attribution: '&copy; ' + mapLink + ' Contributors', maxZoom: 18 }).addTo(_asset_map);
+
+});
+function _browser_geo_success(position) {
+  _asset_map.setView([position.coords.latitude, position.coords.longitude], 12);
+}
+function _browser_geo_error(positionError) {
+  var msg;
+  switch(positionError.code) {
+    case 1: msg = __centralgps_settings.__geolocation_permission_denied; break;
+    case 2: msg = __centralgps_settings.__geolocation_position_unavailable; break;
+    case 3: msg = __centralgps_settings.__geolocation_timeout; break;
+    default: msg = "";
+  }
+  Snarl.addNotification({
+    title: __centralgps_settings.__geolocation_message_title, text: msg, icon: '<i class="md md-error"></i>'
+  });
+}
+</script>

@@ -75,3 +75,15 @@ msgstr "En línea!"
 
 msgid "__ONLINE_TEXT"
 msgstr "La conexión con el servidor es correcta."
+
+msgid "__GEOLOCATION_MESSAGE_TITLE"
+msgstr "Error de geolocalzación"
+
+msgid "__GEOLOCATION_PERMISSION_DENIED"
+msgstr "El permiso ha sido denegado por el usuario"
+
+msgid "__GEOLOCATION_POSITION_UNAVAILABLE"
+msgstr "El servicio de geolocalización no se encuentra disponible"
+
+msgid "__GEOLOCATION_TIMEOUT"
+msgstr "El tiempo de espera de comunicación con el servicio de geolocalización ha finalizado"

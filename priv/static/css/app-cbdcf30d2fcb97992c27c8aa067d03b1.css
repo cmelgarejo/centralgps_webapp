@@ -1,6 +1,3 @@
-#_centralgps_container, #_asset_map {
-  height: 100%; width: 100%;
-}
 /*
  * Load Main Bootstrap LESS files
  */
@@ -13,7 +10,6 @@ html {
 body {
   margin: 0;
 }
-html, body {height: 100%;}
 article,
 aside,
 details,
@@ -1080,7 +1076,7 @@ html {
 }
 body {
   font-family: roboto;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #5e5e5e;
   background-color: #edecec;
@@ -1279,7 +1275,7 @@ h4,
 }
 h5,
 .h5 {
-  font-size: 14px;
+  font-size: 13px;
 }
 h6,
 .h6 {
@@ -1499,7 +1495,7 @@ blockquote .small:before {
 }
 .blockquote-reverse,
 blockquote.pull-right {
-  padding-right: 150px;
+  padding-right: 15px;
   padding-left: 0;
   border-right: 5px solid #eeeeee;
   border-left: 0;
@@ -1579,9 +1575,9 @@ pre code {
   overflow-y: scroll;
 }
 .container {
-  height: 100%;
   margin-right: auto;
   margin-left: auto;
+  padding-right: 12px;
 }
 @media (min-width: 768px) {
   .container {
@@ -2442,7 +2438,7 @@ table th[class*="col-"] {
 @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 14px;
+    margin-bottom: 13.5px;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid #f0f0f0;
@@ -2540,7 +2536,7 @@ input[type="checkbox"]:focus {
 output {
   display: block;
   padding-top: 7px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #555555;
 }
@@ -2549,7 +2545,7 @@ output {
   width: 100%;
   height: 35px;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #555555;
   background-color: #ffffff;
@@ -3000,7 +2996,7 @@ select[multiple].form-group-lg .form-control {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   border-radius: 2px;
   -webkit-touch-callout: none;
@@ -3809,7 +3805,7 @@ tbody.collapse.in {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 14px;
+  font-size: 13px;
   text-align: left;
   background-color: #ffffff;
   border: 1px solid transparent;
@@ -4169,7 +4165,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon {
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   line-height: 1;
   color: #555555;
@@ -6307,7 +6303,7 @@ button.close {
   max-width: 276px;
   padding: 1px;
   font-family: roboto;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   line-height: 1.42857143;
   text-align: left;
@@ -6334,7 +6330,7 @@ button.close {
 .popover-title {
   margin: 0;
   padding: 8px 14px;
-  font-size: 14px;
+  font-size: 13px;
   background-color: #ffffff;
   border-bottom: 1px solid #f2f2f2;
   border-radius: 1px 1px 0 0;
@@ -7249,7 +7245,7 @@ button.close {
 }
 .chosen-container {
   display: inline-block;
-  font-size: 14px;
+  font-size: 13px;
   position: relative;
   vertical-align: middle;
 }
@@ -7491,7 +7487,7 @@ button.close {
   box-shadow: none;
   color: #333333;
   cursor: default;
-  line-height: 14px;
+  line-height: 13px;
   margin: 6px 0 3px 5px;
   padding: 3px 20px 3px 5px;
   position: relative;
@@ -7856,7 +7852,7 @@ button.close {
   left: auto;
 }
 .bootstrap-select.show-menu-arrow.pull-right .dropdown-toggle:after {
-  right: 14px;
+  right: 13px;
   left: auto;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle:before,
@@ -9014,15 +9010,14 @@ h6 small,
   content: "\f2e5";
 }
 #main {
-  height: 100%;
   position: relative;
 }
 body #content {
-  height: 100%;
+  padding: 30px 0;
 }
 @media (min-width: 1200px) {
   body.sw-toggled #content {
-    padding: 0px 0 0px 250px;
+    padding: 30px 0 30px 250px;
   }
 }
 @media (min-width: 1200px) {
@@ -9405,7 +9400,7 @@ body #content {
   height: calc(100% - 45px);
   -webkit-transform: translate3d(-250px, 0, 0);
   transform: translate3d(-250px, 0, 0);
-  z-index: 1001;
+  z-index: 5;
   width: 250px;
   overflow: hidden;
   opacity: 0;
@@ -9830,7 +9825,7 @@ input:focus {
 }
 .listview .lv-header {
   text-align: center;
-  padding: 15px 10px 14px;
+  padding: 15px 10px 13px;
   line-height: 100%;
   text-transform: uppercase;
   border-bottom: 1px solid #F0F0F0;
@@ -10200,7 +10195,7 @@ input:focus {
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
   content: "";
-  width: 114px;
+  width: 113px;
   height: 100%;
   background: rgba(0, 0, 0, 0.1);
   position: absolute;
@@ -10391,7 +10386,7 @@ input:focus {
 }
 #site-visits .dash-widget-header {
   padding-bottom: 38px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.13);
 }
 #site-visits .dash-widget-title {
   bottom: 0;
@@ -12222,7 +12217,7 @@ a.thumbnail.active {
 .panel-title > a {
   padding: 10px 15px;
   display: block;
-  font-size: 14px;
+  font-size: 13px;
 }
 .panel-collapse .panel-heading {
   position: relative;
@@ -12520,7 +12515,7 @@ a.thumbnail.active {
   vertical-align: top;
 }
 .ms-item {
-  padding: 14px 19px 15px;
+  padding: 13px 19px 15px;
   border-radius: 2px;
   display: inline-block;
 }
@@ -12546,7 +12541,7 @@ a.thumbnail.active {
 }
 .ms-reply textarea {
   width: 100%;
-  font-size: 14px;
+  font-size: 13px;
   border: 0;
   padding: 10px 8px;
   resize: none;
@@ -12620,7 +12615,7 @@ a.thumbnail.active {
   margin-top: -10px;
 }
 .not-found footer {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.13);
   position: absolute;
   left: 0;
   bottom: 0;
@@ -13403,8 +13398,8 @@ a.thumbnail.active {
   -webkit-transition: color;
   -o-transition: color;
   transition: color;
-  -webkit-transition-duration: 1400ms;
-  transition-duration: 1400ms;
+  -webkit-transition-duration: 1300ms;
+  transition-duration: 1300ms;
   color: #adadad;
   font-size: 20px;
 }
@@ -14200,14 +14195,14 @@ div.fc-row {
 .chosen-container .chosen-choices .search-choice .search-choice-close:before {
   font-family: 'Material Design Iconic Font';
   content: "\f29a";
-  font-size: 14px;
+  font-size: 13px;
   color: #696969;
   margin-right: 8px;
 }
 .chosen-container .chosen-choices .chosen-single-with-deselect:before {
   font-family: 'Material Design Iconic Font';
   content: "\f29a";
-  font-size: 14px;
+  font-size: 13px;
   color: #696969;
   margin-right: 8px;
   content: "";
@@ -14216,7 +14211,7 @@ div.fc-row {
   position: absolute;
   top: 0;
   height: 100%;
-  width: 14px;
+  width: 13px;
   right: 0;
   z-index: 1;
   background-image: url("../images/select.png");
@@ -14347,7 +14342,7 @@ div.fc-row {
 }
 .noUi-horizontal .noUi-active,
 .noUi-vertical .noUi-active {
-  box-shadow: 0 0 0 14px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 13px rgba(0, 0, 0, 0.1);
 }
 .noUi-horizontal .noUi-active .is-tooltip,
 .noUi-vertical .noUi-active .is-tooltip {
@@ -14512,7 +14507,7 @@ div.fc-row {
 .note-popover .popover-content .note-palette-title {
   margin: 0 !important;
   padding: 10px 0 !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   text-align: center !important;
   border: 0 !important;
 }
@@ -14708,7 +14703,7 @@ div.fc-row {
 .fileinput .fileinput-preview img {
   display: inline-block;
   vertical-align: middle;
-  margin-top: -14px;
+  margin-top: -13px;
 }
 .fileinput .fileinput-preview:after {
   content: "";

@@ -21,6 +21,7 @@ defmodule CentralGPSWebApp.Utilities do
     IO.puts "session: #{inspect session}"
     if (session != nil) do
       conn = conn
+        #|> assign(:session, session)
         |> assign(:auth_token, session.auth_token)
         |> assign(:id, session.id)
         |> assign(:username, session.username)

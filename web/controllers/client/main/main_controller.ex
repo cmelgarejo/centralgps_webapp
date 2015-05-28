@@ -8,7 +8,6 @@ defmodule CentralGPSWebApp.Client.MainController do
       redirect conn, to: login_path(Endpoint, :index)
     else
       conn = conn
-        |> assign(:session, session)
         |> assign(:__root_url, main_url(Endpoint, :index))
       render conn |> put_layout("main_template.html"), "main.html"
     end

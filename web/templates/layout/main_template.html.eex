@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/snarl.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
   <body>
