@@ -13,6 +13,7 @@ if(typeof($) === "undefined") {
   window.location = "/";
 }
 $(document).ready(function() {
+try {
   __centralgps__.asset = {};
   __centralgps__.asset.positions = new L.MarkerClusterGroup();
   __centralgps__.asset.marks = new L.MarkerClusterGroup();
@@ -27,10 +28,15 @@ $(document).ready(function() {
     _browser_geo_error;
   }
   updateAssets();
+}
+catch(err) {
+  console.log(err);
+}
+
 });
 function updateAssets() {
   $.get('/monitor/assets', function(response, status, xhr) {
-    console.log(response);
+    //console.log(response);
     if (response.status == true) {
       __centralgps__.asset.list = response.list;
       __centralgps__.asset.list.forEach(function(a, idx, arr) {
@@ -38,14 +44,12 @@ function updateAssets() {
           __centralgps__.asset.selected = a;
           __centralgps__.asset.map.addLayer(__centralgps__.asset.positions);
         }
-        else {
-          a.positions.forEach(function(p, idx, arr) {
-            __centralgps__.asset.positions.addLayer(
-              L.marker([p.lat, p.lon], { id: a.id })
-                .bindPopup('<b>' + a.name + '</b></br>' + p.position_at)
-                .bindLabel(a.name, { direction: 'auto', noHide: true}));
-          });
-        }
+        a.positions.forEach(function(p, idx, arr) {
+          __centralgps__.asset.positions.addLayer(
+            L.marker([p.lat, p.lon], { id: a.id })
+              .bindPopup('<b>' + a.name + '</b></br>' + p.position_at)
+              .bindLabel(a.name, { direction: 'auto', noHide: true}));
+        });
       });
     } else {
       console.log(response.msg)

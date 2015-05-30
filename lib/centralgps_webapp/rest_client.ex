@@ -2,8 +2,9 @@ defmodule CentralGPS.RestClient do
   use HTTPoison.Base
   import CentralGPS.Repo.Utilities
 
-  defp ct_json_header, do: [{"Content-Type", "application/json;charset=utf-8"}]
+  defp app_name, do: CentralGPSWebApp.rest_client_config(:rest_client_app_name)
   defp auth_header(token, type), do: [ {"Authorization", "CentralGPS token=#{token},type=#{type}"} ]
+  defp ct_json_header, do: [{"Content-Type", "application/json;charset=utf-8"}]
   defp security_login_path(type), do: "/security/login/" <> type
   defp security_logout_path(type), do: "/security/logout/" <> type
 
@@ -17,10 +18,12 @@ defmodule CentralGPS.RestClient do
   end
 
   def api_post_json(method_path, token, type, data, headers \\ []) do
+    data = Map.put data, :_the_app_name, app_name
     post method_path, data, headers ++ ct_json_header ++ auth_header(token, type)
   end
 
-  def api_get_json(method_path, token, type, headers \\ []) do
+  def api_get_json(method_path, token, type, _params \\ %{}, headers \\ []) do
+    method_path = URI.encode(method_path) <> "?" <> URI.encode_query(_params)
     get method_path, (headers ++ auth_header(token, type))
   end
 

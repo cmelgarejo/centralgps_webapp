@@ -27,7 +27,6 @@ defmodule CentralGPSWebApp.Router do
     get  "/monitor", MonitorController, :index
     get  "/monitor/assets", MonitorController, :assets
     get  "/monitor/assets/checkpoint/marks", MonitorController, :checkpoint_mark
-
   end
 
   scope "/entity", CentralGPSWebApp.Entity do
@@ -35,8 +34,4 @@ defmodule CentralGPSWebApp.Router do
 
     get "/", LoginController, :login
   end
-  # Other scopes may use custom stacks.
-  # scope "/api", CentralGPSWebApp do
-  #   pipe_through :api
-  # end
 end
