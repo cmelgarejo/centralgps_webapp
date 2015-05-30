@@ -44,7 +44,7 @@ msgid  "ACCOUNT_LINK_TEXT"
 msgstr "Cuentas"
 
 msgid  "ASSET_LINK_TEXT"
-msgstr "Sus Activos"
+msgstr "Monitor de Activos"
 
 msgid "CLS_TITLE_SURE"
 msgstr "Está seguro?"

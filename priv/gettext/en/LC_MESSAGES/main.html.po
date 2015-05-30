@@ -44,7 +44,7 @@ msgid  "ACCOUNT_LINK_TEXT"
 msgstr "Accounts"
 
 msgid  "ASSET_LINK_TEXT"
-msgstr "Your Assets"
+msgstr "Monitor Assets"
 
 msgid "CLS_TITLE_SURE"
 msgstr "Are you sure?"

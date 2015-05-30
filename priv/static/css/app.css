@@ -1499,7 +1499,7 @@ blockquote .small:before {
 }
 .blockquote-reverse,
 blockquote.pull-right {
-  padding-right: 150px;
+  padding-right: 5px;
   padding-left: 0;
   border-right: 5px solid #eeeeee;
   border-left: 0;
@@ -9022,7 +9022,7 @@ body #content {
 }
 @media (min-width: 1200px) {
   body.sw-toggled #content {
-    padding: 0px 0 0px 250px;
+    padding: 0px 0px 0px 250px;
   }
 }
 @media (min-width: 1200px) {

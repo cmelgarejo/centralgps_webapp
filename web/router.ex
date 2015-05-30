@@ -24,7 +24,9 @@ defmodule CentralGPSWebApp.Router do
     get  "/logout", LoginController, :logout
     post  "/logout", LoginController, :logout
 
-    get  "/assets", AssetsController, :index
+    get  "/monitor", MonitorController, :index
+    get  "/monitor/assets", MonitorController, :assets
+    get  "/monitor/assets/checkpoint/marks", MonitorController, :checkpoint_mark
 
   end
 

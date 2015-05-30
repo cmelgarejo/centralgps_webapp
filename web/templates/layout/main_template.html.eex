@@ -10,20 +10,19 @@
     <meta name="author" content="cmelgarejo">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/pace.css") %>">
     <script src="<%= static_path(@conn, "/js/pace.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/snarl.min.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
   <body>
     <div class="container">
       <%= @inner %>
     </div>
-    <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
-    <!--<script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>-->
+    <script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/waves.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/snarl.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>

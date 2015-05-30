@@ -1,0 +1,71 @@
+<!--TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
+<div id="_asset_map"></div>
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.label.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
+<script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
+<script>
+if(typeof($) === "undefined") {
+  console.log(window.location);
+  window.location = "/";
+}
+$(document).ready(function() {
+  __centralgps__.asset = {};
+  __centralgps__.asset.positions = new L.MarkerClusterGroup();
+  __centralgps__.asset.marks = new L.MarkerClusterGroup();
+  __centralgps__.asset.map = L.map('_asset_map').setView([0, 0], 2);
+  mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  { attribution: '&copy; ' + mapLink + ' Contributors', maxZoom: 18 }).addTo(__centralgps__.asset.map);
+  L.Icon.Default.imagePath = '../images';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);
+  } else {
+    _browser_geo_error;
+  }
+  updateAssets();
+});
+function updateAssets() {
+  $.get('/monitor/assets', function(response, status, xhr) {
+    console.log(response);
+    if (response.status == true) {
+      __centralgps__.asset.list = response.list;
+      __centralgps__.asset.list.forEach(function(a, idx, arr) {
+        if (__centralgps__.asset.list.length - 1 == idx) {
+          __centralgps__.asset.selected = a;
+          __centralgps__.asset.map.addLayer(__centralgps__.asset.positions);
+        }
+        else {
+          a.positions.forEach(function(p, idx, arr) {
+            __centralgps__.asset.positions.addLayer(
+              L.marker([p.lat, p.lon], { id: a.id })
+                .bindPopup('<b>' + a.name + '</b></br>' + p.position_at)
+                .bindLabel(a.name, { direction: 'auto', noHide: true}));
+          });
+        }
+      });
+    } else {
+      console.log(response.msg)
+      __centralgps__.asset.list = [];
+    }
+  });
+}
+function _browser_geo_success(position) {
+  __centralgps__.asset.map.setView([position.coords.latitude, position.coords.longitude], 12);
+}
+function _browser_geo_error(positionError) {
+  var msg;
+  switch(positionError.code) {
+    case 1: msg = __centralgps__.globalmessages.__geolocation_permission_denied; break;
+    case 2: msg = __centralgps__.globalmessages.__geolocation_position_unavailable; break;
+    case 3: msg = __centralgps__.globalmessages.__geolocation_timeout; break;
+    default: msg = "";
+  }
+  Snarl.addNotification({
+    title: __centralgps__.globalmessages.__geolocation_message_title, text: msg, icon: '<i class="md md-error"></i>'
+  });
+}
+</script>

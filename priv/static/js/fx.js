@@ -537,17 +537,17 @@ $(document).ready(function(){
             e.preventDefault();
 
             swal({
-                title: __centralgps_settings._cls_title_sure, //"Are you sure?",
-                text: __centralgps_settings._cls_removed, //"All your saved localStorage values will be removed",
+                title: __centralgps__._cls_title_sure, //"Are you sure?",
+                text: __centralgps__._cls_removed, //"All your saved localStorage values will be removed",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: __centralgps_settings._cls_confirm_text,//"Yes, delete it!",
-                cancelButtonText: __centralgps_settings._cls_cancel_text,
+                confirmButtonText: __centralgps__._cls_confirm_text,//"Yes, delete it!",
+                cancelButtonText: __centralgps__._cls_cancel_text,
                 closeOnConfirm: false
             }, function(){
                 localStorage.clear();
-                swal(__centralgps_settings._cls_title_done/*"Done!"*/, __centralgps_settings._cls_text_done/*"localStorage is cleared"*/, "success");
+                swal(__centralgps__._cls_title_done/*"Done!"*/, __centralgps__._cls_text_done/*"localStorage is cleared"*/, "success");
             });
         });
     }

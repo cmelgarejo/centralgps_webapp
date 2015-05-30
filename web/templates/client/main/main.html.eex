@@ -30,7 +30,7 @@
           </li>
           <li class="dropdown">
             <a data-toggle="dropdown" class="tm-notification" href="">
-              <i class="tmn-counts">
+              <i class="tmn-counts" hidden>
                 1
               </i>
             </a>
@@ -240,7 +240,7 @@
                         </ul>
                       </li>
                       <li>
-                        <a href="#" onclick="get_page('assets');">
+                        <a href="#" onclick="get_page('monitor');">
                           <i class="md md-pin-drop">
                           </i>
                           <%= l10n(@language_code, "main.html", "ASSET_LINK_TEXT") %>
@@ -253,27 +253,30 @@
       <section id="content">
         <div class="container">
         <div id="_centralgps_container">
+          <br/>
+          <div class="block-header">
+            <h2>Dashboard</h2>
+          </div>
           <%=  %>
         </div></div>
       </section>
   </section>
   <script>
-    var __centralgps_settings =
-      {
-        _cls_title_sure    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>",
-        _cls_removed       : "<%= l10n(@language_code, "main.html", "CLS_REMOVED") %>",
-        _cls_confirm_text  : "<%= l10n(@language_code, "main.html", "CLS_CONFIRM_TEXT") %>",
-        _cls_cancel_text   : "<%= l10n(@language_code, "main.html", "CLS_CANCEL_TEXT") %>",
-        _cls_title_done    : "<%= l10n(@language_code, "main.html", "CLS_TITLE_DONE") %>",
-        _cls_text_done     : "<%= l10n(@language_code, "main.html", "CLS_TEXT_DONE") %>",
-        __err_conn_refused : "<%= l10n(@language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>",
-        __err_status_500   : "<%= l10n(@language_code, "main.html", "__ERR_STATUS_500") %>",
-        __root_url         : "<%= @__root_url %>",
-        __online_title     : "<%= l10n(@language_code, "main.html", "__ONLINE_TITLE") %>",
-        __online_text      : "<%= l10n(@language_code, "main.html", "__ONLINE_TEXT") %>",
-        __geolocation_message_title        : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_MESSAGE_TITLE") %>",
-        __geolocation_permission_denied    : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>",
-        __geolocation_position_unavailable : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>",
-        __geolocation_timeout              : "<%= l10n(@language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>",
-      }
+    $(document).ready(function() {
+      __centralgps__.globalmessages._cls_title_sure    = "<%= l10n(@language_code, "main.html", "CLS_TITLE_SURE") %>";
+      __centralgps__.globalmessages._cls_removed       = "<%= l10n(@language_code, "main.html", "CLS_REMOVED") %>";
+      __centralgps__.globalmessages._cls_confirm_text  = "<%= l10n(@language_code, "main.html", "CLS_CONFIRM_TEXT") %>";
+      __centralgps__.globalmessages._cls_cancel_text   = "<%= l10n(@language_code, "main.html", "CLS_CANCEL_TEXT") %>";
+      __centralgps__.globalmessages._cls_title_done    = "<%= l10n(@language_code, "main.html", "CLS_TITLE_DONE") %>";
+      __centralgps__.globalmessages._cls_text_done     = "<%= l10n(@language_code, "main.html", "CLS_TEXT_DONE") %>";
+      __centralgps__.globalmessages.__err_conn_refused = "<%= l10n(@language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>";
+      __centralgps__.globalmessages.__err_status_500   = "<%= l10n(@language_code, "main.html", "__ERR_STATUS_500") %>";
+      __centralgps__.globalmessages.__root_url         = "<%= @__root_url %>";
+      __centralgps__.globalmessages.__online_title     = "<%= l10n(@language_code, "main.html", "__ONLINE_TITLE") %>";
+      __centralgps__.globalmessages.__online_text      = "<%= l10n(@language_code, "main.html", "__ONLINE_TEXT") %>";
+      __centralgps__.globalmessages.__geolocation_message_title        = "<%= l10n(@language_code, "main.html", "__GEOLOCATION_MESSAGE_TITLE") %>";
+      __centralgps__.globalmessages.__geolocation_permission_denied    = "<%= l10n(@language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>";
+      __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
+      __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
+    });
   </script>

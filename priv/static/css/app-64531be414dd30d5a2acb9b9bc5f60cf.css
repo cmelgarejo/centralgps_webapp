@@ -1,3 +1,6 @@
+#_centralgps_container, #_asset_map {
+  height: 100%; width: 100%;
+}
 /*
  * Load Main Bootstrap LESS files
  */
@@ -10,6 +13,7 @@ html {
 body {
   margin: 0;
 }
+html, body {height: 100%;}
 article,
 aside,
 details,
@@ -1076,7 +1080,7 @@ html {
 }
 body {
   font-family: roboto;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.42857143;
   color: #5e5e5e;
   background-color: #edecec;
@@ -1275,7 +1279,7 @@ h4,
 }
 h5,
 .h5 {
-  font-size: 13px;
+  font-size: 14px;
 }
 h6,
 .h6 {
@@ -1495,7 +1499,7 @@ blockquote .small:before {
 }
 .blockquote-reverse,
 blockquote.pull-right {
-  padding-right: 15px;
+  padding-right: 5px;
   padding-left: 0;
   border-right: 5px solid #eeeeee;
   border-left: 0;
@@ -1575,24 +1579,23 @@ pre code {
   overflow-y: scroll;
 }
 .container {
+  height: 100%;
   margin-right: auto;
   margin-left: auto;
-  padding-left: 12px;
-  padding-right: 12px;
 }
 @media (min-width: 768px) {
   .container {
-    width: calc(100% - 24px);
+    width: calc(100%);
   }
 }
 @media (min-width: 992px) {
   .container {
-    width: calc(100% - 24px);
+    width: calc(100%);
   }
 }
 @media (min-width: 1200px) {
   .container {
-    width: 1164px;
+    width: calc(100%);
   }
 }
 .container-fluid {
@@ -2439,7 +2442,7 @@ table th[class*="col-"] {
 @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 13.5px;
+    margin-bottom: 14px;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid #f0f0f0;
@@ -2537,7 +2540,7 @@ input[type="checkbox"]:focus {
 output {
   display: block;
   padding-top: 7px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
 }
@@ -2546,7 +2549,7 @@ output {
   width: 100%;
   height: 35px;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
   background-color: #ffffff;
@@ -2997,7 +3000,7 @@ select[multiple].form-group-lg .form-control {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.42857143;
   border-radius: 2px;
   -webkit-touch-callout: none;
@@ -3806,7 +3809,7 @@ tbody.collapse.in {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 13px;
+  font-size: 14px;
   text-align: left;
   background-color: #ffffff;
   border: 1px solid transparent;
@@ -4166,7 +4169,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon {
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 1;
   color: #555555;
@@ -6304,7 +6307,7 @@ button.close {
   max-width: 276px;
   padding: 1px;
   font-family: roboto;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 1.42857143;
   text-align: left;
@@ -6331,7 +6334,7 @@ button.close {
 .popover-title {
   margin: 0;
   padding: 8px 14px;
-  font-size: 13px;
+  font-size: 14px;
   background-color: #ffffff;
   border-bottom: 1px solid #f2f2f2;
   border-radius: 1px 1px 0 0;
@@ -7246,7 +7249,7 @@ button.close {
 }
 .chosen-container {
   display: inline-block;
-  font-size: 13px;
+  font-size: 14px;
   position: relative;
   vertical-align: middle;
 }
@@ -7488,7 +7491,7 @@ button.close {
   box-shadow: none;
   color: #333333;
   cursor: default;
-  line-height: 13px;
+  line-height: 14px;
   margin: 6px 0 3px 5px;
   padding: 3px 20px 3px 5px;
   position: relative;
@@ -7853,7 +7856,7 @@ button.close {
   left: auto;
 }
 .bootstrap-select.show-menu-arrow.pull-right .dropdown-toggle:after {
-  right: 13px;
+  right: 14px;
   left: auto;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle:before,
@@ -8958,7 +8961,7 @@ html {
 }
 body {
   font-weight: 400;
-  padding-top: 65px;
+  padding-top: 45px;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
   -webkit-animation-duration: 1000ms;
@@ -9011,25 +9014,26 @@ h6 small,
   content: "\f2e5";
 }
 #main {
+  height: 100%;
   position: relative;
 }
 body #content {
-  padding: 30px 0;
+  height: 100%;
 }
 @media (min-width: 1200px) {
   body.sw-toggled #content {
-    padding: 30px 0 30px 250px;
+    padding: 0px 0px 0px 250px;
   }
 }
 @media (min-width: 1200px) {
   body.sw-toggled #content > .container {
-    width: calc(100% - 30px);
+    width: calc(100%);
   }
 }
 #header {
-  background: #4285F4;
+  background: #180481;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-  height: 65px;
+  height: 45px;
   position: fixed;
   z-index: 10;
   width: 100%;
@@ -9049,12 +9053,12 @@ body #content {
   user-select: none;
 }
 #header:not(.sidebar-toggled).header-up {
-  -webkit-transform: translate3d(0, -70px, 0);
-  transform: translate3d(0, -70px, 0);
+  -webkit-transform: translate3d(0, -60px, 0);
+  transform: translate3d(0, -60px, 0);
 }
 .header-inner {
   list-style: none;
-  padding: 15px 0;
+  padding: 5px 0;
 }
 .header-inner > li {
   display: inline-block;
@@ -9071,7 +9075,7 @@ body #content {
   font-weight: 100;
 }
 #menu-trigger {
-  width: 65px;
+  width: 45px;
   height: 35px;
   cursor: pointer;
 }
@@ -9081,10 +9085,10 @@ body #content {
 #menu-trigger:before {
   content: "";
   position: absolute;
-  top: 9px;
-  left: 7px;
-  width: 45px;
-  height: 45px;
+  top: 1px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.22);
   -webkit-transition: all;
@@ -9125,6 +9129,7 @@ body #content {
 .top-menu > li .dropdown-menu-lg .lv-body {
   height: 275px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 @media (min-width: 768px) {
   .top-menu > li:not(#toggle-width) {
@@ -9199,15 +9204,6 @@ body #content {
   animation-duration: 500ms;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
-}
-.top-menu > li > a.tm-chat {
-  background-image: url("../images/icons/menu-2.png");
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  .top-menu > li > a.tm-chat {
-    background-image: url("../images/icons/menu-2@2x.png");
-    background-size: 18px 12px;
-  }
 }
 .top-menu > li > a.tm-settings {
   background-image: url("../images/icons/ellipsis.png");
@@ -9294,11 +9290,11 @@ body #content {
 }
 #top-search-wrap {
   position: absolute;
-  top: -65px;
+  top: -45px;
   left: 0;
   width: 100%;
-  height: 65px;
-  background: #4285F4;
+  height: 45px;
+  background: #180481;
   -webkit-transition: all;
   -o-transition: all;
   transition: all;
@@ -9316,9 +9312,9 @@ body #content {
 #top-search-wrap input[type="text"] {
   border: 0;
   height: 40px;
-  padding: 0 10px 0 40px;
+  padding: 0 10px 0 30px;
   font-size: 18px;
-  margin: 12px;
+  margin: 3px;
   width: 500px;
   border-radius: 2px;
   color: rgba(51, 51, 51, 0.69);
@@ -9343,19 +9339,21 @@ body #content {
 }
 #top-search-wrap #top-search-close {
   position: absolute;
-  top: 16px;
-  font-size: 23px;
+  top: 5px;
+  font-size: 24px;
   font-style: normal;
-  color: rgba(0, 0, 0, 0.38);
+  color: white;
   width: 35px;
   text-align: center;
-  border-radius: 2px;
+  vertical-align: middle;
+  border-radius: 1px;
   cursor: pointer;
   right: 20px;
+  background-color: rgba(0, 0, 0, 0.15);
 }
 #top-search-wrap #top-search-close:hover {
-  background-color: rgba(0, 0, 0, 0.15);
-  color: #000;
+  background-color: rgba(0, 0, 0, 0.35);
+  color: red;
 }
 @media (max-width: 767px) {
   #top-search-wrap #top-search-close {
@@ -9379,7 +9377,7 @@ body #content {
   }
 }
 /*
- * For Stupid IE9
+ * For IE9
  */
 .ie9 #header:not(.sidebar-toggled).header-up {
   display: none;
@@ -9403,11 +9401,11 @@ body #content {
   position: fixed;
   background: #fff;
   box-shadow: 0 0 10px rgba(51, 51, 51, 0.38);
-  top: 65px;
-  height: calc(100% - 65px);
+  top: 45px;
+  height: calc(100% - 45px);
   -webkit-transform: translate3d(-250px, 0, 0);
   transform: translate3d(-250px, 0, 0);
-  z-index: 5;
+  z-index: 1001;
   width: 250px;
   overflow: hidden;
   opacity: 0;
@@ -9437,8 +9435,6 @@ body #content {
   height: 129px;
   margin-bottom: 5px;
   width: 100%;
-  background: url(../images/profile-menu.png) no-repeat left top;
-  background-size: 100%;
 }
 #sidebar .profile-menu > a .profile-pic {
   padding: 12px;
@@ -9616,7 +9612,7 @@ body:not(.sw-toggled) #sidebar {
   }
 }
 /*
- * For Stupid IE9
+ * For IE9
  */
 @media (min-width: 1200px) {
   .ie9 body.sw-toggled #sidebar {
@@ -9754,6 +9750,7 @@ input:focus {
   box-shadow: none;
 }
 .listview {
+  overflow-x: hidden;
   position: relative;
 }
 .listview:not(.lv-lg):not(.lv-message) .lv-item {
@@ -9833,7 +9830,7 @@ input:focus {
 }
 .listview .lv-header {
   text-align: center;
-  padding: 15px 10px 13px;
+  padding: 15px 10px 14px;
   line-height: 100%;
   text-transform: uppercase;
   border-bottom: 1px solid #F0F0F0;
@@ -9959,87 +9956,6 @@ input:focus {
 }
 .progress .progress-bar {
   box-shadow: none;
-}
-#chat {
-  position: fixed;
-  background: #fff;
-  padding: 20px 0;
-  width: 260px;
-  box-shadow: 0 0 10px rgba(51, 51, 51, 0.38);
-  height: calc(100% - 65px);
-  right: -280px;
-  top: 65px;
-  -webkit-transition: all;
-  -o-transition: all;
-  transition: all;
-  -webkit-transition-duration: 300ms;
-  transition-duration: 300ms;
-  z-index: 5;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-#chat.toggled {
-  right: 0;
-  opacity: 1;
-  filter: alpha(opacity=100);
-}
-#chat .chat-search {
-  padding: 20px 20px 15px 20px;
-}
-#chat .chat-search .form-control {
-  background-image: url("../images/icons/search-2.png");
-  background-repeat: no-repeat;
-  background-position: left center;
-  padding-left: 30px;
-  -webkit-transition: all;
-  -o-transition: all;
-  transition: all;
-  -webkit-transition-duration: 300ms;
-  transition-duration: 300ms;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  #chat .chat-search .form-control {
-    background-image: url("../images/icons/search-2@2x.png");
-    background-size: 24px 24px;
-  }
-}
-#chat .chat-search .form-control:focus {
-  background-position: right center;
-  padding: 0 30px 0 0;
-}
-/*
- * Chat Status Icons
- */
-[class*="chat-status"] {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  top: -3px;
-  right: 12px;
-  border: 2px solid #FFF;
-}
-/* Simple Mixin */
-.chat-status-online {
-  box-shadow: 0 0 0 1px #1ec01e;
-  background: #1ec01e;
-}
-.chat-status-offline {
-  box-shadow: 0 0 0 1px #e73f3f;
-  background: #e73f3f;
-}
-.chat-status-busy {
-  box-shadow: 0 0 0 1px #ffa500;
-  background: #ffa500;
-}
-/*
- * For Stupid IE9
- */
-.ie9 #chat {
-  right: 0;
-}
-.ie9 #chat:not(.toggled) {
-  display: none;
 }
 .tab-nav {
   list-style: none;
@@ -10284,7 +10200,7 @@ input:focus {
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
   content: "";
-  width: 113px;
+  width: 114px;
   height: 100%;
   background: rgba(0, 0, 0, 0.1);
   position: absolute;
@@ -10475,7 +10391,7 @@ input:focus {
 }
 #site-visits .dash-widget-header {
   padding-bottom: 38px;
-  background-color: rgba(0, 0, 0, 0.13);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 #site-visits .dash-widget-title {
   bottom: 0;
@@ -10582,7 +10498,7 @@ input:focus {
   height: 130px;
   bottom: -50px;
   left: 50%;
-  margin-left: -65px;
+  margin-left: -45px;
   -webkit-transition: all;
   -o-transition: all;
   transition: all;
@@ -12306,7 +12222,7 @@ a.thumbnail.active {
 .panel-title > a {
   padding: 10px 15px;
   display: block;
-  font-size: 13px;
+  font-size: 14px;
 }
 .panel-collapse .panel-heading {
   position: relative;
@@ -12604,7 +12520,7 @@ a.thumbnail.active {
   vertical-align: top;
 }
 .ms-item {
-  padding: 13px 19px 15px;
+  padding: 14px 19px 15px;
   border-radius: 2px;
   display: inline-block;
 }
@@ -12630,7 +12546,7 @@ a.thumbnail.active {
 }
 .ms-reply textarea {
   width: 100%;
-  font-size: 13px;
+  font-size: 14px;
   border: 0;
   padding: 10px 8px;
   resize: none;
@@ -12704,7 +12620,7 @@ a.thumbnail.active {
   margin-top: -10px;
 }
 .not-found footer {
-  background: rgba(0, 0, 0, 0.13);
+  background: rgba(0, 0, 0, 0.15);
   position: absolute;
   left: 0;
   bottom: 0;
@@ -13208,7 +13124,7 @@ a.thumbnail.active {
   margin-top: -5px;
 }
 .p-menu > li:not(.active) > a {
-  color: #4285F4;
+  color: #180481;
 }
 .p-menu > li:not(.active) > a:hover {
   color: #333;
@@ -13487,8 +13403,8 @@ a.thumbnail.active {
   -webkit-transition: color;
   -o-transition: color;
   transition: color;
-  -webkit-transition-duration: 1300ms;
-  transition-duration: 1300ms;
+  -webkit-transition-duration: 1400ms;
+  transition-duration: 1400ms;
   color: #adadad;
   font-size: 20px;
 }
@@ -14284,14 +14200,14 @@ div.fc-row {
 .chosen-container .chosen-choices .search-choice .search-choice-close:before {
   font-family: 'Material Design Iconic Font';
   content: "\f29a";
-  font-size: 13px;
+  font-size: 14px;
   color: #696969;
   margin-right: 8px;
 }
 .chosen-container .chosen-choices .chosen-single-with-deselect:before {
   font-family: 'Material Design Iconic Font';
   content: "\f29a";
-  font-size: 13px;
+  font-size: 14px;
   color: #696969;
   margin-right: 8px;
   content: "";
@@ -14300,7 +14216,7 @@ div.fc-row {
   position: absolute;
   top: 0;
   height: 100%;
-  width: 13px;
+  width: 14px;
   right: 0;
   z-index: 1;
   background-image: url("../images/select.png");
@@ -14431,7 +14347,7 @@ div.fc-row {
 }
 .noUi-horizontal .noUi-active,
 .noUi-vertical .noUi-active {
-  box-shadow: 0 0 0 13px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 14px rgba(0, 0, 0, 0.1);
 }
 .noUi-horizontal .noUi-active .is-tooltip,
 .noUi-vertical .noUi-active .is-tooltip {
@@ -14596,7 +14512,7 @@ div.fc-row {
 .note-popover .popover-content .note-palette-title {
   margin: 0 !important;
   padding: 10px 0 !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   text-align: center !important;
   border: 0 !important;
 }
@@ -14792,7 +14708,7 @@ div.fc-row {
 .fileinput .fileinput-preview img {
   display: inline-block;
   vertical-align: middle;
-  margin-top: -13px;
+  margin-top: -14px;
 }
 .fileinput .fileinput-preview:after {
   content: "";

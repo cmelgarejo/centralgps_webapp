@@ -34,7 +34,7 @@
   <div id="alert"></div>
 </div>
 <script>
-var _err_msg = "<%= l10n(@conn, "ERROR_NXDOMAIN") %>";
+  var _err_msg = "<%= l10n(@conn, "ERROR_NXDOMAIN") %>";
 </script>
 <!-- Older IE warning message -->
 <!-- [if lt IE 9]>
