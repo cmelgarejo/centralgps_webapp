@@ -22,11 +22,14 @@ defmodule CentralGPSWebApp.Router do
     get  "/login",  LoginController, :index
     post "/login",  LoginController, :login
     get  "/logout", LoginController, :logout
-    post  "/logout", LoginController, :logout
+    post "/logout", LoginController, :logout
 
-    get  "/monitor", MonitorController, :index
+    get  "/monitor",        MonitorController, :index
     get  "/monitor/assets", MonitorController, :assets
-    get  "/monitor/assets/checkpoint/marks", MonitorController, :checkpoint_mark
+    get  "/monitor/assets/checkpoint/marks", CheckpointController, :marks
+    get  "/monitor/venues",                  CheckpointController, :venues
+
+    get "/profile", ProfileController, :index
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

@@ -16,31 +16,18 @@ defmodule CentralGPSWebApp.Utilities do
     put_session(conn, :session_data, nil)
   end
 
+  @doc """
+  Assigns the session to the current Plug.conn
+  """
   def centralgps_session(conn) do
     session = get_session(conn, :session_data)
     IO.puts "session: #{inspect session}"
     if (session != nil) do
       conn = conn
-        #|> assign(:session, session)
-        |> assign(:auth_token, session.auth_token)
-        |> assign(:id, session.id)
-        |> assign(:username, session.username)
-        |> assign(:name, session.name)
-        |> assign(:account_type, session.account_type)
+        |> assign(:session, session)
         |> assign(:profile_image, if(session.profile_image != nil, do: session.profile_image, else: "images/profile/_placeholder.png"))
-        |> assign(:dob, session.dob)
-        |> assign(:language_code, session.language_code)
-        |> assign(:language_template_id, session.language_template_id)
-        |> assign(:timezone, session.timezone)
-        |> assign(:emails, session.emails)
-        |> assign(:phones, session.phones)
-        |> assign(:entity_id, session.entity_id)
         |> assign(:entity_profile_image, if(session.entity_profile_image != nil, do: session.entity_profile_image, else: "images/entity/_placeholder.png"))
-        |> assign(:client_id, session.client_id)
         |> assign(:client_profile_image, if(session.client_profile_image != nil, do: session.client_profile_image, else: "images/profile-menu.png"))
-        |> assign(:xtra_info, session.xtra_info)
-        |> assign(:activated_at, session.activated_at)
-        |> assign(:created_at, session.created_at)
       {conn, session}
     else
       {conn, :error}

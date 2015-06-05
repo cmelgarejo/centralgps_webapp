@@ -65,7 +65,7 @@ msgid "CLS_TEXT_DONE"
 msgstr "Las preferencias han sido eliminadas"
 
 msgid "__ERR_CONNECTION_REFUSED"
-msgstr "Error al tratar de cargar la página, puede ser que esté fuera de linea"
+msgstr "Error al cargar la página, compruebe su conexión a internet y vuelva a intentarlo en unos instantes"
 
 msgid "__ERR_STATUS_500"
 msgstr "Ocurrió un error en el servidor, por favor inténtelo nuevamente en unos instantes"

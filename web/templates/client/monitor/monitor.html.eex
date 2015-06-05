@@ -1,61 +1,192 @@
-<!--TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
-<div id="_asset_map"></div>
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.draw.css") %>">
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.label.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.awesome-markers.css") %>">
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.css") %>">
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
+<script src="<%= static_path(@conn, "/js/jquery.bootgrid.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.edgemarker.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.awesome-markers.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.measurecontrol.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
+<!--TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
+<div role="tabpanel">
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane" id="tab_asset_list">
+      <table id="mark_grid" class="table table-condensed table-hover table-striped">
+          <thead>
+              <tr>
+                <th data-column-id="id" data-type="numeric">ID</th>
+                <th data-column-id="name">Name</th>
+                <th data-column-id="position_at" data-order="desc">Position time</th>
+              </tr>
+          </thead>
+      </table>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="tab_mark_list">
+      <table id="asset_grid" class="table table-condensed table-hover table-striped">
+          <thead>
+              <tr>
+                <th data-column-id="asset">Asset</th>
+                <th data-column-id="reason">Reason</th>
+                <th data-column-id="reason">Venue</th>
+                <th data-column-id="time" data-order="desc">Date</th>
+              </tr>
+          </thead>
+      </table>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="tab_map">
+      <div id="_asset_map"></div>
+    </div>
+  </div>
+</div>
 <script>
+var _dt_format = 'YYYY-MM-DD HH:mm:ss';
+var asset_icon = L.icon({
+    iconUrl: 'images/marker-32.png',
+    iconRetinaUrl: 'images/marker-512.png',
+    iconSize: [32, 32]
+});
+var venue_icon = L.AwesomeMarkers.icon({
+    markerColor: 'green'
+  });
+Pace.options = {
+  ajax: false
+}
 if(typeof($) === "undefined") {
   console.log(window.location);
   window.location = "/";
 }
+// Lefalet shortcuts for common tile providers - is it worth adding such 1.5kb to Leaflet core?
+L.TileLayer.Common = L.TileLayer.extend({
+	initialize: function (options) {
+		L.TileLayer.prototype.initialize.call(this, this.url, options);
+	}
+});
+(function() {
+	var osmAttr = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+	L.TileLayer.OpenStreetMap = L.TileLayer.Common.extend({
+		url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		options: {attribution: osmAttr}
+	});
+  L.TileLayer.MapBox = L.TileLayer.Common.extend({
+		url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+	});
+}());
 $(document).ready(function() {
 try {
-  __centralgps__.asset = {};
-  __centralgps__.asset.positions = new L.MarkerClusterGroup();
-  __centralgps__.asset.marks = new L.MarkerClusterGroup();
+  __centralgps__.asset = { position: { layer_name: null, list: [] }, checkpoint: { layer_name: null, mark: { list: [] }, venue: { layer_name: null, list:[] } }};
+  __centralgps__.asset.position.layer_name         = "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %>";
+  __centralgps__.asset.checkpoint.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>";
+  __centralgps__.asset.checkpoint.mark.layer_name  = "<%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %>";
   __centralgps__.asset.map = L.map('_asset_map').setView([0, 0], 2);
-  mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  { attribution: '&copy; ' + mapLink + ' Contributors', maxZoom: 18 }).addTo(__centralgps__.asset.map);
   L.Icon.Default.imagePath = '../images';
+  __centralgps__.asset.map_layers = {
+			"OpenStreetMap": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
+      "Mapbox": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.asset.map),
+	};
+  __centralgps__.asset.map_overlays = {
+    <%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
+    <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
+    <%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %> : new L.MarkerClusterGroup().addTo(__centralgps__.asset.map),
+  };
+  L.control.layers(__centralgps__.asset.map_layers, __centralgps__.asset.map_overlays)
+    .addTo(__centralgps__.asset.map);
+  L.Control.measureControl().addTo(__centralgps__.asset.map);
+  L.edgeMarker({
+      icon: L.icon({ // style markers
+          iconUrl: L.Icon.Default.imagePath + '/edge-arrow-marker.png',
+          clickable: true,
+          iconSize: [32, 32],
+          iconAnchor: [24, 24]
+      }),
+      layerGroup: __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name] //__centralgps__.asset.position.layer // you can specify a certain L.layerGroup to create the edge markers from.
+    }).addTo(__centralgps__.asset.map);
+  __centralgps__.asset.map.addControl(new L.Control.Scale());
+  __centralgps__.asset.map.addControl(new L.Control.OSMGeocoder({
+      collapsed: true,
+      position: 'bottomright',
+      text: '',
+      cssclass: 'md md-search',
+  }));
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);
   } else {
     _browser_geo_error;
   }
+  $("#asset_grid").bootgrid();
+  $("#mark_grid").bootgrid();
   updateAssets();
+  getVenues();
 }
 catch(err) {
   console.log(err);
 }
 
 });
+function getVenues() {
+  $.get('/monitor/venues', function(response, status, xhr) {
+    if (response.status == true) {
+      response.list.forEach(function(v, vidx, arr) {
+          __centralgps__.asset.checkpoint.venue.list.push(
+            L.marker([v.lat, v.lon], { venue: v, icon: venue_icon })
+              .bindPopup('<b>' + v.name + '</b>'));
+          __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
+            addLayer(__centralgps__.asset.checkpoint.venue.list[vidx]);
+      });
+    } else {
+      console.log('.venues: ' + response.msg);
+    }
+  });
+}
 function updateAssets() {
   $.get('/monitor/assets', function(response, status, xhr) {
     //console.log(response);
     if (response.status == true) {
-      __centralgps__.asset.list = response.list;
-      __centralgps__.asset.list.forEach(function(a, idx, arr) {
-        if (__centralgps__.asset.list.length - 1 == idx) {
+      posidx = 0;
+      response.list.forEach(function(a, aidx, arr) {
+        if (response.list.length - 1 == aidx)
           __centralgps__.asset.selected = a;
-          __centralgps__.asset.map.addLayer(__centralgps__.asset.positions);
+        a.positions.forEach(function(p, pidx, arr) {
+          __centralgps__.asset.position.list.push(
+            L.marker([p.lat, p.lon], { asset: a, zIndexOffset: 108, icon: asset_icon })
+              .bindPopup('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format))
+              .bindLabel(a.name, { direction: 'auto' }));
+          __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
+            .addLayer(__centralgps__.asset.position.list[posidx]);
+          posidx++;
+          });
+        if (a.xtra_info != null && a.xtra_info.checkpoint) {
+          $.get('/monitor/assets/checkpoint/marks?asset_id=' + a.id +
+                '&init_at=' + moment().startOf('day').format(_dt_format) +
+                '&stop_at=' + moment().endOf('day').format(_dt_format),
+                function(response, status, xhr) {
+                  if (response.status == true) {
+                    response.list.forEach(function(m, idx, arr) {
+                      __centralgps__.asset.checkpoint.mark.list.push(
+                        L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108 })
+                          .bindPopup('<b>'+ a.name + '@' + m.venue + '</b></br>' + m.action +
+                            ' - ' + m.reason  + '</br>' + m.comment  + '</br>'+ moment(m.position_at).format(_dt_format))
+                        );
+                    });
+                    __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
+                      .addLayers(__centralgps__.asset.checkpoint.mark.list);
+                  } else {
+                    console.log(a.name + '.marks: ' + response.msg);
+                  }
+          });
         }
-        a.positions.forEach(function(p, idx, arr) {
-          __centralgps__.asset.positions.addLayer(
-            L.marker([p.lat, p.lon], { id: a.id })
-              .bindPopup('<b>' + a.name + '</b></br>' + p.position_at)
-              .bindLabel(a.name, { direction: 'auto', noHide: true}));
-        });
       });
     } else {
-      console.log(response.msg)
-      __centralgps__.asset.list = [];
+      console.log('assets: ' + response.msg);
     }
   });
+  //setTimeout(updateAssets(), 5000);
 }
 function _browser_geo_success(position) {
   __centralgps__.asset.map.setView([position.coords.latitude, position.coords.longitude], 12);
@@ -68,8 +199,6 @@ function _browser_geo_error(positionError) {
     case 3: msg = __centralgps__.globalmessages.__geolocation_timeout; break;
     default: msg = "";
   }
-  Snarl.addNotification({
-    title: __centralgps__.globalmessages.__geolocation_message_title, text: msg, icon: '<i class="md md-error"></i>'
-  });
+  $.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
 }
 </script>

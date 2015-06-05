@@ -6,6 +6,8 @@ defmodule CentralGPS.RestClient do
   defp auth_header(token, type), do: [ {"Authorization", "CentralGPS token=#{token},type=#{type}"} ]
   defp ct_json_header, do: [{"Content-Type", "application/json;charset=utf-8"}]
   defp security_login_path(type), do: "/security/login/" <> type
+  #defp security_login_permissions_path(type), do: "/security/permissions/" <> type
+  #defp security_login_roles_path(type), do: "/security/roles/" <> type
   defp security_logout_path(type), do: "/security/logout/" <> type
 
   def login_api_post_json(type, data, headers \\ []) do

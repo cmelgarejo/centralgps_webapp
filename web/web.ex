@@ -27,9 +27,9 @@ defmodule CentralGPSWebApp.Web do
 
       # Import URL helpers from the router
       import CentralGPSWebApp.Router.Helpers
-      alias CentralGPSWebApp.Endpoint
-
       import CentralGPSWebApp.Utilities
+      alias CentralGPSWebApp.Endpoint
+      alias CentralGPS.Repo.Permissions
 
     end
   end
@@ -42,16 +42,15 @@ defmodule CentralGPSWebApp.Web do
       import Phoenix.Controller, only: [get_csrf_token: 0, #get_flash: 2,
       view_module: 1, action_name: 1, controller_module: 1, router_module: 1 ]
 
-      # Import URL helpers from the router
-      import CentralGPSWebApp.Router.Helpers
-      alias CentralGPSWebApp.Endpoint
-
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      #import the localization manager
+      # Import URL helpers from the router
+      import CentralGPSWebApp.Router.Helpers
       import CentralGPS.L10n
       import CentralGPSWebApp.Utilities
+      alias CentralGPS.Repo.Permissions
+      alias CentralGPSWebApp.Endpoint
 
     end
   end

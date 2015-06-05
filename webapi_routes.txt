@@ -29,4 +29,5 @@ GET     /api/v1/checkpoint/venue_types/:venue_type_id
 PUT     /api/v1/checkpoint/venue_types/:venue_type_id
 DELETE  /api/v1/checkpoint/venue_types/:venue_type_id
 GET     /api/v1/checkpoint/venue_types
-GET     /api/v1/monitor/client                                                                 
+GET     /api/v1/checkpoint/marks
+GET     /api/v1/monitor/client

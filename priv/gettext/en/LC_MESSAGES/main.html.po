@@ -65,7 +65,7 @@ msgid "CLS_TEXT_DONE"
 msgstr "Your view preferences have been removed"
 
 msgid "__ERR_CONNECTION_REFUSED"
-msgstr "Error requesting page, you might be offline"
+msgstr "Error requesting page, check your internet connection and try again in a few moments"
 
 msgid "__ERR_STATUS_500"
 msgstr "There has been an error on the server, please try again in a few moments"

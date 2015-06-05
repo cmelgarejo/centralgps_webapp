@@ -1,0 +1,17 @@
+msgid  "TABPANEL_MAP_TEXT"
+msgstr "Map"
+
+msgid  "TABPANEL_ASSET_TEXT"
+msgstr "Assets"
+
+msgid  "TABPANEL_MARK_TEXT"
+msgstr "Marks"
+
+msgid  "MAP_ASSET_LAYER_NAME"
+msgstr "Assets"
+
+msgid  "MAP_VENUE_LAYER_NAME"
+msgstr "Venues"
+
+msgid  "MAP_MARK_LAYER_NAME"
+msgstr "Marks"

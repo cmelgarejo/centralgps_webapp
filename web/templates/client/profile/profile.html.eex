@@ -1,0 +1,6 @@
+<div class="container">
+<h2>Profile</h2>
+<%= l10n(@session.language_code, "profile.html", "PAGE_TITLE") %><%= @session.name %>
+
+TODO: add stuff here. :)
+</div>
