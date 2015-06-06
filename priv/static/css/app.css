@@ -5,10 +5,13 @@
   visibility: hidden !important;
 }
 .tab-content {
-	height: calc(100% - 42px) !important;
+	height: calc(100% - 50px) !important;
+}
+.grid-container {
+	
 }
 #_centralgps_container, #_asset_map, div[role=tabpanel] {
-  height: 100%; width: 100%;
+  height: 100%; width: 100%; overflow: hidden
 }
 /*
  * Load Main Bootstrap LESS files
@@ -9977,9 +9980,6 @@ input:focus {
 .tab-nav > li {
   display: inline-block;
   vertical-align: top;
-	border-top: 1px white solid;
-	border-right: 1px white solid;
-	border-top-right-radius: 20% 35%;
 }
 .tab-nav > li > a {
   display: inline-block;
@@ -10013,12 +10013,12 @@ input:focus {
 }
 @media (min-width: 768px) {
   .tab-nav > li > a {
-    padding: 10px;
+    padding: 15px;
   }
 }
 @media (max-width: 768px) {
   .tab-nav > li > a {
-    padding: 10px 5px;
+    padding: 15px 8px;
   }
 }
 .tab-nav > li.active > a {
@@ -10039,9 +10039,9 @@ input:focus {
   text-align: center;
 }
 .tab-nav.tn-icon > li .md {
-  font-size: 14px;
+  font-size: 22px;
   line-height: 100%;
-  min-height: 16px;
+  min-height: 25px;
 }
 .tab-nav:not([data-tab-color]) > li > a:after {
   background: #2196f3;
@@ -10062,7 +10062,7 @@ input:focus {
   background: #000000;
 }
 .tab-nav[data-tab-color="cyan"] > li > a:after {
-  background: #180481;
+  background: #00bcd4;
 }
 .tab-content {
   padding: 2px 0;
