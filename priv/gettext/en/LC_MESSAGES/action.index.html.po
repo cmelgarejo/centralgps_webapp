@@ -1,0 +1,11 @@
+msgid  "PAGE_TITLE"
+msgstr "Actions"
+
+msgid  "GRID_ACTION_ID_COLUMN"
+msgstr "ID"
+
+msgid  "GRID_ACTION_DESCRIPTION_COLUMN"
+msgstr "Description"
+
+msgid  "GRID_ACTION_COMMANDS_COLUMN"
+msgstr "Comandos"

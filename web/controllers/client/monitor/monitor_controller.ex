@@ -18,6 +18,7 @@ defmodule CentralGPSWebApp.Client.MonitorController do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
       {_, res} = api_get_json "/monitor/client", session.auth_token, "C"
+      #TODO: filter the data, like auth_token of each asset.
       json conn, res.body
     end
   end

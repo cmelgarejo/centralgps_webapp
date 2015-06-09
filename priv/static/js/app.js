@@ -1,3 +1,5 @@
+var bootgrid_labels;
+
 var __centralgps__ = {
   globalmessages : {
     _cls_title_sure    : "CLS_TITLE_SURE",
@@ -17,13 +19,25 @@ var __centralgps__ = {
   },
   globalvars : {
     __root_url : "/",
+  },
+  bootgrid_labels : {
+      all:       "BOOTGRID_LABEL_ALL",
+      infos:     "BOOTGRID_LABEL_INFOS",
+      loading:   "BOOTGRID_LABEL_LOADING",
+      noResults: "BOOTGRID_LABEL_NORESULTS",
+      refresh:   "BOOTGRID_LABEL_REFRESH",
+      search:    "BOOTGRID_LABEL_SEARCH",
   }
 };
 
 function get_page(resource) {
   Pace.track(function(){
-    $.get(resource, function(html){$('#_centralgps_container').html(html);})
-    .fail(function(html){ $('#_centralgps_container').html(html.responseText);});
+    $.get(resource, function(html) {
+      $('#_centralgps_container').html(html);
+      $(document).ready(function(){
+        Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
+      });
+    }).fail(function(html){ $('#_centralgps_container').html(html.responseText);});
   });
  return false;
 }

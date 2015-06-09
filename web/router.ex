@@ -26,10 +26,13 @@ defmodule CentralGPSWebApp.Router do
 
     get  "/monitor",        MonitorController, :index
     get  "/monitor/assets", MonitorController, :assets
-    get  "/monitor/assets/checkpoint/marks", CheckpointController, :marks
-    get  "/monitor/venues",                  CheckpointController, :venues
+    get  "/monitor/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
+    get  "/monitor/venues",                  Checkpoint.MonitorController, :venues
 
-    get "/profile", ProfileController, :index
+    get  "/profile", ProfileController, :index
+
+    get "/checkpoint/actions", Checkpoint.ActionController, :index
+    get "/checkpoint/actions/json", Checkpoint.ActionController, :json_list
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

@@ -87,3 +87,21 @@ msgstr "El servicio de geolocalización no se encuentra disponible"
 
 msgid "__GEOLOCATION_TIMEOUT"
 msgstr "El tiempo de espera de comunicación con el servicio de geolocalización ha finalizado"
+
+msgid  "BOOTGRID_LABEL_ALL"
+msgstr "Todo"
+
+msgid  "BOOTGRID_LABEL_INFOS"
+msgstr "Mostrando registro {{ctx.start}} al {{ctx.end}} de {{ctx.total}} registros"
+
+msgid  "BOOTGRID_LABEL_LOADING"
+msgstr "Cargando..."
+
+msgid  "BOOTGRID_LABEL_NORESULTS"
+msgstr "No se han encontrado resultados"
+
+msgid  "BOOTGRID_LABEL_REFRESH"
+msgstr "Refrescar"
+
+msgid  "BOOTGRID_LABEL_SEARCH"
+msgstr "Buscar"

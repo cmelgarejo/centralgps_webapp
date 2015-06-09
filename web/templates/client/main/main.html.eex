@@ -194,13 +194,24 @@
               </ul>
           </div>
           <ul class="main-menu">
-            <li class="active">
-              <a href="/">
+              <% if false do %>
+              <li>
+                <a href="#" onclick="get_page('/dashboard');">
                 <i class="md md-dashboard">
                 </i>
-                <%= l10n(@session.language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
+                  <%= l10n(@session.language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
                 </a>
               </li>
+              <% end %>
+              <%= if Permissions.contains(@session.permissions, [Permissions.client.asset.monitor.list, Permissions.client.asset.monitor.manager_list, Permissions.checkpoint.monitor.read]) do %>
+              <li>
+                <a href="#" onclick="get_page('monitor');">
+                  <i class="md md-pin-drop">
+                  </i>
+                  <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
+                </a>
+              </li>
+              <% end %>
               <%= if Permissions.check(@session.permissions, Permissions.security.client.account.list) do %>
               <li>
                 <a href="#">
@@ -218,7 +229,7 @@
                   <ul>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.action.list) do %>
                     <li>
-                      <a href="#">
+                      <a href="#" onclick="get_page('checkpoint/actions');">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_ACTION_LINK_TEXT") %>
                         </a>
                     </li>
@@ -244,23 +255,17 @@
                       </a>
                     </li>
                     <% end %>
-                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue.list) do %>
+
+                    <% #TODO: decide what to do with marks... %>
+                    <%= if false && Permissions.check(@session.permissions, Permissions.checkpoint.mark.list) do %>
                     <li>
                       <a href="#">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MARK_LINK_TEXT") %>
                       </a>
                     </li>
                     <% end %>
+
                   </ul>
-                </li>
-                <% end %>
-                <%= if Permissions.contains(@session.permissions, [Permissions.client.asset.monitor.list, Permissions.client.asset.monitor.manager_list, Permissions.checkpoint.monitor.read]) do %>
-                <li>
-                  <a href="#" onclick="get_page('monitor');">
-                    <i class="md md-pin-drop">
-                    </i>
-                    <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
-                  </a>
                 </li>
                 <% end %>
             </ul>
@@ -281,7 +286,7 @@
 </section>
   <script>
     $(document).ready(function() {
-      //__centralgps__.globalmessages._cls_title_sure    = "<%= l10n(@session.language_code, "main.html", "CLS_TITLE_SURE") %>";
+      __centralgps__.globalmessages._cls_title_sure    = "<%= l10n(@session.language_code, "main.html", "CLS_TITLE_SURE") %>";
       __centralgps__.globalmessages._cls_removed       = "<%= l10n(@session.language_code, "main.html", "CLS_REMOVED") %>";
       __centralgps__.globalmessages._cls_confirm_text  = "<%= l10n(@session.language_code, "main.html", "CLS_CONFIRM_TEXT") %>";
       __centralgps__.globalmessages._cls_cancel_text   = "<%= l10n(@session.language_code, "main.html", "CLS_CANCEL_TEXT") %>";
@@ -296,5 +301,13 @@
       __centralgps__.globalmessages.__geolocation_permission_denied    = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>";
       __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
       __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
+      __centralgps__.bootgrid_labels = {
+          all:       "<%= l10n(@session.language_code, "main.html",       "BOOTGRID_LABEL_ALL") %>",
+          infos:     "<%= l10n(@session.language_code, "main.html",     "BOOTGRID_LABEL_INFOS") %>",
+          loading:   "<%= l10n(@session.language_code, "main.html",   "BOOTGRID_LABEL_LOADING") %>",
+          noResults: "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_NORESULTS") %>",
+          refresh:   "<%= l10n(@session.language_code, "main.html",   "BOOTGRID_LABEL_REFRESH") %>",
+          search:   "<%= l10n(@session.language_code, "main.html",    "BOOTGRID_LABEL_SEARCH") %>"
+      }
     });
   </script>

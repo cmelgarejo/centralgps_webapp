@@ -1,0 +1,39 @@
+<%# link "New action", to: action_path(@conn, :new) %>
+<div style="float:right !important; width: 50px;">
+  <button class="btn btn-success btn-float" type="submit">
+    <i class="md md-add"></i>
+  </button>
+</div>
+<h4><%= l10n(@session.language_code, "action.index.html", "PAGE_TITLE") %></h4>
+<table id="action_grid" class="table table-condensed table-hover table-striped"
+  data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
+    <thead>
+        <tr>
+          <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_ID_COLUMN") %></th>
+          <th data-column-id="description"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_DESCRIPTION_COLUMN") %></th>
+          <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
+        </tr>
+    </thead>
+</table>
+<script>
+var actions = <%= @actions %>
+$(document).ready(function() {
+  $('#action_grid').bootgrid({labels: __centralgps__.bootgrid_labels, ajaxSettings: {method: "GET", cache: false}})
+});
+function updateActions(grid) {
+  $.get('/checkpoint/actions/json', function(response, status, xhr) {
+    if (response.status == true) {
+      var actions = [];
+      response.list.forEach(function(a, aidx, arr) {
+        actions.push({ id: a.id, description: a.description });
+      });
+      updateGridData($('#action_grid'), actions);
+    } else {
+      console.log('updateActions: ' + response.msg);
+      $.notify({title: "<%= l10n(@session.language_code, "action.index.html", "PAGE_TITLE") %>", text: response.msg, image: '<i class="md-error"></i>'}, 'error');
+    }
+  });
+}
+function updateGridData(grid, data) {
+}
+</script>

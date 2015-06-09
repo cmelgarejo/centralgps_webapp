@@ -1,4 +1,4 @@
-defmodule CentralGPSWebApp.Client.CheckpointController do
+defmodule CentralGPSWebApp.Client.Checkpoint.MonitorController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
   plug :action

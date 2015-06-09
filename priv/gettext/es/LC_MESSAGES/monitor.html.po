@@ -1,11 +1,14 @@
+msgid  "TABPANEL_ASSET_TEXT"
+msgstr "Sus activos"
+
+msgid  "TABPANEL_EVENT_TEXT"
+msgstr "Eventos"
+
+msgid  "TABPANEL_HISTORY_TEXT"
+msgstr "Histórico"
+
 msgid  "TABPANEL_MAP_TEXT"
 msgstr "Mapa"
-
-msgid  "TABPANEL_ASSET_TEXT"
-msgstr "Activos"
-
-msgid  "TABPANEL_MARK_TEXT"
-msgstr "Marcas"
 
 msgid  "MAP_ASSET_LAYER_NAME"
 msgstr "Activos"
@@ -15,3 +18,30 @@ msgstr "Lugares"
 
 msgid  "MAP_MARK_LAYER_NAME"
 msgstr "Marcas"
+
+msgid  "GRID_ASSET_NAME_COLUMN"
+msgstr "Nombre"
+
+msgid  "GRID_ASSET_ADDRESS_COLUMN"
+msgstr "Dirección de ubicación"
+
+msgid  "GRID_ASSET_POSITION_AT_COLUMN"
+msgstr "Fecha y Hora de ultima posición"
+
+msgid  "GRID_EVENT_ASSET_COLUMN"
+msgstr "Nombre del activo"
+
+msgid  "GRID_EVENT_EVENT_COLUMN"
+msgstr "Evento"
+
+msgid  "GRID_EVENT_AT_COLUMN"
+msgstr "Fecha y hora"
+
+msgid  "GRID_HISTORY_ASSET_COLUMN"
+msgstr "Nombre del activo"
+
+msgid  "GRID_HISTORY_ADDRESS_COLUMN"
+msgstr "Dirección de ubicación"
+
+msgid  "GRID_HISTORY_POSITION_AT_COLUMN"
+msgstr "Fecha y hora"

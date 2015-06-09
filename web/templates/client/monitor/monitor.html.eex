@@ -17,9 +17,10 @@
 <!--TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
 <div role="tabpanel">
   <ul class="tab-nav tn-justified" role="tablist">
-      <li role="presentation"><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
-      <li role="presentation"><a href="#tab_mark_list" aria-controls="tab_mark_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %></a></li>
-      <li role="presentation" class="active"><a href="#tab_map" aria-controls="tab_map" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MAP_TEXT") %></a></li>
+      <li><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
+      <li><a href="#tab_event_list" aria-controls="tab_event_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_EVENT_TEXT") %></a></li>
+      <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li>
+      <li class="active"><a href="#tab_map" aria-controls="tab_map" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MAP_TEXT") %></a></li>
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane" id="tab_asset_list">
@@ -27,23 +28,35 @@
         <table id="asset_grid" class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                  <th data-column-id="id" data-type="numeric">ID</th>
-                  <th data-column-id="name">Name</th>
-                  <th data-column-id="position_at" data-order="desc">Position time</th>
+                  <th data-column-id="name"><%= l10n(@session.language_code, "monitor.html", "GRID_ASSET_NAME_COLUMN") %></th>
+                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html", "GRID_ASSET_ADDRESS_COLUMN") %></th>
+                  <th data-column-id="position_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "GRID_ASSET_POSITION_AT_COLUMN") %></th>
                 </tr>
             </thead>
         </table>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="tab_mark_list">
+    <div role="tabpanel" class="tab-pane" id="tab_event_list">
       <div class="grid-container">
-        <table id="mark_grid" class="table table-condensed table-hover table-striped">
+        <table id="event_grid" class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                  <th data-column-id="asset">Asset</th>
-                  <th data-column-id="reason">Reason</th>
-                  <th data-column-id="reason">Venue</th>
-                  <th data-column-id="time" data-order="desc">Date</th>
+                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html", "GRID_EVENT_ASSET_COLUMN") %></th>
+                  <th data-column-id="event"><%= l10n(@session.language_code, "monitor.html", "GRID_EVENT_EVENT_COLUMN") %></th>
+                  <th data-column-id="time" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "GRID_EVENT_AT_COLUMN") %></th>
+                </tr>
+            </thead>
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="tab_history_list">
+      <div class="_grid_container">
+        <table id="history_grid" class="table table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html",       "GRID_HISTORY_ASSET_COLUMN") %></th>
+                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html",     "GRID_HISTORY_ADDRESS_COLUMN") %></th>
+                  <th data-column-id="position_at"><%= l10n(@session.language_code, "monitor.html", "GRID_HISTORY_POSITION_AT_COLUMN") %></th>
                 </tr>
             </thead>
         </table>
@@ -55,15 +68,17 @@
   </div>
 </div>
 <script>
+"use strict";
+
 var _dt_format = 'YYYY-MM-DD HH:mm:ss';
 var asset_icon = L.icon({
     iconUrl: 'images/marker-32.png',
     iconRetinaUrl: 'images/marker-512.png',
-    iconSize: [32, 32]
+    iconSize: [16, 16]
 });
 var venue_icon = L.AwesomeMarkers.icon({
     markerColor: 'green'
-  });
+});
 Pace.options = {
   ajax: false
 }
@@ -87,9 +102,22 @@ L.TileLayer.Common = L.TileLayer.extend({
 		url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
 	});
 }());
+function _browser_geo_success(position) {
+  __centralgps__.asset.map.setView([position.coords.latitude, position.coords.longitude], 12);
+}
+function _browser_geo_error(positionError) {
+  var msg;
+  switch(positionError.code) {
+    case 1: msg = __centralgps__.globalmessages.__geolocation_permission_denied; break;
+    case 2: msg = __centralgps__.globalmessages.__geolocation_position_unavailable; break;
+    case 3: msg = __centralgps__.globalmessages.__geolocation_timeout; break;
+    default: msg = "";
+  }
+  $.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
+}
 $(document).ready(function() {
 try {
-  __centralgps__.asset = { position: { layer_name: null, list: [] }, checkpoint: { layer_name: null, mark: { list: [] }, venue: { layer_name: null, list:[] } }};
+  __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
   __centralgps__.asset.position.layer_name         = "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %>";
   __centralgps__.asset.checkpoint.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>";
   __centralgps__.asset.checkpoint.mark.layer_name  = "<%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %>";
@@ -101,7 +129,7 @@ try {
 	};
   __centralgps__.asset.map_overlays = {
     <%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
-    <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
+    <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.MarkerClusterGroup().addTo(__centralgps__.asset.map),
     <%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %> : new L.MarkerClusterGroup().addTo(__centralgps__.asset.map),
   };
   L.control.layers(__centralgps__.asset.map_layers, __centralgps__.asset.map_overlays)
@@ -128,100 +156,108 @@ try {
   } else {
     _browser_geo_error;
   }
-  $("#asset_grid").bootgrid();
-  $("#mark_grid").bootgrid();
-  updateAssets();
-  getVenues();
+  updateAssetGrid();
+  updateAssetMap();
+  updateVenueMap();
+  $('#event_grid').bootgrid({labels: __centralgps__.bootgrid_labels});
 }
 catch(err) {
   console.log(err);
 }
 
 });
-function getVenues() {
-  $.get('/monitor/venues', function(response, status, xhr) {
+function updateAssetGrid() {
+  $.get('/monitor/assets', function(response, status, xhr) {
     if (response.status == true) {
-      response.list.forEach(function(v, vidx, arr) {
-          __centralgps__.asset.checkpoint.venue.list.push(
-            L.marker([v.lat, v.lon], { venue: v, icon: venue_icon })
-              .bindPopup('<b>' + v.name + '</b>'));
-          __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
-            addLayer(__centralgps__.asset.checkpoint.venue.list[vidx]);
+      var asset_list = [];
+      response.list.forEach(function(a, aidx, arr) {
+        var asset = { name: a.name };
+        a.positions.forEach(function(p, pidx, arr) {
+          asset.address = p.address;
+          asset.position_at = moment(p.position_at).format(_dt_format);
+        });
+        if(asset.position_at != null)
+        asset_list.push(asset);
       });
+      $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear')
+        .bootgrid('append', asset_list);
     } else {
-      console.log('.venues: ' + response.msg);
+      console.log('updateAssetGrid: ' + response.msg);
     }
   });
 }
-function updateAssets() {
-  $.get('/monitor/assets', function(response, status, xhr) {
-    //console.log(response);
-    if (response.status == true) {
-      if (__centralgps__.asset.position.list.length > 0) {
-        response.list.forEach(function(a, aidx, arr) {
-          a.positions.forEach(function(p, pidx, arr) {
-            __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().forEach(function(layer){
-              //layer.options.a
+function updateAssetMap() {
+  //Pace.ignore(function(){
+    $.get('/monitor/assets', function(response, status, xhr) {
+      //console.log(response);
+      if (response.status == true) {
+        if (__centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().length > 0) {
+          response.list.forEach(function(a, aidx, arr) {
+            a.positions.forEach(function(p, pidx, arr) {
+              __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().forEach(function(pos) {
+                console.log('p.id == pos.options.asset.id?: ' + p.id == pos.options.asset.id);
+                if(p.id == pos.options.asset.id) {
+                  pos.setLatLng(p.lat, p.lon);
+                  console.log('setLatLng for: ' + p.id);
+                }
+              });
             });
           });
-        });
-      } else {
-        var posidx = 0;
-        response.list.forEach(function(a, aidx, arr) {
-          if (response.list.length - 1 == aidx)
-            __centralgps__.asset.selected = a;
-          a.positions.forEach(function(p, pidx, arr) {
-            __centralgps__.asset.position.list.push(
-              L.marker([p.lat, p.lon], { asset: a, zIndexOffset: 108, icon: asset_icon })
-                .bindPopup('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format))
-                .bindLabel(a.name, { direction: 'auto' }));
-            __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
-              .addLayer(__centralgps__.asset.position.list[posidx]);
-            posidx++;
+        } else {
+          response.list.forEach(function(a, aidx, arr) {
+            if (response.list.length - 1 == aidx)
+              __centralgps__.asset.selected = a;
+            a.positions.forEach(function(p, pidx, arr) {
+              __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
+                .addLayer(L.marker([p.lat, p.lon], { asset: a, zIndexOffset: 108, icon: asset_icon })
+                  .bindPopup('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format))
+                  .bindLabel(a.name, { direction: 'auto', noHide: true }));
+            });
+            updateMarkMap(a);
           });
-          placeMarks(a);
-        });
+        }
+      } else {
+        console.log('updateAssetMap: ' + response.msg);
       }
-    } else {
-      console.log('assets: ' + response.msg);
-    }
-  });
-  //setTimeout(updateAssets(), 5000);
+    });
+    //setTimeout(updateAssetMap(), 5000);
+  //});
 }
-function placeMarks(a) {
-  if (a.xtra_info != null && a.xtra_info.checkpoint) {
-    query_string = '?asset_id=' + a.id +
+function updateMarkMap(asset) {
+  if (asset.xtra_info != null && asset.xtra_info.checkpoint) {
+    var query_string = '?asset_id=' + asset.id +
           '&init_at=' + moment().startOf('day').format(_dt_format) +
           '&stop_at=' + moment().endOf('day').format(_dt_format);
     $.get('/monitor/assets/checkpoint/marks' + query_string,
-          function(response, status, xhr) {
-            if (response.status == true) {
-              response.list.forEach(function(m, idx, arr) {
-                __centralgps__.asset.checkpoint.mark.list.push(
-                  L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108 })
-                    .bindPopup('<b>'+ a.name + '@' + m.venue + '</b></br>' + m.action +
-                      ' - ' + m.reason  + '</br>' + m.comment  + '</br>'+ moment(m.position_at).format(_dt_format))
-                  );
-              });
-              __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
-                .addLayers(__centralgps__.asset.checkpoint.mark.list);
-            } else {
-              console.log(a.name + '.marks: ' + response.msg + ' - query_string: ' + query_string);
-            }
+      function(response, status, xhr) {
+        if (response.status == true) {
+          response.list.forEach(function(m, idx, arr) {
+            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
+              .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108 })
+              .bindPopup('<b>'+ asset.name + '@' + m.venue + '</b></br>' + m.action +
+              ' - ' + m.reason  + '</br>' + m.comment  + '</br>'+
+              moment(m.position_at).format(_dt_format)));
+          });
+        } else {
+          console.log(asset.name + '.updateMarkMap: ' + response.msg + ' - query_string: ' + query_string);
+        }
     });
   }
 }
-function _browser_geo_success(position) {
-  __centralgps__.asset.map.setView([position.coords.latitude, position.coords.longitude], 12);
-}
-function _browser_geo_error(positionError) {
-  var msg;
-  switch(positionError.code) {
-    case 1: msg = __centralgps__.globalmessages.__geolocation_permission_denied; break;
-    case 2: msg = __centralgps__.globalmessages.__geolocation_position_unavailable; break;
-    case 3: msg = __centralgps__.globalmessages.__geolocation_timeout; break;
-    default: msg = "";
-  }
-  $.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
+function updateVenueMap() {
+  Pace.ignore(function(){
+    $.get('/monitor/venues', function(response, status, xhr) {
+      if (response.status == true) {
+        response.list.forEach(function(v, vidx, arr) {
+          //TODO: just update the positions on existing markers, ad only news, delete non existants
+          __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
+            addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
+              .bindPopup('<b>' + v.name + '</b>'));
+        });
+      } else {
+        console.log('.updateVenueMap: ' + response.msg);
+      }
+    });
+  });
 }
 </script>

@@ -1,6 +1,3 @@
-.tab-nav {
-	background: white !important;
-}
 .leaflet-popup {
 	z-index: 1234567 !important;
 }
@@ -13924,7 +13921,7 @@ div.fc-row {
 }
 @media (min-width: 768px) {
   .bootgrid-header .actions .btn-group .dropdown-menu {
-    /*left: 0;*/
+    left: 0;
     -webkit-transform-origin: top left;
     -moz-transform-origin: top left;
     -ms-transform-origin: top left;

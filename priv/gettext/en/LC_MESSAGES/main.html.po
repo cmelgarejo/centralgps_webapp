@@ -87,3 +87,21 @@ msgstr "The Geolocation is unavailable"
 
 msgid "__GEOLOCATION_TIMEOUT"
 msgstr "The Geolocation service communication has timed out"
+
+msgid  "BOOTGRID_LABEL_ALL"
+msgstr "All"
+
+msgid  "BOOTGRID_LABEL_INFOS"
+msgstr "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+
+msgid  "BOOTGRID_LABEL_LOADING"
+msgstr "Loading..."
+
+msgid  "BOOTGRID_LABEL_NORESULTS"
+msgstr "No results found"
+
+msgid  "BOOTGRID_LABEL_REFRESH"
+msgstr "Refresh"
+
+msgid  "BOOTGRID_LABEL_SEARCH"
+msgstr "Search"
