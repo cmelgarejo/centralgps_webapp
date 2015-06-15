@@ -150,11 +150,12 @@ $(document).ready(function(){
 
 	$('.dropdown').on('shown.bs.dropdown', function (e) {
 	    if($(this).attr('data-animation')) {
+        alert('hur');
 		$animArray = [];
 		$animation = $(this).data('animation');
 		$animArray = $animation.split(',');
-		$animationIn = 'animated '+$animArray[0];
-		$animationOut = 'animated '+ $animArray[1];
+		$animationIn = 'animated '+$animArray[1];
+		$animationOut = 'animated '+ $animArray[0];
 		$animationDuration = ''
 		if(!$animArray[2]) {
 		    $animationDuration = 500; //if duration is not defined, default is set to 500ms
@@ -201,7 +202,7 @@ $(document).ready(function(){
     });
 
     /*
-     * Text Feild
+     * Text Field
      */
 
     //Add blue animated border and remove with condition when focus and blur

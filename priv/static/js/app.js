@@ -43,22 +43,22 @@ function get_page(resource) {
 }
 
 
-function on_submit_form(event) {
+function post_on_submit_form(event) {
  event.preventDefault();
  $that = this;
  Pace.track(function(){
-   $.ajax($that.getAttribute('action'), $($that).serialize(),
-   function(data, status, xhr) {
-     $($that).find(':button:disabled').prop('disabled',false);
-     $($that).find('#password').val("");
-     if(data.status) {
-       //window.location = data.res;
-     } else {
-       if(data.msg == "nxdomain") data.msg = _msg;
-       $($that).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
-         + data.msg + "</div>")
-     }
-   });
+   $($that).find(':button:not(:disabled)').prop('disabled',true);
+   $.post($that.getAttribute('action'), $($that).serialize(),
+     function(data, status, xhr) {
+       $($that).find(':button:disabled').prop('disabled',false);
+       if(data.status) {
+         //window.location = data.res;
+       } else {
+         if(data.msg == "nxdomain") data.msg = _msg;
+         $($that).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
+           + data.msg + "</div>")
+       }
+     });
   });
 }
 
@@ -71,8 +71,9 @@ $( document ).ajaxError(function( event, request, settings ) {
     default: msg = __centralgps__.globalmessages.__err_conn_refused;
       break;
   }
-  //console.log(event);
-  $.notify({title: settings.url, text:msg, image: '<i class="md-error"></i>'}, 'error');
+  var notify = { title: settings.url, text:msg, image: '<i class="md-error"></i>'};
+  console.log(notify);
+  //$.notify(notify, 'error');
 });
 
 
@@ -105,3 +106,10 @@ $(document).ready(function(){
       });
   }
 });
+
+
+function simpleGridFormatter(column, row)
+{
+    return "<button type='button' class='btn btn-default cmd-edit' data-row-id='" + row.id + "'><span class='md md-edit'></span></button> " +
+        "<button type='button' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "'><span class='md md-delete'></span></button>";
+}

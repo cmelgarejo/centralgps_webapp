@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.css") %>">
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
-<script src="<%= static_path(@conn, "/js/jquery.bootgrid.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.edgemarker.js") %>"></script>
@@ -170,7 +169,7 @@ function updateAssetGrid() {
   $.get('/monitor/assets', function(response, status, xhr) {
     if (response.status == true) {
       var asset_list = [];
-      response.list.forEach(function(a, aidx, arr) {
+      response.rows.forEach(function(a, aidx, arr) {
         var asset = { name: a.name };
         a.positions.forEach(function(p, pidx, arr) {
           asset.address = p.address;
@@ -192,7 +191,7 @@ function updateAssetMap() {
       //console.log(response);
       if (response.status == true) {
         if (__centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().length > 0) {
-          response.list.forEach(function(a, aidx, arr) {
+          response.rows.forEach(function(a, aidx, arr) {
             a.positions.forEach(function(p, pidx, arr) {
               __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().forEach(function(pos) {
                 console.log('p.id == pos.options.asset.id?: ' + p.id == pos.options.asset.id);
@@ -204,8 +203,8 @@ function updateAssetMap() {
             });
           });
         } else {
-          response.list.forEach(function(a, aidx, arr) {
-            if (response.list.length - 1 == aidx)
+          response.rows.forEach(function(a, aidx, arr) {
+            if (response.rows.length - 1 == aidx)
               __centralgps__.asset.selected = a;
             a.positions.forEach(function(p, pidx, arr) {
               __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
@@ -231,7 +230,7 @@ function updateMarkMap(asset) {
     $.get('/monitor/assets/checkpoint/marks' + query_string,
       function(response, status, xhr) {
         if (response.status == true) {
-          response.list.forEach(function(m, idx, arr) {
+          response.rows.forEach(function(m, idx, arr) {
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
               .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108 })
               .bindPopup('<b>'+ asset.name + '@' + m.venue + '</b></br>' + m.action +
@@ -248,7 +247,7 @@ function updateVenueMap() {
   Pace.ignore(function(){
     $.get('/monitor/venues', function(response, status, xhr) {
       if (response.status == true) {
-        response.list.forEach(function(v, vidx, arr) {
+        response.rows.forEach(function(v, vidx, arr) {
           //TODO: just update the positions on existing markers, ad only news, delete non existants
           __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
             addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })

@@ -178,7 +178,7 @@
 
             <ul class="main-menu">
               <li>
-                <a href="#" onclick="get_page('profile');">
+                <a  onclick="get_page('profile');">
                   <i class="md md-person">
                   </i>
                   <%= l10n(@session.language_code, "main.html", "PROFILE_LINK_TEXT") %>
@@ -196,7 +196,7 @@
           <ul class="main-menu">
               <% if false do %>
               <li>
-                <a href="#" onclick="get_page('/dashboard');">
+                <a  onclick="get_page('/dashboard');">
                 <i class="md md-dashboard">
                 </i>
                   <%= l10n(@session.language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
@@ -205,7 +205,7 @@
               <% end %>
               <%= if Permissions.contains(@session.permissions, [Permissions.client.asset.monitor.list, Permissions.client.asset.monitor.manager_list, Permissions.checkpoint.monitor.read]) do %>
               <li>
-                <a href="#" onclick="get_page('monitor');">
+                <a  onclick="get_page('monitor');">
                   <i class="md md-pin-drop">
                   </i>
                   <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
@@ -214,14 +214,14 @@
               <% end %>
               <%= if Permissions.check(@session.permissions, Permissions.security.client.account.list) do %>
               <li>
-                <a href="#">
+                <a >
                   <%= l10n(@session.language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
                 </a>
               </li>
               <% end %>
               <%= if Permissions.contains(@session.permissions, Map.drop(Permissions.checkpoint, [:monitor, :mark])) do %>
               <li class="sub-menu">
-                <a href="#">
+                <a >
                   <i class="md md-view-module">
                   </i>
                   <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MENU_TEXT") %>
@@ -229,28 +229,28 @@
                   <ul>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.action.list) do %>
                     <li>
-                      <a href="#" onclick="get_page('checkpoint/actions');">
+                      <a  onclick="get_page('checkpoint/actions');">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_ACTION_LINK_TEXT") %>
                         </a>
                     </li>
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.reason.list) do %>
                     <li>
-                      <a href="#">
+                      <a >
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_REASON_LINK_TEXT") %>
                       </a>
                     </li>
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue_type.list) do %>
                     <li>
-                      <a href="#">
+                      <a >
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_VENUE_TYPE_LINK_TEXT") %>
                       </a>
                     </li>
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue.list) do %>
                     <li>
-                      <a href="#">
+                      <a >
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_VENUE_LINK_TEXT") %>
                       </a>
                     </li>
@@ -259,7 +259,7 @@
                     <% #TODO: decide what to do with marks... %>
                     <%= if false && Permissions.check(@session.permissions, Permissions.checkpoint.mark.list) do %>
                     <li>
-                      <a href="#">
+                      <a >
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MARK_LINK_TEXT") %>
                       </a>
                     </li>

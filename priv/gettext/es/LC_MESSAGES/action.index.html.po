@@ -8,4 +8,4 @@ msgid  "GRID_ACTION_DESCRIPTION_COLUMN"
 msgstr "Descripción"
 
 msgid  "GRID_ACTION_COMMANDS_COLUMN"
-msgstr "Commands"
+msgstr "Comandos"

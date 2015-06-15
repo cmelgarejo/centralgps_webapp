@@ -1,30 +1,50 @@
-<%# link "New action", to: action_path(@conn, :new) %>
-<div style="float:right !important; width: 50px;">
-  <button class="btn btn-success btn-float" type="submit">
-    <i class="md md-add"></i>
-  </button>
-</div>
-<h4><%= l10n(@session.language_code, "action.index.html", "PAGE_TITLE") %></h4>
+<div class="card">
+  <div class="card-header">
+    <div style="float:right !important; width: 50px;">
+      <a onclick="get_page('<%= action_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+        <i class="md md-add"></i>
+      </a>
+    </div>
+    <h4><%= l10n(@session.language_code, "action.index.html", "PAGE_TITLE") %></h4>
+  </div>
 <table id="action_grid" class="table table-condensed table-hover table-striped"
   data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
     <thead>
         <tr>
           <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_ID_COLUMN") %></th>
           <th data-column-id="description"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_DESCRIPTION_COLUMN") %></th>
-          <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
+          <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_COMMANDS_COLUMN") %></th>
         </tr>
     </thead>
 </table>
 <script>
-var actions = <%= @actions %>
+var edit_page = '<%= action_path(@conn, :edit) %>';
 $(document).ready(function() {
-  $('#action_grid').bootgrid({labels: __centralgps__.bootgrid_labels, ajaxSettings: {method: "GET", cache: false}})
+  var grid = $('#action_grid').bootgrid({
+    css: { dropDownMenuItems: "dropdown-menu pull-left" },
+    labels: __centralgps__.bootgrid_labels,
+    ajaxSettings: {method: "GET", cache: false },
+    requestHandler: function(req){ req.searchColumn = 'description'; return req; },
+    formatters: { "commands": simpleGridFormatter }
+  }).on("loaded.rs.jquery.bootgrid", function()
+    {
+      Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
+      /* Executes after data is loaded and rendered */
+      grid.find(".cmd-edit").on("click", function(e)
+      {
+          //alert("You pressed edit on row: " + $(this).data("row-id"));
+          get_page(edit_page + '?action_id=' + $(this).data("row-id"));
+      }).end().find(".cmd-delete").on("click", function(e)
+      {
+          alert("You pressed delete on row: " + $(this).data("row-id"));
+      });
+  });
 });
 function updateActions(grid) {
   $.get('/checkpoint/actions/json', function(response, status, xhr) {
     if (response.status == true) {
       var actions = [];
-      response.list.forEach(function(a, aidx, arr) {
+      response.rows.forEach(function(a, aidx, arr) {
         actions.push({ id: a.id, description: a.description });
       });
       updateGridData($('#action_grid'), actions);
@@ -37,3 +57,4 @@ function updateActions(grid) {
 function updateGridData(grid, data) {
 }
 </script>
+</div>

@@ -24,12 +24,15 @@ defmodule CentralGPS.RestClient do
     post method_path, data, headers ++ ct_json_header ++ auth_header(token, type)
   end
 
-  def api_get_json(method_path, token, type, _params \\ %{}, headers \\ []) do
-    method_path = URI.encode(method_path) <> "?" <> URI.encode_query(_params)
+  def api_get_json(method_path, token, type, _params \\ nil, headers \\ []) do
+    method_path = URI.encode(method_path) <>
+      if _params != nil, do: "?" <> URI.encode_query(_params), else: ""
     get method_path, (headers ++ auth_header(token, type))
   end
 
   def process_url(method_path) do
+
+    IO.puts "process_url: #{inspect CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path}"
     CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path
   end
 

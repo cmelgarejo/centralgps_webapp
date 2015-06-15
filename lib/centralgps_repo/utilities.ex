@@ -11,39 +11,43 @@ defmodule CentralGPS.Repo.Utilities do
     authorize the request and then maps it to be available to as such for the
     caller
   """
-  def auth_proc_headers_and_params(headers, params, filter_keys \\ []) do
+  def auth_proc_headers_and__params(headers, _params, filter_keys \\ []) do
     headers = Enum.into(headers, %{}) |> objectify_map #Create a map of headers
     if !Map.has_key?(headers, :authorization),
-      do: (raise ArgumentError, msg: "missing: :authorization")
+      do: (raise ArgumentError, message: "missing: :authorization")
     _regex = ~r/^(?<tag>CentralGPS)\stoken=(?<token>.*).type=(?<type>.*)/
     auth = Regex.named_captures(_regex, headers.authorization)
     if auth == nil, do: auth = %{tag: nil, token: nil, type: nil}
     auth = objectify_map(auth)
-    params = objectify_map(params)
-    {offset, limit} = {0, 100}
-    if (Map.has_key? params, :offset), do: {offset, params} = Map.pop(params, :offset, 0)
-    if (Map.has_key? params, :limit),  do: {limit, params} = Map.pop(params, :limit, 100)
-    params = Map.put(params, :zzz_offset, offset) |> Map.put(:zzzz_limit, limit)
-    |> (Map.update :zzz_offset, 0,   fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
-    |> (Map.update :zzzz_limit, 100, fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
-    params = params
+    _params = objectify_map(_params)
+    {offset, limit, search_column, search_phrase} = {0, 0, nil, nil}
+    if (Map.has_key? _params, :limit),  do: {limit, _params} = Map.pop(_params, :limit, 0)
+    if (Map.has_key? _params, :offset), do: {offset, _params} = Map.pop(_params, :offset, 0)
+    if (Map.has_key? _params, :search_column),  do: {search_column, _params} = Map.pop(_params, :search_column, nil)
+    if (Map.has_key? _params, :search_phrase),  do: {search_phrase, _params} = Map.pop(_params, :search_phrase, nil)
+    _params = Map.put(_params, :_z_limit, limit) |> Map.put(:_z_offset, offset)
+      |> (Map.update :_z_offset, 0,   fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
+      |> (Map.update :_z_limit, 0, fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
+      |> Map.put(:_z_search_column, search_column) |> Map.put(:_z_search_phrase, search_phrase)
+    _params = _params
       |> (Map.put :_the_app_name,
           (if Map.has_key?(headers,:"x-requested-with"),
             do: to_string(headers[:"x-requested-with"]),
-            else: (if Map.has_key?(params, :_the_app_name),
-                    do: params._the_app_name, else: nil)))
+            else: (if Map.has_key?(_params, :_the_app_name),
+                    do: _params._the_app_name, else: nil)))
       |> (Map.put :_the_ip_port,
           (if Map.has_key?(headers,:"x-forwarded-for"),
             do: to_string(headers[:"x-forwarded-for"]),
-            else: (if Map.has_key?(params, :_the_ip_port),
-                    do: params._the_ip_port, else: nil)))
-      |> (Map.put :_xtra_info, (if Map.has_key?(params, :_xtra_info),
-                                do: params._xtra_info, else: nil))
-    filter_keys = filter_keys ++ [ :_the_app_name, :_the_ip_port, :_xtra_info, :zzz_offset, :zzzz_limit ]
-    params =  objectify_map(params, filter_keys)
+            else: (if Map.has_key?(_params, :_the_ip_port),
+                    do: _params._the_ip_port, else: nil)))
+      |> (Map.put :_xtra_info, (if Map.has_key?(_params, :_xtra_info),
+                                do: _params._xtra_info, else: nil))
+    filter_keys = filter_keys ++ [ :_the_app_name, :_the_ip_port, :_xtra_info,
+                    :_z_limit, :_z_offset, :_z_search_column, :_z_search_phrase ]
+    _params =  objectify_map(_params, filter_keys)
       |> (Map.put :_auth_token, auth.token)
       |> (Map.put :_auth_type,  auth.type)
-    {headers, params}
+    {headers, _params}
   end
 
   @doc """

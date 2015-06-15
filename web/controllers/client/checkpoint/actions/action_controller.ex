@@ -4,12 +4,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
   import CentralGPS.Repo.Utilities
   plug :action
 
-  # POST    /api/v1/checkpoint/actions/create
-  # GET     /api/v1/checkpoint/actions/:action_id
-  # PUT     /api/v1/checkpoint/actions/:action_id
-  # DELETE  /api/v1/checkpoint/actions/:action_id
-  # GET     /api/v1/checkpoint/actions
-  # GET     /api/v1/checkpoint/actions/json
+  # POST    /checkpoint/actions/create
+  # GET     /checkpoint/actions/:action_id
+  # PUT     /checkpoint/actions/:action_id
+  # DELETE  /checkpoint/actions/:action_id
+  # GET     /checkpoint/actions
+  # GET     /checkpoint/actions/json
 
   def index(conn, _params) do
     {conn, session} = centralgps_session conn
@@ -20,26 +20,27 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
     end
   end
 
-  def json_list(conn, _params) do
+  def list(conn, _params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      {api_status, res} = api_get_json "/checkpoint/actions", session.auth_token, "C"
+      _params = objectify_map(_params)
+        |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+        |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      qs = %{offset: (_params.current - 1) * _params.rowCount, limit: _params.rowCount,
+      search_column: _params.searchColumn, search_phrase: _params.searchPhrase }
+      {api_status, res} = api_get_json "/checkpoint/actions", session.auth_token, "C", qs
       result = %{}
       if(api_status == :ok) do
         if res.body.status do
-          result = res.body
-          list = res.body.list
+          rows = res.body.rows
             |> Enum.map(&(objectify_map &1))
             |> Enum.map &(%{id: &1.id, description: &1.description })
-          IO.puts "RES.BODY: #{inspect res.body}"
           #TODO: make this standard on the fn_api_* from database itself!
-          result = res.body |> Map.put(:rows, list) |> Map.put(:current, 1)
-            |> Map.put(:row_count, 2) |> Map.put(:total, 2)
-          IO.puts "RESULT: #{inspect result}"
+          result = Map.merge _params, (res.body |> Map.put :rows, rows)
         else
-
+          #do something if status = false?
         end
       end
       json conn, result
@@ -51,16 +52,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      json conn, %{ new: ""}
-    end
-  end
-
-  def show(conn, _params) do
-    {conn, session} = centralgps_session conn
-    if(session == :error) do
-      redirect conn, to: login_path(Endpoint, :index)
-    else #do your stuff and render the page.
-      json conn, %{ show: ""}
+      render conn, "new.html"
     end
   end
 
@@ -69,7 +61,29 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      json conn, %{ edit: ""}
+      _params = objectify_map(_params)
+      {api_status, res} = api_get_json "/checkpoint/actions/" <> _params.action_id, session.auth_token, "C"
+      record = nil
+      IO.puts "EDIT.ACTION:#{inspect objectify_map(res.body.res)}"
+      if(api_status == :ok) do
+        if res.body.status do
+          record = objectify_map(res.body.res)
+          record = %{id: record.id, description: record.description}
+          #TODO: make this standard on the fn_api_* from database itself!
+        else
+          #do something if status = false?
+        end
+      end
+      render (conn |> assign :record, record), "edit.html"
+    end
+  end
+
+  def save(conn, _params) do
+    {conn, session} = centralgps_session conn
+    if(session == :error) do
+      redirect conn, to: login_path(Endpoint, :index)
+    else #do your stuff and render the page.
+      json conn, %{status: false, msg: "NOT SAVED."}
     end
   end
 

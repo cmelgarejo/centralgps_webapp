@@ -1,3 +1,11 @@
+div[class="actions btn-group"] > button.btn {
+	box-sizing: border-box;
+	height: 37px;
+	text-align: left;
+	vertical-align: middle;
+	border: 1px solid rgb(224, 224, 224);
+}
+
 .tab-nav {
 	background: white !important;
 }
@@ -64,6 +72,7 @@ template {
   display: none;
 }
 a {
+	cursor: pointer;
   background-color: transparent;
 }
 a:active,

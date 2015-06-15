@@ -23,16 +23,29 @@ defmodule CentralGPSWebApp.Router do
     post "/login",  LoginController, :login
     get  "/logout", LoginController, :logout
     post "/logout", LoginController, :logout
+  end
 
-    get  "/monitor",        MonitorController, :index
-    get  "/monitor/assets", MonitorController, :assets
-    get  "/monitor/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
-    get  "/monitor/venues",                  Checkpoint.MonitorController, :venues
+  scope "/monitor", CentralGPSWebApp.Client do
+    pipe_through :browser # Use the default browser stack
+    get  "/",       MonitorController, :index
+    get  "/assets", MonitorController, :assets
+    get  "/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
+    get  "/venues",                  Checkpoint.MonitorController, :venues
+  end
 
-    get  "/profile", ProfileController, :index
+  scope "/profile", CentralGPSWebApp.Client do
+    pipe_through :browser # Use the default browser stack
+    get  "/", ProfileController, :index
+  end
 
-    get "/checkpoint/actions", Checkpoint.ActionController, :index
-    get "/checkpoint/actions/json", Checkpoint.ActionController, :json_list
+  scope "/checkpoint/actions", CentralGPSWebApp.Client.Checkpoint do
+    pipe_through :browser # Use the default browser stack
+    get  "/",       ActionController, :index
+    get  "/json",   ActionController, :list
+    get  "/new",    ActionController, :new
+    get  "/edit",   ActionController, :edit
+    post "/save",   ActionController, :save
+    post "/delete", ActionController, :delete
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

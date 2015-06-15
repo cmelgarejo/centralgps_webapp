@@ -1,27 +1,24 @@
-
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if f.errors != [] do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below:</p>
-      <ul>
-        <%= for {attr, message} <- f.errors do %>
-          <li><%= humanize(attr) %> <%= message %></li>
-        <% end %>
-      </ul>
+<div class="card-body card-padding">
+  <form role="form" method="post" action="<%= action_path Endpoint, :save %>">
+    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>">
+    <div class="form-group fg-float">
+      <div class="fg-line fg-toggled">
+        <input class="form-control" type="text" id="description" name="description" required autofocus toggled
+        value="<%= if @record !=nil, do: @record.description, else: nil %>">
+      </div>
+      <label class="fg-label"><%= l10n(@session.language_code, "action.form.html", "LABEL_DESCRIPTION") %></label>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <label>Description</label>
-    <%= text_input f, :description, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <label>ConfigurationId</label>
-    <%= number_input f, :configuration_id, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>
+    <div id="alert"></div>
+    <a onclick="get_page('<%= action_path(@conn, :index) %>');" class="btn btn-info pull-left">
+      <i class="md md-arrow-back"></i>
+    </a>
+    <button class="btn btn-success pull-right" type="submit">
+      <i class="md md-save"></i>
+    </button>
+  </form>
+</div>
+<script>
+$(document).ready(function() {
+  $("form").on("submit", post_on_submit_form);
+});
+</script>
