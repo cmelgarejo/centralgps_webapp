@@ -5,7 +5,7 @@ msgid  "MENU_TITLE"
 msgstr ""
 
 msgid  "MENU_TEXT_TOGGLE_FULLSCREEN"
-msgstr "Cambiar a pantalla completa"
+msgstr "Pantalla completa"
 
 msgid  "MENU_TEXT_CLS"
 msgstr "Eliminar almacenamiento local"
@@ -45,24 +45,6 @@ msgstr "Cuentas"
 
 msgid  "ASSET_LINK_TEXT"
 msgstr "Monitor de Activos"
-
-msgid "CLS_TITLE_SURE"
-msgstr "Está seguro?"
-
-msgid "CLS_REMOVED"
-msgstr "Toda las preferencias de vista (localStorage) serán eliminadas"
-
-msgid "CLS_CONFIRM_TEXT"
-msgstr "Sí, eliminelas"
-
-msgid "CLS_CANCEL_TEXT"
-msgstr "Cancelar"
-
-msgid "CLS_TITLE_DONE"
-msgstr "Listo!"
-
-msgid "CLS_TEXT_DONE"
-msgstr "Las preferencias han sido eliminadas"
 
 msgid "__ERR_CONNECTION_REFUSED"
 msgstr "Error al cargar la página, compruebe su conexión a internet y vuelva a intentarlo en unos instantes"
@@ -105,3 +87,21 @@ msgstr "Refrescar"
 
 msgid  "BOOTGRID_LABEL_SEARCH"
 msgstr "Buscar"
+
+msgid "DELETE_RECORD_TITLE_SURE"
+msgstr "Está seguro?"
+
+msgid "DELETE_RECORD_REMOVED"
+msgstr "El registro #{RECORD} será eliminado"
+
+msgid "DELETE_RECORD_CONFIRM_TEXT"
+msgstr "Eliminar"
+
+msgid "DELETE_RECORD_CANCEL_TEXT"
+msgstr "Cancelar"
+
+msgid "DELETE_RECORD_TITLE_DONE"
+msgstr "Eliminado"
+
+msgid "DELETE_RECORD_TEXT_DONE"
+msgstr "El registro #{RECORD} ha sido eliminado"

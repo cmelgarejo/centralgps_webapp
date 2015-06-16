@@ -130,7 +130,7 @@
           </div>
         </li>
         <% end %>
-        <li class="dropdown">
+        <li class="dropdown hidden-xs">
           <a data-toggle="dropdown" class="tm-settings" href="">
           </a>
           <ul class="dropdown-menu dm-icon pull-right">
@@ -139,13 +139,6 @@
                 <i class="md md-fullscreen">
                 </i>
                 <%= l10n(@session.language_code, "main.html", "MENU_TEXT_TOGGLE_FULLSCREEN") %>
-              </a>
-            </li>
-            <li>
-              <a data-action="clear-localstorage" href="">
-                <i class="md md-delete">
-                </i>
-                <%= l10n(@session.language_code, "main.html", "MENU_TEXT_CLS") %>
               </a>
             </li>
           </ul>
@@ -194,7 +187,7 @@
               </ul>
           </div>
           <ul class="main-menu">
-              <% if false do %>
+              <%= if false do %>
               <li>
                 <a  onclick="get_page('/dashboard');">
                 <i class="md md-dashboard">
@@ -236,21 +229,21 @@
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.reason.list) do %>
                     <li>
-                      <a >
+                      <a  onclick="get_page('checkpoint/reasons');">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_REASON_LINK_TEXT") %>
                       </a>
                     </li>
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue_type.list) do %>
                     <li>
-                      <a >
+                      <a  onclick="get_page('checkpoint/venue_types');">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_VENUE_TYPE_LINK_TEXT") %>
                       </a>
                     </li>
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue.list) do %>
                     <li>
-                      <a >
+                      <a  onclick="get_page('checkpoint/venues');">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_VENUE_LINK_TEXT") %>
                       </a>
                     </li>
@@ -286,12 +279,12 @@
 </section>
   <script>
     $(document).ready(function() {
-      __centralgps__.globalmessages._cls_title_sure    = "<%= l10n(@session.language_code, "main.html", "CLS_TITLE_SURE") %>";
-      __centralgps__.globalmessages._cls_removed       = "<%= l10n(@session.language_code, "main.html", "CLS_REMOVED") %>";
-      __centralgps__.globalmessages._cls_confirm_text  = "<%= l10n(@session.language_code, "main.html", "CLS_CONFIRM_TEXT") %>";
-      __centralgps__.globalmessages._cls_cancel_text   = "<%= l10n(@session.language_code, "main.html", "CLS_CANCEL_TEXT") %>";
-      __centralgps__.globalmessages._cls_title_done    = "<%= l10n(@session.language_code, "main.html", "CLS_TITLE_DONE") %>";
-      __centralgps__.globalmessages._cls_text_done     = "<%= l10n(@session.language_code, "main.html", "CLS_TEXT_DONE") %>";
+      __centralgps__.globalmessages._delete_record_title_sure    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_SURE") %>";
+      __centralgps__.globalmessages._delete_record_removed       = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_REMOVED") %>";
+      __centralgps__.globalmessages._delete_record_confirm_text  = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CONFIRM_TEXT") %>";
+      __centralgps__.globalmessages._delete_record_cancel_text   = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CANCEL_TEXT") %>";
+      __centralgps__.globalmessages._delete_record_title_done    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_DONE") %>";
+      __centralgps__.globalmessages._delete_record_text_done     = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TEXT_DONE") %>";
       __centralgps__.globalmessages.__err_conn_refused = "<%= l10n(@session.language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>";
       __centralgps__.globalmessages.__err_status_500   = "<%= l10n(@session.language_code, "main.html", "__ERR_STATUS_500") %>";
       __centralgps__.globalmessages.__root_url         = "<%= @__root_url %>";
@@ -302,12 +295,12 @@
       __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
       __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
       __centralgps__.bootgrid_labels = {
-          all:       "<%= l10n(@session.language_code, "main.html",       "BOOTGRID_LABEL_ALL") %>",
-          infos:     "<%= l10n(@session.language_code, "main.html",     "BOOTGRID_LABEL_INFOS") %>",
-          loading:   "<%= l10n(@session.language_code, "main.html",   "BOOTGRID_LABEL_LOADING") %>",
+          all:       "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_ALL") %>",
+          infos:     "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_INFOS") %>",
+          loading:   "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_LOADING") %>",
           noResults: "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_NORESULTS") %>",
-          refresh:   "<%= l10n(@session.language_code, "main.html",   "BOOTGRID_LABEL_REFRESH") %>",
-          search:   "<%= l10n(@session.language_code, "main.html",    "BOOTGRID_LABEL_SEARCH") %>"
+          refresh:   "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_REFRESH") %>",
+          search:   "<%= l10n(@session.language_code,  "main.html", "BOOTGRID_LABEL_SEARCH") %>"
       }
     });
   </script>

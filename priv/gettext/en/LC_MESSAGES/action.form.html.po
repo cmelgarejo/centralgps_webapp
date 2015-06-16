@@ -1,2 +1,0 @@
-msgid  "LABEL_DESCRIPTION"
-msgstr "Description"

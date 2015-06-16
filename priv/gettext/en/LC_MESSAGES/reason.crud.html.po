@@ -1,0 +1,20 @@
+msgid  "LIST_TITLE"
+msgstr "Reasons"
+
+msgid  "GRID_REASON_ID_COLUMN"
+msgstr "ID"
+
+msgid  "GRID_REASON_DESCRIPTION_COLUMN"
+msgstr "Description"
+
+msgid  "GRID_REASON_COMMANDS_COLUMN"
+msgstr "Commands"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "New Reason"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Edit Reason"
+
+msgid  "PAGE_FORM_LABEL_DESCRIPTION"
+msgstr "Description"

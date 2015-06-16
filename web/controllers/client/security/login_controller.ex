@@ -6,10 +6,10 @@ defmodule CentralGPSWebApp.Client.LoginController do
   plug :action
 
   defp login_data_builder(_p) do
-    Poison.encode!(%{
+    %{
       _login_user: base64_encode("#{_p["username"]}@#{_p["domain"]}@#{app_config(:entity_tag)}"),
       _password:   base64_encode(_p["password"])
-    })
+    }
   end
 
   def index(conn, _params) do
@@ -38,12 +38,12 @@ defmodule CentralGPSWebApp.Client.LoginController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else
-      {status, res} = logout_api_post_json session.auth_token, "C"
+      {status, res} = logout_api_post_json session.auth_token, session.account_type
       if status == :ok do
         status = res.status_code
         case status do
           200 -> res = res.body |> objectify_map
-                 IO.puts "logout:res = #{inspect res}"
+                 #IO.puts "logout:res = #{inspect res}"
                  if(res.status == true) do
                    conn = centralgps_kill_session(conn)
                  end

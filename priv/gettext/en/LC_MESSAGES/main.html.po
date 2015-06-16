@@ -46,24 +46,6 @@ msgstr "Accounts"
 msgid  "ASSET_LINK_TEXT"
 msgstr "Monitor Assets"
 
-msgid "CLS_TITLE_SURE"
-msgstr "Are you sure?"
-
-msgid "CLS_REMOVED"
-msgstr "All view preferences (in localStorage) will be eliminated"
-
-msgid "CLS_CONFIRM_TEXT"
-msgstr "Yes, remove them"
-
-msgid "CLS_CANCEL_TEXT"
-msgstr "Cancel"
-
-msgid "CLS_TITLE_DONE"
-msgstr "Done!"
-
-msgid "CLS_TEXT_DONE"
-msgstr "Your view preferences have been removed"
-
 msgid "__ERR_CONNECTION_REFUSED"
 msgstr "Error requesting page, check your internet connection and try again in a few moments"
 
@@ -105,3 +87,21 @@ msgstr "Refresh"
 
 msgid  "BOOTGRID_LABEL_SEARCH"
 msgstr "Search"
+
+msgid "DELETE_RECORD_TITLE_SURE"
+msgstr "Are you sure?"
+
+msgid "DELETE_RECORD_REMOVED"
+msgstr "The record #{RECORD} will be deleted"
+
+msgid "DELETE_RECORD_CONFIRM_TEXT"
+msgstr "Delete"
+
+msgid "DELETE_RECORD_CANCEL_TEXT"
+msgstr "Cancel"
+
+msgid "DELETE_RECORD_TITLE_DONE"
+msgstr "Deleted!"
+
+msgid "DELETE_RECORD_TEXT_DONE"
+msgstr "The record #{RECORD} has been deleted"

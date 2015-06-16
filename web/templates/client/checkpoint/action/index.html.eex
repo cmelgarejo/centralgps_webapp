@@ -5,56 +5,29 @@
         <i class="md md-add"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "action.index.html", "PAGE_TITLE") %></h4>
+    <h4><%= l10n(@session.language_code, "action.crud.html", "LIST_TITLE") %></h4>
   </div>
-<table id="action_grid" class="table table-condensed table-hover table-striped"
-  data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
-    <thead>
-        <tr>
-          <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_ID_COLUMN") %></th>
-          <th data-column-id="description"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_DESCRIPTION_COLUMN") %></th>
-          <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.index.html", "GRID_ACTION_COMMANDS_COLUMN") %></th>
-        </tr>
-    </thead>
-</table>
-<script>
-var edit_page = '<%= action_path(@conn, :edit) %>';
-$(document).ready(function() {
-  var grid = $('#action_grid').bootgrid({
-    css: { dropDownMenuItems: "dropdown-menu pull-left" },
-    labels: __centralgps__.bootgrid_labels,
-    ajaxSettings: {method: "GET", cache: false },
-    requestHandler: function(req){ req.searchColumn = 'description'; return req; },
-    formatters: { "commands": simpleGridFormatter }
-  }).on("loaded.rs.jquery.bootgrid", function()
-    {
-      Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
-      /* Executes after data is loaded and rendered */
-      grid.find(".cmd-edit").on("click", function(e)
-      {
-          //alert("You pressed edit on row: " + $(this).data("row-id"));
-          get_page(edit_page + '?action_id=' + $(this).data("row-id"));
-      }).end().find(".cmd-delete").on("click", function(e)
-      {
-          alert("You pressed delete on row: " + $(this).data("row-id"));
-      });
-  });
-});
-function updateActions(grid) {
-  $.get('/checkpoint/actions/json', function(response, status, xhr) {
-    if (response.status == true) {
-      var actions = [];
-      response.rows.forEach(function(a, aidx, arr) {
-        actions.push({ id: a.id, description: a.description });
-      });
-      updateGridData($('#action_grid'), actions);
-    } else {
-      console.log('updateActions: ' + response.msg);
-      $.notify({title: "<%= l10n(@session.language_code, "action.index.html", "PAGE_TITLE") %>", text: response.msg, image: '<i class="md-error"></i>'}, 'error');
-    }
-  });
-}
-function updateGridData(grid, data) {
-}
-</script>
+  <table id="action_grid" class="table table-condensed table-hover table-striped"
+    data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
+      <thead>
+          <tr>
+            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.crud.html", "GRID_ACTION_ID_COLUMN") %></th>
+            <th data-column-id="description"><%= l10n(@session.language_code, "action.crud.html", "GRID_ACTION_DESCRIPTION_COLUMN") %></th>
+            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.crud.html", "GRID_ACTION_COMMANDS_COLUMN") %></th>
+          </tr>
+      </thead>
+  </table>
 </div>
+<script>
+__centralgps__.CRUD.edit_url = '<%= action_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= action_path(@conn, :delete) %>';
+__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.grid_name = '#action_grid';
+__centralgps__.CRUD.grid_method = 'GET';
+__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+__centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_crud_formatter = simpleGridCommandFormatter;
+$(document).ready(function() {
+  gridSetup_CRUD();
+});
+</script>

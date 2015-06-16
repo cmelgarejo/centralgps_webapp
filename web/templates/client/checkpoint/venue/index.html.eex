@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header">
+    <div style="float:right !important; width: 50px;">
+      <a onclick="get_page('<%= venue_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+        <i class="md md-add"></i>
+      </a>
+    </div>
+    <h4><%= l10n(@session.language_code, "venue.crud.html", "LIST_TITLE") %></h4>
+  </div>
+  <table id="venue_grid" class="table table-condensed table-hover table-striped"
+    data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/venues/json">
+      <thead>
+          <tr>
+            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_ID_COLUMN") %></th>
+            <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_NAME_COLUMN") %></th>
+            <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_DESCRIPTION_COLUMN") %></th>
+            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_COMMANDS_COLUMN") %></th>
+          </tr>
+      </thead>
+  </table>
+</div>
+<script>
+__centralgps__.CRUD.edit_url = '<%= venue_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= venue_path(@conn, :delete) %>';
+__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.grid_name = '#venue_grid';
+__centralgps__.CRUD.grid_method = 'GET';
+__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+__centralgps__.CRUD.grid_search_column = 'name';
+__centralgps__.CRUD.grid_crud_formatter = simpleGridCommandFormatter;
+$(document).ready(function() {
+  gridSetup_CRUD();
+});
+</script>

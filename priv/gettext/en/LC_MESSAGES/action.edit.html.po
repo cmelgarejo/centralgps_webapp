@@ -1,2 +1,0 @@
-msgid  "PAGE_TITLE"
-msgstr "Edit Action"

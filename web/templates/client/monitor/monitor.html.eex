@@ -118,7 +118,7 @@ $(document).ready(function() {
 try {
   __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
   __centralgps__.asset.position.layer_name         = "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %>";
-  __centralgps__.asset.checkpoint.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>";
+  __centralgps__.asset.checkpoint.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>"
   __centralgps__.asset.checkpoint.mark.layer_name  = "<%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %>";
   __centralgps__.asset.map = L.map('_asset_map').setView([0, 0], 2);
   L.Icon.Default.imagePath = '../images';

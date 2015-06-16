@@ -1,5 +1,5 @@
 <div class="card-body card-padding">
-  <form role="form" method="post" action="<%= action_path Endpoint, :save %>">
+  <form role="form" method="post" action="<%= venue_path Endpoint, :save %>">
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
     <div class="form-group fg-float">
       <%= if @record != nil do %>
@@ -11,10 +11,10 @@
         value="<%= if @record !=nil, do: @record.description, else: nil %>"
         required autofocus toggled/>
       </div>
-      <label class="fg-label"><%= l10n(@session.language_code, "action.crud.html", "PAGE_FORM_LABEL_DESCRIPTION") %></label>
+      <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "PAGE_FORM_LABEL_DESCRIPTION") %></label>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= action_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= venue_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
     </a>
     <button class="btn btn-success pull-right" type="submit">

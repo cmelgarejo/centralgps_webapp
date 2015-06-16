@@ -28,6 +28,9 @@ div[class="actions btn-group"] > button.btn {
 #_centralgps_container, #_asset_map, div[role=tabpanel] {
   height: 100%; width: 100%; overflow: hidden
 }
+#_centralgps_container {
+	overflow-y: scroll !important;
+}
 /*
  * Load Main Bootstrap LESS files
  */

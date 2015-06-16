@@ -1,15 +1,15 @@
-defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
+defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
   plug :action
 
-  # POST    /checkpoint/actions/create
-  # GET     /checkpoint/actions/:action_id
-  # PUT     /checkpoint/actions/:action_id
-  # DELETE  /checkpoint/actions/:action_id
-  # GET     /checkpoint/actions
-  # GET     /checkpoint/actions/json
+  # POST    /checkpoint/venues/create
+  # GET     /checkpoint/venues/:venue_id
+  # PUT     /checkpoint/venues/:venue_id
+  # DELETE  /checkpoint/venues/:venue_id
+  # GET     /checkpoint/venues
+  # GET     /checkpoint/venues/json
 
   def index(conn, _params) do
     {conn, session} = centralgps_session conn
@@ -30,7 +30,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
         |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
       qs = %{offset: (_params.current - 1) * _params.rowCount, limit: _params.rowCount,
       search_column: _params.searchColumn, search_phrase: _params.searchPhrase }
-      {api_status, res} = api_get_json "/checkpoint/actions", session.auth_token, session.account_type, qs
+      {api_status, res} = api_get_json "/checkpoint/venues", session.auth_token, session.account_type, qs
       {result, rows} = {%{}, %{}}
       if(api_status == :ok) do
         if res.body.status do
@@ -63,7 +63,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
       _params = objectify_map(_params)
-      {api_status, res} = api_get_json "/checkpoint/actions/" <> _params.id, session.auth_token, session.account_type
+      {api_status, res} = api_get_json "/checkpoint/venues/" <> _params.id, session.auth_token, session.account_type
       record = nil
       if(api_status == :ok) do
         if res.body.status do
@@ -84,12 +84,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
     else #do your stuff and render the page.
       _params = objectify_map(_params)
       if(Map.has_key?_params, :id) do
-        data = %{action_id: _params.id, configuration_id: _params.configuration_id, description: _params.description}
-        {api_status, res} = api_put_json "/checkpoint/actions/" <> data.action_id,
+        data = %{venue_id: _params.id, configuration_id: _params.configuration_id, description: _params.description}
+        {api_status, res} = api_put_json "/checkpoint/venues/" <> data.venue_id,
           session.auth_token, session.account_type, data
       else
         data = %{ configuration_id: session.client_id, description: _params.description }
-        {api_status, res} = api_post_json "/checkpoint/actions/create",
+        {api_status, res} = api_post_json "/checkpoint/venues/create",
           session.auth_token, session.account_type, data
       end
       #if(api_status == :ok) do
@@ -110,7 +110,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       _params = objectify_map(_params)
       if(Map.has_key?_params, :id) do
         {api_status, res} =
-          api_delete_json "/checkpoint/actions/" <> _params.id,
+          api_delete_json "/checkpoint/venues/" <> _params.id,
           session.auth_token, session.account_type
       else
         {api_status, res} = {:error, %{body: %{ status: false, msg: "MEGA ERROR"}}}

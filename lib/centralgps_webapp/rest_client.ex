@@ -11,17 +11,22 @@ defmodule CentralGPS.RestClient do
   defp security_logout_path(type), do: "/security/logout/" <> type
 
   def login_api_post_json(type, data, headers \\ []) do
-    post security_login_path(type), data, (headers ++ ct_json_header)
+    post security_login_path(type), Poison.encode!(data), (headers ++ ct_json_header)
   end
 
   def logout_api_post_json(token, type, data \\ "", headers \\ []) do
-    post security_logout_path(type), data,
+    post security_logout_path(type), Poison.encode!(data),
       (headers ++ ct_json_header ++ auth_header(token, type))
   end
 
   def api_post_json(method_path, token, type, data, headers \\ []) do
-    data = Map.put data, :_the_app_name, app_name
+    data = Map.put(data, :_the_app_name, app_name) |> Poison.encode!
     post method_path, data, headers ++ ct_json_header ++ auth_header(token, type)
+  end
+
+  def api_put_json(method_path, token, type, data, headers \\ []) do
+    data = Map.put(data, :_the_app_name, app_name) |> Poison.encode!
+    put method_path, data, headers ++ ct_json_header ++ auth_header(token, type)
   end
 
   def api_get_json(method_path, token, type, _params \\ nil, headers \\ []) do
@@ -30,8 +35,13 @@ defmodule CentralGPS.RestClient do
     get method_path, (headers ++ auth_header(token, type))
   end
 
-  def process_url(method_path) do
+  def api_delete_json(method_path, token, type, _params \\ nil, headers \\ []) do
+    method_path = URI.encode(method_path) <>
+      if _params != nil, do: "?" <> URI.encode_query(_params), else: ""
+    delete method_path, (headers ++ auth_header(token, type))
+  end
 
+  def process_url(method_path) do
     IO.puts "process_url: #{inspect CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path}"
     CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path
   end
@@ -44,7 +54,7 @@ defmodule CentralGPS.RestClient do
     rescue
       _ in _ ->
         #error_logger e, __ENV__, [ body ]
-        body
+        %{status: false, msg: body} # Have to be a default response, so I can catch the error in the pages.
     end
   end
 end

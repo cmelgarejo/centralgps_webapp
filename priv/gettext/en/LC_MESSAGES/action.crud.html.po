@@ -1,4 +1,4 @@
-msgid  "PAGE_TITLE"
+msgid  "LIST_TITLE"
 msgstr "Actions"
 
 msgid  "GRID_ACTION_ID_COLUMN"
@@ -9,3 +9,12 @@ msgstr "Description"
 
 msgid  "GRID_ACTION_COMMANDS_COLUMN"
 msgstr "Commands"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "New Action"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Edit Action"
+
+msgid  "PAGE_FORM_LABEL_DESCRIPTION"
+msgstr "Description"
