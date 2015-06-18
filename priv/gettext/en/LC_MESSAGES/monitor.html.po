@@ -19,26 +19,26 @@ msgstr "Venues"
 msgid  "MAP_MARK_LAYER_NAME"
 msgstr "Marks"
 
-msgid  "GRID_ASSET_NAME_COLUMN"
+msgid  "COLUMN_ASSET_NAME"
 msgstr "Asset"
 
-msgid  "GRID_ASSET_ADDRESS_COLUMN"
+msgid  "COLUMN_ASSET_ADDRESS"
 msgstr "Address"
 
-msgid  "GRID_ASSET_POSITION_AT_COLUMN"
+msgid  "COLUMN_ASSET_POSITION_AT"
 msgstr "Date & time"
 
-msgid  "GRID_EVENT_ASSET_COLUMN"
+msgid  "COLUMN_EVENT_ASSET"
 msgstr "Asset"
 
-msgid  "GRID_EVENT_EVENT_COLUMN"
+msgid  "COLUMN_EVENT_EVENT"
 msgstr "Event"
 
-msgid  "GRID_EVENT_AT_COLUMN"
+msgid  "COLUMN_EVENT_AT"
 msgstr "Date & time"
 
-msgid  "GRID_HISTORY_ASSET_COLUMN"
+msgid  "COLUMN_HISTORY_ASSET"
 msgstr "Asset"
 
-msgid  "GRID_HISTORY_POSITION_AT_COLUMN"
+msgid  "COLUMN_HISTORY_POSITION_AT"
 msgstr "Date & time"

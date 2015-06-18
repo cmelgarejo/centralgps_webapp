@@ -27,9 +27,9 @@
         <table id="asset_grid" class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                  <th data-column-id="name"><%= l10n(@session.language_code, "monitor.html", "GRID_ASSET_NAME_COLUMN") %></th>
-                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html", "GRID_ASSET_ADDRESS_COLUMN") %></th>
-                  <th data-column-id="position_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "GRID_ASSET_POSITION_AT_COLUMN") %></th>
+                  <th data-column-id="name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_NAME") %></th>
+                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_ADDRESS") %></th>
+                  <th data-column-id="position_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_POSITION_AT") %></th>
                 </tr>
             </thead>
         </table>
@@ -40,9 +40,9 @@
         <table id="event_grid" class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html", "GRID_EVENT_ASSET_COLUMN") %></th>
-                  <th data-column-id="event"><%= l10n(@session.language_code, "monitor.html", "GRID_EVENT_EVENT_COLUMN") %></th>
-                  <th data-column-id="time" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "GRID_EVENT_AT_COLUMN") %></th>
+                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_ASSET") %></th>
+                  <th data-column-id="event"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_EVENT") %></th>
+                  <th data-column-id="time" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_AT") %></th>
                 </tr>
             </thead>
         </table>
@@ -53,9 +53,9 @@
         <table id="history_grid" class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html",       "GRID_HISTORY_ASSET_COLUMN") %></th>
-                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html",     "GRID_HISTORY_ADDRESS_COLUMN") %></th>
-                  <th data-column-id="position_at"><%= l10n(@session.language_code, "monitor.html", "GRID_HISTORY_POSITION_AT_COLUMN") %></th>
+                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html",       "COLUMN_HISTORY_ASSET") %></th>
+                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html",     "COLUMN_HISTORY_ADDRESS") %></th>
+                  <th data-column-id="position_at"><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_POSITION_AT") %></th>
                 </tr>
             </thead>
         </table>

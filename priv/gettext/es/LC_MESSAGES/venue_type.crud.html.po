@@ -1,11 +1,11 @@
 msgid  "PAGE_LIST_TITLE"
-msgstr "Motivos"
+msgstr "Tipos de Establecimiento"
 
 msgid  "PAGE_NEW_TITLE"
-msgstr "Nuevo Motivo"
+msgstr "Nuevo tipo de establecimiento"
 
 msgid  "PAGE_EDIT_TITLE"
-msgstr "Editar Motivo"
+msgstr "Editar tipo de establecimiento"
 
 msgid  "GRID_COMMAND_COLUMN"
 msgstr "Comandos"
@@ -15,6 +15,9 @@ msgstr "ID"
 
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Descripción"
+
+msgid  "COLUMN_VENUE_TYPE_IMAGE"
+msgstr "Imagen"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha y hora de inserción"

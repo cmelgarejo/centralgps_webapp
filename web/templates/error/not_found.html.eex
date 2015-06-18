@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-fullpalete.min.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/roboto.min.css") %>">
   </head>
 
   <body>

@@ -41,7 +41,7 @@ msgid  "CHECKPOINT_MARK_LINK_TEXT"
 msgstr "Marcaciones"
 
 msgid  "ACCOUNT_LINK_TEXT"
-msgstr "Cuentas"
+msgstr "Cuentas de Acceso"
 
 msgid  "ASSET_LINK_TEXT"
 msgstr "Monitor de Activos"

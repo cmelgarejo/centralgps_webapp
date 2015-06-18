@@ -1,17 +1,19 @@
 <div class="card-body card-padding">
-  <form role="form" method="post" action="<%= reason_path Endpoint, :save %>">
+  <form role="form" method='post'
+    action="<%= reason_path Endpoint, :save %>">
+    <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
     <div class="form-group fg-float">
-      <%= if @record != nil do %>
+      <%= if (@record.__form__ == :edit) do %>
       <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <% end %>
       <div class="fg-line fg-toggled">
         <input class="form-control" type="text" id="description" name="description"
-        value="<%= if @record !=nil, do: @record.description, else: nil %>"
+        value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
         required autofocus toggled/>
       </div>
-      <label class="fg-label"><%= l10n(@session.language_code, "reason.crud.html", "PAGE_FORM_LABEL_DESCRIPTION") %></label>
+      <label class="fg-label"><%= l10n(@session.language_code, "reason.crud.html", "COLUMN_DESCRIPTION") %></label>
     </div>
     <div id="alert"></div>
     <a onclick="get_page('<%= reason_path(@conn, :index) %>');" class="btn btn-info pull-left">
@@ -25,5 +27,8 @@
 <script>
 $(document).ready(function() {
   $("form").on("submit", post_on_submit_form);
+  <%= if !@record.status do %>
+    showError('<%= @record.msg %>');
+  <% end %>
 });
 </script>

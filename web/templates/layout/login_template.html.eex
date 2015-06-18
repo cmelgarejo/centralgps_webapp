@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CentralGPS - Checkpoint module">
     <meta name="author" content="cmelgarejo">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/roboto``.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/material-design-iconic-font.min.css") %>">

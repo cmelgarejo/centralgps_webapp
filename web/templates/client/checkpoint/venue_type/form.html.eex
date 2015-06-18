@@ -1,8 +1,8 @@
 <div class="card-body card-padding">
   <form role="form" method='post'
-    action="<%= venue_path Endpoint, :save %>">
+    action="<%= venue_type_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
-    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
+    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
     <div class="form-group fg-float">
       <%= if (@record.__form__ == :edit) do %>
       <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
@@ -13,10 +13,10 @@
         value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
         required autofocus toggled/>
       </div>
-      <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></label>
+      <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_DESCRIPTION") %></label>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= venue_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
     </a>
     <button class="btn btn-success pull-right" type="submit">

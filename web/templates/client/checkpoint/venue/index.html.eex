@@ -5,16 +5,16 @@
         <i class="md md-add"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "venue.crud.html", "LIST_TITLE") %></h4>
+    <h4><%= l10n(@session.language_code, "venue.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
   <table id="venue_grid" class="table table-condensed table-hover table-striped"
     data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/venues/json">
       <thead>
           <tr>
-            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_ID_COLUMN") %></th>
-            <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_NAME_COLUMN") %></th>
-            <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_DESCRIPTION_COLUMN") %></th>
-            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_VENUE_COMMANDS_COLUMN") %></th>
+            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
+            <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
+            <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></th>
+            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_COMMAND_COLUMN") %></th>
           </tr>
       </thead>
   </table>

@@ -1,11 +1,11 @@
 msgid  "PAGE_LIST_TITLE"
-msgstr "Venues"
+msgstr "Venue types"
 
 msgid  "PAGE_NEW_TITLE"
-msgstr "New Venue"
+msgstr "New venue type"
 
 msgid  "PAGE_EDIT_TITLE"
-msgstr "Edit Venue"
+msgstr "Edit venue type"
 
 msgid  "GRID_COMMAND_COLUMN"
 msgstr "Comandos"
@@ -16,17 +16,8 @@ msgstr "ID"
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Description"
 
-msgid  "COLUMN_VENUE_IMAGE"
+msgid  "COLUMN_VENUE_TYPE_IMAGE"
 msgstr "Image"
-
-msgid  "COLUMN_LAT"
-msgstr "Latitude"
-
-msgid  "COLUMN_LON"
-msgstr "Longitude"
-
-msgid  "COLUMN_DETECTION_RADIUS"
-msgstr "Detection radius"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Created at"

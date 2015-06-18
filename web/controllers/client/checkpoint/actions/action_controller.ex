@@ -28,23 +28,29 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       _params = objectify_map(_params)
         |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
         |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+        |> (Map.update :searchColumn, nil, fn(v)->(v) end)
+        |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
+        |> (Map.put :sort_column, nil)
+        |> (Map.put :sort_order, nil)
+      if Map.has_key?_params, :sort do
+        _params = Map.put(_params, :sort_column, Map.keys(_params.sort) |> hd)
+          |> Map.put(:sort_order, Map.values(_params.sort) |> hd)
+      end
       qs = %{offset: (_params.current - 1) * _params.rowCount, limit: _params.rowCount,
-      search_column: _params.searchColumn, search_phrase: _params.searchPhrase }
+        search_column: _params.searchColumn, search_phrase: _params.searchPhrase,
+        sort_column: _params.sort_column, sort_order: _params.sort_order}
       {api_status, res} = api_get_json "/checkpoint/actions", session.auth_token, session.account_type, qs
-      {result, rows} = {%{}, %{}}
+      rows = %{}
       if(api_status == :ok) do
         if res.body.status do
           rows = res.body.rows
             |> Enum.map(&(objectify_map &1))
             |> Enum.map &(%{id: &1.id, description: &1.description })
-          #result = res.body |> Map.put :rows, rows
-          #result = Map.merge _params, (res.body |> Map.put :rows, rows)
         else
-
+          #TODO: something on error?
         end
-        result = Map.merge (res.body |> Map.put :rows, rows), _params
       end
-      json conn, result
+      json conn, Map.merge((res.body |> Map.put :rows, rows), _params)
     end
   end
 
@@ -66,11 +72,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       {api_status, res} = api_get_json "/checkpoint/actions/" <> _params.id, session.auth_token, session.account_type
       record = nil
       if(api_status == :ok) do
+        record = objectify_map(res.body.res)
         if res.body.status do
-          record = objectify_map(res.body.res)
-          record = %{id: record.id, configuration_id: record.configuration_id, description: record.description}
-        else
-          #do something if status = false?
+          record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
+            %{id: record.id, configuration_id: record.configuration_id, description: record.description}
         end
       end
       render (conn |> assign :record, record), "edit.html"
@@ -83,21 +88,16 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
       _params = objectify_map(_params)
-      if(Map.has_key?_params, :id) do
-        data = %{action_id: _params.id, configuration_id: _params.configuration_id, description: _params.description}
-        {api_status, res} = api_put_json "/checkpoint/actions/" <> data.action_id,
+      if (!Map.has_key?_params, :__form__), do: _params = Map.put _params, :__form__, :edit
+      if (String.to_atom(_params.__form__) ==  :edit) do
+        data = %{action_id: _params.id, configuration_id: session.client_id, description: _params.description}
+        {_, res} = api_put_json "/checkpoint/actions/" <> data.action_id,
           session.auth_token, session.account_type, data
       else
         data = %{ configuration_id: session.client_id, description: _params.description }
-        {api_status, res} = api_post_json "/checkpoint/actions/create",
+        {_, res} = api_post_json "/checkpoint/actions/create",
           session.auth_token, session.account_type, data
       end
-      #if(api_status == :ok) do
-      #  if res.body.status do
-      #  else
-      #    #do something if status = false?
-      #  end
-      #end
       json conn, res.body
     end
   end
@@ -118,7 +118,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       if(api_status == :ok) do
         if res.body.status do
         else
-          #do something if status = false?
+          #TODO: something on error?
         end
       end
       json conn, res.body

@@ -5,15 +5,15 @@
         <i class="md md-add"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "action.crud.html", "LIST_TITLE") %></h4>
+    <h4><%= l10n(@session.language_code, "action.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
   <table id="action_grid" class="table table-condensed table-hover table-striped"
     data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
       <thead>
           <tr>
-            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.crud.html", "GRID_ACTION_ID_COLUMN") %></th>
-            <th data-column-id="description"><%= l10n(@session.language_code, "action.crud.html", "GRID_ACTION_DESCRIPTION_COLUMN") %></th>
-            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.crud.html", "GRID_ACTION_COMMANDS_COLUMN") %></th>
+            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_ID") %></th>
+            <th data-column-id="description"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_DESCRIPTION") %></th>
+            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.crud.html", "GRID_COMMAND_COLUMN") %></th>
           </tr>
       </thead>
   </table>
