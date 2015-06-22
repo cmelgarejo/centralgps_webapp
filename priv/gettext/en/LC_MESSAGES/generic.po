@@ -1,0 +1,32 @@
+msgid  "SAVE"
+msgstr "Save"
+
+msgid  "BACK"
+msgstr "Back"
+
+msgid  "ACCEPT"
+msgstr "Accept"
+
+msgid  "CANCEL"
+msgstr "Cancel"
+
+msgid  "DELETE"
+msgstr "Delete"
+
+msgid  "REMOVE"
+msgstr "Remove"
+
+msgid  "SELECT_IMAGE"
+msgstr "Select image"
+
+msgid  "CHANGE"
+msgstr "Change"
+
+msgid  "ALL"
+msgstr "All"
+
+msgid  "START"
+msgstr "Start"
+
+msgid  "FINISH"
+msgstr "Finish"

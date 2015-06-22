@@ -1,3 +1,31 @@
+<script>
+  $(document).ready(function() {
+    __centralgps__.globalmessages._delete_record_title_sure    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_SURE") %>";
+    __centralgps__.globalmessages._delete_record_removed       = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_REMOVED") %>";
+    __centralgps__.globalmessages._delete_record_confirm_text  = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CONFIRM_TEXT") %>";
+    __centralgps__.globalmessages._delete_record_cancel_text   = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CANCEL_TEXT") %>";
+    __centralgps__.globalmessages._delete_record_title_done    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_DONE") %>";
+    __centralgps__.globalmessages._delete_record_text_done     = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TEXT_DONE") %>";
+    __centralgps__.globalmessages.__err_conn_refused = "<%= l10n(@session.language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>";
+    __centralgps__.globalmessages.__err_status_500   = "<%= l10n(@session.language_code, "main.html", "__ERR_STATUS_500") %>";
+    __centralgps__.globalmessages.__root_url         = "<%= @__root_url %>";
+    __centralgps__.globalmessages.__online_title     = "<%= l10n(@session.language_code, "main.html", "__ONLINE_TITLE") %>";
+    __centralgps__.globalmessages.__online_text      = "<%= l10n(@session.language_code, "main.html", "__ONLINE_TEXT") %>";
+    __centralgps__.globalmessages.__geolocation_message_title        = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_MESSAGE_TITLE") %>";
+    __centralgps__.globalmessages.__geolocation_permission_denied    = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>";
+    __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
+    __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
+    __centralgps__.globalmessages.generic._all ="<%= l10n(@session.language_code, "generic", "ALL") %>";
+    __centralgps__.bootgrid_labels = {
+        all:       "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_ALL") %>",
+        infos:     "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_INFOS") %>",
+        loading:   "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_LOADING") %>",
+        noResults: "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_NORESULTS") %>",
+        refresh:   "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_REFRESH") %>",
+        search:    "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_SEARCH") %>"
+    }
+  });
+</script>
 <header id="header">
   <ul class="header-inner">
     <li id="menu-trigger" data-trigger="#sidebar">
@@ -277,30 +305,3 @@
     </div>
   </section>
 </section>
-  <script>
-    $(document).ready(function() {
-      __centralgps__.globalmessages._delete_record_title_sure    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_SURE") %>";
-      __centralgps__.globalmessages._delete_record_removed       = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_REMOVED") %>";
-      __centralgps__.globalmessages._delete_record_confirm_text  = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CONFIRM_TEXT") %>";
-      __centralgps__.globalmessages._delete_record_cancel_text   = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CANCEL_TEXT") %>";
-      __centralgps__.globalmessages._delete_record_title_done    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_DONE") %>";
-      __centralgps__.globalmessages._delete_record_text_done     = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TEXT_DONE") %>";
-      __centralgps__.globalmessages.__err_conn_refused = "<%= l10n(@session.language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>";
-      __centralgps__.globalmessages.__err_status_500   = "<%= l10n(@session.language_code, "main.html", "__ERR_STATUS_500") %>";
-      __centralgps__.globalmessages.__root_url         = "<%= @__root_url %>";
-      __centralgps__.globalmessages.__online_title     = "<%= l10n(@session.language_code, "main.html", "__ONLINE_TITLE") %>";
-      __centralgps__.globalmessages.__online_text      = "<%= l10n(@session.language_code, "main.html", "__ONLINE_TEXT") %>";
-      __centralgps__.globalmessages.__geolocation_message_title        = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_MESSAGE_TITLE") %>";
-      __centralgps__.globalmessages.__geolocation_permission_denied    = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>";
-      __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
-      __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
-      __centralgps__.bootgrid_labels = {
-          all:       "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_ALL") %>",
-          infos:     "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_INFOS") %>",
-          loading:   "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_LOADING") %>",
-          noResults: "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_NORESULTS") %>",
-          refresh:   "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_REFRESH") %>",
-          search:   "<%= l10n(@session.language_code,  "main.html", "BOOTGRID_LABEL_SEARCH") %>"
-      }
-    });
-  </script>

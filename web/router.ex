@@ -38,6 +38,16 @@ defmodule CentralGPSWebApp.Router do
     get  "/", ProfileController, :index
   end
 
+  scope "/security/accounts", CentralGPSWebApp.Client.Security do
+    pipe_through :browser # Use the default browser stack
+    get    "/",       AccountController, :index
+    get    "/json",   AccountController, :list
+    get    "/new",    AccountController, :new
+    get    "/edit",   AccountController, :edit
+    post   "/save",   AccountController, :save
+    delete "/delete", AccountController, :delete
+  end
+
   scope "/checkpoint/actions", CentralGPSWebApp.Client.Checkpoint do
     pipe_through :browser # Use the default browser stack
     get    "/",       ActionController, :index

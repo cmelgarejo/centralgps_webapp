@@ -1,7 +1,7 @@
 defmodule CentralGPSWebApp.Client.Checkpoint.MonitorController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
-  plug :action
+
 
   def venues(conn, _params) do
     {conn, session} = centralgps_session conn

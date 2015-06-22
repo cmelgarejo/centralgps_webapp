@@ -2,7 +2,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
-  plug :action
+
 
   # POST    /checkpoint/venues/create
   # GET     /checkpoint/venues/:venue_id
@@ -25,32 +25,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-        |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
-        |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
-        |> (Map.update :searchColumn, nil, fn(v)->(v) end)
-        |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
-        |> (Map.put :sort_column, nil)
-        |> (Map.put :sort_order, nil)
-      if Map.has_key?_params, :sort do
-        _params = Map.put(_params, :sort_column, Map.keys(_params.sort) |> hd)
-          |> Map.put(:sort_order, Map.values(_params.sort) |> hd)
-      end
-      qs = %{offset: (_params.current - 1) * _params.rowCount, limit: _params.rowCount,
-        search_column: _params.searchColumn, search_phrase: _params.searchPhrase,
-        sort_column: _params.sort_column, sort_order: _params.sort_order}
-      {api_status, res} = api_get_json "/checkpoint/venues", session.auth_token, session.account_type, qs
-      rows = %{}
-      if(api_status == :ok) do
-        if res.body.status do
-          rows = res.body.rows
-            |> Enum.map(&(objectify_map &1))
-            |> Enum.map &(%{id: &1.id, description: &1.description })
-        else
-          #TODO: something on error?
-        end
-      end
-      json conn, Map.merge((res.body |> Map.put :rows, rows), _params)
+      json conn, list_records(session, _params)
     end
   end
 
@@ -68,17 +43,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-      {api_status, res} = api_get_json "/checkpoint/venues/" <> _params.id, session.auth_token, session.account_type
-      record = nil
-      if(api_status == :ok) do
-        record = objectify_map(res.body.res)
-        if res.body.status do
-          record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-            %{id: record.id, configuration_id: record.configuration_id, description: record.description}
-        end
-      end
-      render (conn |> assign :record, record), "edit.html"
+      render (conn |> assign :record, get_record(session, _params)), "edit.html"
     end
   end
 
@@ -87,18 +52,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-      if (!Map.has_key?_params, :__form__), do: _params = Map.put _params, :__form__, :edit
-      if (String.to_atom(_params.__form__) ==  :edit) do
-        data = %{venue_id: _params.id, configuration_id: session.client_id, description: _params.description}
-        {_, res} = api_put_json "/checkpoint/venues/" <> data.venue_id,
-          session.auth_token, session.account_type, data
-      else
-        data = %{ configuration_id: session.client_id, description: _params.description }
-        {_, res} = api_post_json "/checkpoint/venues/create",
-          session.auth_token, session.account_type, data
-      end
-      json conn, res.body
+      json conn, save_record(session, _params)
     end
   end
 
@@ -107,21 +61,124 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-      if(Map.has_key?_params, :id) do
-        {api_status, res} =
-          api_delete_json "/checkpoint/venues/" <> _params.id,
-          session.auth_token, session.account_type
-      else
-        {api_status, res} = {:error, %{body: %{ status: false, msg: "MEGA ERROR"}}}
-      end
-      if(api_status == :ok) do
-        if res.body.status do
-        else
-          #TODO: something on error?
-        end
-      end
-      json conn, res.body
+      json conn, delete_record(session, _params)
     end
+  end
+
+  #private functions
+  defp _local_image_path, do: Endpoint.config(:root) <> "priv/static"
+  defp _placeholder, do: "_placeholder.png"
+  defp image_dir, do: "images/venue"
+  defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venues/" <> action
+  defp list_records(_s, _p) do
+    _p = objectify_map(_p)
+      |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      |> (Map.update :searchColumn, nil, fn(v)->(v) end)
+      |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
+      |> (Map.put :sort_column, nil)
+      |> (Map.put :sort_order, nil)
+    if Map.has_key?_p, :sort do
+      _p = Map.put(_p, :sort_column, Map.keys(_p.sort) |> hd)
+        |> Map.put(:sort_order, Map.values(_p.sort) |> hd)
+    end
+    qs = %{offset: (_p.current - 1) * _p.rowCount, limit: _p.rowCount,
+      search_column: _p.searchColumn, search_phrase: _p.searchPhrase,
+      sort_column: _p.sort_column, sort_order: _p.sort_order}
+    {api_status, res} = api_get_json api_method, _s.auth_token, _s.account_type, qs
+    rows = %{}
+    if(api_status == :ok) do
+      if res.body.status do
+        rows = res.body.rows
+          |> Enum.map(&(objectify_map &1))
+          |> Enum.map &(%{id: &1.id, configuration_id: &1.configuration_id, name: &1.name, code: &1.code,
+          description: &1.description, venue_image: &1.venue_image, lat: &1.lat,
+          lon: &1.lon, detection_radius: &1.detection_radius })
+      else
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      end
+    end
+    Map.merge (res.body |> Map.put :rows, rows), _p
+  end
+
+  defp get_record(_s, _p) do
+    _p = objectify_map _p
+    {api_status, res} = api_get_json api_method(_p.id), _s.auth_token, _s.account_type
+    record = nil
+    if(api_status == :ok) do
+      record = objectify_map(res.body.res)
+      if res.body.status do
+        record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
+          %{id: record.id, configuration_id: record.configuration_id, name: record.name, code: record.code,
+          description: record.description, venue_image: record.venue_image, lat: record.lat,
+          lon: record.lon, detection_radius: record.detection_radius }
+      end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
+    end
+    record
+  end
+
+  defp delete_record(_s, _p) do
+    _p = objectify_map _p
+    if(Map.has_key?_p, :id) do
+      {api_status, res} =
+        api_delete_json api_method(_p.id),
+        _s.auth_token, _s.account_type
+    else
+      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
+    end
+    if(api_status == :ok) do
+      if !res.body.status, do:
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+    end
+    res.body
+  end
+
+
+  defp save_record(_s, _p) do
+    _p = objectify_map(_p)
+    if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
+    if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
+    (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, lets just NIL it :)
+    if (String.to_atom(_p.__form__) ==  :edit) do
+      #image_filename = _p.image_filename
+      file = nil
+      if (_p.image != nil) do #let's create a hash filename for the new pic.
+        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(_p.image), ".") |> List.last)) |> String.replace "/", ""
+        {:ok, file} = File.read _p.image.path
+        file = Base.url_encode64(file)
+      else #or take the already existing one
+        image_filename = (String.split(_p.image_filename, image_dir) |> List.last) |> String.replace "/", ""
+      end
+      data = %{ venue_id: _p.id, configuration_id: _s.client_id, description: _p.description,
+        image: Enum.join([image_dir, image_filename], "/"), image_file: file  }
+      old_rec = get_record(_s, _p)
+      {api_status, res} = api_put_json api_method(data.venue_id),
+      _s.auth_token, _s.account_type, data
+      if api_status == :ok  do
+        if res.body.status && (_p.image != nil) do #lets put the corresponding pic for the record.
+          dest_dir = Enum.join [_local_image_path, image_dir], "/"
+          File.rm Enum.join([dest_dir,  String.split(old_rec.image_filename, image_dir) |> List.last], "/") #removes the old image
+          File.mkdir_p dest_dir
+          File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
+        end
+      else
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      end
+    else
+      file = nil
+      if (_p.image != nil) do
+        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(_p.image), ".") |> List.last)) |> String.replace "/", ""
+        {:ok, file} = File.read _p.image.path
+        file = Base.url_encode64(file)
+      else
+        image_filename = _placeholder
+      end
+      data = %{ configuration_id: _s.client_id, description: _p.description,
+        image: image_filename, image_file: file  }
+      {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+    end
+    res.body #let's return the message
   end
 end

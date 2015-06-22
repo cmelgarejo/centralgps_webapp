@@ -18,6 +18,7 @@ defmodule CentralGPSWebApp.Web do
   def model do
     quote do
       # Define common model functionality
+      use Ecto.model
     end
   end
 
@@ -38,10 +39,6 @@ defmodule CentralGPSWebApp.Web do
     quote do
       use Phoenix.View, root: "web/templates"
 
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_csrf_token: 0, #get_flash: 2,
-      view_module: 1, action_name: 1, controller_module: 1, router_module: 1 ]
-
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
@@ -51,6 +48,10 @@ defmodule CentralGPSWebApp.Web do
       import CentralGPSWebApp.Utilities
       alias CentralGPS.Repo.Permissions
       alias CentralGPSWebApp.Endpoint
+
+      # Import convenience functions from controllers
+      import Phoenix.Controller, only: [get_csrf_token: 0, #get_flash: 2,
+      view_module: 1, action_name: 1, controller_module: 1, router_module: 1 ]
 
     end
   end

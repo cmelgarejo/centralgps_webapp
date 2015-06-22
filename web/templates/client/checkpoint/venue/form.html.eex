@@ -1,34 +1,172 @@
-<div class="card-body card-padding">
-  <form role="form" method='post'
+<div class="card-body card-padding" style="height: 90%">
+  <form role="form" method='post' style="height: inherit;"
     action="<%= venue_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
-    <div class="form-group fg-float">
-      <%= if (@record.__form__ == :edit) do %>
-      <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
-      <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
-      <% end %>
-      <div class="fg-line fg-toggled">
-        <input class="form-control" type="text" id="description" name="description"
-        value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
-        required autofocus toggled/>
+    <%= if (@record.__form__ == :edit) do %>
+    <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
+    <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+    <% end %>
+    <div class="row" style="height:90%">
+      <div class="col-sm-6 col-md-6">
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <input class="form-control" type="text" id="name" name="name"
+            value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>" required autofocus toggled/>
+            <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></label>
+          </div>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="code" name="code"
+            value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>" required />
+            <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></label>
+          </div>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="description" name="description"
+            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"/>
+            <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></label>
+          </div>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="detection_radius" name="detection_radius"
+            value="<%= if (@record.__form__ == :edit), do: @record.detection_radius, else: nil %>" required/>
+            <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DETECTION_RADIUS") %></label>
+          </div>
+        </div>
       </div>
-      <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></label>
+      <div class="col-sm-6 col-md-6" style="height: inherit;">
+        <div id="_venue_map"></div>
+      </div>
     </div>
     <div id="alert"></div>
     <a onclick="get_page('<%= venue_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
+      <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>
-    <button class="btn btn-success pull-right" type="submit">
+    <button class="btn btn-success pull-right" 33775="submit">
+      <%= l10n(@session.language_code, "generic", "SAVE") %>
       <i class="md md-save"></i>
     </button>
   </form>
 </div>
 <script>
 $(document).ready(function() {
-  $("form").on("submit", post_on_submit_form);
+  $("form").submit(function(){return __ajaxForm(this);});
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
+  $('#name,#code,#description').change(function() {
+    if (!$(this).parent().hasClass('fg-toggled')) {
+      $(this).parent().addClass('fg-toggled');
+    }
+  });
 });
+</script>
+<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.draw.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.label.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.awesome-markers.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
+<script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.awesome-markers.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.measurecontrol.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
+<script>
+"use strict";
+
+var _dt_format = 'YYYY-MM-DD HH:mm:ss';
+var venue_icon = L.AwesomeMarkers.icon({
+    markerColor: 'green'
+});
+// Lefalet shortcuts for common tile providers - is it worth adding such 1.5kb to Leaflet core?
+L.TileLayer.Common = L.TileLayer.extend({
+	initialize: function (options) {
+		L.TileLayer.prototype.initialize.call(this, this.url, options);
+	}
+});
+(function() {
+	var osmAttr = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+	L.TileLayer.OpenStreetMap = L.TileLayer.Common.extend({
+		url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		options: {attribution: osmAttr}
+	});
+  L.TileLayer.MapBox = L.TileLayer.Common.extend({
+		url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+	});
+}());
+function _browser_geo_success(position) {
+  __centralgps__.venue.map.setView([position.coords.latitude, position.coords.longitude], 12);
+}
+function _browser_geo_error(positionError) {
+  var msg;
+  switch(positionError.code) {
+    case 1: msg = __centralgps__.globalmessages.__geolocation_permission_denied; break;
+    case 2: msg = __centralgps__.globalmessages.__geolocation_position_unavailable; break;
+    case 3: msg = __centralgps__.globalmessages.__geolocation_timeout; break;
+    default: msg = "";
+  }
+  //$.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
+}
+$(document).ready(function() {
+try {
+  __centralgps__.venue = { map: null, layer_name: null };
+  __centralgps__.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>"
+  __centralgps__.venue.map = L.map('_venue_map').setView([0, 0], 2);
+  L.Icon.Default.imagePath = '../images';
+  __centralgps__.venue.map_layers = {
+    "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.venue.map),
+    "Mapbox": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
+	};
+  __centralgps__.venue.map_overlays = {
+    <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.MarkerClusterGroup().addTo(__centralgps__.venue.map),
+  };
+  L.control.layers(__centralgps__.venue.map_layers, __centralgps__.venue.map_overlays)
+    .addTo(__centralgps__.venue.map);
+  L.Control.measureControl().addTo(__centralgps__.venue.map);
+  __centralgps__.venue.map.addControl(new L.Control.Scale());
+  __centralgps__.venue.map.addControl(new L.Control.OSMGeocoder({
+      collapsed: true,
+      position: 'bottomright',
+      text: '',
+      cssclass: 'md md-search',
+  }));
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);
+  } else {
+    _browser_geo_error;
+  }
+  updateVenueMap();
+}
+catch(err) {
+  console.log(err);
+}
+
+});
+function updateVenueMap() {
+  Pace.ignore(function(){
+    $.get('/monitor/venues', function(response, status, xhr) {
+      if (response.status == true) {
+        response.rows.forEach(function(v, vidx, arr) {
+          //TODO: just update the positions on existing markers, ad only news, delete non existants
+          __centralgps__.venue.map_overlays[__centralgps__.venue.layer_name].
+            addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
+              .bindPopup('<b>' + v.name + '</b>'));
+        });
+      } else {
+        console.log('.updateVenueMap: ' + response.msg);
+      }
+    });
+  });
+}
 </script>

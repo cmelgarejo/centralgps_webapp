@@ -1,6 +1,6 @@
 defmodule CentralGPSWebApp.Client.ProfileController do
   use CentralGPSWebApp.Web, :controller
-  plug :action
+
 
   def index(conn, _params) do
     {conn, session} = centralgps_session conn

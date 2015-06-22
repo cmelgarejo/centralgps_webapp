@@ -2,12 +2,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
-  plug :action
+
 
   # POST    /checkpoint/reasons/create
-  # GET     /checkpoint/reasons/:reason_id
-  # PUT     /checkpoint/reasons/:reason_id
-  # DELETE  /checkpoint/reasons/:reason_id
+  # GET     /checkpoint/reasons/:action_id
+  # PUT     /checkpoint/reasons/:action_id
+  # DELETE  /checkpoint/reasons/:action_id
   # GET     /checkpoint/reasons
   # GET     /checkpoint/reasons/json
 
@@ -25,32 +25,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-        |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
-        |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
-        |> (Map.update :searchColumn, nil, fn(v)->(v) end)
-        |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
-        |> (Map.put :sort_column, nil)
-        |> (Map.put :sort_order, nil)
-      if Map.has_key?_params, :sort do
-        _params = Map.put(_params, :sort_column, Map.keys(_params.sort) |> hd)
-          |> Map.put(:sort_order, Map.values(_params.sort) |> hd)
-      end
-      qs = %{offset: (_params.current - 1) * _params.rowCount, limit: _params.rowCount,
-        search_column: _params.searchColumn, search_phrase: _params.searchPhrase,
-        sort_column: _params.sort_column, sort_order: _params.sort_order}
-      {api_status, res} = api_get_json "/checkpoint/reasons", session.auth_token, session.account_type, qs
-      rows = %{}
-      if(api_status == :ok) do
-        if res.body.status do
-          rows = res.body.rows
-            |> Enum.map(&(objectify_map &1))
-            |> Enum.map &(%{id: &1.id, description: &1.description })
-        else
-          #TODO: something on error?
-        end
-      end
-      json conn, Map.merge((res.body |> Map.put :rows, rows), _params)
+      json conn, list_records(session, _params)
     end
   end
 
@@ -68,17 +43,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-      {api_status, res} = api_get_json "/checkpoint/reasons/" <> _params.id, session.auth_token, session.account_type
-      record = nil
-      if(api_status == :ok) do
-        record = objectify_map(res.body.res)
-        if res.body.status do
-          record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-            %{id: record.id, configuration_id: record.configuration_id, description: record.description}
-        end
-      end
-      render (conn |> assign :record, record), "edit.html"
+      render (conn |> assign :record, get_record(session, _params)), "edit.html"
     end
   end
 
@@ -87,18 +52,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-      if (!Map.has_key?_params, :__form__), do: _params = Map.put _params, :__form__, :edit
-      if (String.to_atom(_params.__form__) ==  :edit) do
-        data = %{reason_id: _params.id,  configuration_id: session.client_id, description: _params.description}
-        {_, res} = api_put_json "/checkpoint/reasons/" <> data.reason_id,
-          session.auth_token, session.account_type, data
-      else
-        data = %{ configuration_id: session.client_id, description: _params.description }
-        {_, res} = api_post_json "/checkpoint/reasons/create",
-          session.auth_token, session.account_type, data
-      end
-      json conn, res.body
+      json conn, save_record(session, _params)
     end
   end
 
@@ -107,21 +61,83 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      _params = objectify_map(_params)
-      if(Map.has_key?_params, :id) do
-        {api_status, res} =
-          api_delete_json "/checkpoint/reasons/" <> _params.id,
-          session.auth_token, session.account_type
-      else
-        {api_status, res} = {:error, %{body: %{ status: false, msg: "MEGA ERROR"}}}
-      end
-      if(api_status == :ok) do
-        if res.body.status do
-        else
-          #TODO: something on error?
-        end
-      end
-      json conn, res.body
+      json conn, delete_record(session, _params)
     end
   end
+
+  #private functions
+  defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/reasons/" <> action
+
+  defp get_record(_s, _p) do
+    _p = objectify_map(_p)
+    {api_status, res} = api_get_json api_method(_p.id), _s.auth_token, _s.account_type
+    record = nil
+    if(api_status == :ok) do
+      record = objectify_map res.body.res
+      if res.body.status do
+        record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
+          %{id: record.id, configuration_id: record.configuration_id, description: record.description}
+      end
+    end
+    record
+  end
+
+  defp save_record(_s, _p) do
+    _p = objectify_map(_p)
+    if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
+    if (String.to_atom(_p.__form__) ==  :edit) do
+      data = %{action_id: _p.id, configuration_id: _s.client_id, description: _p.description}
+      {_, res} = api_put_json api_method(data.action_id), _s.auth_token, _s.account_type, data
+    else
+      data = %{ configuration_id: _s.client_id, description: _p.description }
+      {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+    end
+    res.body
+  end
+
+  defp delete_record(_s, _p) do
+    _p = objectify_map _p
+    if(Map.has_key?_p, :id) do
+      {api_status, res} =
+        api_delete_json api_method(_p.id),
+        _s.auth_token, _s.account_type
+    else
+      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
+    end
+    if(api_status == :ok) do
+      if !res.body.status, do:
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+    end
+    res.body
+  end
+
+  defp list_records(_s, _p) do
+    _p = objectify_map(_p)
+      |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      |> (Map.update :searchColumn, nil, fn(v)->(v) end)
+      |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
+      |> (Map.put :sort_column, nil)
+      |> (Map.put :sort_order, nil)
+    if Map.has_key?_p, :sort do
+      _p = Map.put(_p, :sort_column, Map.keys(_p.sort) |> hd)
+        |> Map.put(:sort_order, Map.values(_p.sort) |> hd)
+    end
+    qs = %{offset: (_p.current - 1) * _p.rowCount, limit: _p.rowCount,
+      search_column: _p.searchColumn, search_phrase: _p.searchPhrase,
+      sort_column: _p.sort_column, sort_order: _p.sort_order}
+    {api_status, res} = api_get_json api_method, _s.auth_token, _s.account_type, qs
+    rows = %{}
+    if(api_status == :ok) do
+      if res.body.status do
+        rows = res.body.rows
+          |> Enum.map(&(objectify_map &1))
+          |> Enum.map &(%{id: &1.id, description: &1.description })
+      else
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      end
+    end
+    Map.merge((res.body |> Map.put :rows, rows), _p)
+  end
+
 end

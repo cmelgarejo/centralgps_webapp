@@ -3,7 +3,6 @@ defmodule CentralGPSWebApp.Client.LoginController do
   import CentralGPS.Repo.Utilities
   import CentralGPS.RestClient
   import CentralGPSWebApp
-  plug :action
 
   defp login_data_builder(_p) do
     %{

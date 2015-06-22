@@ -19,6 +19,7 @@
   </table>
 </div>
 <script>
+__centralgps__.CRUD.index_url = '<%= action_path(@conn, :index) %>';
 __centralgps__.CRUD.edit_url = '<%= action_path(@conn, :edit) %>';
 __centralgps__.CRUD.delete_url = '<%= action_path(@conn, :delete) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
@@ -26,7 +27,6 @@ __centralgps__.CRUD.grid_name = '#action_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
-__centralgps__.CRUD.grid_crud_formatter = simpleGridCommandFormatter;
 $(document).ready(function() {
   gridSetup_CRUD();
 });

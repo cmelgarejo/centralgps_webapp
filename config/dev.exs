@@ -17,7 +17,8 @@ config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|eot|svg|ttf|woff|woff2)$},
+      ~r{priv/static/.*(js|css|eot|svg|ttf|woff|woff2)$},
+      ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]

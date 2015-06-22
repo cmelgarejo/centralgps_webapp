@@ -1,5 +1,5 @@
 msgid  "PAGE_TITLE"
-msgstr "Bienvenido, por favor ingrese sus credenciales"
+msgstr "Bienvenido, por favor ingrese sus datos de acceso"
 
 msgid  "JUMBO_TITLE"
 msgstr "Checkpoint"

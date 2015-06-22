@@ -14,7 +14,7 @@ msgid  "MAP_ASSET_LAYER_NAME"
 msgstr "Activos"
 
 msgid  "MAP_VENUE_LAYER_NAME"
-msgstr "Lugares"
+msgstr "Establecimientos"
 
 msgid  "MAP_MARK_LAYER_NAME"
 msgstr "Marcas"
@@ -29,7 +29,7 @@ msgid  "COLUMN_ASSET_POSITION_AT"
 msgstr "Fecha y Hora de ultima posición"
 
 msgid  "COLUMN_EVENT_ASSET"
-msgstr "Nombre del activo"
+msgstr "Nombre"
 
 msgid  "COLUMN_EVENT_EVENT"
 msgstr "Evento"
@@ -38,7 +38,7 @@ msgid  "COLUMN_EVENT_AT"
 msgstr "Fecha y hora"
 
 msgid  "COLUMN_HISTORY_ASSET"
-msgstr "Nombre del activo"
+msgstr "Nombre"
 
 msgid  "COLUMN_HISTORY_ADDRESS"
 msgstr "Dirección de ubicación"

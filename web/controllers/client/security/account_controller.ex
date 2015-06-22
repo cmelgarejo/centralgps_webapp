@@ -1,15 +1,15 @@
-defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
+defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
 
-  # POST    /checkpoint/venue_types/create
-  # GET     /checkpoint/venue_types/:venue_id
-  # PUT     /checkpoint/venue_types/:venue_id
-  # DELETE  /checkpoint/venue_types/:venue_id
-  # GET     /checkpoint/venue_types
-  # GET     /checkpoint/venue_types/json
+  # POST    /checkpoint/accounts/create
+  # GET     /checkpoint/accounts/:venue_id
+  # PUT     /checkpoint/accounts/:venue_id
+  # DELETE  /checkpoint/accounts/:venue_id
+  # GET     /checkpoint/accounts
+  # GET     /checkpoint/accounts/json
 
   def index(conn, _params) do
     {conn, session} = centralgps_session conn
@@ -66,10 +66,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
   end
 
   #private functions
-  defp _local_image_path, do: Enum.join([Endpoint.config(:root), "priv/static"], "/")
+  defp _local_image_path, do: Endpoint.config(:root) <> "priv/static"
   defp _placeholder, do: "_placeholder.png"
-  defp image_dir, do: "images/venue_type"
-  defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venue_types/" <> action
+  defp image_dir, do: "images/profile"
+  defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/accounts/" <> action
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
       |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
@@ -91,7 +91,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id, description: &1.description, venue_type_image: &1.venue_type_image })
+          |> Enum.map &(%{id: &1.id, password: &1.password, name: &1.name, dob: &1.dob,
+          identity_document: &1.identity_document, emails: &1.emails, phones: &1.phones,
+          profile_image: &1.profile_image, language_template_id: &1.language_template_id,
+          timezone: &1.timezone, active: &1.active, blocked: &1.blocked})
       else
         res = Map.put res, :body, %{ status: false, msg: res.reason }
       end
@@ -107,8 +110,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       record = objectify_map(res.body.res)
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, description: record.description,
-          image_filename: record.venue_type_image }
+          %{id: record.id, password: record.password, name: record.name, dob: record.dob,
+          identity_document: record.identity_document, emails: record.emails, phones: record.phones,
+          profile_image: record.profile_image, language_template_id: record.language_template_id,
+          timezone: record.timezone, active: record.active, blocked: record.blocked}
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
@@ -132,7 +137,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
     res.body
   end
 
-
   defp save_record(_s, _p) do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
@@ -148,7 +152,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       else #or take the already existing one
         image_filename = (String.split(_p.image_filename, image_dir) |> List.last) |> String.replace "/", ""
       end
-      data = %{ venue_id: _p.id, configuration_id: _s.client_id, description: _p.description,
+      data = %{ account_id: _p.id, configuration_id: _s.client_id, description: _p.description,
         image: Enum.join([image_dir, image_filename], "/"), image_file: file  }
       old_rec = get_record(_s, _p)
       {api_status, res} = api_put_json api_method(data.venue_id),
@@ -157,7 +161,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
         if res.body.status && (_p.image != nil) do #lets put the corresponding pic for the record.
           dest_dir = Enum.join [_local_image_path, image_dir], "/"
           File.rm Enum.join([dest_dir,  String.split(old_rec.image_filename, image_dir) |> List.last], "/") #removes the old image
-          IO.puts "#{inspect dest_dir}"
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
         end

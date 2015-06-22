@@ -158,8 +158,8 @@ defmodule CentralGPS.Repo.Utilities do
           (raise ArgumentError, message: "missing: #{k}"))
         map = Map.take map, filter_keys
       end
-      E.map(map,fn({k,v})->{(if !is_atom(k), do: S.to_atom(k), else: k),v}end)
-      |> E.into %{}
+      E.reduce map, %{}, fn({k,v}, m) -> Map.put m, (if !is_atom(k), do: S.to_atom(k), else: k), v end
+      #|> E.into %{}
     rescue
       e in _ ->
         error_logger e, __ENV__, %{filter_keys: filter_keys, map: map}
@@ -230,6 +230,24 @@ defmodule CentralGPS.Repo.Utilities do
         error_logger e, __ENV__, %{table: table}
         raise e
     end
+  end
+
+  @doc """
+  Returns a valid filename from a structure %Plug.Upload{}
+  """
+  def upload_file_name(plug) do
+    Regex.replace(~r/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%# ]/, plug.filename, "_")
+  end
+  
+  @doc """
+  Returns a boolean indicating if the passed %Plug.Upload{} structure has a
+  valid mimetyped image in it.
+  """
+  def upload_is_image?(plug) do
+    content_type = plug.content_type
+    image_mimes = [ Plug.MIME.type("png"), Plug.MIME.type("jpg"),
+      Plug.MIME.type("gif") ]
+    Enum.find_index(image_mimes, fn(x) -> x == content_type end) != nil
   end
 
 end

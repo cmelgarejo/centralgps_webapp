@@ -3,6 +3,7 @@ var bootgrid_labels;
 var __centralgps__ = {
   CRUD: {},
   globalmessages : {
+    generic : {},
     _delete_record_title_sure    : "CLS_TITLE_SURE",
     _delete_record_removed       : "CLS_REMOVED",
     _delete_record_confirm_text  : "CLS_CONFIRM_TEXT",
@@ -53,8 +54,8 @@ $( document ).ajaxError(function( event, request, settings ) {
       break;
   }
   var notify = { title: settings.url, text:msg, image: '<i class="md-error"></i>'};
-  console.log(notify);
   //$.notify(notify, 'error');
+  console.log(event);
 });
 
 
@@ -89,33 +90,17 @@ $(document).ready(function(){
 });
 
 
-function simpleGridCommandFormatter(column, row)
+function gridCommandFormatter(column, row)
 {
     return "<button type='button' class='btn btn-default cmd-edit' data-row-id='" + row.id + "'><span class='md md-edit'></span></button> " +
         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "'><span class='md md-delete'></span></button>";
 }
 
-function post_on_submit_form(event) {
- event.preventDefault();
- var $that = this;
- Pace.track(function(){
-   //console.log($that);
-   $($that).find(':button:not(:disabled)').prop('disabled',true);
-   $($that).find('#alert').html("");
-   $.post($that.getAttribute('action'), $($that).serialize(),
-     function(data, txtStatus, jqXHR) {
-       $($that).find(':button:disabled').prop('disabled',false);
-       if(data.status) {
-         $($that).find('#alert').html("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
-           + data.msg + "</div>")
-         //window.location = data.res;
-       } else {
-         if(data.msg == "nxdomain") data.msg = _msg;
-         $($that).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
-           + data.msg + "</div>")
-       }
-     });
-  });
+function gridImageFormatter(column, row)
+{
+  // console.log(column);
+  // console.log(row);
+  return "<img src='" + row[column.id] + "' style='width:150px'/>";
 }
 
 function bootgrid_delete(grid, delete_url, record) {
@@ -155,13 +140,15 @@ function bootgrid_delete(grid, delete_url, record) {
   });
 }
 
-function gridSetup_CRUD(){
+function gridSetup_CRUD(gridFormatters){
+  gridFormatters = typeof gridFormatters !== 'undefined' ? gridFormatters : {};
+  gridFormatters["commands"] = gridCommandFormatter;
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
     labels: __centralgps__.bootgrid_labels,
     ajaxSettings: {method: __centralgps__.CRUD.grid_method, cache: false },
     requestHandler: function(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
-    formatters: { "commands": __centralgps__.CRUD.grid_crud_formatter }
+    formatters: gridFormatters
   }).on("loaded.rs.jquery.bootgrid", function() {
     Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
     /* Executes after data is loaded and rendered */
@@ -174,7 +161,79 @@ function gridSetup_CRUD(){
   });
 }
 
+function showSuccess(message) {
+  $(document).find('#alert').html("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
+    + message + "</div>")
+}
+
 function showError(message) {
   $(document).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
     + message + "</div>")
+}
+
+// pre-submit callback
+function ajaxformOnRequest(formData, jqForm, options) {
+    // formData is an array; here we use $.param to convert it to a string to display it
+    // but the form plugin does this for you automatically when it submits the data
+    var queryString = $.param(formData);
+
+    // jqForm is a jQuery object encapsulating the form element.  To access the
+    // DOM element for the form do this:
+    // var formElement = jqForm[0];
+
+    jqForm.find(':button:not(:disabled)').prop('disabled',true);
+    jqForm.find('#alert').html("");
+
+    // here we could return false to prevent the form from being submitted;
+    // returning anything other than false will allow the form submit to continue
+    return true;
+}
+
+// post-submit callback
+function ajaxformOnResponse(response, status, xhr, jqForm)  {
+    // if the ajaxForm method was passed an Options Object with the dataType
+    // property set to 'xml' then the first argument to the success callback
+    // is the XMLHttpRequest object's responseXML property
+
+    // if the ajaxForm method was passed an Options Object with the dataType
+    // property set to 'json' then the first argument to the success callback
+    // is the json data object returned by the server
+    // console.log(response);
+    // console.log(status);
+    // console.log(jqForm);
+    // console.log(xhr);
+    if(response.status)
+      showSuccess(response.msg);
+    else
+      showError(response.msg);
+    setTimeout(function(){
+      jqForm.find(':button:disabled').prop('disabled',false);
+      if(response.status)
+        get_page(__centralgps__.CRUD.index_url);
+    }, 2000);
+    return false;
+}
+
+function __ajaxForm(form, options) {
+  options = typeof options !== 'undefined' ? options : {};
+  options.target = typeof options.target !== 'undefined' ? options.target : 'form#alert';
+  options.dataType = typeof options.dataType !== 'undefined' ? options.dataType : 'json';
+  options.beforeSubmit = typeof options.beforeSubmit !== 'undefined' ? options.beforeSubmit : ajaxformOnRequest;
+  options.success = typeof options.success !== 'undefined' ? options.success : ajaxformOnResponse;
+  //console.log(options);
+  // var options = {
+  //       target:        target,   // target element(s) to be updated with server response
+  //       beforeSubmit:  ajaxformOnRequest,  // pre-submit callback
+  //       success:       ajaxformOnResponse,  // post-submit callback
+  //       dataType:      dataType,
+  //       // other available options:
+  //       //url:       url         // override for form's 'action' attribute
+  //       //type:      type        // 'get' or 'post', override for form's 'method' attribute
+  //       clearForm: clearForm,         // clear all form fields after successful submit
+  //       //resetForm: true        // reset the form after successful submit
+  //       // $.ajax options can be used here too, for example:
+  //       //timeout:   3000
+  //   };
+  $(form).ajaxSubmit(options);
+  return false;
 }

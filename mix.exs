@@ -3,7 +3,7 @@ defmodule CentralGPSWebApp.Mixfile do
 
   def project do
     [app: :central_g_p_s_web_app,
-     version: "0.0.1",
+     version: "0.1.2",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
@@ -14,7 +14,7 @@ defmodule CentralGPSWebApp.Mixfile do
   end
 
   defp package do
-      [ contributors: ["cmelgarejo, gabik077"],
+      [ contributors: ["cmelgarejo"],
         licenses: ["Licensed Closed Source"],
         links: %{"GitLab" => "https://gitlab.com/CentralGPS/centralgps_webapp"} ]
   end
@@ -30,12 +30,13 @@ defmodule CentralGPSWebApp.Mixfile do
 
   defp deps do
     [{:exrm,                github: "bitwalker/exrm"},
+     {:uuid,                github: "zyro/elixir-uuid"},
      {:httpoison,           github: "edgurgel/httpoison"},
      {:gettext,             github: "elixir-lang/gettext"},
      {:reprise,             github: "herenowcoder/reprise", only: :dev},
      {:logger_file_backend, github: "onkel-dirtus/logger_file_backend"},
      {:cowboy, "~> 1.0"},
-     {:phoenix, "~> 0.13"},
+     {:phoenix, git: "https://github.com/phoenixframework/phoenix.git", override: true},
      {:phoenix_html, "~> 1.0"},
      {:phoenix_live_reload, "~> 0.4", only: :dev}]
   end

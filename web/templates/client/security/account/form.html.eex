@@ -1,6 +1,6 @@
 <div class="card-body card-padding">
   <form role="form" method='post' enctype="multipart/form-data"
-    action="<%= venue_type_path Endpoint, :save %>">
+    action="<%= account_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
     <div class="row">
@@ -15,15 +15,15 @@
           value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
           required autofocus toggled/>
         </div>
-        <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_DESCRIPTION") %></label>
+        <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_DESCRIPTION") %></label>
       </div>
       <% #Image Control %>
       <div class="col-sm-6 col-md-6 text-center">
         <%= if (@record.__form__ == :edit) do %>
         <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
-        <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
+        <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_account_IMAGE_CURRENT") %></label>
         <% else %>
-        <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+        <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_account_IMAGE") %></label>
         <% end %>
         <div class="text-center">
           <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= account_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
       <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>

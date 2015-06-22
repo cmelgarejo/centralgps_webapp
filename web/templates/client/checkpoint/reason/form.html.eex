@@ -16,19 +16,23 @@
       <label class="fg-label"><%= l10n(@session.language_code, "reason.crud.html", "COLUMN_DESCRIPTION") %></label>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= reason_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
+      <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>
     <button class="btn btn-success pull-right" type="submit">
+      <%= l10n(@session.language_code, "generic", "SAVE") %>
       <i class="md md-save"></i>
     </button>
   </form>
 </div>
 <script>
 $(document).ready(function() {
-  $("form").on("submit", post_on_submit_form);
+  $("form").submit(function(){return __ajaxForm(this);});
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
 });
 </script>
+<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>

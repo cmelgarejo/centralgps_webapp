@@ -17,7 +17,7 @@ msgid  "DASHBOARD_LINK_TEXT"
 msgstr "Dashboard"
 
 msgid  "PROFILE_LINK_TEXT"
-msgstr "Ver Perfil"
+msgstr "Ver Perfils"
 
 msgid  "LOGOUT_LINK_TEXT"
 msgstr "Salir"
@@ -35,7 +35,7 @@ msgid  "CHECKPOINT_VENUE_TYPE_LINK_TEXT"
 msgstr "Tipos de Lugar"
 
 msgid  "CHECKPOINT_VENUE_LINK_TEXT"
-msgstr "Lugares"
+msgstr "Establecimientos"
 
 msgid  "CHECKPOINT_MARK_LINK_TEXT"
 msgstr "Marcaciones"

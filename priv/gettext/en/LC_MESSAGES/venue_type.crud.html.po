@@ -19,6 +19,9 @@ msgstr "Description"
 msgid  "COLUMN_VENUE_TYPE_IMAGE"
 msgstr "Image"
 
+msgid  "COLUMN_VENUE_TYPE_IMAGE_CURRENT"
+msgstr "Current Image"
+
 msgid  "COLUMN_CREATED_AT"
 msgstr "Created at"
 
