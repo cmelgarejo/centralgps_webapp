@@ -31,7 +31,7 @@ msgstr "Date & time"
 msgid  "COLUMN_EVENT_ASSET"
 msgstr "Asset"
 
-msgid  "COLUMN_EVENT_EVENT"
+msgid  "COLUMN_EVENT_TEXT"
 msgstr "Event"
 
 msgid  "COLUMN_EVENT_AT"

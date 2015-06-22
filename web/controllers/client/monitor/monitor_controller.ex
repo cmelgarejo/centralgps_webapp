@@ -17,7 +17,12 @@ defmodule CentralGPSWebApp.Client.MonitorController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      {_, res} = api_get_json "/monitor/client", session.auth_token, session.account_type
+      {api_status, res} = api_get_json "/monitor/client", session.auth_token, session.account_type
+      if api_status == :ok do
+        #do something! >:(
+      else
+        res = Map.put res, :body, %{ status: false, msg: res.reason } #HTTPoison.Error
+      end
       #TODO: filter the data, like auth_token of each asset.
       json conn, res.body
     end

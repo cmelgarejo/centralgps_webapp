@@ -1,6 +1,7 @@
 var bootgrid_labels;
 
 var __centralgps__ = {
+  checkpoint: {},
   CRUD: {},
   globalmessages : {
     generic : {},
@@ -236,4 +237,8 @@ function __ajaxForm(form, options) {
   //   };
   $(form).ajaxSubmit(options);
   return false;
+}
+
+function randomHexColor() {
+  return '#'+Math.floor(Math.random()*16777215).toString(16);
 }

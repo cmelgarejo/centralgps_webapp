@@ -5,7 +5,13 @@
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
     <%= if (@record.__form__ == :edit) do %>
     <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
+    <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.venue_image %>" required/>
+    <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= @record.venue_type_id %>" required/>
     <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+    <input type="hidden" id="lat" name="lat" value="<%= @record.lat %>" required/>
+    <input type="hidden" id="lon" name="lon" value="<%= @record.lon %>" required/>
+    <input type="hidden" id="detection_radius" name="detection_radius" value="<%= @record.detection_radius %>" required/>
+    <input type="hidden" id="xtra_info" name="xtra_info" value="<%= @record.xtra_info %>" required/>
     <% end %>
     <div class="row" style="height:90%">
       <div class="col-sm-6 col-md-6">

@@ -31,7 +31,7 @@ msgstr "Fecha y Hora de ultima posición"
 msgid  "COLUMN_EVENT_ASSET"
 msgstr "Nombre"
 
-msgid  "COLUMN_EVENT_EVENT"
+msgid  "COLUMN_EVENT_TEXT"
 msgstr "Evento"
 
 msgid  "COLUMN_EVENT_AT"

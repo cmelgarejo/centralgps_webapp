@@ -329,46 +329,14 @@ $(document).ready(function(){
     }
 
     /*
-     * HTML Editor
-     */
-    if ($('.html-editor')[0]) {
-	$('.html-editor').summernote({
-            height: 150
-        });
-    }
-
-    if($('.html-editor-click')[0]) {
-	//Edit
-	$('body').on('click', '.hec-button', function(){
-	    $('.html-editor-click').summernote({
-            focus: true
-	    });
-	    $('.hec-save').show();
-	})
-
-	//Save
-	$('body').on('click', '.hec-save', function(){
-	    $('.html-editor-click').code();
-            $('.html-editor-click').destroy();
-            $('.hec-save').hide();
-            notify('Content Saved Successfully!', 'success');
-        });
-    }
-
-    //Air Mode
-    if($('.html-editor-airmod')[0]) {
-        $('.html-editor-airmod').summernote({
-            airMode: true
-        });
-    }
-
-    /*
      * Date Time Picker
      */
 
     //Date Time Picker
     if ($('.date-time-picker')[0]) {
-	   $('.date-time-picker').datetimepicker();
+	   $('.date-time-picker').datetimepicker(
+       
+     );
     }
 
     //Time
@@ -381,7 +349,7 @@ $(document).ready(function(){
     //Date
     if ($('.date-picker')[0]) {
     	$('.date-picker').datetimepicker({
-    	    format: 'DD/MM/YYYY'
+    	    format: 'YYYY-MM-DD'
     	});
     }
 

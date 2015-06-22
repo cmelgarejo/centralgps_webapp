@@ -109,9 +109,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
       record = objectify_map(res.body.res)
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, name: record.name, code: record.code,
+          %{id: record.id, venue_type_id: record.venue_type_id,
+          configuration_id: record.configuration_id, name: record.name, code: record.code,
           description: record.description, venue_image: record.venue_image, lat: record.lat,
-          lon: record.lon, detection_radius: record.detection_radius }
+          lon: record.lon, detection_radius: record.detection_radius,
+          xtra_info: record.xtra_info}
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
@@ -137,7 +139,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
 
 
   defp save_record(_s, _p) do
-    _p = objectify_map(_p)
+    _p = objectify_map(_p)  
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
     if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
     (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, lets just NIL it :)
@@ -151,8 +153,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
       else #or take the already existing one
         image_filename = (String.split(_p.image_filename, image_dir) |> List.last) |> String.replace "/", ""
       end
-      data = %{ venue_id: _p.id, configuration_id: _s.client_id, description: _p.description,
-        image: Enum.join([image_dir, image_filename], "/"), image_file: file  }
+      data = %{ venue_id: _p.id, venue_type_id: _p.venue_type_id,
+        configuration_id: _s.client_id, name: _p.name, code: _p.code,
+        description: _p.description, lat: _p.lat, lon: _p.lon,
+        image: Enum.join([image_dir, image_filename], "/"), image_file: file,
+        detection_radius: _p.detection_radius, xtra_info: _p.xtra_info }
       old_rec = get_record(_s, _p)
       {api_status, res} = api_put_json api_method(data.venue_id),
       _s.auth_token, _s.account_type, data
@@ -175,8 +180,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
       else
         image_filename = _placeholder
       end
-      data = %{ configuration_id: _s.client_id, description: _p.description,
-        image: image_filename, image_file: file  }
+      data = %{ venue_type_id: _p.venue_type_id, configuration_id: _s.client_id,
+        name: _p.name, code: _p.code, description: _p.description,
+        lat: _p.lat, lon: _p.lon, image: image_filename, image_file: file,
+        detection_radius: _p.detection_radius, xtra_info: _p.xtra_info }
       {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
     end
     res.body #let's return the message

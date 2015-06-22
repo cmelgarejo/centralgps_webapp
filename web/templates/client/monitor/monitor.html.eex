@@ -20,7 +20,7 @@
   <ul class="tab-nav tn-justified" role="tablist">
       <li><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
       <li><a href="#tab_event_list" aria-controls="tab_event_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_EVENT_TEXT") %></a></li>
-      <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li>
+      <!-- <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li> -->
       <li class="active"><a href="#tab_map" aria-controls="tab_map" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MAP_TEXT") %></a></li>
   </ul>
   <div class="tab-content">
@@ -43,8 +43,8 @@
           <div class="row">
             <div class="col-sm-4 col-md-4">
               <div class="input-group" style="width:100%">
-                <div class="fg-line select">
-                  <select class="form-control chosen-select" id="_events_asset_list">
+                <div class="fg-line">
+                  <select class="chosen-select form-control" id="_events_asset_list">
                   </select>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                   <span class="input-group-addon">
                       <i class="md md-event"></i>
                   </span>
-                  <input id="_event_start_dt" type='text' class="form-control date-time-picker"
+                  <input id="_event_asset_start_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
                 </div>
               </div>
@@ -66,21 +66,21 @@
                   <span class="input-group-addon">
                       <i class="md md-event"></i>
                   </span>
-                  <input id="_event_finish_dt" type='text' class="form-control date-time-picker"
+                  <input id="_event_asset_finish_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
                 </div>
               </div>
             </div>
             <div class="col-sm-2 col-md-2">
-              <button class="btn btn-default" onclick="updateEventGrid()"><i class="md md-filter-list"></i>Filtrar</button>
+              <button class="btn btn-default" onclick="updateEvents()"><i class="md md-filter-list"></i>Filtrar</button>
             </div>
           </div>
           <div class="grid-container">
             <table id="event_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                      <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_ASSET") %></th>
-                      <th data-column-id="event"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_EVENT") %></th>
+                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_ASSET") %></th>
+                      <th data-column-id="event_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_TEXT") %></th>
                       <th data-column-id="event_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_AT") %></th>
                     </tr>
                 </thead>
@@ -109,8 +109,9 @@
 </div>
 <script>
 "use strict";
-
-var _dt_format = 'YYYY-MM-DD HH:mm:ss';
+var marker_icon_colors = ['red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'];
+var _dt_format_m = 'YYYY-MM-DD HH:mm:ss';
+var _dt_format_h = 'DD/MM/YYYY HH:mm:ss';
 var asset_icon = L.icon({
     iconUrl: 'images/marker-32.png',
     iconRetinaUrl: 'images/marker-512.png',
@@ -159,10 +160,11 @@ function _browser_geo_error(positionError) {
 $(document).ready(function() {
 try {
   //TODO: ver que cornos pasa con el datetimepicker que tiene problema con los 'locale' :-/
-  //$('date-time-picker').datetimepicker({locale: '<%= @session.language_code %>'});
-  $('date-time-picker').datetimepicker();//{locale: 'en'});
-  $('#_event_start_dt').val(moment().startOf('day').format(_dt_format));
-  $('#_event_finish_dt').val(moment().endOf('day').format(_dt_format));
+  moment.locale('<%= @session.language_code %>');
+  var _t = moment();
+  $('.date-time-picker').datetimepicker({locale: '<%= @session.language_code %>', format: _dt_format_h});
+  $('#_event_asset_start_dt').val(_t.startOf('day').format(_dt_format_h));
+  $('#_event_asset_finish_dt').val(_t.endOf('day').format(_dt_format_h));
   __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
   __centralgps__.asset.position.layer_name         = "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %>";
   __centralgps__.asset.checkpoint.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>"
@@ -206,7 +208,7 @@ try {
   updateAssetGrid();
   updateVenueMap();
   updateAssetMap();
-  setInterval(function() {
+  __centralgps__.asset.refresh_interval = setInterval(function() {
     Pace.ignore(function() {
       updateAssetMap();
       updateAssetGrid();
@@ -217,38 +219,72 @@ catch(err) {
   console.log(err);
 }
 });
-function updateEventGrid() {
+function updateEvents() {
+  __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name].clearLayers();
+  $("#event_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  var init   = moment($('#_event_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
+  var finish = moment($('#_event_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
   var selected_asset = $('#_events_asset_list option:selected')
-  var asset_name = selected_asset.text();
-  var id = selected_asset.val();
-  var query_string = '?asset_id=' + id +
-        '&init_at=' + moment($('#_event_start_dt').val()).format(_dt_format) +
-        '&stop_at=' + moment($('#_event_finish_dt').val()).format(_dt_format);
+  if(selected_asset.val() == -1) {//All records
+    $.each($('#_events_asset_list option'), function(k, v){
+      v = $(v);
+      if(v.val() != -1) {//if is NOT the All option
+        var my_color = randomHexColor(); //TODO: control if the color repeats
+        getAssetMarks({id: v.val(), name: v.text(), color: my_color}, init, finish);
+      }
+    });
+  }
+  else
+    getAssetMarks({id: selected_asset.val(), name: selected_asset.text(),
+      color: randomHexColor()}, init, finish);
+}
+function getAssetMarks(selected_asset, init, finish) {
+  var query_string = '?asset_id=' + selected_asset.id +
+        '&init_at=' + init +
+        '&stop_at=' + finish;
   $.get('/monitor/assets/checkpoint/marks' + query_string,
     function(response, status, xhr) {
       if (response.status == true) {
-        var mark_list = [];
+        var mark_list = [], point_list = [];
         response.rows.forEach(function(m, idx, arr) {
           //TODO: do a template accesible and configurable from outside this func.
-          var comment = m.comment != '' ? '<i><span style="text-decoration: underline">Comentario</span>: ' + m.comment + '</i>': '';
-          mark_list.push({ asset: asset_name, event_at: moment(m.position_at).format(_dt_format),
-            event: '<b>'+ m.venue + '</b></br>' + m.action +
-            ' - ' + m.reason  + '</br>' + comment
+          var event_at = moment(m.position_at).format(_dt_format_h);
+          var event_text = '<b>'+ m.venue + '</b><br/>' + m.action +
+            ' - ' + m.reason  + '<br/>' + (m.comment != '' ?
+            '<i><span style="text-decoration: underline">Comentario</span>: ' + m.comment + '</i>': '')
+            + '<br/>';
+          var event_popup_html  =
+            '<div class="row"><div class="col-sm-3 col-md-3">' +
+            selected_asset.name + '<br/></div>' +
+            '<div class="col-sm-9 col-md-9"><b>'+ m.venue + '</b><br/>' + m.action +
+            ' - ' + m.reason + '<br/>' + event_at +  '<br/>' + (m.comment != '' ?
+            '<i><span style="text-decoration: underline">Comentario</span>: ' + m.comment + '</i>': '')
+            '</div>';
+          mark_list.push({ asset_name: selected_asset.name, event_text: event_text,
+            event_popup_html: event_popup_html, lat: m.lat, lon: m.lon,
+            event_at: event_at,
           });
-          // .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108 })
-          // .bindPopup('<b>'+ asset.name + '@' + m.venue + '</b></br>' + m.action +
-          // ' - ' + m.reason  + '</br>' + m.comment  + '</br>' +
-          // moment(m.position_at).format(_dt_format)));
+          point_list.push([m.lat, m.lon]);
         });
-        $("#event_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear')
-          .bootgrid('append', mark_list);
+        $("#event_grid").bootgrid('append', mark_list);
+        var _rand_marker_icon = L.AwesomeMarkers.icon({
+            markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)]
+        });
+        $.each(mark_list, function(k, m) {
+          __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
+            .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108, icon: _rand_marker_icon })
+            .bindPopup(m.event_popup_html));
+        });
+        console.log(selected_asset.color);
+        var polyline = L.polyline(point_list, {color: selected_asset.color, noClip:true}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
+        // zoom the map to the polyline
+        __centralgps__.asset.map.fitBounds(polyline.getBounds());
       } else {
-        console.log('updateEventGrid: ' + response.msg);
-        console.log(asset_name + '.updateEventGrid: ' + response.msg + ' - query_string: ' + query_string);
+        console.log(selected_asset.name + '.updateEvents: ' + response.msg + ' - query_string: ' + query_string);
       }
   });
-}
 
+}
 function loadSelect(select, items, value_obj, text_obj, default_value, default_text) {
   var $select = $('#' + select);
   $select.find('option').remove();
@@ -269,14 +305,17 @@ function updateAssetGrid() {
         var asset = { id: a.id, name: a.name };
         a.positions.forEach(function(p, pidx, arr) {
           asset.address = p.address;
-          asset.position_at = moment(p.position_at).format(_dt_format);
+          asset.position_at = moment(p.position_at).format(_dt_format_h);
         });
         if(asset.position_at != null)
         asset_list.push(asset);
       });
       $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear')
         .bootgrid('append', asset_list);
-      loadSelect('_events_asset_list', asset_list, 'id', 'name', -1, __centralgps__.globalmessages.generic._all);
+      __centralgps__.asset.list = asset_list;
+      //check if there is changes in the length of the loaded asset list (+1 for [All])
+      if($('#_events_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
+        loadSelect('_events_asset_list', __centralgps__.asset.list, 'id', 'name', -1, __centralgps__.globalmessages.generic._all);
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }
@@ -291,7 +330,7 @@ function updateAssetMap() {
             __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().forEach(function(pos) {
               if(a.id == pos.options.asset.id) {
                 pos.setLatLng([p.lat, p.lon]);
-                pos.getPopup().setContent('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format));
+                pos.getPopup().setContent('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format_h));
                 //TODO: do a better optimization on which data and which positions should be updated
               }
             });
@@ -304,10 +343,10 @@ function updateAssetMap() {
           a.positions.forEach(function(p, pidx, arr) {
             __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
               .addLayer(L.marker([p.lat, p.lon], { asset: a, zIndexOffset: 108, icon: asset_icon })
-                .bindPopup('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format))
+                .bindPopup('<b>' + a.name + '</b></br>' + moment(p.position_at).format(_dt_format_h))
                 .bindLabel(a.name, { direction: 'auto', noHide: true }));
           });
-          updateMarkMap(a);
+          //updateMarkMap(a);
         });
       }
     } else {
@@ -318,8 +357,8 @@ function updateAssetMap() {
 function updateMarkMap(asset) {
   if (asset.xtra_info != null && asset.xtra_info.checkpoint) {
     var query_string = '?asset_id=' + asset.id +
-          '&init_at=' + moment().startOf('day').format(_dt_format) +
-          '&stop_at=' + moment().endOf('day').format(_dt_format);
+          '&init_at=' + moment().startOf('day').format(_dt_format_m) +
+          '&stop_at=' + moment().endOf('day').format(_dt_format_m);
     $.get('/monitor/assets/checkpoint/marks' + query_string,
       function(response, status, xhr) {
         if (response.status == true) {
@@ -328,7 +367,7 @@ function updateMarkMap(asset) {
               .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108 })
               .bindPopup('<b>'+ asset.name + '@' + m.venue + '</b></br>' + m.action +
               ' - ' + m.reason  + '</br>' + m.comment  + '</br>'+
-              moment(m.position_at).format(_dt_format)));
+              moment(m.position_at).format(_dt_format_h)));
           });
         } else {
           console.log(asset.name + '.updateMarkMap: ' + response.msg + ' - query_string: ' + query_string);
