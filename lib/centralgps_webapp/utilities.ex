@@ -22,7 +22,7 @@ defmodule CentralGPSWebApp.Utilities do
   def centralgps_session(conn) do
     session = get_session(conn, :session_data)
     if (session != nil) do
-      IO.puts "session: #{inspect session}"
+      IO.puts "session: #{inspect session.auth_token}"
       conn = conn
         |> assign(:session, session)
         |> assign(:profile_image, if(session.profile_image != nil, do: session.profile_image, else: "images/profile/_placeholder.png"))
