@@ -32,7 +32,7 @@ msgid  "CHECKPOINT_REASON_LINK_TEXT"
 msgstr "Motivos"
 
 msgid  "CHECKPOINT_VENUE_TYPE_LINK_TEXT"
-msgstr "Tipos de Lugar"
+msgstr "Tipos de Establecimiento"
 
 msgid  "CHECKPOINT_VENUE_LINK_TEXT"
 msgstr "Establecimientos"

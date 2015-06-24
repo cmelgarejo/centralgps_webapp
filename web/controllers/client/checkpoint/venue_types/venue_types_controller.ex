@@ -72,7 +72,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
   defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venue_types/" <> action
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
-      |> (Map.update :current, 0, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      |> (Map.update :current, 1, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
       |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
       |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
@@ -92,9 +92,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
           |> Enum.map &(%{id: &1.id, description: &1.description, venue_type_image: &1.venue_type_image })
-      else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
       end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge (res.body |> Map.put :rows, rows), _p
   end

@@ -7,10 +7,10 @@
       <%= if (@record.__form__ == :edit) do %>
       <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
       <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
-      <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= @record.venue_type_id %>" required/>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <input type="hidden" id="xtra_info" name="xtra_info" value="<%= @record.xtra_info %>" required/>
       <% end %>
+      <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= if (@record.__form__ == :edit), do: @record.venue_type_id, else: nil %>" required/>
       <input type="hidden" id="lat" name="lat" value="<%= if (@record.__form__ == :edit), do: @record.lat, else: nil %>" required/>
       <input type="hidden" id="lon" name="lon" value="<%= if (@record.__form__ == :edit), do: @record.lon, else: nil %>" required/>
     </div>
@@ -18,7 +18,7 @@
       <div class="col-sm-6 col-md-6">
         <div class="form-group fg-float">
           <div class="fg-line">
-            <select class="chosen-select form-control tag-select" id="venue_type_id">
+            <select class="chosen-select form-control" id="venue_type_id">
             </select>
           </div>
         </div>
@@ -50,6 +50,9 @@
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DETECTION_RADIUS") %></label>
         </div>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <div id="_venue_map"></div>
         <% #Image Control %>
         <div class="text-center">
           <%= if (@record.__form__ == :edit) do %>
@@ -61,7 +64,7 @@
           <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
               <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
-                <img src="<%= if (@record.__form__ == :edit), do: @record.image_filename %>" style="width:150px;"/>
+                <img src='<%= if (@record.__form__ == :edit), do: @record.image_filename, else: "images/venue/_placeholder.png" %>' style="width:150px;"/>
               </div>
               <div>
                   <span class="btn btn-info btn-file">
@@ -74,9 +77,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-6 col-md-6">
-        <div id="_venue_map"></div>
       </div>
     </div>
     <div id="alert"></div>
@@ -177,7 +177,7 @@ $(document).ready(function() {
     updateVenueMap();
     __centralgps__.venue.map.addLayer(current_marker);
     __centralgps__.venue.map.on('click', onMapClick);
-    if ($('#id'))
+    if ($('#id').length)
       current_marker.setLatLng([$('#lat').val(), $('#lon').val()]);
     current_marker.on('dragend', current_marker_dragEnd);
   }
@@ -192,7 +192,7 @@ function updateVenueMap() {
       if (response.status == true) {
         response.rows.forEach(function(v, vidx, arr) {
           //TODO: just update the positions on existing markers, ad only news, delete non existants
-          if ( ($('#id').val() != v.id) || $('#id').length == 0  )
+          if ( ($('#id').val() != v.id) || !$('#id').length ) //!0 == true
           __centralgps__.venue.map_overlays[__centralgps__.venue.layer_name].
             addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
               .bindPopup(v.name));
@@ -209,6 +209,7 @@ function onMapClick(e) {
   $("#lon").val(e.latlng.lng);
 };
 function current_marker_dragEnd(event){
+  console.log(event)
   var p = event.target.getLatLng();
   $("#lat").val(p.lat);
   $("#lon").val(p.lng);
@@ -230,11 +231,12 @@ $(document).ready(function() {
 function loadVenueTypes() {
   $.get('/checkpoint/venue_types/json', function(response, status, xhr) {
     if (response.status == true) {
+      console.log(response.rows)
       var venue_type_list = [];
       response.rows.forEach(function(vt, aidx, arr) {
-        venue_type_list.push({ id: vt.id, name: vt.name });
+        venue_type_list.push({ id: vt.id, description: vt.description });
       });
-      chosenLoadSelect('venue_type_id', venue_type_list, 'id', 'name');
+      chosenLoadSelect('venue_type_id', venue_type_list, 'id', 'description', function(){console.log(this)});
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }

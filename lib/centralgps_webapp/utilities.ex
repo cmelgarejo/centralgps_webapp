@@ -22,12 +22,12 @@ defmodule CentralGPSWebApp.Utilities do
   def centralgps_session(conn) do
     session = get_session(conn, :session_data)
     if (session != nil) do
-      IO.puts "session: #{inspect session.auth_token}"
+      IO.puts "session: #{inspect session}"
       conn = conn
         |> assign(:session, session)
         |> assign(:profile_image, if(session.profile_image != nil, do: session.profile_image, else: "images/profile/_placeholder.png"))
         |> assign(:entity_profile_image, if(session.entity_profile_image != nil, do: session.entity_profile_image, else: "images/entity/_placeholder.png"))
-        |> assign(:client_profile_image, if(session.client_profile_image != nil, do: session.client_profile_image, else: "images/profile-menu.png"))
+        |> assign(:client_profile_image, if(session.client_profile_image != nil, do: session.client_profile_image, else: "images/client/-_placeholder.png"))
       {conn, session}
     else
       {conn, :error}

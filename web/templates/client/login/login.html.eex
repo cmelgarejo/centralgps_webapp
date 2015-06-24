@@ -40,7 +40,7 @@
 <!-- [if lt IE 9]>
     <div class="ie-warning">
         <p>You are using an outdated version of Microsoft Internet Explorer,<br/>
-        upgrade to any of the following web browsers in order to access all </br>
+        upgrade to any of the following web browsers in order to access all <br/>
         the functionality of this website. Take a look:</p>
         <ul class="iew-download">
             <li>

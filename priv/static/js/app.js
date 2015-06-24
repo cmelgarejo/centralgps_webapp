@@ -102,9 +102,8 @@ function gridCommandFormatter(column, row)
 
 function gridImageFormatter(column, row)
 {
-  // console.log(column);
-  // console.log(row);
-  return "<img src='" + row[column.id] + "' style='width:150px'/>";
+  var image = (row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
+  return "<img src='" + image + "' style='width:150px'/>";
 }
 
 function bootgrid_delete(grid, delete_url, record) {
@@ -246,15 +245,16 @@ function randomHexColor() {
   return '#'+Math.floor(Math.random()*16777215).toString(16);
 }
 
-function chosenLoadSelect(select, items, value_obj, text_obj, default_value, default_text) {
+function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_value, default_text) {
   var $select = $('#' + select);
   $select.find('option').remove();
   var listitems = '';
   $.each(items, function(key, value){
       listitems += '<option value=' + value[value_obj] + '>' + value[text_obj] + '</option>';
   });
+  console.log(listitems);
   if(default_text != null && default_value != null)
     listitems += '<option value=' + default_value + '>' + default_text + '</option>';
   $select.append(listitems);
-  $select.chosen({no_results_text: __centralgps__.chosen.no_results_text, width: "100%" });
+  $select.chosen({no_results_text: __centralgps__.chosen.no_results_text, width: "100%" }).change(fnChange);
 }
