@@ -8,6 +8,7 @@ use Mix.Config
 # Configures the endpoint
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   url: [host: "localhost"],
+  #root: "/usr/bin/central_g_p_s_web_a_p_i/lib/central_g_p_s_web_a_p_i-1.0.1"
   root: Path.dirname(__DIR__),
   secret_key_base: "4lRqXzOIYxiVuta7PzAy6YcXsb6PyJItgIlZ6lvycAmlWQQ4HVf2X5IVWFKUqk/W",
   debug_errors: false,
@@ -21,8 +22,8 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :rest_client,
-  #rest_client_base_url: "http://api.centralgps.net/api/v1",
-  rest_client_base_url: "http://184.171.247.181:4001/api/v1",
+  rest_client_base_url: "http://api.centralgps.net/api/v1",
+  #rest_client_base_url: "http://184.171.247.181:4001/api/v1",
   rest_client_app_name: "centralgps_webapp"
 
 # Import environment specific config. This must remain at the bottom

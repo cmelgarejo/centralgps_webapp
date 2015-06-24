@@ -26,13 +26,13 @@
     </button>
   </form>
 </div>
+<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
-  $("form").submit(function(){return __ajaxForm(this);});
+  $("form").submit(function(){ return __ajaxForm(this);});
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
 });
 </script>
-<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>

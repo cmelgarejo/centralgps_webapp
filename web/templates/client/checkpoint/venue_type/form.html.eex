@@ -18,7 +18,7 @@
         <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_DESCRIPTION") %></label>
       </div>
       <% #Image Control %>
-      <div class="col-sm-6 col-md-6 text-center">
+      <div class="text-center">
         <%= if (@record.__form__ == :edit) do %>
         <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
         <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
@@ -27,10 +27,8 @@
         <% end %>
         <div class="text-center">
           <div class="fileinput fileinput-new" data-provides="fileinput">
-            <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-              <%= if (@record.__form__ == :edit) do %>
-              <img src="<%= @record.image_filename %>" style="width:150px"/>
-              <% end %>
+            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
+              <img src="<%= if (@record.__form__ == :edit), do: @record.image_filename %>" style="width:150px;"/>
             </div>
             <div>
                 <span class="btn btn-info btn-file">
@@ -55,6 +53,8 @@
     </button>
   </form>
 </div>
+<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
   $("form").submit(function(){ return __ajaxForm(this);});
@@ -63,5 +63,3 @@ $(document).ready(function() {
   <% end %>
 });
 </script>
-<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>

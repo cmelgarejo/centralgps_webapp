@@ -23,6 +23,9 @@ var __centralgps__ = {
   globalvars : {
     __root_url : "/",
   },
+  chosen: {
+    no_results_text: "CHOSEN_NO_RESULTS_TEXT"
+  },
   bootgrid_labels : {
       all:       "BOOTGRID_LABEL_ALL",
       infos:     "BOOTGRID_LABEL_INFOS",
@@ -241,4 +244,17 @@ function __ajaxForm(form, options) {
 
 function randomHexColor() {
   return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+
+function chosenLoadSelect(select, items, value_obj, text_obj, default_value, default_text) {
+  var $select = $('#' + select);
+  $select.find('option').remove();
+  var listitems = '';
+  $.each(items, function(key, value){
+      listitems += '<option value=' + value[value_obj] + '>' + value[text_obj] + '</option>';
+  });
+  if(default_text != null && default_value != null)
+    listitems += '<option value=' + default_value + '>' + default_text + '</option>';
+  $select.append(listitems);
+  $select.chosen({no_results_text: __centralgps__.chosen.no_results_text, width: "100%" });
 }

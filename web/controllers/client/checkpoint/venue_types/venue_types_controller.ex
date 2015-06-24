@@ -137,7 +137,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
     if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
-    (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, lets just NIL it :)
+    (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(_p.__form__) ==  :edit) do
       #image_filename = _p.image_filename
       file = nil
@@ -150,13 +150,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       end
       data = %{ venue_id: _p.id, configuration_id: _s.client_id, description: _p.description,
         image: Enum.join([image_dir, image_filename], "/"), image_file: file  }
-      old_rec = get_record(_s, _p)
-      {api_status, res} = api_put_json api_method(data.venue_id),
-      _s.auth_token, _s.account_type, data
+      {api_status, res} = api_put_json api_method(data.venue_id), _s.auth_token, _s.account_type, data
       if api_status == :ok  do
-        if res.body.status && (_p.image != nil) do #lets put the corresponding pic for the record.
+        if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
           dest_dir = Enum.join [_local_image_path, image_dir], "/"
-          File.rm Enum.join([dest_dir,  String.split(old_rec.image_filename, image_dir) |> List.last], "/") #removes the old image
+          File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
           IO.puts "#{inspect dest_dir}"
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
@@ -177,6 +175,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
         image: image_filename, image_file: file  }
       {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
     end
-    res.body #let's return the message
+    res.body #return the message
   end
 end

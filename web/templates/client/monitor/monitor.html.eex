@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
 <script src="<%= static_path(@conn, "/js/bootstrap-datetimepicker.min.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.edgemarker.js") %>"></script>
@@ -213,7 +212,7 @@ try {
       updateAssetMap();
       updateAssetGrid();
     });
-  }, 10*1000);
+  }, 15*1000);
 }
 catch(err) {
   console.log(err);
@@ -285,18 +284,6 @@ function getAssetMarks(selected_asset, init, finish) {
   });
 
 }
-function loadSelect(select, items, value_obj, text_obj, default_value, default_text) {
-  var $select = $('#' + select);
-  $select.find('option').remove();
-  var listitems = '';
-  $.each(items, function(key, value){
-      listitems += '<option value=' + value[value_obj] + '>' + value[text_obj] + '</option>';
-  });
-  if(default_text != null && default_value != null)
-    listitems += '<option value=' + default_value + '>' + default_text + '</option>';
-  $select.append(listitems);
-  $select.chosen({no_results_text: __centralgps__.bootgrid_labels.noResults, width: "100%" });
-}
 function updateAssetGrid() {
   $.get('/monitor/assets', function(response, status, xhr) {
     if (response.status == true) {
@@ -315,7 +302,7 @@ function updateAssetGrid() {
       __centralgps__.asset.list = asset_list;
       //check if there is changes in the length of the loaded asset list (+1 for [All])
       if($('#_events_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-        loadSelect('_events_asset_list', __centralgps__.asset.list, 'id', 'name', -1, __centralgps__.globalmessages.generic._all);
+        chosenLoadSelect('_events_asset_list', __centralgps__.asset.list, 'id', 'name', -1, __centralgps__.globalmessages.generic._all);
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }

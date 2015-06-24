@@ -25,7 +25,10 @@ div[class="actions btn-group"] > button.btn {
 	overflow: scroll;
 }
 
-#_centralgps_container, #_asset_map, #_venue_map, div[role=tabpanel] {
+#_venue_map {
+	height: 480px;
+}
+#_centralgps_container, #_asset_map, div[role=tabpanel] {
   height: 100%; width: 100%; overflow: hidden
 }
 #_centralgps_container {
@@ -9506,7 +9509,7 @@ input:focus {
   transition: background-color;
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
-  font-family: 'Roboto-Regular';
+  font-family: 'RobotoDraft';
 }
 .dropdown-menu.dropdown-menu-lg {
   width: 300px;

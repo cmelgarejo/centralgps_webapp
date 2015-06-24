@@ -1,2 +1,35 @@
 msgid  "PAGE_TITLE"
-msgstr "Welcome, "
+msgstr "Profile"
+
+msgid  "INFORMATION_ACTION_UPDATE_PROFILE_FOTO"
+msgstr "Update profile photo"
+
+msgid  "INFORMATION_ACTION_EDIT"
+msgstr "Edit"
+
+msgid  "INFORMATION_TITLE"
+msgstr "Information"
+
+msgid  "INFORMATION_CONTACT_TITLE"
+msgstr "Contact"
+
+msgid  "LABEL_NAME"
+msgstr "Full name"
+
+msgid  "LABEL_TIMEZONE"
+msgstr "Timezone"
+
+msgid  "LABEL_IDENTITY_DOCUMENT"
+msgstr "Identity Document"
+
+msgid  "LABEL_DOB"
+msgstr "Date of birth"
+
+msgid  "LABEL_EMAILS"
+msgstr "Emails"
+
+msgid  "LABEL_PHONES"
+msgstr "Phones"
+
+msgid  "LABEL_PROFILE_PICTURE"
+msgstr "Profile image"
