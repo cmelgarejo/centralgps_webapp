@@ -39,6 +39,7 @@ var __centralgps__ = {
 function get_page(resource) {
   Pace.track(function(){
     $.get(resource, function(html) {
+      window.clearInterval(__centralgps__.asset.refresh_interval);
       $('#_centralgps_container').html(html);
       $(document).ready(function(){
         Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
@@ -252,7 +253,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
   $.each(items, function(key, value){
       listitems += '<option value=' + value[value_obj] + '>' + value[text_obj] + '</option>';
   });
-  console.log(listitems);
+  //console.log(listitems);
   if(default_text != null && default_value != null)
     listitems += '<option value=' + default_value + '>' + default_text + '</option>';
   $select.append(listitems);

@@ -52,6 +52,9 @@ msgstr "Error al cargar la página, compruebe su conexión a internet y vuelva a
 msgid "__ERR_STATUS_500"
 msgstr "Ocurrió un error en el servidor, por favor inténtelo nuevamente en unos instantes"
 
+msgid "__NAVIGATE_OFF_APP"
+msgstr "Si sale de la página puede perder el trabajo que está haciendo, si no lo ha guardado."
+
 msgid "__ONLINE_TITLE"
 msgstr "En línea!"
 

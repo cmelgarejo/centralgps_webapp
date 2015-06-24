@@ -16,7 +16,7 @@
       <label class="fg-label"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_DESCRIPTION") %></label>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= action_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
       <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>

@@ -8,7 +8,7 @@
     __centralgps__.globalmessages._delete_record_text_done     = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TEXT_DONE") %>";
     __centralgps__.globalmessages.__err_conn_refused = "<%= l10n(@session.language_code, "main.html", "__ERR_CONNECTION_REFUSED") %>";
     __centralgps__.globalmessages.__err_status_500   = "<%= l10n(@session.language_code, "main.html", "__ERR_STATUS_500") %>";
-    __centralgps__.globalmessages.__root_url         = "<%= @__root_url %>";
+    //__centralgps__.globalmessages.__root_url         = "<%# @__root_url %>";
     __centralgps__.globalmessages.__online_title     = "<%= l10n(@session.language_code, "main.html", "__ONLINE_TITLE") %>";
     __centralgps__.globalmessages.__online_text      = "<%= l10n(@session.language_code, "main.html", "__ONLINE_TEXT") %>";
     __centralgps__.globalmessages.__geolocation_message_title        = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_MESSAGE_TITLE") %>";
@@ -26,6 +26,16 @@
         search:    "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_SEARCH") %>"
     }
   });
+  window.onbeforeunload = function (e) {
+    var message = "<%= l10n(@session.language_code, "main.html", "__NAVIGATE_OFF_APP") %>",
+    e = e || window.event;
+    // For IE and Firefox
+    if (e) {
+      e.returnValue = message;
+    }
+    // For Safari
+    return message;
+  };
 </script>
 <header id="header">
   <ul class="header-inner">

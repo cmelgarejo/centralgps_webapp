@@ -213,7 +213,7 @@ try {
       updateAssetMap();
       updateAssetGrid();
     });
-  }, 15*1000);
+  }, 30*1000);
 }
 catch(err) {
   console.log(err);

@@ -52,6 +52,9 @@ msgstr "Error requesting page, check your internet connection and try again in a
 msgid "__ERR_STATUS_500"
 msgstr "There has been an error on the server, please try again in a few moments"
 
+msgid "__NAVIGATE_OFF_APP"
+msgstr "If you leave the page, you will lose your work if you didn't save it."
+
 msgid "__ONLINE_TITLE"
 msgstr "Online!"
 
