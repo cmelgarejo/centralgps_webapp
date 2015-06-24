@@ -272,7 +272,8 @@ function getAssetMarks(selected_asset, init, finish) {
         });
         $("#event_grid").bootgrid('append', mark_list);
         var _rand_marker_icon = L.AwesomeMarkers.icon({
-            markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)]
+            markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)],
+            icon: 'check'
         });
         $.each(mark_list, function(k, m) {
           __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]

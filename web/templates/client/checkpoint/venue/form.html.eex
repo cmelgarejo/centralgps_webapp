@@ -18,7 +18,7 @@
       <div class="col-sm-6 col-md-6">
         <div class="form-group fg-float">
           <div class="fg-line">
-            <select class="chosen-select form-control" id="venue_type_id">
+            <select class="chosen-select form-control" id="venue_type">
             </select>
           </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="form-group fg-float">
           <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
             <input class="form-control" type="text" id="code" name="code"
-            value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>" required />
+            value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></label>
         </div>
@@ -209,7 +209,6 @@ function onMapClick(e) {
   $("#lon").val(e.latlng.lng);
 };
 function current_marker_dragEnd(event){
-  console.log(event)
   var p = event.target.getLatLng();
   $("#lat").val(p.lat);
   $("#lon").val(p.lng);
@@ -231,12 +230,11 @@ $(document).ready(function() {
 function loadVenueTypes() {
   $.get('/checkpoint/venue_types/json', function(response, status, xhr) {
     if (response.status == true) {
-      console.log(response.rows)
       var venue_type_list = [];
       response.rows.forEach(function(vt, aidx, arr) {
         venue_type_list.push({ id: vt.id, description: vt.description });
       });
-      chosenLoadSelect('venue_type_id', venue_type_list, 'id', 'description', function(){console.log(this)});
+      chosenLoadSelect('venue_type', venue_type_list, 'id', 'description', function(){console.log(this)});
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }

@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "api.centralgps.net", port: 80],
+  url: [host: "checkpoint.edge.com.py", port: 4000],
   cache_static_manifest: "priv/static/manifest.json"
 
 # ## SSL Support
