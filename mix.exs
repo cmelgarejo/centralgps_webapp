@@ -3,7 +3,7 @@ defmodule CentralGPSWebApp.Mixfile do
 
   def project do
     [app: :central_g_p_s_web_app,
-     version: "0.1.2",
+     version: "0.0.1",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
