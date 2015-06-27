@@ -6,7 +6,7 @@ defmodule CentralGPSWebApp.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :central_g_p_s_web_app, #gzip: false,
+    at: "/", from: :central_g_p_s_web_app, gzip: true,
     only: ~w(css images fonts js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -22,14 +22,13 @@ defmodule CentralGPSWebApp.Endpoint do
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Poison,
-    length: 3_000_000_000
+    length: 3_000_000
 
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session,
     store: :cookie,
     key: "_centralgps_webapp_key",
-
     signing_salt: "oAPtYKsJ"
 
   plug :router, CentralGPSWebApp.Router

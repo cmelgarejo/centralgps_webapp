@@ -7,19 +7,21 @@
     </div>
     <h4><%= l10n(@session.language_code, "venue.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
-  <table id="venue_grid" class="table table-condensed table-hover table-striped"
-    data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/venues/json">
-      <thead>
-          <tr>
-            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
-            <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
-            <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>
-            <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></th>
-            <th data-column-id="image_filename" data-formatter="image"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></th>
-            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_COMMAND_COLUMN") %></th>
-          </tr>
-      </thead>
-  </table>
+  <div class="grid-container">
+    <table id="venue_grid" class="table table-condensed table-hover table-striped"
+      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/venues/json">
+        <thead>
+            <tr>
+              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
+              <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>
+              <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></th>
+              <th data-column-id="image_filename" data-formatter="image"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_COMMAND_COLUMN") %></th>
+            </tr>
+        </thead>
+    </table>
+  </div>
 </div>
 <script>
 __centralgps__.CRUD.index_url = '<%= venue_path(@conn, :index) %>';

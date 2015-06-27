@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CentralGPS - Checkpoint module">
+    <meta name="description" content="EDGE Checkpoint module - powered by CentralGPS">
     <meta name="author" content="cmelgarejo">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/roboto.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/animate.min.css") %>">

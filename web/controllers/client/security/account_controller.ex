@@ -66,7 +66,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
   end
 
   #private functions
-  defp _local_image_path, do: Endpoint.config(:root) <> "priv/static"
+  defp _priv_static_path, do: Endpoint.config(:root) <> "priv/static"
   defp _placeholder, do: "_placeholder.png"
   defp image_dir, do: "images/profile"
   defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/accounts/" <> action
@@ -159,7 +159,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
       _s.auth_token, _s.account_type, data
       if api_status == :ok  do
         if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [_local_image_path, image_dir], "/"
+          dest_dir = Enum.join [_priv_static_path, image_dir], "/"
           File.rm Enum.join([dest_dir,  String.split(old_rec.image_filename, image_dir) |> List.last], "/") #removes the old image
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)

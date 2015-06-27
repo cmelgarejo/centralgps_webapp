@@ -2,6 +2,8 @@ defmodule CentralGPSWebApp.Utilities do
   #import Phoenix.Controller, only: [get_csrf_token: 0]
   import Plug.Conn, only: [get_session: 2, put_session: 3, assign: 3]
 
+  def centralgps_placeholder_file(base_dir \\ ""), do: base_dir <> "_placeholder.png"
+
   def csrf_token_tag do
     # raw """
     # <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>">
@@ -22,12 +24,12 @@ defmodule CentralGPSWebApp.Utilities do
   def centralgps_session(conn) do
     session = get_session(conn, :session_data)
     if (session != nil) do
-      IO.puts "session: #{inspect session.auth_token}"
+      #IO.puts "session: #{inspect session.auth_token}"
       conn = conn
         |> assign(:session, session)
-        |> assign(:profile_image, if(session.profile_image != nil, do: session.profile_image, else: "images/profile/_placeholder.png"))
-        |> assign(:entity_profile_image, if(session.entity_profile_image != nil, do: session.entity_profile_image, else: "images/entity/_placeholder.png"))
-        |> assign(:client_profile_image, if(session.client_profile_image != nil, do: session.client_profile_image, else: "images/client/-_placeholder.png"))
+        |> assign(:profile_image, if(session.profile_image != nil, do: session.profile_image, else: "images/profile/" <> centralgps_placeholder_file ))
+        |> assign(:entity_profile_image, if(session.entity_profile_image != nil, do: session.entity_profile_image, else: "images/entity/" <> centralgps_placeholder_file))
+        |> assign(:client_profile_image, if(session.client_profile_image != nil, do: session.client_profile_image, else: "images/client/" <> centralgps_placeholder_file))
       {conn, session}
     else
       {conn, :error}

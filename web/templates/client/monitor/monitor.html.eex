@@ -14,7 +14,7 @@
 <script src="<%= static_path(@conn, "/js/leaflet.awesome-markers.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.measurecontrol.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
-<!--TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
+<!-- TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
 <div role="tabpanel">
   <ul class="tab-nav tn-justified" role="tablist">
       <li><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
@@ -138,9 +138,9 @@ L.TileLayer.Common = L.TileLayer.extend({
 		url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 		options: {attribution: osmAttr}
 	});
-  // L.TileLayer.MapBox = L.TileLayer.Common.extend({
-	// 	url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-	// });
+  L.TileLayer.MapBox = L.TileLayer.Common.extend({
+		url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+	});
 }());
 function _browser_geo_success(position) {
   console.log("my.pos: ["+ position.coords.latitude+ "," + position.coords.longitude+ "]")
@@ -172,7 +172,7 @@ try {
   L.Icon.Default.imagePath = '../images';
   __centralgps__.asset.map_layers = {
     "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.asset.map),
-    // "Mapbox": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
+    "Mapbox": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
 	};
   __centralgps__.asset.map_overlays = {
     //<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
@@ -204,7 +204,8 @@ try {
   } else {
     _browser_geo_error;
   }
-  $('#event_grid').bootgrid({labels: __centralgps__.bootgrid_labels});
+  $('#event_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
+  bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
   updateAssetGrid();
   updateVenueMap();
   updateAssetMap();
@@ -228,7 +229,7 @@ function updateEvents() {
   if(selected_asset.val() == -1) {//All records
     $.each($('#_events_asset_list option'), function(k, v){
       v = $(v);
-      if(v.val() != -1) {//if is NOT the All option
+      if(v.val() != -1) {//if is NOT the All <option value="option">option</option>ion
         var my_color = randomHexColor(); //TODO: control if the color repeats
         getAssetMarks({id: v.val(), name: v.text(), color: my_color}, init, finish);
       }
@@ -303,8 +304,10 @@ function updateAssetGrid() {
         if(asset.position_at != null)
         asset_list.push(asset);
       });
-      $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear')
+      $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false})
+        .bootgrid('clear')
         .bootgrid('append', asset_list);
+      bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
       __centralgps__.asset.list = asset_list;
       //check if there is changes in the length of the loaded asset list (+1 for [All])
       if($('#_events_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
@@ -384,4 +387,5 @@ function updateVenueMap() {
     });
   });
 }
+
 </script>

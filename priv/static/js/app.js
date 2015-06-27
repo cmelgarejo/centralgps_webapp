@@ -152,7 +152,8 @@ function gridSetup_CRUD(gridFormatters){
     labels: __centralgps__.bootgrid_labels,
     ajaxSettings: {method: __centralgps__.CRUD.grid_method, cache: false },
     requestHandler: function(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
-    formatters: gridFormatters
+    formatters: gridFormatters,
+    caseSensitive: false,
   }).on("loaded.rs.jquery.bootgrid", function() {
     Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
     /* Executes after data is loaded and rendered */
@@ -163,6 +164,7 @@ function gridSetup_CRUD(gridFormatters){
         { id: $(this).data("row-id"), token: __centralgps__.CRUD.delete_token });
     });
   });
+  bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
 }
 
 function showSuccess(message) {
@@ -258,4 +260,15 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
     listitems += '<option value=' + default_value + '>' + default_text + '</option>';
   $select.append(listitems);
   $select.chosen({no_results_text: __centralgps__.chosen.no_results_text, width: "100%" }).change(fnChange);
+}
+
+function bootgrid_appendSearchControl() {
+  $('.grid-container table').each(function(i, t) {
+    if (!$('#' + t.id + "-search-field-clear").length)
+      $('#' + t.id + '-header .input-group').append("<span id='" + t.id + "-search-field-clear' class='input-group-addon' style='vertical-align:middle;cursor:pointer'><i class='md md-close' onclick=\"bootgrid_clearSearch('" + t.id + "')\"></i></span>");
+  });
+}
+function bootgrid_clearSearch(grid_name) {
+  grid_name = '#' + grid_name + '-header .search-field.form-control';
+  $(grid_name).val(null).keyup();
 }

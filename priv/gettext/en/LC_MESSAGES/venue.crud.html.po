@@ -32,7 +32,7 @@ msgid  "COLUMN_LON"
 msgstr "Longitude"
 
 msgid  "COLUMN_DETECTION_RADIUS"
-msgstr "Detection radius"
+msgstr "Detection radius (in meters)"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Created at"

@@ -3,7 +3,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
-
   # POST    /checkpoint/venue_types/create
   # GET     /checkpoint/venue_types/:venue_id
   # PUT     /checkpoint/venue_types/:venue_id
@@ -34,7 +33,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "new.html"
+      render (conn |> assign :image_placeholder, image_placeholder), "new.html"
     end
   end
 
@@ -66,9 +65,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
   end
 
   #private functions
-  defp _local_image_path, do: Enum.join([Endpoint.config(:root), "priv/static"], "/")
-  defp _placeholder, do: "_placeholder.png"
   defp image_dir, do: "images/venue_type"
+  defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venue_types/" <> action
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
@@ -153,9 +151,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       {api_status, res} = api_put_json api_method(data.venue_id), _s.auth_token, _s.account_type, data
       if api_status == :ok  do
         if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [_local_image_path, image_dir], "/"
+          dest_dir = Enum.join [Utilities._priv_static_path, image_dir], "/"
           File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
-          IO.puts "#{inspect dest_dir}"
+          #IO.puts "#{inspect dest_dir}"
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
         end
@@ -169,7 +167,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
         {:ok, file} = File.read _p.image.path
         file = Base.url_encode64(file)
       else
-        image_filename = _placeholder
+        image_filename = image_placeholder
       end
       data = %{ configuration_id: _s.client_id, description: _p.description,
         image: image_filename, image_file: file  }

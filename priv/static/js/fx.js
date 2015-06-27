@@ -312,7 +312,7 @@ $(document).ready(function(){
     /*
      * Input Mask
      */
-    if ($('input-mask')[0]) {
+    if ($('.input-mask')[0]) {
         $('.input-mask').mask();
     }
 

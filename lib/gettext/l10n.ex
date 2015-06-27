@@ -6,7 +6,7 @@ defmodule CentralGPS.L10n do
   """
   def l10n(lang, domain, id) do
     {_, msg} = lgettext(lang, domain, id)
-    IO.puts "LANG: #{lang} DOMAIN: #{domain} ID: #{id} = #{msg}"
+    #IO.puts "LANG: #{lang} DOMAIN: #{domain} ID: #{id} = #{msg}"
     msg
   end
 

@@ -3,7 +3,7 @@ defmodule CentralGPSWebApp.Mixfile do
 
   def project do
     [app: :central_g_p_s_web_app,
-     version: "0.0.1",
+     version: "0.0.2",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
@@ -20,7 +20,7 @@ defmodule CentralGPSWebApp.Mixfile do
   end
 
   def application do
-    apps = [:phoenix, :phoenix_html, :cowboy, :logger, :logger_file_backend, :httpoison, :gettext ]
+    apps = [:phoenix, :phoenix_html, :cowboy, :logger, :logger_file_backend, :httpoison, :gettext]
     dev_apps = Mix.env == :dev && [ :reprise ] || []
     [ mod: {CentralGPSWebApp, []}, applications: dev_apps ++ apps ]
   end
@@ -29,16 +29,19 @@ defmodule CentralGPSWebApp.Mixfile do
   defp elixirc_paths(_),     do: ["lib", "web"]
 
   defp deps do
-    [{:exrm,                github: "bitwalker/exrm"},
-     {:uuid,                github: "zyro/elixir-uuid"},
-     {:httpoison,           github: "edgurgel/httpoison"},
-     {:gettext,             github: "elixir-lang/gettext"},
-     {:reprise,             github: "herenowcoder/reprise", only: :dev},
-     {:logger_file_backend, github: "onkel-dirtus/logger_file_backend"},
-     {:cowboy, "~> 1.0"},
-     {:phoenix, git: "https://github.com/phoenixframework/phoenix.git", override: true},
-     {:phoenix_html, "~> 1.0"},
-     {:phoenix_live_reload, "~> 0.4", only: :dev}]
+    [{:exrm,                    github: "bitwalker/exrm"},
+     {:uuid,                    github: "zyro/elixir-uuid"},
+     {:httpoison,               github: "edgurgel/httpoison"},
+     {:gettext,                 github: "elixir-lang/gettext"},
+     {:reprise, only: :dev,     github: "herenowcoder/reprise"},
+     {:logger_file_backend,     github: "onkel-dirtus/logger_file_backend"},
+     {:phoenix, override: true, github: "phoenixframework/phoenix"},
+     #{:cowboy, override: true,  github: "ninenines/cowboy"},
+     {:phoenix_html,            github: "phoenixframework/phoenix_html"},
+     {:phoenix_live_reload,     github: "phoenixframework/phoenix_live_reload",
+      only: :dev},
+     {:cowboy, "~> 1.0"}
+    ]
   end
 
 end

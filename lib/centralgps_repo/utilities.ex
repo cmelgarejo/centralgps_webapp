@@ -2,6 +2,7 @@ defmodule CentralGPS.Repo.Utilities do
   alias Enum,   as: E
   alias String, as: S
   alias Tuple,  as: T
+  alias CentralGPSWebApp.Endpoint
 
   @doc """
   Processes and returns a tuple with 2 maps, FOR LIST FUNCTIONS ON DB:
@@ -20,15 +21,19 @@ defmodule CentralGPS.Repo.Utilities do
     if auth == nil, do: auth = %{tag: nil, token: nil, type: nil}
     auth = objectify_map(auth)
     _params = objectify_map(_params)
-    {offset, limit, search_column, search_phrase} = {0, 0, nil, nil}
-    if (Map.has_key? _params, :limit),  do: {limit, _params} = Map.pop(_params, :limit, 0)
-    if (Map.has_key? _params, :offset), do: {offset, _params} = Map.pop(_params, :offset, 0)
+    { offset, limit, search_column, search_phrase, sort_column, sort_order } =
+      { 0, 0, nil, nil, nil, nil }
+    if (Map.has_key? _params, :limit),  do: {limit, _params} = Map.pop(_params, :limit, nil)
+    if (Map.has_key? _params, :offset), do: {offset, _params} = Map.pop(_params, :offset, nil)
     if (Map.has_key? _params, :search_column),  do: {search_column, _params} = Map.pop(_params, :search_column, nil)
     if (Map.has_key? _params, :search_phrase),  do: {search_phrase, _params} = Map.pop(_params, :search_phrase, nil)
+    if (Map.has_key? _params, :sort_column),  do: {sort_column, _params} = Map.pop(_params, :sort_column, nil)
+    if (Map.has_key? _params, :sort_order),  do: {sort_order, _params} = Map.pop(_params, :sort_order, nil)
     _params = Map.put(_params, :_z_limit, limit) |> Map.put(:_z_offset, offset)
-      |> (Map.update :_z_offset, 0,   fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
-      |> (Map.update :_z_limit, 0, fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
+      |> (Map.update :_z_offset, nil,   fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
+      |> (Map.update :_z_limit, nil, fn(v)->(if !is_integer(v), do: Integer.parse(v) |> elem(0), else: v) end)
       |> Map.put(:_z_search_column, search_column) |> Map.put(:_z_search_phrase, search_phrase)
+      |> Map.put(:_z_sort_column, sort_column) |> Map.put(:_z_sort_order, sort_order)
     _params = _params
       |> (Map.put :_the_app_name,
           (if Map.has_key?(headers,:"x-requested-with"),
@@ -43,7 +48,8 @@ defmodule CentralGPS.Repo.Utilities do
       |> (Map.put :_xtra_info, (if Map.has_key?(_params, :_xtra_info),
                                 do: _params._xtra_info, else: nil))
     filter_keys = filter_keys ++ [ :_the_app_name, :_the_ip_port, :_xtra_info,
-                    :_z_limit, :_z_offset, :_z_search_column, :_z_search_phrase ]
+                    :_z_limit, :_z_offset, :_z_search_column, :_z_search_phrase,
+                    :_z_sort_column, :_z_sort_order ]
     _params =  objectify_map(_params, filter_keys)
       |> (Map.put :_auth_token, auth.token)
       |> (Map.put :_auth_type,  auth.type)
@@ -90,13 +96,13 @@ defmodule CentralGPS.Repo.Utilities do
   @doc """
   **CHECKPOINT METHODS ONLY**
   Processes and returns a tuple with 2 maps:
-  _params : All the parameters that have been passed on to the controller as JSON
+  params : All the parameters that have been passed on to the controller as JSON
     mapped and checked against the filter_keys parameter of this function.
   headers: First, checks if the "Authorization" header is set, so we can
     authorize the request and then maps it to be available to as such for the
     caller
   """
-  def checkpoint_auth_proc_headers_and__params(headers, _params, filter_keys \\ []) do
+  def checkpoint_auth_proc_headers_and_params(headers, params, filter_keys \\ []) do
     headers = Enum.into(headers, %{}) |> objectify_map #Create a map of headers
     if !Map.has_key?(headers, :authorization),
       do: (raise ArgumentError, message: "missing: :authorization")
@@ -104,19 +110,19 @@ defmodule CentralGPS.Repo.Utilities do
     auth = Regex.named_captures(_regex, headers.authorization)
     if auth == nil, do: auth = %{tag: nil, token: nil, type: nil}
     auth = objectify_map(auth)
-    _params =  objectify_map(_params)
+    params =  objectify_map(params)
       |> objectify_map(filter_keys) # 2nd call to have atomized keys this round
       |> (Map.put :_auth_token, auth.token)
       |> (Map.drop [ :format ])
-    if (Map.has_key? _params,(:offset)) do
-      {offset, _params} = Map.pop(_params, :offset, 0)
-      Map.put _params, :_z_offset, offset
+    if (Map.has_key? params,(:offset)) do
+      {offset, params} = Map.pop(params, :offset, 0)
+      Map.put params, :zzz_offset, offset
     end
-    if (Map.has_key? _params,(:limit)) do
-      {limit, _params} = Map.pop(_params, :limit, 100)
-      Map.put _params, :_z_limit, limit
+    if (Map.has_key? params,(:limit)) do
+      {limit, params} = Map.pop(params, :limit, 100)
+      Map.put params, :zzzz_limit, limit
     end
-    {headers, _params}
+    {headers, params}
   end
 
   @doc """
@@ -159,7 +165,6 @@ defmodule CentralGPS.Repo.Utilities do
         map = Map.take map, filter_keys
       end
       E.reduce map, %{}, fn({k,v}, m) -> Map.put m, (if !is_atom(k), do: S.to_atom(k), else: k), v end
-      #|> E.into %{}
     rescue
       e in _ ->
         error_logger e, __ENV__, %{filter_keys: filter_keys, map: map}
@@ -238,7 +243,7 @@ defmodule CentralGPS.Repo.Utilities do
   def upload_file_name(plug) do
     Regex.replace(~r/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%# ]/, plug.filename, "_")
   end
-  
+
   @doc """
   Returns a boolean indicating if the passed %Plug.Upload{} structure has a
   valid mimetyped image in it.
@@ -248,6 +253,43 @@ defmodule CentralGPS.Repo.Utilities do
     image_mimes = [ Plug.MIME.type("png"), Plug.MIME.type("jpg"),
       Plug.MIME.type("gif") ]
     Enum.find_index(image_mimes, fn(x) -> x == content_type end) != nil
+  end
+
+  @doc """
+  Returns the static path where every static served file should be served
+  """
+  def _priv_static_path, do: Enum.join([Endpoint.config(:root), "priv/static"], "/")
+
+  defp dest_dir(filename), do:
+    Enum.join([_priv_static_path, (String.split(filename, "/") |> Enum.reverse |> tl |> Enum.reverse |> Enum.join "/")], "/")
+
+  @doc """
+  Gets a filename, a file (and an old_filename, if exists it will delete it)
+  and saves said image to the relative directory the image filename provides
+  """
+  def save_image_base64(filename, file, old_filename \\ "") do
+    try do
+      if !is_nil(filename) do
+        if (old_filename != ""), do: File.rm Enum.join([ _priv_static_path,  old_filename ], "/") #removes the old image
+        if (!File.exists?dest_dir(filename)), do: File.mkdir_p dest_dir(filename)
+        filename = Enum.join [ _priv_static_path, filename ], "/"
+        File.write!filename, Base.url_decode64!(file)
+      end
+    rescue
+      e in _ -> error_logger e, __ENV__, %{filename: filename, old_filename: old_filename, file: file}
+      :error
+    end
+    :ok
+  end
+
+  @doc """
+  Gets a file via HTTP and saves it to the location of the filename
+  (concatenated with the _priv_static_path)
+  """
+  def get_image(url, filename) do
+    %HTTPoison.Response{body: body} = HTTPoison.get!(url)
+    filename = Enum.join [ _priv_static_path, filename ], "/"
+    File.write!filename, body
   end
 
 end

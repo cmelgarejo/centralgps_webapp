@@ -29,10 +29,10 @@ msgid  "COLUMN_LAT"
 msgstr "Latitud"
 
 msgid  "COLUMN_LON"
-msgstr "Logitud"
+msgstr "Longitud"
 
 msgid  "COLUMN_DETECTION_RADIUS"
-msgstr "Radio de detección"
+msgstr "Radio de detección (en metros)"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha y hora de inserción"

@@ -42,7 +42,7 @@ defmodule CentralGPS.RestClient do
   end
 
   def process_url(method_path) do
-    IO.puts "process_url: #{inspect CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path}"
+    #IO.puts "process_url: #{inspect CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path}"
     CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path
   end
 

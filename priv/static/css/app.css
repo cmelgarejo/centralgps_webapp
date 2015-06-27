@@ -1,5 +1,20 @@
+#top-search-close {
+  position: relative;
+  top: 5px;
+  font-size: 24px;
+  font-style: normal;
+  color: white;
+  width: 35px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 1px;
+  cursor: pointer;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
 #_venue_map {
-	height: 200px;
+	height: 500px;
 }
 #_centralgps_container, #_asset_map, div[role=tabpanel] {
   height: 100%; width: 100%; overflow: hidden

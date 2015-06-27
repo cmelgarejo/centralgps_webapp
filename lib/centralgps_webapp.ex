@@ -9,6 +9,8 @@ defmodule CentralGPSWebApp do
     children = [
       # Start the endpoint when the application starts
       supervisor(CentralGPSWebApp.Endpoint, []),
+
+      
       # Here you could define other workers and supervisors as children
       # worker(CentralGPSWebApp.Worker, [arg1, arg2, arg3]),
     ]
@@ -19,6 +21,13 @@ defmodule CentralGPSWebApp do
     Supervisor.start_link(children, opts)
   end
 
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  def config_change(changed, _new, removed) do
+    CentralGPSWebApp.Endpoint.config_change(changed, removed)
+    :ok
+  end
+
   def app_config(name) do
     Application.get_env(:app_config, name)
   end
@@ -27,10 +36,4 @@ defmodule CentralGPSWebApp do
     Application.get_env(:rest_client, name)
   end
 
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
-  def config_change(changed, _new, removed) do
-    CentralGPSWebApp.Endpoint.config_change(changed, removed)
-    :ok
-  end
 end

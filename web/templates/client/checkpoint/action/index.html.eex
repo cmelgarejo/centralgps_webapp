@@ -7,16 +7,18 @@
     </div>
     <h4><%= l10n(@session.language_code, "action.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
-  <table id="action_grid" class="table table-condensed table-hover table-striped"
-    data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
-      <thead>
-          <tr>
-            <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_ID") %></th>
-            <th data-column-id="description"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_DESCRIPTION") %></th>
-            <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.crud.html", "GRID_COMMAND_COLUMN") %></th>
-          </tr>
-      </thead>
-  </table>
+  <div class="grid-container">
+    <table id="action_grid" class="table table-condensed table-hover table-striped"
+      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
+        <thead>
+            <tr>
+              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="description"><%= l10n(@session.language_code, "action.crud.html", "COLUMN_DESCRIPTION") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "action.crud.html", "GRID_COMMAND_COLUMN") %></th>
+            </tr>
+        </thead>
+    </table>
+  </div>
 </div>
 <script>
 __centralgps__.CRUD.index_url = '<%= action_path(@conn, :index) %>';

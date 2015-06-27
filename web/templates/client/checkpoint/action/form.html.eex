@@ -30,6 +30,7 @@
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
+  $.applyDataMask('.input-mask');
   $("form").submit(function(){ return __ajaxForm(this);});
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
