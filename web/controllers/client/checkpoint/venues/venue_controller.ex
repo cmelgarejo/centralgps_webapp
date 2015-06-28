@@ -138,9 +138,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   defp save_record(_s, _p) do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
-    if (!Map.has_key?_p, :xtra_info), do: _p = Map.put _p, :xtra_info, nil
+    if (!Map.has_key?_p, :xtra_info || _p.xtra_info == ""), do: _p = Map.put _p, :xtra_info, nil
     if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
-    (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
+      (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(_p.__form__) ==  :edit) do
       #image_filename = _p.image_filename
       file = nil

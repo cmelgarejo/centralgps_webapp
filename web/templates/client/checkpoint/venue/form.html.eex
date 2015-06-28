@@ -298,10 +298,13 @@ function loadVenueTypes() {
       response.rows.forEach(function(vt, aidx, arr) {
         venue_type_list.push({ id: vt.id, description: vt.description });
       });
-      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', function(){console.log(this)});
+      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange);
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }
   });
+}
+function fnChosenOnChange() {
+  $('#venue_type_id').val($(this).val());
 }
 </script>
