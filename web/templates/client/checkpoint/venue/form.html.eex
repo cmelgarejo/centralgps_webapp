@@ -145,7 +145,7 @@ L.TileLayer.Common = L.TileLayer.extend({
 	});
 }());
 function _browser_geo_success(position) {
-  if(!_venue_center_set && !$("#id").length) {
+  if(!$("#id").length) {
     __centralgps__.venue.map.setView([position.coords.latitude, position.coords.longitude], 18);
     $("#lat").val(position.coords.latitude);
     $("#lon").val(position.coords.longitude);
@@ -177,6 +177,14 @@ function _updateVenueMap() {
           __centralgps__.venue.map_overlays[__centralgps__.venue.layer_name].
             addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
               .bindPopup(v.name));
+          __centralgps__.venue.map_overlays[__centralgps__.venue.layer_name]
+            .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {
+                venue: { id: v.id }, //we dont need more information for the detection radius circle
+                color: 'breen',
+                fillColor: '#34cc4c',
+                fillOpacity: 0.5
+            })
+          );
         });
       } else {
         console.log('._updateVenueMap: ' + response.msg);
@@ -203,7 +211,7 @@ $(document).ready(function() {
       "Mapbox": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
   	};
     __centralgps__.venue.map_overlays = {
-      <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.MarkerClusterGroup().addTo(__centralgps__.venue.map),
+      <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.venue.map),
     };
     L.control.layers(__centralgps__.venue.map_layers, __centralgps__.venue.map_overlays)
       .addTo(__centralgps__.venue.map);
@@ -229,21 +237,17 @@ $(document).ready(function() {
     $("#detection_radius").on('keyup', function() {
       current_marker_circle.setRadius($(this).val());
     });
-    $('#name').change(function() {
-      current_marker_popup.setContent('<b>' + $('#name').val() + '<b>').update();
-      current_marker.openPopup();
-    });
+    $('#name').change(setCurrentVenuePos());
     $('#name').on('keyup', function() {
-      current_marker_popup.setContent('<b>' + $('#name').val() + '<b>').update();
-      current_marker.openPopup();
+      setCurrentVenuePos();
     });
+    $("#lat").change(setCurrentVenuePos());
     $("#lat").on('keyup', function() {
-      current_marker.setLatLng([$("#lat").val(), $("#lon").val()]);
-      current_marker_circle.setLatLng([$("#lat").val(), $("#lon").val()]);
+      setCurrentVenuePos();
     });
+    $("#lon").change(setCurrentVenuePos());
     $("#lon").on('keyup', function() {
-      current_marker.setLatLng([$("#lat").val(), $("#lon").val()]);
-      current_marker_circle.setLatLng([$("#lat").val(), $("#lon").val()]);
+      setCurrentVenuePos();
     });
     current_marker.on('dragend', current_marker_dragEnd);
   }
@@ -255,27 +259,28 @@ function setCurrentVenuePos() {
   current_marker.setLatLng([$('#lat').val(), $('#lon').val()]);
   current_marker_circle.setLatLng([$('#lat').val(), $('#lon').val()]);
   __centralgps__.venue.map.setView(current_marker.getLatLng(), 18);
+  current_marker_popup.setContent('<b>' + $('#name').val() + '<b>').update();
+  current_marker.openPopup();
   _venue_center_set = true;
 }
 function onMapClick(e) {
   $("#lat").val(e.latlng.lat);
   $("#lon").val(e.latlng.lng);
-  current_marker.setLatLng(e.latlng);
-  current_marker_circle.setLatLng(e.latlng);
+  setCurrentVenuePos();
 };
 function current_marker_dragEnd(event){
   var p = event.target.getLatLng();
   $("#lat").val(p.lat);
   $("#lon").val(p.lng);
-  current_marker_circle.setLatLng(p);
+  setCurrentVenuePos();
 }
 </script>
 <script>
 $(document).ready(function() {
-  $('.input-latlon').mask("L", {
+  $('.input-latlon').mask("L0#.0000000000000", {
     translation: {
       'L': {
-        pattern: /-?\d{1,3}/
+        pattern: /(-)?/
       }
     }
   });
@@ -298,7 +303,7 @@ function loadVenueTypes() {
       response.rows.forEach(function(vt, aidx, arr) {
         venue_type_list.push({ id: vt.id, description: vt.description });
       });
-      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange);
+      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#venue_type_id').val());
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }
@@ -308,3 +313,5 @@ function fnChosenOnChange() {
   $('#venue_type_id').val($(this).val());
 }
 </script>
+
+<!-- TODO: make EDIT form to load the given venue_type_id of the current editing row. -->

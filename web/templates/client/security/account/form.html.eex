@@ -1,55 +1,105 @@
 <div class="card-body card-padding">
-  <form role="form" method='post' enctype="multipart/form-data"
-    action="<%= account_path Endpoint, :save %>">
-    <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
-    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
-    <div class="row">
+  <form role="form" method='post'
+    action="<%= venue_path Endpoint, :save %>">
+    <div>
+      <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
+      <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
       <%= if (@record.__form__ == :edit) do %>
       <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <% end %>
-      <% #Simple text input Control %>
-      <div class="form-group fg-float col-sm-6 col-md-6">
-        <div class="fg-line fg-toggled">
-          <input class="form-control" type="text" id="" name="description"
-          value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
-          required autofocus toggled/>
+      <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
+      <input type="hidden" id="xtra_info" name="xtra_info" value="<%= if (@record.__form__ == :edit), do: @record.xtra_info, else: nil %>"/>
+      <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= if (@record.__form__ == :edit), do: @record.venue_type_id, else: nil %>" required/>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-6">
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <select class="chosen-select form-control" id="venue_type_select">
+            </select>
+          </div>
         </div>
-        <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_DESCRIPTION") %></label>
-      </div>
-      <% #Image Control %>
-      <div class="col-sm-6 col-md-6 text-center">
-        <%= if (@record.__form__ == :edit) do %>
-        <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
-        <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_account_IMAGE_CURRENT") %></label>
-        <% else %>
-        <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_account_IMAGE") %></label>
-        <% end %>
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <input class="form-control" type="text" id="name" name="name"
+            value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>" required autofocus toggled/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
+            <input class="form-control" type="text" id="code" name="code"
+            value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
+            <input class="form-control" type="text" id="description" name="description"
+            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <input class="form-control input-mask" type="number" id="detection_radius" name="detection_radius"
+            data-mask="00000"  maxlength="5"
+            value="<%= if (@record.__form__ == :edit), do: @record.detection_radius, else: 25 %>" required/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DETECTION_RADIUS") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <input class="form-control input-latlon" type="text" id="lat" name="lat" maxlength="20"
+            pattern="-?\d{1,3}\.\d+"
+            value="<%= if (@record.__form__ == :edit), do: @record.lat, else: 0.0 %>" required/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_LAT") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <input class="form-control input-latlon" type="text" id="lon" name="lon" maxlength="20"
+            pattern="-?\d{1,3}\.\d+"
+            value="<%= if (@record.__form__ == :edit), do: @record.lon, else: 0.0 %>" required/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_LON") %></label>
+        </div>
+        <% #Image Control %>
         <div class="text-center">
-          <div class="fileinput fileinput-new" data-provides="fileinput">
-            <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-              <%= if (@record.__form__ == :edit) do %>
-              <img src="<%= @record.image_filename %>" style="width:150px"/>
-              <% end %>
-            </div>
-            <div>
-                <span class="btn btn-info btn-file">
-                    <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
-                    <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
-                    <input type="file" name="image" id="image">
-                </span>
-                <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
+          <%= if (@record.__form__ == :edit) do %>
+          <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
+          <% else %>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+          <% end %>
+          <div class="text-center">
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+              <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
+                <img src='<%= @record.image_filename %>' style="width:150px;"/>
+              </div>
+              <div>
+                  <span class="btn btn-info btn-file">
+                      <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
+                      <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
+                      <input type="file" name="image" id="image">
+                  </span>
+                  <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="col-sm-6 col-md-6">
+        <div id="_venue_map"></div>
+      </div>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= account_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= venue_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
       <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>
-    <button class="btn btn-success pull-right" type="submit">
+    <button class="btn btn-success pull-right" 33775="submit">
       <%= l10n(@session.language_code, "generic", "SAVE") %>
       <i class="md md-save"></i>
     </button>
@@ -57,12 +107,211 @@
 </div>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.draw.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.label.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.awesome-markers.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
+<script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.awesome-markers.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.measurecontrol.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
+<script>
+"use strict";
+var _venue_center_set = false;
+var _dt_format = 'YYYY-MM-DD HH:mm:ss';
+var venue_icon = L.AwesomeMarkers.icon({
+    markerColor: 'orange', icon: 'bookmark'
+});
+// Lefalet shortcuts for common tile providers - is it worth adding such 1.5kb to Leaflet core?
+L.TileLayer.Common = L.TileLayer.extend({
+	initialize: function (options) {
+		L.TileLayer.prototype.initialize.call(this, this.url, options);
+	}
+});
+(function() {
+	var osmAttr = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+	L.TileLayer.OpenStreetMap = L.TileLayer.Common.extend({
+		url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		options: {attribution: osmAttr}
+	});
+  L.TileLayer.MapBox = L.TileLayer.Common.extend({
+		url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+	});
+}());
+function _browser_geo_success(position) {
+  if(!$("#id").length) {
+    __centralgps__.venue.map.setView([position.coords.latitude, position.coords.longitude], 18);
+    $("#lat").val(position.coords.latitude);
+    $("#lon").val(position.coords.longitude);
+    setCurrentVenuePos();
+  }
+}
+function _browser_geo_error(positionError) {
+  var msg;
+  switch(positionError.code) {
+    case 1: msg = __centralgps__.globalmessages.__geolocation_permission_denied; break;
+    case 2: msg = __centralgps__.globalmessages.__geolocation_position_unavailable; break;
+    case 3: msg = __centralgps__.globalmessages.__geolocation_timeout; break;
+    default: msg = "";
+  }
+  //$.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
+}
+var venue_marker = L.AwesomeMarkers.icon({
+    markerColor: 'green'
+});
+var _venue_id = <%= if @record.__form__ == :edit, do: @record.id, else: 0 %>
+var _venue_lat_lon = [<%= if (@record.__form__ == :edit), do: (to_string(@record.lat) <> "," <> to_string(@record.lon)), else: "0, 0" %>];
+var _venue_detection_radius = [<%= if (@record.__form__ == :edit), do: @record.detection_radius, else: 25 %>];
+function _updateVenueMap() {
+  Pace.ignore(function(){
+    $.get('/monitor/venues', function(response, status, xhr) {
+      if (response.status == true) {
+        response.rows.forEach(function(v, vidx, arr) {
+          if ( !$('#id').length || ($('#id').val() != v.id) ) //!0 == true
+          __centralgps__.venue.map_overlays[__centralgps__.venue.layer_name].
+            addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
+              .bindPopup(v.name));
+          __centralgps__.venue.map_overlays[__centralgps__.venue.layer_name]
+            .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {
+                venue: { id: v.id }, //we dont need more information for the detection radius circle
+                color: 'breen',
+                fillColor: '#34cc4c',
+                fillOpacity: 0.5
+            })
+          );
+        });
+      } else {
+        console.log('._updateVenueMap: ' + response.msg);
+      }
+    });
+  });
+}
+var current_marker_popup = new L.Popup().setContent('<b>' + $('#name').val() + '<b>');
+var current_marker = new L.marker(_venue_lat_lon, {icon: venue_marker, draggable:'true'}).bindPopup(current_marker_popup);
+var current_marker_circle = L.circle(_venue_lat_lon, _venue_detection_radius, {
+    color: 'blue',
+    fillColor: '#0034ff',
+    fillOpacity: 0.5
+});
+
+$(document).ready(function() {
+  try {
+    __centralgps__.venue = { map: null, layer_name: null };
+    __centralgps__.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>"
+    __centralgps__.venue.map = L.map('_venue_map').setView([0, 0], 2);
+    L.Icon.Default.imagePath = '../images';
+    __centralgps__.venue.map_layers = {
+      "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.venue.map),
+      "Mapbox": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
+  	};
+    __centralgps__.venue.map_overlays = {
+      <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.venue.map),
+    };
+    L.control.layers(__centralgps__.venue.map_layers, __centralgps__.venue.map_overlays)
+      .addTo(__centralgps__.venue.map);
+    L.Control.measureControl().addTo(__centralgps__.venue.map);
+    __centralgps__.venue.map.addControl(new L.Control.Scale());
+    __centralgps__.venue.map.addControl(new L.Control.OSMGeocoder({
+        collapsed: true,
+        position: 'bottomright',
+        text: '',
+        cssclass: 'md md-search',
+    }));
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);
+    } else {
+      _browser_geo_error;
+    }
+    _updateVenueMap();
+    __centralgps__.venue.map.addLayer(current_marker);
+    __centralgps__.venue.map.addLayer(current_marker_circle);
+    __centralgps__.venue.map.on('click', onMapClick);
+    if ($('#id').length)
+      setCurrentVenuePos();
+    $("#detection_radius").on('keyup', function() {
+      current_marker_circle.setRadius($(this).val());
+    });
+    $('#name').change(setCurrentVenuePos());
+    $('#name').on('keyup', function() {
+      setCurrentVenuePos();
+    });
+    $("#lat").change(setCurrentVenuePos());
+    $("#lat").on('keyup', function() {
+      setCurrentVenuePos();
+    });
+    $("#lon").change(setCurrentVenuePos());
+    $("#lon").on('keyup', function() {
+      setCurrentVenuePos();
+    });
+    current_marker.on('dragend', current_marker_dragEnd);
+  }
+  catch(err) {
+    console.log(err);
+  }
+});
+function setCurrentVenuePos() {
+  current_marker.setLatLng([$('#lat').val(), $('#lon').val()]);
+  current_marker_circle.setLatLng([$('#lat').val(), $('#lon').val()]);
+  __centralgps__.venue.map.setView(current_marker.getLatLng(), 18);
+  current_marker_popup.setContent('<b>' + $('#name').val() + '<b>').update();
+  current_marker.openPopup();
+  _venue_center_set = true;
+}
+function onMapClick(e) {
+  $("#lat").val(e.latlng.lat);
+  $("#lon").val(e.latlng.lng);
+  setCurrentVenuePos();
+};
+function current_marker_dragEnd(event){
+  var p = event.target.getLatLng();
+  $("#lat").val(p.lat);
+  $("#lon").val(p.lng);
+  setCurrentVenuePos();
+}
+</script>
 <script>
 $(document).ready(function() {
+  $('.input-latlon').mask("L0#.0000000000000", {
+    translation: {
+      'L': {
+        pattern: /(-)?/
+      }
+    }
+  });
   $.applyDataMask('.input-mask');
-  $("form").submit(function(){ return __ajaxForm(this);});
+  $("form").submit(function(){return __ajaxForm(this);});
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
+  $('#code,#description,#detection_radius,#lat,#lon').change(function() {
+    if (!$(this).parent().hasClass('fg-toggled')) {
+      $(this).parent().addClass('fg-toggled');
+    }
+  });
+  loadVenueTypes();
 });
+function loadVenueTypes() {
+  $.get('/checkpoint/venue_types/json', function(response, status, xhr) {
+    if (response.status == true) {
+      var venue_type_list = [];
+      response.rows.forEach(function(vt, aidx, arr) {
+        venue_type_list.push({ id: vt.id, description: vt.description });
+      });
+      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#venue_type_id').val());
+    } else {
+      console.log('updateAssetGrid: ' + response.msg);
+    }
+  });
+}
+function fnChosenOnChange() {
+  $('#venue_type_id').val($(this).val());
+}
 </script>
+
+<!-- TODO: make EDIT form to load the given venue_type_id of the current editing row. -->

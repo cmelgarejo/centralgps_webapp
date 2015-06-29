@@ -177,7 +177,7 @@ try {
   __centralgps__.asset.map_overlays = {
     //<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
     <%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %> : new L.MarkerClusterGroup().addTo(__centralgps__.asset.map),
-    <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.MarkerClusterGroup().addTo(__centralgps__.asset.map),
+    <%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %> : new L.LayerGroup().addTo(__centralgps__.asset.map),
     <%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %> : new L.MarkerClusterGroup().addTo(__centralgps__.asset.map),
   };
   L.control.layers(__centralgps__.asset.map_layers, __centralgps__.asset.map_overlays)
@@ -263,14 +263,14 @@ function getAssetMarks(selected_asset, init, finish) {
             '<img src="' + asset_image + '" alt="" style="width:70px"><br/>' + selected_asset.name + '<br/>' + '</div>' +
             '<div class="col-sm-8 col-md-8"><b>'+ m.venue + '</b><br/>' + m.action +
             ' - ' + m.reason + '<br/>' + event_at +  '<br/>' + (m.comment != '' ?
-            '<i><span style="text-decoration: underline">Comentario</span>: ' + m.comment + '</i>': '')
+            '<i><span style="text-decoration: underline">Comentario</span>:</i> ' + m.comment: '')
             '</div>';
           mark_list.push({ asset_name: selected_asset.name, event_text: event_text,
-            event_popup_html: event_popup_html, lat: m.lat, lon: m.lon,
-            event_at: event_at,
+            event_popup_html: event_popup_html, lat: m.lat, lon: m.lon, event_at: event_at
           });
           point_list.push([m.lat, m.lon]);
         });
+        console.log(mark_list.length);
         $("#event_grid").bootgrid('append', mark_list);
         var _rand_marker_icon = L.AwesomeMarkers.icon({
             markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)],
@@ -281,7 +281,7 @@ function getAssetMarks(selected_asset, init, finish) {
             .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108, icon: _rand_marker_icon })
             .bindPopup(m.event_popup_html));
         });
-        console.log(selected_asset.color);
+        //console.log(selected_asset.color);
         var polyline = L.polyline(point_list, {color: selected_asset.color, noClip:true}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
         // zoom the map to the polyline
         //__centralgps__.asset.map.fitBounds(polyline.getBounds());
@@ -317,17 +317,20 @@ function updateAssetGrid() {
     }
   });
 }
+var fitBoundsZoomed = false;
 function updateAssetMap() {
   $.get('/monitor/assets', function(response, status, xhr) {
     if (response.status == true) {
+      var latlngbounds = [];
       if (__centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().length > 0) {
         response.rows.forEach(function(a, aidx, arr) {
           a.positions.forEach(function(p, pidx, arr) {
             __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name].getLayers().forEach(function(pos) {
               if(a.id == pos.options.asset.id) {
+                pos.options.asset = a;
+                latlngbounds.push([p.lat, p.lon]);
                 pos.setLatLng([p.lat, p.lon]);
                 pos.getPopup().setContent('<b>' + a.name + '</b><br/>' + moment(p.position_at).format(_dt_format_h));
-                //TODO: do a better optimization on which data and which positions should be updated
               }
             });
           });
@@ -337,13 +340,17 @@ function updateAssetMap() {
           if (response.rows.length - 1 == aidx)
             __centralgps__.asset.selected = a;
           a.positions.forEach(function(p, pidx, arr) {
+            latlngbounds.push([p.lat, p.lon]);
             __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
               .addLayer(L.marker([p.lat, p.lon], { asset: a, zIndexOffset: 108, icon: asset_icon })
                 .bindPopup('<b>' + a.name + '</b><br/>' + moment(p.position_at).format(_dt_format_h))
                 .bindLabel('<div class="text-center"><img src="' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</div>", { direction: 'auto', noHide: true }));
           });
-          //updateMarkMap(a);
         });
+      }
+      if(!fitBoundsZoomed) {
+        fitBoundsZoomed = true;
+        __centralgps__.asset.map.fitBounds(latlngbounds);
       }
     } else {
       console.log('updateAssetMap: ' + response.msg);
@@ -375,12 +382,35 @@ function updateVenueMap() {
   Pace.ignore(function(){
     $.get('/monitor/venues', function(response, status, xhr) {
       if (response.status == true) {
-        response.rows.forEach(function(v, vidx, arr) {
-          //TODO: just update the positions on existing markers, ad only news, delete non existants
-          __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
-            addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
-              .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>'));
-        });
+        if (__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].getLayers().length > 0) {
+          response.rows.forEach(function(v, aidx, arr) {
+            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].getLayers().forEach(function(venue) {
+              if(v.id == venue.options.venue.id) {
+                venue.options.venue = v;
+                venue.setLatLng([v.lat, v.lon]);
+                if (venue.getRadius != null)
+                  venue.setRadius(v.detection_radius);
+                else
+                  venue.getPopup().setContent('<b>' + v.name + '</b><br/><img src=\"' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>');
+              }
+            });
+          });
+        } else {
+          response.rows.forEach(function(v, vidx, arr) {
+            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
+              addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: venue_icon })
+                .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>'))
+            //__centralgps__.asset.map
+            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name]
+              .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {
+                  venue: { id: v.id }, //we dont need more information for the detection radius circle
+                  color: 'breen',
+                  fillColor: '#34cc4c',
+                  fillOpacity: 0.5
+              })
+            );
+          });
+        }
       } else {
         console.log('.updateVenueMap: ' + response.msg);
       }
@@ -389,3 +419,5 @@ function updateVenueMap() {
 }
 
 </script>
+
+<!-- TODO: make venues show their detection_radius, a circle with a green hue -->

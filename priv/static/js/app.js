@@ -248,12 +248,13 @@ function randomHexColor() {
   return '#'+Math.floor(Math.random()*16777215).toString(16);
 }
 
-function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_value, default_text) {
+function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_value, default_text, selected_value) {
   var $select = $('#' + select);
   $select.find('option').remove();
   var listitems = '';
   $.each(items, function(key, value){
-      listitems += '<option value=' + value[value_obj] + '>' + value[text_obj] + '</option>';
+      var selected = (selected_value != null) ? (value[value_obj] == selected_value ? 'selected' : '')  :  '';
+      listitems += '<option value=' + value[value_obj] + ' ' + selected + '>' + value[text_obj] + '</option>';
   });
   //console.log(listitems);
   if(default_text != null && default_value != null)

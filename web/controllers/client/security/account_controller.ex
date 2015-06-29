@@ -1,15 +1,25 @@
-defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
+defmodule CentralGPSWebApp.Client.Security.AccountController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
-
   # POST    /checkpoint/accounts/create
-  # GET     /checkpoint/accounts/:venue_id
-  # PUT     /checkpoint/accounts/:venue_id
-  # DELETE  /checkpoint/accounts/:venue_id
+  # GET     /checkpoint/accounts/:account_id
+  # PUT     /checkpoint/accounts/:account_id
+  # DELETE  /checkpoint/accounts/:account_id
   # GET     /checkpoint/accounts
   # GET     /checkpoint/accounts/json
+
+  # PUT     /api/v1/security/accounts/activate/:account_type/:account_id
+  # POST    /api/v1/security/accounts/create/:account_type
+  # GET     /api/v1/security/accounts/:account_type/:account_id
+  # PUT     /api/v1/security/accounts/:account_type/:account_id
+  # DELETE  /api/v1/security/accounts/:account_type/:account_id
+  # GET     /api/v1/security/accounts
+  # POST    /api/v1/security/accounts/:account_type/:account_id/roles/create/:role_id
+  # DELETE  /api/v1/security/accounts/:account_type/:account_id/roles/:role_id
+  # POST    /api/v1/security/accounts/:account_type/:account_id/permissions/create/:permission_id
+  # DELETE  /api/v1/security/accounts/:account_type/:account_id/permissions/:permission_id
 
   def index(conn, _params) do
     {conn, session} = centralgps_session conn
@@ -34,7 +44,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "new.html"
+      render (conn |> assign :image_placeholder, image_placeholder), "new.html"
     end
   end
 
@@ -66,9 +76,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
   end
 
   #private functions
-  defp _priv_static_path, do: Endpoint.config(:root) <> "priv/static"
-  defp _placeholder, do: "_placeholder.png"
-  defp image_dir, do: "images/profile"
+  defp image_dir, do: "images/account"
+  defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/accounts/" <> action
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
@@ -91,13 +100,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id, password: &1.password, name: &1.name, dob: &1.dob,
-          identity_document: &1.identity_document, emails: &1.emails, phones: &1.phones,
-          profile_image: &1.profile_image, language_template_id: &1.language_template_id,
-          timezone: &1.timezone, active: &1.active, blocked: &1.blocked})
-      else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+          |> Enum.map &(%{id: &1.id, configuration_id: &1.configuration_id, name: &1.name, code: &1.code,
+          description: &1.description, image_filename: &1.account_image, lat: &1.lat,
+          lon: &1.lon, detection_radius: &1.detection_radius })
       end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge (res.body |> Map.put :rows, rows), _p
   end
@@ -110,10 +118,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
       record = objectify_map(res.body.res)
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, password: record.password, name: record.name, dob: record.dob,
-          identity_document: record.identity_document, emails: record.emails, phones: record.phones,
-          profile_image: record.profile_image, language_template_id: record.language_template_id,
-          timezone: record.timezone, active: record.active, blocked: record.blocked}
+          %{id: record.id, account_type_id: record.account_type_id,
+          configuration_id: record.configuration_id, name: record.name, code: record.code,
+          description: record.description, image_filename: record.account_image, lat: record.lat,
+          lon: record.lon, detection_radius: record.detection_radius,
+          xtra_info: record.xtra_info}
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
@@ -140,8 +149,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
   defp save_record(_s, _p) do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
+    if (!Map.has_key?_p, :xtra_info || _p.xtra_info == ""), do: _p = Map.put _p, :xtra_info, nil
     if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
-    (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
+      (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(_p.__form__) ==  :edit) do
       #image_filename = _p.image_filename
       file = nil
@@ -152,15 +162,16 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
       else #or take the already existing one
         image_filename = (String.split(_p.image_filename, image_dir) |> List.last) |> String.replace "/", ""
       end
-      data = %{ account_id: _p.id, configuration_id: _s.client_id, description: _p.description,
-        image: Enum.join([image_dir, image_filename], "/"), image_file: file  }
-      old_rec = get_record(_s, _p)
-      {api_status, res} = api_put_json api_method(data.venue_id),
-      _s.auth_token, _s.account_type, data
+      data = %{ account_id: _p.id, account_type_id: _p.account_type_id,
+        configuration_id: _s.client_id, name: _p.name, code: _p.code,
+        description: _p.description, lat: _p.lat, lon: _p.lon, account_image: image_filename,
+        image: Enum.join([image_dir, image_filename], "/"), image_file: file,
+        detection_radius: _p.detection_radius, xtra_info: _p.xtra_info }
+      {api_status, res} = api_put_json api_method(data.account_id), _s.auth_token, _s.account_type, data
       if api_status == :ok  do
         if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [_priv_static_path, image_dir], "/"
-          File.rm Enum.join([dest_dir,  String.split(old_rec.image_filename, image_dir) |> List.last], "/") #removes the old image
+          dest_dir = Enum.join [Utilities._priv_static_path, image_dir], "/"
+          File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
         end
@@ -174,10 +185,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.AccountController do
         {:ok, file} = File.read _p.image.path
         file = Base.url_encode64(file)
       else
-        image_filename = _placeholder
+        image_filename = image_placeholder
       end
-      data = %{ configuration_id: _s.client_id, description: _p.description,
-        image: image_filename, image_file: file  }
+      data = %{ account_type_id: _p.account_type_id, configuration_id: _s.client_id,
+        name: _p.name, code: _p.code, description: _p.description,
+        lat: _p.lat, lon: _p.lon, image: image_filename, image_file: file,
+        detection_radius: _p.detection_radius, xtra_info: _p.xtra_info }
       {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
     end
     res.body #let's return the message
