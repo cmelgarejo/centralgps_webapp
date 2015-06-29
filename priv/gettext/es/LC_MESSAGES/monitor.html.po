@@ -1,8 +1,8 @@
 msgid  "TABPANEL_ASSET_TEXT"
 msgstr "Sus activos"
 
-msgid  "TABPANEL_EVENT_TEXT"
-msgstr "Eventos"
+msgid  "TABPANEL_MARK_TEXT"
+msgstr "Marcaciones"
 
 msgid  "TABPANEL_HISTORY_TEXT"
 msgstr "Histórico"
@@ -17,7 +17,7 @@ msgid  "MAP_VENUE_LAYER_NAME"
 msgstr "Establecimientos"
 
 msgid  "MAP_MARK_LAYER_NAME"
-msgstr "Marcas"
+msgstr "Marcaciones"
 
 msgid  "COLUMN_ASSET_NAME"
 msgstr "Nombre"
@@ -28,20 +28,59 @@ msgstr "Dirección de ubicación"
 msgid  "COLUMN_ASSET_POSITION_AT"
 msgstr "Fecha y Hora de ultima posición"
 
-msgid  "COLUMN_EVENT_ASSET"
+msgid  "COLUMN_MARK_ASSET"
 msgstr "Nombre"
 
-msgid  "COLUMN_EVENT_TEXT"
-msgstr "Evento"
+msgid  "COLUMN_MARK_TEXT"
+msgstr "Marcación"
 
-msgid  "COLUMN_EVENT_AT"
+msgid  "COLUMN_MARK_AT"
 msgstr "Fecha y hora"
+
+msgid  "BUTTON_MARK_FILTER"
+msgstr "Filtrar marcaciones"
 
 msgid  "COLUMN_HISTORY_ASSET"
 msgstr "Nombre"
+
+msgid  "COLUMN_HISTORY_LAT"
+msgstr "Latitud"
+
+msgid  "COLUMN_HISTORY_LON"
+msgstr "Longitud"
+
+msgid  "COLUMN_HISTORY_SPEED"
+msgstr "Velocidad"
+
+msgid  "COLUMN_HISTORY_BEARING"
+msgstr "Rumbo"
+
+msgid  "COLUMN_HISTORY_ACCURACY"
+msgstr "Exactitud de posición (radio en metros)"
+
+msgid  "COLUMN_HISTORY_ALTITUDE"
+msgstr "Altitud"
+
+msgid  "COLUMN_HISTORY_MAG_VAR"
+msgstr "Variación magnética"
+
+msgid  "COLUMN_HISTORY_MODE"
+msgstr "Modo"
+
+msgid  "COLUMN_HISTORY_STATUS"
+msgstr "Estado de posición"
+
+msgid  "COLUMN_HISTORY_EVENT_CODE"
+msgstr "Código de Evento"
+
+msgid  "COLUMN_HISTORY_XTRA_INFO"
+msgstr "Información Extra"
 
 msgid  "COLUMN_HISTORY_ADDRESS"
 msgstr "Dirección de ubicación"
 
 msgid  "COLUMN_HISTORY_POSITION_AT"
 msgstr "Fecha y hora"
+
+msgid  "BUTTON_HISTORY_FILTER"
+msgstr "Filtrar histórico"

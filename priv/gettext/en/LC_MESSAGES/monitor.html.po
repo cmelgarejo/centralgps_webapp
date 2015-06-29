@@ -1,8 +1,8 @@
 msgid  "TABPANEL_ASSET_TEXT"
 msgstr "Assets"
 
-msgid  "TABPANEL_EVENT_TEXT"
-msgstr "Events"
+msgid  "TABPANEL_MARK_TEXT"
+msgstr "Marks"
 
 msgid  "TABPANEL_HISTORY_TEXT"
 msgstr "History"
@@ -28,17 +28,59 @@ msgstr "Address"
 msgid  "COLUMN_ASSET_POSITION_AT"
 msgstr "Date & time"
 
-msgid  "COLUMN_EVENT_ASSET"
+msgid  "COLUMN_MARK_ASSET"
 msgstr "Asset"
 
-msgid  "COLUMN_EVENT_TEXT"
-msgstr "Event"
+msgid  "COLUMN_MARK_TEXT"
+msgstr "Mark"
 
-msgid  "COLUMN_EVENT_AT"
+msgid  "COLUMN_MARK_AT"
 msgstr "Date & time"
 
+msgid  "BUTTON_MARK_FILTER"
+msgstr "Filter marks"
+
 msgid  "COLUMN_HISTORY_ASSET"
-msgstr "Asset"
+msgstr "Name"
+
+msgid  "COLUMN_HISTORY_LAT"
+msgstr "Latitude"
+
+msgid  "COLUMN_HISTORY_LON"
+msgstr "Longitude"
+
+msgid  "COLUMN_HISTORY_SPEED"
+msgstr "Speed"
+
+msgid  "COLUMN_HISTORY_BEARING"
+msgstr "Bearing"
+
+msgid  "COLUMN_HISTORY_ACCURACY"
+msgstr "Accuracy"
+
+msgid  "COLUMN_HISTORY_ALTITUDE"
+msgstr "Altitude"
+
+msgid  "COLUMN_HISTORY_MAG_VAR"
+msgstr "Magnetic variation"
+
+msgid  "COLUMN_HISTORY_MODE"
+msgstr "Mode"
+
+msgid  "COLUMN_HISTORY_STATUS"
+msgstr "Position status"
+
+msgid  "COLUMN_HISTORY_EVENT_CODE"
+msgstr "Event code"
+
+msgid  "COLUMN_HISTORY_XTRA_INFO"
+msgstr "Extra information"
+
+msgid  "COLUMN_HISTORY_ADDRESS"
+msgstr "Address"
 
 msgid  "COLUMN_HISTORY_POSITION_AT"
 msgstr "Date & time"
+
+msgid  "BUTTON_HISTORY_FILTER"
+msgstr "Filter history"

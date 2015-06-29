@@ -18,32 +18,38 @@
 <div role="tabpanel">
   <ul class="tab-nav tn-justified" role="tablist">
       <li><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
-      <li><a href="#tab_event_list" aria-controls="tab_event_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_EVENT_TEXT") %></a></li>
-      <!-- <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li> -->
+      <li><a href="#tab_mark_list" aria-controls="tab_mark_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %></a></li>
+      <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li>
       <li class="active"><a href="#tab_map" aria-controls="tab_map" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MAP_TEXT") %></a></li>
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane" id="tab_asset_list">
-      <div class="grid-container">
-        <table id="asset_grid" class="table table-condensed table-hover table-striped">
-            <thead>
-                <tr>
-                  <th data-column-id="name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_NAME") %></th>
-                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_ADDRESS") %></th>
-                  <th data-column-id="position_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_POSITION_AT") %></th>
-                </tr>
-            </thead>
-        </table>
+      <div class="card lc-block">
+        <div class="card-body card-padding">
+          <div class="row">
+            <div class="grid-container">
+              <table id="asset_grid" class="table table-condensed table-hover table-striped">
+                  <thead>
+                      <tr>
+                        <th data-column-id="name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_NAME") %></th>
+                        <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_ADDRESS") %></th>
+                        <th data-column-id="position_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ASSET_POSITION_AT") %></th>
+                      </tr>
+                  </thead>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="tab_event_list">
+    <div role="tabpanel" class="tab-pane" id="tab_mark_list">
       <div class="card lc-block">
         <div class="card-body card-padding">
           <div class="row">
             <div class="col-sm-4 col-md-4">
               <div class="input-group" style="width:100%">
                 <div class="fg-line">
-                  <select class="chosen-select form-control" id="_events_asset_list">
+                  <select class="chosen-select form-control" id="_marks_asset_list">
                   </select>
                 </div>
               </div>
@@ -54,7 +60,7 @@
                   <span class="input-group-addon">
                       <i class="md md-event"></i>
                   </span>
-                  <input id="_event_asset_start_dt" type='text' class="form-control date-time-picker"
+                  <input id="_mark_asset_start_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
                 </div>
               </div>
@@ -65,22 +71,22 @@
                   <span class="input-group-addon">
                       <i class="md md-event"></i>
                   </span>
-                  <input id="_event_asset_finish_dt" type='text' class="form-control date-time-picker"
+                  <input id="_mark_asset_finish_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
                 </div>
               </div>
             </div>
             <div class="col-sm-2 col-md-2">
-              <button class="btn btn-default" onclick="updateEvents()"><i class="md md-filter-list"></i>Filtrar</button>
+              <button class="btn btn-default" onclick="updateMarks()"><i class="md md-filter-list"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_MARK_FILTER") %></button>
             </div>
           </div>
           <div class="grid-container">
-            <table id="event_grid" class="table table-condensed table-hover table-striped">
+            <table id="mark_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_ASSET") %></th>
-                      <th data-column-id="event_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_TEXT") %></th>
-                      <th data-column-id="event_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_EVENT_AT") %></th>
+                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ASSET") %></th>
+                      <th data-column-id="mark_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_TEXT") %></th>
+                      <th data-column-id="mark_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_AT") %></th>
                     </tr>
                 </thead>
             </table>
@@ -89,16 +95,55 @@
       </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="tab_history_list">
-      <div class="grid-container">
-        <table id="history_grid" class="table table-condensed table-hover table-striped">
-            <thead>
-                <tr>
-                  <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html",       "COLUMN_HISTORY_ASSET") %></th>
-                  <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html",     "COLUMN_HISTORY_ADDRESS") %></th>
-                  <th data-column-id="position_at"><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_POSITION_AT") %></th>
-                </tr>
-            </thead>
-        </table>
+      <div class="card lc-block">
+        <div class="card-body card-padding">
+          <div class="row">
+            <div class="col-sm-4 col-md-4">
+              <div class="input-group" style="width:100%">
+                <div class="fg-line">
+                  <select class="chosen-select form-control" id="_history_asset_list">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+              <div class="form-group">
+                <div class='input-group date'>
+                  <span class="input-group-addon">
+                      <i class="md md-history"></i>
+                  </span>
+                  <input id="_history_asset_start_dt" type='text' class="form-control date-time-picker"
+                  placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+              <div class="form-group">
+                <div class='input-group date'>
+                  <span class="input-group-addon">
+                      <i class="md md-history"></i>
+                  </span>
+                  <input id="_history_asset_finish_dt" type='text' class="form-control date-time-picker"
+                  placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-2">
+              <button class="btn btn-default" onclick="updateHistory()"><i class="md md-filter-list"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_HISTORY_FILTER") %></button>
+            </div>
+          </div>
+          <div class="grid-container">
+            <table id="history_grid" class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                      <th data-column-id="asset"><%= l10n(@session.language_code, "monitor.html",       "COLUMN_HISTORY_ASSET") %></th>
+                      <th data-column-id="address"><%= l10n(@session.language_code, "monitor.html",     "COLUMN_HISTORY_ADDRESS") %></th>
+                      <th data-column-id="position_at"><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_POSITION_AT") %></th>
+                    </tr>
+                </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <div role="tabpanel" class="tab-pane active" id="tab_map">
@@ -108,7 +153,7 @@
 </div>
 <script>
 "use strict";
-var marker_icon_colors = ['red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'];
+var marker_icon_colors = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray'];
 var _dt_format_m = 'YYYY-MM-DD HH:mm:ss';
 var _dt_format_h = 'DD/MM/YYYY HH:mm:ss';
 var asset_icon = L.icon({
@@ -123,7 +168,7 @@ Pace.options = {
   ajax: false
 }
 if(typeof($) === "undefined") {
-  console.log(window.location);
+  //console.log(window.location);
   window.location = "/";
 }
 // Lefalet shortcuts for common tile providers - is it worth adding such 1.5kb to Leaflet core?
@@ -143,7 +188,7 @@ L.TileLayer.Common = L.TileLayer.extend({
 	});
 }());
 function _browser_geo_success(position) {
-  console.log("my.pos: ["+ position.coords.latitude+ "," + position.coords.longitude+ "]")
+  //console.log("my.pos: ["+ position.coords.latitude+ "," + position.coords.longitude+ "]")
   __centralgps__.asset.map.setView([position.coords.latitude, position.coords.longitude], 12);
 }
 function _browser_geo_error(positionError) {
@@ -162,8 +207,8 @@ try {
   moment.locale('<%= @session.language_code %>');
   var _t = moment();
   $('.date-time-picker').datetimepicker({locale: '<%= @session.language_code %>', format: _dt_format_h});
-  $('#_event_asset_start_dt').val(_t.startOf('day').format(_dt_format_h));
-  $('#_event_asset_finish_dt').val(_t.endOf('day').format(_dt_format_h));
+  $('#_mark_asset_start_dt').val(_t.startOf('day').format(_dt_format_h));
+  $('#_mark_asset_finish_dt').val(_t.endOf('day').format(_dt_format_h));
   __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
   __centralgps__.asset.position.layer_name         = "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %>";
   __centralgps__.asset.checkpoint.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>"
@@ -204,7 +249,7 @@ try {
   } else {
     _browser_geo_error;
   }
-  $('#event_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
+  $('#mark_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
   bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
   updateAssetGrid();
   updateVenueMap();
@@ -220,14 +265,14 @@ catch(err) {
   console.log(err);
 }
 });
-function updateEvents() {
+function updateMarks() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name].clearLayers();
-  $("#event_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
-  var init   = moment($('#_event_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
-  var finish = moment($('#_event_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
-  var selected_asset = $('#_events_asset_list option:selected')
+  $("#mark_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  var init   = moment($('#_mark_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
+  var finish = moment($('#_mark_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
+  var selected_asset = $('#_marks_asset_list option:selected')
   if(selected_asset.val() == -1) {//All records
-    $.each($('#_events_asset_list option'), function(k, v){
+    $.each($('#_marks_asset_list option'), function(k, v){
       v = $(v);
       if(v.val() != -1) {//if is NOT the All <option value="option">option</option>ion
         var my_color = randomHexColor(); //TODO: control if the color repeats
@@ -249,8 +294,8 @@ function getAssetMarks(selected_asset, init, finish) {
         var mark_list = [], point_list = [];
         response.rows.forEach(function(m, idx, arr) {
           //TODO: do a template accesible and configurable from outside this func.
-          var event_at = moment(m.position_at).format(_dt_format_h);
-          var event_text = '<b>'+ m.venue + '</b><br/>' + m.action +
+          var mark_at = moment(m.position_at).format(_dt_format_h);
+          var mark_text = '<b>'+ m.venue + '</b><br/>' + m.action +
             ' - ' + m.reason  + '<br/>' + (m.comment != '' ?
             '<i><span style="text-decoration: underline">Comentario</span>: ' + m.comment + '</i>': '')
             + '<br/>';
@@ -258,20 +303,19 @@ function getAssetMarks(selected_asset, init, finish) {
           __centralgps__.asset.list.forEach(function (asset) {
             if (selected_asset.id == asset.id) asset_image = asset.asset_image
           });
-          var event_popup_html  =
+          var mark_popup_html  =
             '<div class="row"><div class="col-sm-4 col-md-4 text-center">' +
             '<img src="' + asset_image + '" alt="" style="width:70px"><br/>' + selected_asset.name + '<br/>' + '</div>' +
             '<div class="col-sm-8 col-md-8"><b>'+ m.venue + '</b><br/>' + m.action +
-            ' - ' + m.reason + '<br/>' + event_at +  '<br/>' + (m.comment != '' ?
+            ' - ' + m.reason + '<br/>' + mark_at +  '<br/>' + (m.comment != '' ?
             '<i><span style="text-decoration: underline">Comentario</span>:</i> ' + m.comment: '')
             '</div>';
-          mark_list.push({ asset_name: selected_asset.name, event_text: event_text,
-            event_popup_html: event_popup_html, lat: m.lat, lon: m.lon, event_at: event_at
+          mark_list.push({ asset_name: selected_asset.name, mark_text: mark_text,
+            mark_popup_html: mark_popup_html, lat: m.lat, lon: m.lon, mark_at: mark_at
           });
           point_list.push([m.lat, m.lon]);
         });
-        console.log(mark_list.length);
-        $("#event_grid").bootgrid('append', mark_list);
+        $("#mark_grid").bootgrid('append', mark_list);
         var _rand_marker_icon = L.AwesomeMarkers.icon({
             markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)],
             icon: 'check'
@@ -279,14 +323,14 @@ function getAssetMarks(selected_asset, init, finish) {
         $.each(mark_list, function(k, m) {
           __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
             .addLayer(L.marker([m.lat, m.lon], { mark: m, zIndexOffset: 108, icon: _rand_marker_icon })
-            .bindPopup(m.event_popup_html));
+            .bindPopup(m.mark_popup_html));
         });
         //console.log(selected_asset.color);
         var polyline = L.polyline(point_list, {color: selected_asset.color, noClip:true}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
         // zoom the map to the polyline
         //__centralgps__.asset.map.fitBounds(polyline.getBounds());
       } else {
-        console.log(selected_asset.name + '.updateEvents: ' + response.msg + ' - query_string: ' + query_string);
+        console.log(selected_asset.name + '.updateMarks: ' + response.msg + ' - query_string: ' + query_string);
       }
   });
 
@@ -310,8 +354,8 @@ function updateAssetGrid() {
       bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
       __centralgps__.asset.list = asset_list;
       //check if there is changes in the length of the loaded asset list (+1 for [All])
-      if($('#_events_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-        chosenLoadSelect('_events_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
+      if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
+        chosenLoadSelect('_marks_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }
@@ -419,5 +463,3 @@ function updateVenueMap() {
 }
 
 </script>
-
-<!-- TODO: make venues show their detection_radius, a circle with a green hue -->
