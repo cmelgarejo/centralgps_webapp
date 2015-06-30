@@ -8,7 +8,7 @@ msgid  "PAGE_EDIT_TITLE"
 msgstr "Edit venue type"
 
 msgid  "GRID_COMMAND_COLUMN"
-msgstr "Comandos"
+msgstr "Commands"
 
 msgid  "COLUMN_ID"
 msgstr "ID"

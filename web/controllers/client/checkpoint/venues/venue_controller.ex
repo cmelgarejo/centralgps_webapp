@@ -90,7 +90,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
           |> Enum.map &(%{id: &1.id, configuration_id: &1.configuration_id, name: &1.name, code: &1.code,
-          description: &1.description, image_filename: &1.venue_image, lat: &1.lat,
+          description: &1.description, venue_image: &1.venue_image, lat: &1.lat,
           lon: &1.lon, detection_radius: &1.detection_radius })
       end
     else

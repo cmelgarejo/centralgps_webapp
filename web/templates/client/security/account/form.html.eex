@@ -5,7 +5,6 @@
       <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
       <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
       <%= if (@record.__form__ == :edit) do %>
-      <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <% end %>
       <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>

@@ -63,7 +63,7 @@
             </label>
           </div>
         </li>
-        <%= if true do %>
+        <%= if false do %>
         <li id="top-search">
           <a class="tm-search" href="">
           </a>
@@ -246,7 +246,7 @@
               <% end %>
               <%= if Permissions.check(@session.permissions, Permissions.security.client.account.list) do %>
               <li>
-                <a >
+                <a onclick="get_page('security/accounts');">
                   <%= l10n(@session.language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
                 </a>
               </li>

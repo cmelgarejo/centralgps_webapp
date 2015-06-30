@@ -1,5 +1,5 @@
 msgid  "TABPANEL_ASSET_TEXT"
-msgstr "Sus activos"
+msgstr "Posiciones"
 
 msgid  "TABPANEL_MARK_TEXT"
 msgstr "Marcaciones"
@@ -11,7 +11,7 @@ msgid  "TABPANEL_MAP_TEXT"
 msgstr "Mapa"
 
 msgid  "MAP_ASSET_LAYER_NAME"
-msgstr "Activos"
+msgstr "Posiciones"
 
 msgid  "MAP_VENUE_LAYER_NAME"
 msgstr "Establecimientos"

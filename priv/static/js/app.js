@@ -46,7 +46,7 @@ function get_page(resource) {
       });
     }).fail(function(html){ $('#_centralgps_container').html(html.responseText);});
   });
- return false;
+  return false;
 }
 
 $( document ).ajaxError(function( event, request, settings ) {
@@ -97,14 +97,21 @@ $(document).ready(function(){
 
 function gridCommandFormatter(column, row)
 {
-    return "<button type='button' class='btn btn-default cmd-edit' data-row-id='" + row.id + "'><span class='md md-edit'></span></button> " +
-        "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "'><span class='md md-delete'></span></button>";
+  //TODO: hacer de alguna manera, llamar a algun campo de forma generica y hacer que sea el que apareca como informacion de borrado.
+  return "<button type='button' class='btn btn-default cmd-edit' data-row-id='" + row.id + "'><span class='md md-edit'></span></button> " +
+      "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "'><span class='md md-delete'></span></button>";
 }
 
 function gridImageFormatter(column, row)
 {
   var image = (row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
-  return "<img src='" + image + "' style='width:150px'/>";
+  return "<img src='" + image + "' style='width:50px'/>";
+}
+
+function gridCheckFormatter(column, row)
+{
+  var is_checked = (row[column.id] == true) ? "checked" : "";
+  return "<input type=\"checkbox\" " + is_checked + " disabled/>";
 }
 
 function bootgrid_delete(grid, delete_url, record) {

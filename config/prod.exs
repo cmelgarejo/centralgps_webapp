@@ -7,8 +7,8 @@ use Mix.Config
 # You should also configure the url host to something
 # meaningful, we use this information when generating URLs.
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
-  http: [port: {:system, "PORT"}],
-  url: [host: "checkpoint.edge.com.py", port: 4000],
+  http: [port: 5000], #http: [port: {:system, "PORT"}],
+  url: [host: "checkpoint.edge.com.py", port: 8080],
   cache_static_manifest: "priv/static/manifest.json"
 
 # ## SSL Support

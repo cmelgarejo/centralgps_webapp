@@ -1,38 +1,47 @@
 <div class="card">
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
-      <a onclick="get_page('<%= venue_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+      <a onclick="get_page('<%= account_path(@conn, :new) %>');" class="btn btn-success btn-float" >
         <i class="md md-add"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "venue.crud.html", "PAGE_LIST_TITLE") %></h4>
+    <h4><%= l10n(@session.language_code, "account.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
   <div class="grid-container">
-    <table id="venue_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/venues/json">
+    <table id="account_grid" class="table table-condensed table-hover table-striped"
+      data-toggle="bootgrid" data-ajax="true" data-url="/security/accounts/json">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
-              <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
-              <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>
-              <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></th>
-              <th data-column-id="image_filename" data-formatter="image"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></th>
-              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_COMMAND_COLUMN") %></th>
+              <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="account_type" data-visible="false"><%=# l10n(@session.language_code, "account.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="profile_image" data-formatter="image"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ACCOUNT_IMAGE") %></th>
+              <th data-column-id="name"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_NAME") %></th>
+              <th data-column-id="identity_document"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_IDENTITY_DOCUMENT") %></th>
+              <th data-column-id="username" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_USERNAME") %></th>
+              <th data-column-id="dob" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_DOB") %></th>
+              <th data-column-id="emails" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_EMAILS") %></th>
+              <th data-column-id="phones" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_PHONES") %></th>
+              <th data-column-id="timezone" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_TIMEZONE") %></th>
+              <th data-column-id="username"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_USERNAME") %></th>
+              <th data-column-id="language_template" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_LANGUAGE_TEMPLATE") %></th>
+              <th data-column-id="active" data-formatter="check"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ACTIVE") %></th>
+              <th data-column-id="blocked" data-formatter="check"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_BLOCKED") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "account.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>
     </table>
   </div>
 </div>
 <script>
-__centralgps__.CRUD.index_url = '<%= venue_path(@conn, :index) %>';
-__centralgps__.CRUD.edit_url = '<%= venue_path(@conn, :edit) %>';
-__centralgps__.CRUD.delete_url = '<%= venue_path(@conn, :delete) %>';
+__centralgps__.CRUD.index_url  = '<%= account_path(@conn, :index) %>';
+__centralgps__.CRUD.edit_url   = '<%= account_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= account_path(@conn, :delete) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
-__centralgps__.CRUD.grid_name = '#venue_grid';
+__centralgps__.CRUD.grid_name = '#account_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'name';
 $(document).ready(function() {
-  gridSetup_CRUD({"image": gridImageFormatter});
+  gridSetup_CRUD({"image": gridImageFormatter, "check": gridCheckFormatter});
 });
 </script>
