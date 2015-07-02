@@ -80,6 +80,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(account_type \\ "", action \\ "") when is_bitstring(action), do:
     "/security/accounts/" <> account_type <> "/" <> action
+
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
       |> (Map.update :current, 1, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
@@ -115,42 +116,43 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     Map.merge (res.body |> Map.put :rows, rows), _p
   end
 
-
   defp get_record(_s, _p) do
     _p = objectify_map _p
-    {api_status, res} = api_get_json api_method(_p.id), _s.auth_token, _s.account_type
+    {api_status, res} = api_get_json api_method(_p.account_type, _p.id), _s.auth_token, _s.account_type
     record = nil
     if(api_status == :ok) do
-      record = objectify_map(res.body.res)
-      if res.body.status do
-        record = Map.merge %{status: res.body.status, msg: res.body.msg} , record
-        #%{id: record.id, name: record.name, identity_document: record.identity_document,
-        #username: record.username, dob: record.dob, emails: record.emails, phones: record.phones,
-        #timezone: record.timezone, active: record.active, blocked: record.blocked,
-        #language_template: record.language_template, profile_image: record.profile_image,
-        #activated_at: record.activated_at, deactivated_at: record.deactivated_at,
-        #created_at: record.created_at, updated_at: record.updated_at,
-        #xtra_info: record.xtra_info}
+      if Map.has_key?(record, :res) do
+        record = objectify_map(res.body.res)
+        if res.body.status do
+          record = Map.merge %{status: res.body.status, msg: res.body.msg} , record
+          #%{id: record.id, name: record.name, identity_document: record.identity_document,
+          #username: record.username, dob: record.dob, emails: record.emails, phones: record.phones,
+          #timezone: record.timezone, active: record.active, blocked: record.blocked,
+          #language_template: record.language_template, profile_image: record.profile_image,
+          #activated_at: record.activated_at, deactivated_at: record.deactivated_at,
+          #created_at: record.created_at, updated_at: record.updated_at,
+          #xtra_info: record.xtra_info}
+        end
       end
     else
-      res = Map.put res, :body, %{ status: false, msg: res.reason }
+      record = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     record
   end
 
   defp delete_record(_s, _p) do
     _p = objectify_map _p
-    IO.puts _p
-    if(Map.has_key?_p, :id && Map.has_key?_p, :account_type) do
+    if(Map.has_key?(_p, :id) && Map.has_key?(_p, :account_type)) do
       {api_status, res} =
         api_delete_json api_method(_p.account_type, _p.id),
         _s.auth_token, _s.account_type
     else
-      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
+      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id - controller err"}}}
     end
     if(api_status == :ok) do
-      if !res.body.status, do:
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      if !res.body.status, do: res = Map.put res, :body, %{ status: false, msg: res.body.msg }
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     res.body
   end

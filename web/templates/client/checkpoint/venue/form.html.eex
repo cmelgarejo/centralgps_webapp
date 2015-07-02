@@ -305,7 +305,7 @@ function loadVenueTypes() {
       });
       chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#venue_type_id').val());
     } else {
-      console.log('updateAssetGrid: ' + response.msg);
+      console.log('loadVenueTypes: ' + response.msg);
     }
   });
 }

@@ -124,8 +124,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
     end
     if(api_status == :ok) do
-      if !res.body.status, do:
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      if !res.body.status, do: res = Map.put res, :body, %{ status: false, msg: res.body.msg }
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     res.body
   end

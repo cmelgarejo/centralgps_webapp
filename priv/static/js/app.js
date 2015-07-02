@@ -37,19 +37,19 @@ var __centralgps__ = {
 };
 
 function get_page(resource) {
-  Pace.track(function(){
-    $.get(resource, function(html) {
+  Pace.track(function get_page_Pace(){
+    $.get(resource, function get_page_replace_container(html) {
       window.clearInterval(__centralgps__.asset.refresh_interval);
       $('#_centralgps_container').html(html);
-      $(document).ready(function(){
+      $(document).ready(function get_page_applyWaves(){
         Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
       });
-    }).fail(function(html){ $('#_centralgps_container').html(html.responseText);});
+    }).fail(function get_page_fail(html){ $('#_centralgps_container').html(html.responseText);});
   });
   return false;
 }
 
-$( document ).ajaxError(function( event, request, settings ) {
+$( document ).ajaxError(function document_ajaxError( event, request, settings ) {
   var msg = "";
   switch(event.status)
   {
@@ -66,16 +66,16 @@ $( document ).ajaxError(function( event, request, settings ) {
 
 function hostReachable() {
   $.get(__centralgps__.globalvars.__root_url + "ping", //?r="+Math.floor((1+Math.random()) * 0x10000),
-    function() {
+    function notify_hostReachable() {
       $.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
   });
 }
 
-$(document).ready(function(){
+$(document).ready(function document_defaults(){
   $.notify.defaults({ style: 'metro', autoHideTimeout: 5000, className: 'base', arrowShow: true, arrowSize: 10 })
   if ($('[data-action="clear-localstorage"]')[0]) {
       var cls = $('[data-action="clear-localstorage"]');
-      cls.on('click', function(e) {
+      cls.on('click', function document_defaults_cls_click(e) {
           e.preventDefault();
           swal({
               title: __centralgps__.globalmessages._delete_record_title_sure,
@@ -86,7 +86,7 @@ $(document).ready(function(){
               confirmButtonText: __centralgps__.globalmessages._delete_record_confirm_text,
               cancelButtonText: __centralgps__.globalmessages._delete_record_cancel_text,
               closeOnConfirm: false
-          }, function(){
+          }, function document_defaults_localStorage_clear(){
               localStorage.clear();
               swal(__centralgps__.globalmessages._delete_record_title_done, __centralgps__.globalmessages._delete_record_text_done, "error");
           });
@@ -98,8 +98,14 @@ $(document).ready(function(){
 function gridCommandFormatter(column, row)
 {
   //TODO: hacer de alguna manera, llamar a algun campo de forma generica y hacer que sea el que apareca como informacion de borrado.
-  return "<button type='button' class='btn btn-default cmd-edit' data-row-id='" + row.id + "'><span class='md md-edit'></span></button> " +
-      "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "'><span class='md md-delete'></span></button>";
+  var additional_row_info = '';
+  if (__centralgps__.CRUD.grid_command_columns != null) {
+    __centralgps__.CRUD.grid_command_columns.forEach(function gridCommandFormatter_aditionalInfo(k) {
+      additional_row_info += " data-" + k + "= " + row[k] + " ";
+    });
+  }
+  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " ><span class='md md-edit'></span></button> " +
+         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " ><span class='md md-delete'></span></button>";
 }
 
 function gridImageFormatter(column, row)
@@ -116,7 +122,7 @@ function gridCheckFormatter(column, row)
 
 function bootgrid_delete(grid, delete_url, record) {
   var $that = this;
-  Pace.track(function(){
+  Pace.track(function bootgrid_delete_Pace(){
     var _text = __centralgps__.globalmessages._delete_record_removed
       .replace("#{RECORD}", record.id)
       .replace("undefined", "")
@@ -130,13 +136,13 @@ function bootgrid_delete(grid, delete_url, record) {
         confirmButtonText: __centralgps__.globalmessages._delete_record_confirm_text,
         cancelButtonText: __centralgps__.globalmessages._delete_record_cancel_text,
         closeOnConfirm: false
-    }, function(){
+    }, function bootgrid_delete_ajaxOnConfirm(){
       $.ajax({
         url: delete_url,
         method: "DELETE",
         headers: { "X-CSRF-TOKEN" : record.token},
         data: record
-      }).done(function(data, status) {
+      }).done(function bootgrid_delete_Done(data, status) {
           if(data.status) {
             swal(__centralgps__.globalmessages._delete_record_title_done, data.msg, "success");
             grid.bootgrid('reload');
@@ -144,36 +150,50 @@ function bootgrid_delete(grid, delete_url, record) {
             if(data.msg == "nxdomain") data.msg = _msg;
             swal(__centralgps__.globalmessages._delete_record_title_done, data.msg, "error");
           }
-      }).fail(function(data, status, jqXHR) {
+      }).fail(function bootgrid_delete_Fail(data, status, jqXHR) {
         swal(__centralgps__.globalmessages._delete_record_title_done, status, "error");
       });
     });
   });
 }
 
-function gridSetup_CRUD(gridFormatters){
-  gridFormatters = typeof gridFormatters !== 'undefined' ? gridFormatters : {};
-  gridFormatters["commands"] = gridCommandFormatter;
+function gridSetup_CRUD(gridFormatters, params){
+  gridFormatters = (gridFormatters != null) ? gridFormatters : {};
+  gridFormatters.commands = gridCommandFormatter;
+  params = (params != null) ? params : [];
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
     labels: __centralgps__.bootgrid_labels,
     ajaxSettings: {method: __centralgps__.CRUD.grid_method, cache: false },
-    requestHandler: function(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
+    requestHandler: function gridSetup_CRUD_requestHandler(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
     formatters: gridFormatters,
     caseSensitive: false,
-  }).on("loaded.rs.jquery.bootgrid", function() {
+  }).on("loaded.rs.jquery.bootgrid", function gridSetup_CRUD_onLoadedBootgrid() {
     Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
     /* Executes after data is loaded and rendered */
-    __centralgps__.CRUD.grid.find(".cmd-edit").on("click", function(e) {
-      get_page(__centralgps__.CRUD.edit_url + '?id=' + $(this).data("row-id"));
-    }).end().find(".cmd-delete").on("click", function(e) {
-      bootgrid_delete(__centralgps__.CRUD.grid, __centralgps__.CRUD.delete_url,
-        { id: $(this).data("row-id"), token: __centralgps__.CRUD.delete_token });
+    __centralgps__.CRUD.grid.find(".cmd-edit").on("click", function gridSetup_CRUD_editOnClick(e) {
+      var editParams = generateCRUDGridObject($(this), params);
+      var query_string = '?';
+      $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
+      get_page(__centralgps__.CRUD.edit_url + query_string);
+    }).end().find(".cmd-delete").on("click", function gridSetup_CRUD_deleteOnClick(e) {
+      var deleteParams = generateCRUDGridObject($(this), params);
+      bootgrid_delete(__centralgps__.CRUD.grid, __centralgps__.CRUD.delete_url, deleteParams);
     });
   });
-  bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
+  bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
 }
 
+function generateCRUDGridObject(row, params) {
+  var objectParams = {}
+  params.forEach(function loadGridObject(k) {
+    objectParams[k] = row.data(k);
+  });
+  /*Check if this necesary parameters exist*/
+  objectParams.id    = (objectParams.id == null) ?  row.data("row-id") : objectParams.id;
+  objectParams.token = (objectParams.token == null) ? __centralgps__.CRUD.delete_token : objectParams.token;
+  return objectParams;
+}
 function showSuccess(message) {
   $(document).find('#alert').html("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
     + message + "</div>")
@@ -219,7 +239,7 @@ function ajaxformOnResponse(response, status, xhr, jqForm)  {
       showSuccess(response.msg);
     else
       showError(response.msg);
-    setTimeout(function(){
+    setTimeout(function ajaxformOnResponse_disableButton(){
       jqForm.find(':button:disabled').prop('disabled',false);
       if(response.status)
         get_page(__centralgps__.CRUD.index_url);
@@ -259,7 +279,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
   var $select = $('#' + select);
   $select.find('option').remove();
   var listitems = '';
-  $.each(items, function(key, value){
+  $.each(items, function chosenLoadSelect_buildSelectOptions(key, value){
       var selected = (selected_value != null) ? (value[value_obj] == selected_value ? 'selected' : '')  :  '';
       listitems += '<option value=' + value[value_obj] + ' ' + selected + '>' + value[text_obj] + '</option>';
   });
@@ -271,7 +291,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
 }
 
 function bootgrid_appendSearchControl() {
-  $('.grid-container table').each(function(i, t) {
+  $('.grid-container table').each(function bootgrid_appendSearchControl_build(i, t) {
     if (!$('#' + t.id + "-search-field-clear").length)
       $('#' + t.id + '-header .input-group').append("<span id='" + t.id + "-search-field-clear' class='input-group-addon' style='vertical-align:middle;cursor:pointer'><i class='md md-close' onclick=\"bootgrid_clearSearch('" + t.id + "')\"></i></span>");
   });

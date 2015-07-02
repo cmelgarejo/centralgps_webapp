@@ -105,8 +105,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActionController do
       {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
     end
     if(api_status == :ok) do
-      if !res.body.status, do:
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      if !res.body.status do
+        msg = if Map.has_key?(res, :reason), do: res.reason, else: res.body.msg
+        res = Map.put res, :body, %{ status: false, msg: msg }
+      end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     res.body
   end
