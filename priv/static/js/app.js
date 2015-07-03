@@ -1,6 +1,7 @@
 var bootgrid_labels;
 
 var __centralgps__ = {
+  asset : { position: {} },
   checkpoint: {},
   CRUD: {},
   globalmessages : {

@@ -27,8 +27,10 @@ defmodule CentralGPSWebApp.Router do
 
   scope "/monitor", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
-    get  "/",       MonitorController, :index
-    get  "/assets", MonitorController, :assets
+    get  "/",               MonitorController, :index
+    get  "/assets",         MonitorController, :assets
+    get  "/assets/record",  MonitorController, :record
+    #Checkpoint Module
     get  "/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
     get  "/venues",                  Checkpoint.MonitorController, :venues
   end

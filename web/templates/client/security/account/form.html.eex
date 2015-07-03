@@ -176,7 +176,7 @@ function loadAccountTypes() {
       });
       chosenLoadSelect('account_type_select', account_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#account_type').val());
     } else {
-
+      
     }
   });
 }

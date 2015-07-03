@@ -13,6 +13,9 @@ msgstr "Map"
 msgid  "MAP_ASSET_LAYER_NAME"
 msgstr "Assets"
 
+msgid  "MAP_ASSET_HISTORY_LAYER_NAME"
+msgstr "History"
+
 msgid  "MAP_VENUE_LAYER_NAME"
 msgstr "Venues"
 

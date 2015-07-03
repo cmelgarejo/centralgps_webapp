@@ -13,6 +13,9 @@ msgstr "Mapa"
 msgid  "MAP_ASSET_LAYER_NAME"
 msgstr "Posiciones"
 
+msgid  "MAP_ASSET_HISTORY_LAYER_NAME"
+msgstr "Histórico"
+
 msgid  "MAP_VENUE_LAYER_NAME"
 msgstr "Establecimientos"
 

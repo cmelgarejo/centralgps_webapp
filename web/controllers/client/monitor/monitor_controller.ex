@@ -28,4 +28,13 @@ defmodule CentralGPSWebApp.Client.MonitorController do
     end
   end
 
+  def record(conn, _params) do
+    {conn, session} = centralgps_session conn
+    if(session == :error) do
+      redirect conn, to: login_path(Endpoint, :index)
+    else #do your stuff and render the page.
+      {_, res} = api_get_json "/monitor/client/record", session.auth_token, session.account_type, _params
+      json conn, res.body
+    end
+  end
 end
