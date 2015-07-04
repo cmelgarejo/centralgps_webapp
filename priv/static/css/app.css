@@ -1,3 +1,17 @@
+.timeline-toggle {
+  height: calc(100% - 150px) !important;
+}
+#timeline {
+  position: absolute;
+  top: calc(100% - 150px);
+  width: 100%;
+  background-color: white !important;
+}
+@media (min-width: 1200px) {
+  #timeline {
+    width: calc(100% - 250px) !important;
+  }
+}
 #top-search-close {
   position: relative;
   top: 5px;

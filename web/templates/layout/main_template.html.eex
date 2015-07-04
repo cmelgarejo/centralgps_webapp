@@ -21,6 +21,7 @@
     <!--<script src="<%= static_path(@conn, "/js/moment.min.js") %>"></script>-->
     <script src="<%= static_path(@conn, "/js/moment-with-locales.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/mustache.js") %>"></script>
   </head>
   <body>
     <div class="container">

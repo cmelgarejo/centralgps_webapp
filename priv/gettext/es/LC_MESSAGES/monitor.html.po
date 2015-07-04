@@ -37,6 +37,9 @@ msgstr "Nombre"
 msgid  "COLUMN_MARK_TEXT"
 msgstr "Marcación"
 
+msgid  "COLUMN_MARK_COMMENT"
+msgstr "Comentario"
+
 msgid  "COLUMN_MARK_AT"
 msgstr "Fecha y hora"
 

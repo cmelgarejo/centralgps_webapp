@@ -4,6 +4,7 @@ var __centralgps__ = {
   asset : { position: {} },
   checkpoint: {},
   CRUD: {},
+  timeline: {},
   globalmessages : {
     generic : {},
     _delete_record_title_sure    : "CLS_TITLE_SURE",
