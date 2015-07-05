@@ -43,9 +43,6 @@ msgstr "Comment"
 msgid  "COLUMN_MARK_AT"
 msgstr "Date & time"
 
-msgid  "BUTTON_MARK_FILTER"
-msgstr "Filter marks"
-
 msgid  "COLUMN_HISTORY_ASSET"
 msgstr "Name"
 
@@ -89,4 +86,13 @@ msgid  "COLUMN_HISTORY_POSITION_AT"
 msgstr "Date & time"
 
 msgid  "BUTTON_HISTORY_FILTER"
-msgstr "Filter history"
+msgstr "Filter"
+
+msgid  "BUTTON_HISTORY_CLEAR_FILTER"
+msgstr "Clear"
+
+msgid  "BUTTON_MARK_FILTER"
+msgstr "Filter"
+
+msgid  "BUTTON_MARK_CLEAR_FILTER"
+msgstr "Clear"

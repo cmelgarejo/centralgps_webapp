@@ -120,9 +120,25 @@ function initMonitor(language_code, layers) {
     console.log(err);
   }
 }
-function updateMarks() {
+var _mark_text = '';
+var _mark_html_popup = '';
+function setMarkTemplate(mt, mhp) {
+  _mark_text = mt;
+  _mark_html_popup = mhp;
+  Mustache.parse(_mark_text);
+  Mustache.parse(_mark_html_popup);
+}
+function clearMarks() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name].clearLayers();
   $("#mark_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  $("#_asset_map").removeClass('timeline-toggle');
+  if (__centralgps__.timeline.instance != null) {
+    __centralgps__.timeline.instance.destroy();
+    __centralgps__.timeline.instance = null;
+  }
+}
+function updateMarks() {
+  clearMarks();
   var init   = moment($('#_mark_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_mark_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
   var selected_asset = $('#_marks_asset_list option:selected')
@@ -139,24 +155,18 @@ function updateMarks() {
     getAssetMarks({id: selected_asset.val(), name: selected_asset.text(),
       color: randomHexColor()}, init, finish);
 }
-var _mark_text = '';
-var _mark_html_popup = '';
-function setMarkTemplate(mt, mhp) {
-  _mark_text = mt;
-  _mark_html_popup = mhp;
-  Mustache.parse(_mark_text);
-  Mustache.parse(_mark_html_popup);
-}
 function getAssetMarks(selected_asset, init, finish) {
-  if (__centralgps__.timeline.instance != null)
-    __centralgps__.timeline.instance.destroy();
   var query_string = '?asset_id=' + selected_asset.id +
         '&init_at=' + init +
         '&stop_at=' + finish;
   $.get('/monitor/assets/checkpoint/marks' + query_string,
     function(response, status, xhr) {
       if (response.status == true) {
-        var mark_list = [], point_list = [];
+        var mark_list = [], point_list = [], timeline_items = [];
+        var _rand_marker_icon = L.AwesomeMarkers.icon({
+            markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)],
+            icon: 'check'
+        });
         response.rows.forEach(function(m, idx, arr) {
           //TODO: do a template accesible and configurable from outside this func.
           var asset_image = 'images/profile/_placeholder.png'
@@ -167,42 +177,56 @@ function getAssetMarks(selected_asset, init, finish) {
           var mark_text = Mustache.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
           var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, mark_at: mark_at, mark_text: mark_text});
           mark_list.push({ id: m.id, asset_name: selected_asset.name, mark_text: mark_text,
-            mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, mark_at: mark_at, position_at: m.position_at });
+            mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, mark_at: mark_at });
           point_list.push([m.lat, m.lon]);
-        });
-        $("#mark_grid").bootgrid('append', mark_list);
-        var _rand_marker_icon = L.AwesomeMarkers.icon({
-            markerColor: marker_icon_colors[Math.floor(Math.random() * marker_icon_colors.length)],
-            icon: 'check'
-        });
-        var items = [];
-        $.each(mark_list, function(k, m) {
           var mark = __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
             .addLayer(L.marker([m.lat, m.lon], { mark: { id: m.id }, zIndexOffset: 108, icon: _rand_marker_icon })
-            .bindPopup(m.mark_html_popup));
-          items.push({content: (k + 1).toString(), start: m.position_at, popup: mark});
+            .bindPopup(mark_html_popup));
+          timeline_items.push({content: (idx + 1).toString(), start: m.position_at, mark: {id: m.id}});
         });
-        //console.log(selected_asset.color);
+        $("#mark_grid").bootgrid('append', mark_list);
         var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
-        // zoom the map to the polyline
-        //__centralgps__.asset.map.fitBounds(polyline.getBounds());
-        __centralgps__.timeline.items = new vis.DataSet(items);
-        __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container,
-          __centralgps__.timeline.items, { height: __centralgps__.timeline.container_height, stack: false });
+        __centralgps__.asset.map.fitBounds(polyline.getBounds());
+        __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
+
+        __centralgps__.timeline.items = new vis.DataSet(timeline_items);
+        __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
+                                              { height: __centralgps__.timeline.container_height, stack: false });
+        $("#_asset_map").addClass('timeline-toggle');
         __centralgps__.timeline.instance.on('select', function selectTimelineItem(properties) {
-            console.log(properties);
-            console.log(__centralgps__.timeline.items);
-            // properties.data.popup.openPopup();
-            // __centralgps__asset.map.setView(properties.data.popup.getLatLng());
+            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name].getLayers().forEach(
+              function setTimelineLatLng(layer) {
+                if (layer.options.mark != null && layer.options.mark.id == __centralgps__.timeline.items.get(properties.items[0]).mark.id) {
+                  layer.openPopup();
+                  __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
+                }
+              }
+            );
         });
       } else {
         console.log(selected_asset.name + '.updateMarks: ' + response.msg + ' - query_string: ' + query_string);
       }
   });
 }
-function updateHistory() {
+var _history_text = '';
+var _history_html_popup = '';
+function setHistoryTemplate(ht, hhp) {
+  _history_text = ht;
+  _history_html_popup = hhp;
+  Mustache.parse(_history_text);
+  Mustache.parse(_history_html_popup);
+}
+function clearHistory() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.history.layer_name].clearLayers();
   $("#history_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  $("#_asset_map").removeClass('timeline-toggle');
+  if (__centralgps__.timeline.instance != null) {
+    __centralgps__.timeline.instance.destroy();
+    __centralgps__.timeline.instance = null;
+  }
+}
+function updateHistory() {
+  clearHistory();
   var init   = moment($('#_history_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_history_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
   var selected_asset = $('#_history_asset_list option:selected')
@@ -219,30 +243,16 @@ function updateHistory() {
     getAssetHistory({id: selected_asset.val(), name: selected_asset.text(),
       color: randomHexColor()}, init, finish);
 }
-var _history_text = '';
-var _history_html_popup = '';
-function setHistoryTemplate(ht, hhp) {
-  _history_text = ht;
-  _history_html_popup = hhp;
-  Mustache.parse(_history_text);
-  Mustache.parse(_history_html_popup);
-}
 function getAssetHistory(selected_asset, init, finish) {
-  if (__centralgps__.timeline.instance != null) {
-    __centralgps__.timeline.instance.destroy();
-    $("#_asset_map").removeClass('timeline-toggle');
-  }
   var query_string = '?asset_id=' + selected_asset.id +
         '&init_at=' + init +
         '&stop_at=' + finish;
   $.get('/monitor/assets/record' + query_string,
     function(response, status, xhr) {
       if (response.status == true) {
-        var history_list = [], point_list = [];
-        var timeline_items = [];
+        var history_list = [], point_list = [], timeline_items = [];
         response.rows.forEach(function(h, idx, arr) {
           //TODO: do a template accesible and configurable from outside this func.
-          console.log(h);
           var asset_image = 'images/profile/_placeholder.png'
           __centralgps__.asset.list.forEach(function (asset) {
             if (selected_asset.id == asset.id) asset_image = asset.asset_image

@@ -58,7 +58,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 col-md-3">
+            <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
@@ -69,7 +69,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 col-md-3">
+            <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
@@ -80,8 +80,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-2 col-md-2">
+            <div class="col-sm-2 col-md-2 text-center">
               <button class="btn btn-default" onclick="updateMarks()"><i class="md md-filter-list"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_MARK_FILTER") %></button>
+            </div>
+            <div class="col-sm-2 col-md-2 text-center">
+              <button class="btn btn-default" onclick="clearMarks()"><i class="md md-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_MARK_CLEAR_FILTER") %></button>
             </div>
           </div>
           <div class="grid-container">
@@ -110,7 +113,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 col-md-3">
+            <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
@@ -121,7 +124,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 col-md-3">
+            <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
@@ -132,8 +135,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-2 col-md-2">
+            <div class="col-sm-2 col-md-2 text-center">
               <button class="btn btn-default" onclick="updateHistory()"><i class="md md-filter-list"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_HISTORY_FILTER") %></button>
+            </div>
+            <div class="col-sm-2 col-md-2 text-center">
+              <button class="btn btn-default" onclick="clearHistory()"><i class="md md-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_HISTORY_CLEAR_FILTER") %></button>
             </div>
           </div>
           <div class="grid-container">

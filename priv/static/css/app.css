@@ -1,3 +1,9 @@
+.vis-item-content {
+  cursor: pointer !important;
+}
+.date-time-picker {
+  font-size: 12px !important;
+}
 .timeline-toggle {
   height: calc(100% - 150px) !important;
 }
