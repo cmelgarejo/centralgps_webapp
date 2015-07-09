@@ -19,6 +19,9 @@ msgstr "Name"
 msgid  "COLUMN_CODE"
 msgstr "Code"
 
+msgid  "COLUMN_CREATOR"
+msgstr "Created by"
+
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Description"
 
@@ -33,6 +36,15 @@ msgstr "Longitude"
 
 msgid  "COLUMN_DETECTION_RADIUS"
 msgstr "Detection radius (in meters)"
+
+msgid  "COLUMN_ACTIVE"
+msgstr "Active"
+
+msgid  "COLUMN_ACTIVATED_AT"
+msgstr "Activated at"
+
+msgid  "COLUMN_DEACTIVATED_AT"
+msgstr "Deactivated at"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Created at"

@@ -13,8 +13,10 @@
         <thead>
             <tr>
               <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="active" data-formatter="check"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ACTIVE") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>
+              <th data-column-id="creator"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CREATOR") %></th>
               <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></th>
               <th data-column-id="venue_image" data-formatter="image"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_COMMAND_COLUMN") %></th>
@@ -33,6 +35,6 @@ __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'name';
 $(document).ready(function() {
-  gridSetup_CRUD({"image": gridImageFormatter});
+  gridSetup_CRUD({"image": gridImageFormatter, "check": gridCheckFormatter});
 });
 </script>

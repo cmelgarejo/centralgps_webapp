@@ -8,8 +8,6 @@ use Mix.Config
 # Configures the endpoint
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   url: [host: "localhost"],
-  root: "/home/ubuntu/central_g_p_s_web_app/lib/central_g_p_s_web_app-0.0.1",
-  #root: Path.dirname(__DIR__),
   secret_key_base: "4lRqXzOIYxiVuta7PzAy6YcXsb6PyJItgIlZ6lvycAmlWQQ4HVf2X5IVWFKUqk/W",
   debug_errors: false,
   pubsub: [name: CentralGPSWebApp.PubSub, adapter: Phoenix.PubSub.PG2]

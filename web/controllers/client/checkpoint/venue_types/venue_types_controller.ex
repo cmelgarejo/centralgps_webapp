@@ -152,7 +152,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       {api_status, res} = api_put_json api_method(data.venue_id), _s.auth_token, _s.account_type, data
       if api_status == :ok  do
         if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [Utilities._priv_static_path, image_dir], "/"
+          dest_dir = Enum.join [Utilities.priv_static_path, image_dir], "/"
           File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
           #IO.puts "#{inspect dest_dir}"
           File.mkdir_p dest_dir

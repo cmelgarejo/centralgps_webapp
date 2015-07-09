@@ -160,7 +160,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   defp save_record(_s, _p) do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
-    if (!Map.has_key?_p, :xtra_info || _p.xtra_info == ""), do: _p = Map.put _p, :xtra_info, nil
+    if (!Map.has_key?(_p, :xtra_info) || _p.xtra_info == ""), do: _p = Map.put _p, :xtra_info, nil
     if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
       (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(_p.__form__) ==  :edit) do
@@ -181,7 +181,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
       {api_status, res} = api_put_json api_method(data.account_type, data.id), _s.auth_token, _s.account_type, data
       if api_status == :ok  do
         if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [Utilities._priv_static_path, image_dir], "/"
+          dest_dir = Enum.join [Utilities.priv_static_path, image_dir], "/"
           File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)

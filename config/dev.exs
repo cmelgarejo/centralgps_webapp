@@ -11,6 +11,7 @@ config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
+  root: Path.dirname(__DIR__),
   watchers: []
 
 # Watch static and templates for browser reloading.

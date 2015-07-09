@@ -119,7 +119,7 @@ function gridImageFormatter(column, row)
 function gridCheckFormatter(column, row)
 {
   var is_checked = (row[column.id] == true) ? "checked" : "";
-  return "<input type=\"checkbox\" " + is_checked + " disabled/>";
+  return "<div class='checkbox col-sm-6 col-md-6'><label><input disabled type='checkbox' " + is_checked + "><i class='input-helper'></i></label></div>";
 }
 
 function bootgrid_delete(grid, delete_url, record) {

@@ -9,6 +9,7 @@ use Mix.Config
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   http: [port: 5000], #http: [port: {:system, "PORT"}],
   url: [host: "checkpoint.edge.com.py", port: 8080],
+  root: "/home/ubuntu/central_g_p_s_web_app/lib/central_g_p_s_web_app-0.0.1",
   cache_static_manifest: "priv/static/manifest.json"
 
 # ## SSL Support
