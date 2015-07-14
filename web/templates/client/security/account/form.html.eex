@@ -176,7 +176,7 @@ function loadAccountTypes() {
       });
       chosenLoadSelect('account_type_select', account_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#account_type').val());
     } else {
-      
+
     }
   });
 }
@@ -184,5 +184,3 @@ function fnChosenOnChange() {
   $('#account_type').val($(this).val());
 }
 </script>
-
-<!-- TODO: make EDIT form to load the given account_type of the current editing row. -->

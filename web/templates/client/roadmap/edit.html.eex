@@ -1,0 +1,6 @@
+<div class="card">
+  <div class="card-header">
+    <h2><%= l10n(@session.language_code, "roadmap.crud.html", "PAGE_EDIT_TITLE") %></h2>
+  </div>
+<%= render "form.html", conn: @conn, session: @session, record: Map.merge(@record, %{__form__: :edit}) %>
+</div>

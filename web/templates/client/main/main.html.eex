@@ -287,16 +287,6 @@
                       </a>
                     </li>
                     <% end %>
-
-                    <% #TODO: decide what to do with marks... %>
-                    <%= if false && Permissions.check(@session.permissions, Permissions.checkpoint.mark.list) do %>
-                    <li>
-                      <a >
-                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MARK_LINK_TEXT") %>
-                      </a>
-                    </li>
-                    <% end %>
-
                   </ul>
                 </li>
                 <% end %>

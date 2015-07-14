@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    <div style="float:right !important; width: 50px;">
+      <a onclick="get_page('<%= action_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+        <i class="md md-add"></i>
+      </a>
+    </div>
+    <h4><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %></h4>
+  </div>
+  <div class="grid-container">
+    <table id="action_grid" class="table table-condensed table-hover table-striped"
+      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
+        <thead>
+            <tr>
+              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="description"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_DESCRIPTION") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "roadmap_point.crud.html", "GRID_COMMAND_COLUMN") %></th>
+            </tr>
+        </thead>
+    </table>
+  </div>
+</div>
+<script>
+__centralgps__.CRUD.index_url = '<%= action_path(@conn, :index) %>';
+__centralgps__.CRUD.edit_url = '<%= action_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= action_path(@conn, :delete) %>';
+__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.grid_name = '#action_grid';
+__centralgps__.CRUD.grid_method = 'GET';
+__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+__centralgps__.CRUD.grid_search_column = 'description';
+$(document).ready(function() {
+  gridSetup_CRUD();
+});
+</script>

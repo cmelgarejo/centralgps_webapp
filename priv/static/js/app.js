@@ -99,7 +99,7 @@ $(document).ready(function document_defaults(){
 
 function gridCommandFormatter(column, row)
 {
-  //TODO: hacer de alguna manera, llamar a algun campo de forma generica y hacer que sea el que apareca como informacion de borrado.
+  //TODO: hacer de alguna manera, llamar a algun campo de forma generica y hacer que sea el que aparezca como informacion de borrado.
   var additional_row_info = '';
   if (__centralgps__.CRUD.grid_command_columns != null) {
     __centralgps__.CRUD.grid_command_columns.forEach(function gridCommandFormatter_aditionalInfo(k) {
