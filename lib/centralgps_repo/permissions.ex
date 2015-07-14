@@ -29,6 +29,10 @@ defmodule CentralGPS.Repo.Permissions do
     %{
       asset: %{
         monitor: %{list: "CLIENT_ASSET_MONITOR_L", manager_list: "CLIENT_ASSET_MONITOR_MANAGER_L"}
+      },
+      roadmap: %{
+        create: "CLIENT_ROADMAP_C", read: "CLIENT_ROADMAP_R", update: "CLIENT_ROADMAP_U", delete: "CLIENT_ROADMAP_D", list: "CLIENT_ROADMAP_L",
+        point: %{ create: "CLIENT_ROADMAP_POINT_C", read: "CLIENT_ROADMAP_POINT_R", update: "CLIENT_ROADMAP_POINT_U", delete: "CLIENT_ROADMAP_POINT_D", list: "CLIENT_ROADMAP_POINT_L", }
       }
     }
   end

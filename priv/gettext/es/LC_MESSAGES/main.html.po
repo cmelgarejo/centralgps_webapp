@@ -46,6 +46,9 @@ msgstr "Cuentas de Acceso"
 msgid  "ASSET_LINK_TEXT"
 msgstr "Monitor de Activos"
 
+msgid  "ROADMAP_LINK_TEXT"
+msgstr "Hojas de Ruta"
+
 msgid "__ERR_CONNECTION_REFUSED"
 msgstr "Error al cargar la página, compruebe su conexión a internet y vuelva a intentarlo en unos instantes"
 

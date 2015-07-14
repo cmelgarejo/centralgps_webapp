@@ -1,0 +1,47 @@
+msgid  "PAGE_LIST_TITLE"
+msgstr "Roadmaps"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "New roadmap"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Edit roadmap"
+
+msgid  "GRID_COMMAND_COLUMN"
+msgstr "Commands"
+
+msgid  "COLUMN_ID"
+msgstr "ID"
+
+msgid  "COLUMN_NAME"
+msgstr "Name"
+
+msgid  "COLUMN_DESCRIPTION"
+msgstr "Description"
+
+msgid  "COLUMN_DAYS_OF_WEEK"
+msgstr "Days of week"
+
+msgid  "COLUMN_REPETITION"
+msgstr "Repetition"
+
+msgid  "COLUMN_ONE_TIME_DATE"
+msgstr "Date"
+
+msgid  "COLUMN_START_TIME"
+msgstr "Start time"
+
+msgid  "COLUMN_END_TIME"
+msgstr "End time"
+
+msgid  "COLUMN_CREATED_AT"
+msgstr "Created at"
+
+msgid  "COLUMN_UPDATED_AT"
+msgstr "Updated at"
+
+msgid  "COLUMN_ACTIVATED_AT"
+msgstr "Activated at"
+
+msgid  "COLUMN_DEACTIVATED_AT"
+msgstr "Deactivated at"

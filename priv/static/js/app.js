@@ -113,7 +113,7 @@ function gridCommandFormatter(column, row)
 function gridImageFormatter(column, row)
 {
   var image = (row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
-  return "<img src='" + image + "' style='width:50px'/>";
+  return "<img src='" + __centralgps__.api_base_url + "/" + image + "' style='width:50px'/>";
 }
 
 function gridCheckFormatter(column, row)

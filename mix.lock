@@ -20,7 +20,7 @@
   "phoenix": {:git, "git://github.com/phoenixframework/phoenix.git", "1d92c3a17faf3eab8d911aa98037b02ca92df24a", []},
   "phoenix_ecto": {:hex, :phoenix_ecto, "0.4.0"},
   "phoenix_html": {:git, "git://github.com/phoenixframework/phoenix_html.git", "e7ca4217a3fe68cb0e25a67acbbbda6a9ef08533", []},
-  "phoenix_live_reload": {:git, "git://github.com/phoenixframework/phoenix_live_reload.git", "33bd75a7868f04043274a3d3c046bee86d7ce8b0", []},
+  "phoenix_live_reload": {:git, "git://github.com/phoenixframework/phoenix_live_reload.git", "47daaeb8e400aa596474c9410f6a6a0a67091685", []},
   "plug": {:hex, :plug, "0.13.0"},
   "poison": {:hex, :poison, "1.4.0"},
   "poolboy": {:hex, :poolboy, "1.5.1"},

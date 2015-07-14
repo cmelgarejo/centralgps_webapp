@@ -1,5 +1,6 @@
 <script>
   $(document).ready(function() {
+    __centralgps__.api_base_url = "<%= CentralGPSWebApp.rest_client_config(:rest_client_base_url) %>",
     __centralgps__.globalmessages._delete_record_title_sure    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_SURE") %>";
     __centralgps__.globalmessages._delete_record_removed       = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_REMOVED") %>";
     __centralgps__.globalmessages._delete_record_confirm_text  = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CONFIRM_TEXT") %>";
@@ -288,6 +289,15 @@
                     </li>
                     <% end %>
                   </ul>
+                </li>
+                <% end %>
+                <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
+                <li>
+                  <a  onclick="get_page('client/roadmaps');">
+                    <i class="md md-pin-drop">
+                    </i>
+                    <%= l10n(@session.language_code, "main.html", "ROADMAP_LINK_TEXT") %>
+                  </a>
                 </li>
                 <% end %>
             </ul>

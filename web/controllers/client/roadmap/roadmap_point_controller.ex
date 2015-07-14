@@ -65,7 +65,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
 
   #private functions
   defp api_method(roadmap_id \\ "", action \\ "") when is_bitstring(action),
-    do: "/client/roadmap_points/" <> "/" <> action
+    do: "/client/roadmap_points/" <> roadmap_id <> "/" <> action
 
   defp get_record(_s, _p) do
     _p = objectify_map(_p)

@@ -1,6 +1,6 @@
 <div class="card-body card-padding">
   <form role="form" method='post'
-    action="<%= action_path Endpoint, :save %>">
+    action="<%= roadmap_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
     <div class="form-group fg-float">
@@ -16,7 +16,7 @@
       <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
     </div>
     <div id="alert"></div>
-    <a onclick="get_page('<%= action_path(@conn, :index) %>');" class="btn btn-info pull-left">
+    <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info pull-left">
       <i class="md md-arrow-back"></i>
       <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>

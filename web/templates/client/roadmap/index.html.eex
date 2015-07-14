@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
-      <a onclick="get_page('<%= action_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+      <a onclick="get_page('<%= roadmap_path(@conn, :new) %>');" class="btn btn-success btn-float" >
         <i class="md md-add"></i>
       </a>
     </div>
@@ -9,11 +9,21 @@
   </div>
   <div class="grid-container">
     <table id="action_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/actions/json">
+      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/json">
         <thead>
             <tr>
               <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="name"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="description"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></th>
+              <th data-column-id="days_of_week"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></th>
+              <th data-column-id="repetition"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></th>
+              <th data-column-id="one_time_date"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") %></th>
+              <th data-column-id="start_time"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></th>
+              <th data-column-id="end_time"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></th>
+              <th data-column-id="created_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_CREATED_AT") %></th>
+              <th data-column-id="updated_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_UPDATED_AT") %></th>
+              <th data-column-id="activated_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVATED_AT") %></th>
+              <th data-column-id="deactivated_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DEACTIVATED_AT") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>
@@ -21,9 +31,9 @@
   </div>
 </div>
 <script>
-__centralgps__.CRUD.index_url = '<%= action_path(@conn, :index) %>';
-__centralgps__.CRUD.edit_url = '<%= action_path(@conn, :edit) %>';
-__centralgps__.CRUD.delete_url = '<%= action_path(@conn, :delete) %>';
+__centralgps__.CRUD.index_url = '<%= roadmap_path(@conn, :index) %>';
+__centralgps__.CRUD.edit_url = '<%= roadmap_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= roadmap_path(@conn, :delete) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#action_grid';
 __centralgps__.CRUD.grid_method = 'GET';

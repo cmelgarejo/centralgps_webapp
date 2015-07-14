@@ -163,20 +163,17 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
         image: Enum.join([image_dir, image_filename], "/"), image_file: file,
         detection_radius: _p.detection_radius, xtra_info: _p.xtra_info }
       {api_status, res} = api_put_json api_method(data.venue_id), _s.auth_token, _s.account_type, data
-      if api_status == :ok  do
-        if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [priv_static_path, image_dir], "/"
-          File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
-          File.mkdir_p dest_dir
-          File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
-        end
+      if api_status == :ok && res.body.status do
+        local_save_image(_p.image, _p.image_filename)
       else
         res = Map.put res, :body, %{ status: false, msg: res.reason }
       end
     else
       file = nil
       if (_p.image != nil) do
-        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(_p.image), ".") |> List.last)) |> String.replace "/", ""
+        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(_p.image), ".") |> List.last))
+          |> String.replace( "/", "")
+        image_filename = Enum.join [image_dir, image_filename], "/"
         {:ok, file} = File.read _p.image.path
         file = Base.url_encode64(file)
       else
@@ -186,8 +183,22 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
         active: _s.active, name: _p.name, code: _p.code, description: _p.description,
         lat: _p.lat, lon: _p.lon, image: image_filename, image_file: file,
         detection_radius: _p.detection_radius, xtra_info: _p.xtra_info }
-      {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+      {api_status, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+      if api_status == :ok && res.body.status do
+        local_save_image(_p.image, _p.image_filename)
+      else
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      end
     end
     res.body #let's return the message
+  end
+
+  defp local_save_image(image, image_filename) do
+    if (image != nil) do #put the corresponding pic for the record.
+      dest_dir = Enum.join [priv_static_path, image_dir], "/"
+      File.rm Enum.join([dest_dir,  String.split(image_filename, image_dir) |> List.last], "/") #removes the old image
+      File.mkdir_p dest_dir
+      File.copy(image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
+    end
   end
 end

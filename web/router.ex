@@ -96,7 +96,7 @@ defmodule CentralGPSWebApp.Router do
     delete "/delete", RoadmapPointVenue, :delete
   end
 
-  scope "/client/roadmaps", CentralGPSWebApp.Client.Roadmap do
+  scope "/client/roadmaps", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
     get    "/",       RoadmapController, :index
     get    "/json",   RoadmapController, :list
@@ -106,7 +106,7 @@ defmodule CentralGPSWebApp.Router do
     delete "/delete", RoadmapController, :delete
   end
 
-  scope "/client/roadmaps/:roadmap_id/points", CentralGPSWebApp.Client.Roadmap do
+  scope "/client/roadmaps/:roadmap_id/points", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
     get    "/",       RoadmapController, :index
     get    "/json",   RoadmapController, :list
