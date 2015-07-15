@@ -121,6 +121,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     {api_status, res} = api_get_json api_method(_p.account_type, _p.id), _s.auth_token, _s.account_type
     record = nil
     if(api_status == :ok) do
+      record = objectify_map(res.body.res)
       if Map.has_key?(record, :res) do
         record = objectify_map(res.body.res)
         if res.body.status do
