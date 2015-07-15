@@ -424,7 +424,7 @@ function updateVenueMap() {
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name]
               .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {
                   venue: { id: v.id }, //we dont need more information for the detection radius circle
-                  color: 'breen',
+                  color: 'green',
                   fillColor: '#34cc4c',
                   fillOpacity: 0.4
               })

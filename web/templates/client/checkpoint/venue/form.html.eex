@@ -218,6 +218,7 @@ var current_marker_circle = L.circle(_venue_lat_lon, _venue_detection_radius, {
 });
 
 $(document).ready(function() {
+  $('img').attr('src', __centralgps__.api_base_url + $('img').attr('src'));
   try {
     __centralgps__.venue = { map: null, layer_name: null };
     __centralgps__.venue.layer_name = "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>"
