@@ -6,9 +6,13 @@ defmodule CentralGPSWebApp.Client.LoginController do
 
   defp login_data_builder(_p) do
     %{
-      _login_user: base64_encode("#{_p["username"]}@#{_p["domain"]}@#{app_config(:entity_tag)}"),
-      _password:   base64_encode(_p["password"])
+      _login_user: base64_encode("#{_p.username}@#{_p.domain}@#{app_config(:entity_tag)}"),
+      _password:   base64_encode(_p.password)
     }
+    # %{
+    #   _login_user: base64_encode("#{_p["username"]}@#{_p["domain"]}@#{app_config(:entity_tag)}"),
+    #   _password:   base64_encode(_p["password"])
+    # }
   end
 
   def index(conn, _params) do
@@ -17,7 +21,7 @@ defmodule CentralGPSWebApp.Client.LoginController do
 
   def login(conn, _params) do
     #IO.puts "login_data: #{inspect login_data_builder(_params)}"
-    {status, res} = login_api_post_json "C", login_data_builder(_params)
+    {status, res} = login_api_post_json "C", login_data_builder(objectify_map _params)
     if status == :ok do
       status = res.status_code
       res = res.body
