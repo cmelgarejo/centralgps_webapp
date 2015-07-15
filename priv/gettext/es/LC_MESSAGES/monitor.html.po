@@ -31,6 +31,12 @@ msgstr "Dirección de ubicación"
 msgid  "COLUMN_ASSET_POSITION_AT"
 msgstr "Fecha y Hora de ultima posición"
 
+msgid  "COLUMN_MARK_ROADMAP"
+msgstr "Ruta"
+
+msgid  "COLUMN_MARK_ROADMAP_STATUS"
+msgstr "Estado"
+
 msgid  "COLUMN_MARK_ASSET"
 msgstr "Nombre"
 

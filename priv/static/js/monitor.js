@@ -339,7 +339,7 @@ function updateAssetMap() {
                   latlngbounds.push([p.lat, p.lon]);
                   //pos.getPopup().setContent('<b>' + a.name + '</b><br/>' + moment(p.position_at).format(_dt_format_h));
                   pos.getLabel().setContent('<div class="text-center"><img src="' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>",
-                    { direction: 'auto', noHide: true });
+                    { direction: 'auto', noHide: false });
                 }
                 pos.setLatLng([p.lat, p.lon]);
               }
@@ -355,7 +355,7 @@ function updateAssetMap() {
             __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
               .addLayer(L.marker([p.lat, p.lon], { asset: { id: a.id }, zIndexOffset: 108, icon: asset_icon })
                 //.bindPopup('<b>' + a.name + '</b><br/>' + moment(p.position_at).format(_dt_format_h))
-                .bindLabel('<div class="text-center"><img src="' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>", { direction: 'auto', noHide: true }));
+                .bindLabel('<div class="text-center"><img src="' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>", { direction: 'auto', noHide: false }));
             // __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
             //   .addLayer(L.circle([p.lat, p.lon], p.accuracy, {
             //       asset: { id: a.id }, //we dont need more information for the detection radius circle

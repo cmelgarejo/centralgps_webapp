@@ -91,6 +91,8 @@
             <table id="mark_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
+                      <th data-column-id="roadmap_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ROADMAP") %></th>
+                      <th data-column-id="roadmap_status"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ROADMAP_STATUS") %></th>
                       <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ASSET") %></th>
                       <th data-column-id="mark_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_TEXT") %></th>
                       <th data-column-id="mark_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_AT") %></th>

@@ -44,7 +44,7 @@ $(document).ready(function(){
        $($that).find(':button:disabled').prop('disabled',false);
        $($that).find('#password').val("");
        if(data.status) {
-         window.location = data.res;
+         window.location = '/';//data.res;
        } else {
          if(data.msg == "nxdomain") data.msg = _err_msg;
          $($that).find('#alert').html("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"

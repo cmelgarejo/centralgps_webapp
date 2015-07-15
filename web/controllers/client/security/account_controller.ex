@@ -121,7 +121,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     {api_status, res} = api_get_json api_method(_p.account_type, _p.id), _s.auth_token, _s.account_type
     record = nil
     if(api_status == :ok) do
-      record = objectify_map(res.body.res)
+      record = objectify_map(res.body)
       if Map.has_key?(record, :res) do
         record = objectify_map(res.body.res)
         if res.body.status do
@@ -165,14 +165,14 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     if (!Map.has_key?_p, :image), do: _p = Map.put(_p, :image, nil), else:
       (if _p.image == "", do: _p = Map.put _p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(_p.__form__) ==  :edit) do
-      #image_filename = _p.image_filename
+      #image_filename = _p.profile_image
       file = nil
       if (_p.image != nil) do #let's create a hash filename for the new pic.
         image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(_p.image), ".") |> List.last)) |> String.replace "/", ""
         {:ok, file} = File.read _p.image.path
         file = Base.url_enidentity_document64(file)
       else #or take the already existing one
-        image_filename = (String.split(_p.image_filename, image_dir) |> List.last) |> String.replace "/", ""
+        image_filename = (String.split(_p.profile_image, image_dir) |> List.last) |> String.replace "/", ""
       end
       data = %{ account_id: _p.id, account_type_id: _p.account_type_id,
         configuration_id: _s.client_id, name: _p.name, identity_document: _p.identity_document,
@@ -183,7 +183,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
       if api_status == :ok  do
         if res.body.status && (_p.image != nil) do #put the corresponding pic for the record.
           dest_dir = Enum.join [Utilities.priv_static_path, image_dir], "/"
-          File.rm Enum.join([dest_dir,  String.split(_p.image_filename, image_dir) |> List.last], "/") #removes the old image
+          File.rm Enum.join([dest_dir,  String.split(_p.profile_image, image_dir) |> List.last], "/") #removes the old image
           File.mkdir_p dest_dir
           File.copy(_p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
         end

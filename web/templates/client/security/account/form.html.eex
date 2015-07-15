@@ -7,7 +7,6 @@
       <%= if (@record.__form__ == :edit) do %>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <% end %>
-      <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
       <input type="hidden" id="xtra_info" name="xtra_info" value="<%= if (@record.__form__ == :edit), do: @record.xtra_info, else: nil %>"/>
       <input type="hidden" id="account_type" name="account_type" value="<%= if (@record.__form__ == :edit), do: @record.account_type, else: nil %>" required/>
     </div>
@@ -93,7 +92,7 @@
         <% #Image Control %>
         <div class="text-center">
           <%= if (@record.__form__ == :edit) do %>
-          <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
+          <input type="hidden" id="profile_image" name="profile_image" value="<%= @record.profile_image %>" required/>
           <label class="fg-label"><%= l10n(@session.language_code, "account_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
           <% else %>
           <label class="fg-label"><%= l10n(@session.language_code, "account_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
@@ -101,7 +100,7 @@
           <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
               <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
-                <img src='<%= @record.image_filename %>' style="width:150px;"/>
+                <img src='<%= @record.profile_image %>' style="width:150px;"/>
               </div>
               <div>
                   <span class="btn btn-info btn-file">

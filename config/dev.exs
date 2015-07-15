@@ -8,8 +8,8 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   http: [port: 5000],
-  debug_errors: true,
-  code_reloader: true,
+  debug_errors: false,
+  code_reloader: false,
   cache_static_lookup: false,
   root: Path.dirname(__DIR__),
   watchers: []
