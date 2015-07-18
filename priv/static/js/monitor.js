@@ -338,7 +338,7 @@ function updateAssetMap() {
                 else {
                   latlngbounds.push([p.lat, p.lon]);
                   //pos.getPopup().setContent('<b>' + a.name + '</b><br/>' + moment(p.position_at).format(_dt_format_h));
-                  pos.getLabel().setContent('<div class="text-center"><img src="' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>",
+                  pos.getLabel().setContent('<div class="text-center"><img src="' +__centralgps__.api_base_url + '/' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>",
                     { direction: 'auto', noHide: false });
                 }
                 pos.setLatLng([p.lat, p.lon]);
@@ -355,7 +355,7 @@ function updateAssetMap() {
             __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
               .addLayer(L.marker([p.lat, p.lon], { asset: { id: a.id }, zIndexOffset: 108, icon: asset_icon })
                 //.bindPopup('<b>' + a.name + '</b><br/>' + moment(p.position_at).format(_dt_format_h))
-                .bindLabel('<div class="text-center"><img src="' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>", { direction: 'auto', noHide: false }));
+                .bindLabel('<div class="text-center"><img src="' + __centralgps__.api_base_url + '/' + a.asset_image + '" alt="" style="width:50px"><br/>' + a.name + "</br><i>" + moment(p.position_at).format(_dt_format_h) + "</i></div>", { direction: 'auto', noHide: false }));
             // __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name]
             //   .addLayer(L.circle([p.lat, p.lon], p.accuracy, {
             //       asset: { id: a.id }, //we dont need more information for the detection radius circle
@@ -411,7 +411,7 @@ function updateVenueMap() {
                 if (venue.getRadius != null)
                   venue.setRadius(v.detection_radius);
                 else
-                  venue.getPopup().setContent('<b>' + v.name + '</b><br/><img src=\"' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>');
+                  venue.getPopup().setContent('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + '/' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>');
               }
             });
           });
@@ -419,7 +419,7 @@ function updateVenueMap() {
           response.rows.forEach(function(v, vidx, arr) {
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
               addLayer(L.marker([v.lat, v.lon], { venue: { id: v.id }, zIndexOffset: 108, icon: venue_icon })
-                .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>'))
+                .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + v.venue_image + '\" class=\"thumbnail\" style="width:150px"/>'))
             //__centralgps__.asset.map
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name]
               .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {

@@ -70,8 +70,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venues/" <> action
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
-      |> (Map.update :current, 1, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
-      |> (Map.update :rowCount, 10, fn(v)->(if !is_integer(v), do: elem(Integer.parse(v), 0), else: v) end)
+      |> (Map.update :current, 1, &(parse_int(&1)))
+      |> (Map.update :rowCount, 10, &(parse_int(&1)))
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
       |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
       |> (Map.put :sort_column, nil)
