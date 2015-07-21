@@ -7,6 +7,9 @@ msgstr "Marcaciones"
 msgid  "TABPANEL_HISTORY_TEXT"
 msgstr "Histórico"
 
+msgid  "TABPANEL_ROADMAP_TEXT"
+msgstr "Hojas de Ruta"
+
 msgid  "TABPANEL_MAP_TEXT"
 msgstr "Mapa"
 
@@ -21,6 +24,9 @@ msgstr "Establecimientos"
 
 msgid  "MAP_MARK_LAYER_NAME"
 msgstr "Marcaciones"
+
+msgid  "MAP_ROADMAP_LAYER_NAME"
+msgstr "Hoja de ruta"
 
 msgid  "COLUMN_ASSET_NAME"
 msgstr "Nombre"
@@ -48,6 +54,12 @@ msgstr "Comentario"
 
 msgid  "COLUMN_MARK_AT"
 msgstr "Fecha y hora"
+
+msgid  "COLUMN_ROADMAP_ASSET"
+msgstr "Nombre"
+
+msgid  "COLUMN_ROADMAP_TEXT"
+msgstr ""
 
 msgid  "COLUMN_HISTORY_ASSET"
 msgstr "Nombre"
@@ -101,4 +113,10 @@ msgid  "BUTTON_MARK_FILTER"
 msgstr "Filtrar"
 
 msgid  "BUTTON_MARK_CLEAR_FILTER"
+msgstr "Limpiar"
+
+msgid  "BUTTON_ROADMAP_FILTER"
+msgstr "Filtrar"
+
+msgid  "BUTTON_ROADMAP_CLEAR_FILTER"
 msgstr "Limpiar"

@@ -77,7 +77,7 @@ function initMonitor(language_code, layers) {
     __centralgps__.asset.map_overlays = {};
     // __centralgps__.asset.map_overlays[layers.position] = new L.LayerGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.position] = new L.MarkerClusterGroup().addTo(__centralgps__.asset.map);
-    __centralgps__.asset.map_overlays[layers.mark]     = new L.MarkerClusterGroup().addTo(__centralgps__.asset.map);
+    __centralgps__.asset.map_overlays[layers.mark]     = new L.LayerGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.venue]   = new L.LayerGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.history] = new L.LayerGroup().addTo(__centralgps__.asset.map);
     L.control.layers(__centralgps__.asset.map_layers, __centralgps__.asset.map_overlays)
@@ -175,14 +175,15 @@ function getAssetMarks(selected_asset, init, finish) {
           });
           var mark_at = moment(m.position_at).format(_dt_format_h);
           var mark_text = Mustache.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
-          var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, mark_at: mark_at, mark_text: mark_text});
+          console.log(_mark_html_popup);
+          var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, mark_at: mark_at, mark_text: mark_text});-
           mark_list.push({ id: m.id, asset_name: selected_asset.name, mark_text: mark_text,
             mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, mark_at: mark_at });
           point_list.push([m.lat, m.lon]);
+          timeline_items.push({content: (idx + 1).toString(), start: m.position_at, mark: {id: m.id}});
           var mark = __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
             .addLayer(L.marker([m.lat, m.lon], { mark: { id: m.id }, zIndexOffset: 108, icon: _rand_marker_icon })
             .bindPopup(mark_html_popup));
-          timeline_items.push({content: (idx + 1).toString(), start: m.position_at, mark: {id: m.id}});
         });
         $("#mark_grid").bootgrid('append', mark_list);
         var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
@@ -435,5 +436,99 @@ function updateVenueMap() {
         console.log('.updateVenueMap: ' + response.msg);
       }
     });
+  });
+}
+
+/*
+Roadmaps
+*/
+
+var _roadmap_text = '';
+var _roadmap_html_popup = '';
+function setRoadmapTemplate(mt, mhp) {
+  _roadmap_text = mt;
+  _roadmap_html_popup = mhp;
+  Mustache.parse(_roadmap_text);
+  Mustache.parse(_roadmap_html_popup);
+}
+function clearRoadmaps() {
+  __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name].clearLayers();
+  $("#roadmap_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  $("#_asset_map").removeClass('timeline-toggle');
+  if (__centralgps__.timeline.instance != null) {
+    __centralgps__.timeline.instance.destroy();
+    __centralgps__.timeline.instance = null;
+  }
+}
+function updateRoadmaps() {
+  clearRoadmaps();
+  var init   = moment($('#_roadmap_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
+  var finish = moment($('#_roadmap_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
+  var selected_asset = $('#_roadmaps_asset_list option:selected')
+  if(selected_asset.val() == -1) {//All records
+    $.each($('#_roadmaps_asset_list option'), function(k, v){
+      v = $(v);
+      if(v.val() != -1) {//if is NOT the All <option value="option">option</option>ion
+        var my_color = randomHexColor(); //TODO: control if the color repeats
+        getAssetRoadmaps({id: v.val(), name: v.text(), color: my_color}, init, finish);
+      }
+    });
+  }
+  else
+    getAssetRoadmaps({id: selected_asset.val(), name: selected_asset.text(),
+      color: randomHexColor()}, init, finish);
+}
+function getAssetRoadmaps(selected_asset, init, finish) {
+  var query_string = '?asset_id=' + selected_asset.id +
+        '&init_at=' + init +
+        '&stop_at=' + finish;
+  $.get('/monitor/assets/checkpoint/roadmaps' + query_string,
+    function(response, status, xhr) {
+      if (response.status == true) {
+        var roadmap_list = [], point_list = [], timeline_items = [];
+        var _rand_roadmaper_icon = L.Awesomeroadmapers.icon({
+            roadmaperColor: roadmaper_icon_colors[Math.floor(Math.random() * roadmaper_icon_colors.length)],
+            icon: 'check'
+        });
+        response.rows.forEach(function(m, idx, arr) {
+          //TODO: do a template accesible and configurable from outside this func.
+          var asset_image = 'images/profile/_placeholder.png'
+          __centralgps__.asset.list.forEach(function (asset) {
+            if (selected_asset.id == asset.id) asset_image = asset.asset_image
+          });
+          var roadmap_at = moment(m.position_at).format(_dt_format_h);
+          var roadmap_text = Mustache.render(_roadmap_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
+          console.log(_roadmap_html_popup);
+          var roadmap_html_popup = Mustache.render(_roadmap_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, roadmap_at: roadmap_at, roadmap_text: roadmap_text});-
+          roadmap_list.push({ id: m.id, asset_name: selected_asset.name, roadmap_text: roadmap_text,
+            roadmap_html_popup: roadmap_html_popup, lat: m.lat, lon: m.lon, roadmap_at: roadmap_at });
+          point_list.push([m.lat, m.lon]);
+          timeline_items.push({content: (idx + 1).toString(), start: m.position_at, roadmap: {id: m.id}});
+          var roadmap = __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name]
+            .addLayer(L.roadmaper([m.lat, m.lon], { roadmap: { id: m.id }, zIndexOffset: 108, icon: _rand_roadmaper_icon })
+            .bindPopup(roadmap_html_popup));
+        });
+        $("#roadmap_grid").bootgrid('append', roadmap_list);
+        var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name]);
+        __centralgps__.asset.map.fitBounds(polyline.getBounds());
+        __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
+
+        __centralgps__.timeline.items = new vis.DataSet(timeline_items);
+        __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
+                                              { height: __centralgps__.timeline.container_height, stack: false });
+        $("#_asset_map").addClass('timeline-toggle');
+        __centralgps__.timeline.instance.on('select', function selectTimelineItem(properties) {
+            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name].getLayers().forEach(
+              function setTimelineLatLng(layer) {
+                if (layer.options.roadmap != null && layer.options.roadmap.id == __centralgps__.timeline.items.get(properties.items[0]).roadmap.id) {
+                  layer.openPopup();
+                  __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
+                }
+              }
+            );
+        });
+      } else {
+        console.log(selected_asset.name + '.updateRoadmaps: ' + response.msg + ' - query_string: ' + query_string);
+      }
   });
 }

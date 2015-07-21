@@ -24,6 +24,7 @@
       <li><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
       <li><a href="#tab_mark_list" aria-controls="tab_mark_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %></a></li>
       <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li>
+      <li><a href="#tab_roadmap_list" aria-controls="tab_roadmap_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ROADMAP_TEXT") %></a></li>
       <li class="active"><a href="#tab_map" aria-controls="tab_map" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MAP_TEXT") %></a></li>
   </ul>
   <div class="tab-content">
@@ -46,6 +47,62 @@
         </div>
       </div>
     </div>
+    <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
+    <div role="tabpanel" class="tab-pane" id="tab_roadmap_list">
+      <div class="card lc-block">
+        <div class="card-body card-padding">
+          <div class="row">
+            <div class="col-sm-4 col-md-4">
+              <div class="input-group" style="width:100%">
+                <div class="fg-line">
+                  <select class="chosen-select form-control" id="_roadmap_asset_list">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-2">
+              <div class="form-group">
+                <div class='input-group date'>
+                  <span class="input-group-addon">
+                      <i class="md md-event"></i>
+                  </span>
+                  <input id="_roadmap_asset_start_dt" type='text' class="form-control date-time-picker"
+                  placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-2">
+              <div class="form-group">
+                <div class='input-group date'>
+                  <span class="input-group-addon">
+                      <i class="md md-event"></i>
+                  </span>
+                  <input id="_roadmap_asset_finish_dt" type='text' class="form-control date-time-picker"
+                  placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-2 text-center">
+              <button class="btn btn-default" onclick="updateRoadmaps()"><i class="md md-filter-list"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_ROADMAP_FILTER") %></button>
+            </div>
+            <div class="col-sm-2 col-md-2 text-center">
+              <button class="btn btn-default" onclick="clearRoadmaps()"><i class="md md-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_ROADMAP_CLEAR_FILTER") %></button>
+            </div>
+          </div>
+          <div class="grid-container">
+            <table id="roadmap_grid" class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_ASSET") %></th>
+                      <th data-column-id="roadmap_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_TEXT") %></th>
+                    </tr>
+                </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
     <div role="tabpanel" class="tab-pane" id="tab_mark_list">
       <div class="card lc-block">
         <div class="card-body card-padding">
@@ -91,8 +148,6 @@
             <table id="mark_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                      <th data-column-id="roadmap_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ROADMAP") %></th>
-                      <th data-column-id="roadmap_status"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ROADMAP_STATUS") %></th>
                       <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ASSET") %></th>
                       <th data-column-id="mark_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_TEXT") %></th>
                       <th data-column-id="mark_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_AT") %></th>
@@ -171,13 +226,14 @@ $(document).ready(function() {
     history:  "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_HISTORY_LAYER_NAME" ) %>",
     position: "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_LAYER_NAME") %>",
     venue:    "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>",
-    mark:     "<%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %>"
+    mark:     "<%= l10n(@session.language_code, "monitor.html", "MAP_MARK_LAYER_NAME" ) %>",
+    roadmap:     "<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME" ) %>"
   };
   initMonitor('<%= @session.language_code %>', layers);
   var history_text = '<%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_BEARING") %>: {{&bearing}}<br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_SPEED") %>: {{&speed}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ACCURACY") %>: {{&accuracy}}';
   var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"><br/>{{selected_asset_name}}<br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b><br/>{{&history_text}}</div>';
-  var mark_text = '<b>{{&venue}}</b><br/>{{&action}} - {{&reason}}<br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i><br/>'
-  var mark_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"><br/>{{selected_asset_name}}<br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b><br/>{{&mark_text}}</div>';
+  var mark_text    = '<b>{{&venue}}</b><br/>{{&action}} - {{&reason}}<br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i><br/>'
+  var mark_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"><br/>{{selected_asset_name}}<br/></div><div class="col-sm-8 col-md-8"><b>{{mark_at}}</b><br/>{{&mark_text}}</div>';
   setHistoryTemplate(history_text, history_html_popup);
   setMarkTemplate(mark_text, mark_html_popup);
 });

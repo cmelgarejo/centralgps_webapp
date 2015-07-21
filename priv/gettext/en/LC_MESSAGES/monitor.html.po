@@ -7,6 +7,9 @@ msgstr "Marks"
 msgid  "TABPANEL_HISTORY_TEXT"
 msgstr "History"
 
+msgid  "TABPANEL_ROADMAP_TEXT"
+msgstr "Roadmaps"
+
 msgid  "TABPANEL_MAP_TEXT"
 msgstr "Map"
 
@@ -21,6 +24,9 @@ msgstr "Venues"
 
 msgid  "MAP_MARK_LAYER_NAME"
 msgstr "Marks"
+
+msgid  "MAP_ROADMAP_LAYER_NAME"
+msgstr "Roadmap"
 
 msgid  "COLUMN_ASSET_NAME"
 msgstr "Asset"
@@ -42,6 +48,12 @@ msgstr "Comment"
 
 msgid  "COLUMN_MARK_AT"
 msgstr "Date & time"
+
+msgid  "COLUMN_ROADMAP_ASSET"
+msgstr "Asset"
+
+msgid  "COLUMN_ROADMAP_TEXT"
+msgstr ""
 
 msgid  "COLUMN_HISTORY_ASSET"
 msgstr "Name"
@@ -95,4 +107,10 @@ msgid  "BUTTON_MARK_FILTER"
 msgstr "Filter"
 
 msgid  "BUTTON_MARK_CLEAR_FILTER"
+msgstr "Clear"
+
+msgid  "BUTTON_ROADMAP_FILTER"
+msgstr "Filter"
+
+msgid  "BUTTON_ROADMAP_CLEAR_FILTER"
 msgstr "Clear"

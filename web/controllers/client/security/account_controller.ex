@@ -119,7 +119,6 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   defp get_record(_s, _p) do
     _p = objectify_map _p
     {api_status, res} = api_get_json api_method(_p.account_type, _p.id), _s.auth_token, _s.account_type
-    record = nil
     if(api_status == :ok) do
       record = objectify_map(res.body)
       if Map.has_key?(record, :res) do
@@ -138,7 +137,6 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     else
       record = Map.put res, :body, %{ status: false, msg: res.reason }
     end
-    record
   end
 
   defp delete_record(_s, _p) do
