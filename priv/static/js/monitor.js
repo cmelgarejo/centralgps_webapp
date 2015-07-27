@@ -63,11 +63,14 @@ function initMonitor(language_code, layers) {
     $('#_history_asset_finish_dt').val(_t.endOf('day').format(_dt_format_h));
     $('#_mark_asset_start_dt').val(_t.startOf('day').format(_dt_format_h));
     $('#_mark_asset_finish_dt').val(_t.endOf('day').format(_dt_format_h));
-    __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, history: { layer_name: null }, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
+    $('#_roadmap_start_dt').val(_t.startOf('day').format(_dt_format_h));
+    $('#_roadmap_finish_dt').val(_t.endOf('day').format(_dt_format_h));
+    __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, history: { layer_name: null }, roadmap: { layer_name: null}, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
     __centralgps__.asset.history.layer_name          = layers.history;
     __centralgps__.asset.position.layer_name         = layers.position;
     __centralgps__.asset.checkpoint.venue.layer_name = layers.venue;
     __centralgps__.asset.checkpoint.mark.layer_name  = layers.mark;
+    __centralgps__.asset.roadmap.layer_name  = layers.roadmap;
     __centralgps__.asset.map = L.map('_asset_map').setView([0, 0], 2);
     L.Icon.Default.imagePath = '../images';
     __centralgps__.asset.map_layers = {
@@ -80,6 +83,7 @@ function initMonitor(language_code, layers) {
     __centralgps__.asset.map_overlays[layers.mark]     = new L.LayerGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.venue]   = new L.LayerGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.history] = new L.LayerGroup().addTo(__centralgps__.asset.map);
+    __centralgps__.asset.map_overlays[layers.roadmap] = new L.LayerGroup().addTo(__centralgps__.asset.map);
     L.control.layers(__centralgps__.asset.map_layers, __centralgps__.asset.map_overlays)
       .addTo(__centralgps__.asset.map);
     L.Control.measureControl().addTo(__centralgps__.asset.map);
@@ -104,7 +108,10 @@ function initMonitor(language_code, layers) {
     } else {
       _browser_geo_error;
     }
+    $('#asset_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
     $('#mark_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
+    $('#history_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
+    $('#roadmap_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
     bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
     updateAssetGrid();
     updateVenueMap();
@@ -141,7 +148,7 @@ function updateMarks() {
   clearMarks();
   var init   = moment($('#_mark_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_mark_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
-  var selected_asset = $('#_marks_asset_list option:selected')
+  var selected_asset = $('#_marks_asset_list option:selected');
   if(selected_asset.val() == -1) {//All records
     $.each($('#_marks_asset_list option'), function(k, v){
       v = $(v);
@@ -230,7 +237,7 @@ function updateHistory() {
   clearHistory();
   var init   = moment($('#_history_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_history_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
-  var selected_asset = $('#_history_asset_list option:selected')
+  var selected_asset = $('#_history_asset_list option:selected');
   if(selected_asset.val() == -1) {//All records
     $.each($('#_history_asset_list option'), function(k, v){
       v = $(v);
@@ -314,10 +321,18 @@ function updateAssetGrid() {
       bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
       __centralgps__.asset.list = asset_list;
       //check if there is changes in the length of the loaded asset list (+1 for [All])
-      if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
+      //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
         chosenLoadSelect('_marks_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
-      if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
+      //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
         chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
+      //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))
+        chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', function updateRoadmapCombo(event, object){
+          $.get('/client/assets/' + object.selected + '/roadmaps/json', function(response, status, xhr) {
+            if (response.status == true) {
+              chosenLoadSelect('_roadmap_list', response.rows, 'roadmap_id', 'roadmap_name', null);
+            }
+          });
+        });
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }
@@ -452,7 +467,7 @@ function setRoadmapTemplate(mt, mhp) {
   Mustache.parse(_roadmap_html_popup);
 }
 function clearRoadmaps() {
-  __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name].clearLayers();
+  __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name].clearLayers();
   $("#roadmap_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
   $("#_asset_map").removeClass('timeline-toggle');
   if (__centralgps__.timeline.instance != null) {
@@ -462,27 +477,19 @@ function clearRoadmaps() {
 }
 function updateRoadmaps() {
   clearRoadmaps();
-  var init   = moment($('#_roadmap_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
-  var finish = moment($('#_roadmap_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
-  var selected_asset = $('#_roadmaps_asset_list option:selected')
-  if(selected_asset.val() == -1) {//All records
-    $.each($('#_roadmaps_asset_list option'), function(k, v){
-      v = $(v);
-      if(v.val() != -1) {//if is NOT the All <option value="option">option</option>ion
-        var my_color = randomHexColor(); //TODO: control if the color repeats
-        getAssetRoadmaps({id: v.val(), name: v.text(), color: my_color}, init, finish);
-      }
-    });
-  }
-  else
-    getAssetRoadmaps({id: selected_asset.val(), name: selected_asset.text(),
-      color: randomHexColor()}, init, finish);
+  var init   = moment($('#_roadmap_start_dt').val(), _dt_format_h).format(_dt_format_m);
+  var finish = moment($('#_roadmap_finish_dt').val(), _dt_format_h).format(_dt_format_m);
+  var selected_asset = $('#_roadmap_asset_list option:selected');
+  var selected_roadmap = $('#_roadmap_list option:selected');
+  getAssetRoadmaps({id: selected_asset.val(), name: selected_asset.text(),
+    color: randomHexColor()}, {id: selected_roadmap.val(), name: selected_roadmap.text()} init, finish);
 }
 function getAssetRoadmaps(selected_asset, init, finish) {
   var query_string = '?asset_id=' + selected_asset.id +
+        'roadmap_id=' + selected_roadmap.id +
         '&init_at=' + init +
         '&stop_at=' + finish;
-  $.get('/monitor/assets/checkpoint/roadmaps' + query_string,
+  $.get('/monitor/assets/roadmaps' + query_string,
     function(response, status, xhr) {
       if (response.status == true) {
         var roadmap_list = [], point_list = [], timeline_items = [];
@@ -504,12 +511,12 @@ function getAssetRoadmaps(selected_asset, init, finish) {
             roadmap_html_popup: roadmap_html_popup, lat: m.lat, lon: m.lon, roadmap_at: roadmap_at });
           point_list.push([m.lat, m.lon]);
           timeline_items.push({content: (idx + 1).toString(), start: m.position_at, roadmap: {id: m.id}});
-          var roadmap = __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name]
+          var roadmap = __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name]
             .addLayer(L.roadmaper([m.lat, m.lon], { roadmap: { id: m.id }, zIndexOffset: 108, icon: _rand_roadmaper_icon })
             .bindPopup(roadmap_html_popup));
         });
         $("#roadmap_grid").bootgrid('append', roadmap_list);
-        var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name]);
+        var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name]);
         __centralgps__.asset.map.fitBounds(polyline.getBounds());
         __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
 
@@ -518,7 +525,7 @@ function getAssetRoadmaps(selected_asset, init, finish) {
                                               { height: __centralgps__.timeline.container_height, stack: false });
         $("#_asset_map").addClass('timeline-toggle');
         __centralgps__.timeline.instance.on('select', function selectTimelineItem(properties) {
-            __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.roadmap.layer_name].getLayers().forEach(
+            __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name].getLayers().forEach(
               function setTimelineLatLng(layer) {
                 if (layer.options.roadmap != null && layer.options.roadmap.id == __centralgps__.timeline.items.get(properties.items[0]).roadmap.id) {
                   layer.openPopup();

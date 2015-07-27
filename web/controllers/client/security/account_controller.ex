@@ -124,7 +124,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
       if Map.has_key?(record, :res) do
         record = objectify_map(res.body.res)
         if res.body.status do
-          record = Map.merge %{status: res.body.status, msg: res.body.msg} , record
+          Map.merge %{status: res.body.status, msg: res.body.msg} , record
           #%{id: record.id, name: record.name, identity_document: record.identity_document,
           #username: record.username, dob: record.dob, emails: record.emails, phones: record.phones,
           #timezone: record.timezone, active: record.active, blocked: record.blocked,
@@ -135,7 +135,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
         end
       end
     else
-      record = Map.put res, :body, %{ status: false, msg: res.reason }
+      Map.put res, :body, %{ status: false, msg: res.reason }
     end
   end
 

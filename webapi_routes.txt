@@ -11,6 +11,11 @@ DELETE  /api/v1/security/accounts/:account_type/:account_id/roles/:role_id
 POST    /api/v1/security/accounts/:account_type/:account_id/permissions/create/:permission_id
 DELETE  /api/v1/security/accounts/:account_type/:account_id/permissions/:permission_id
 GET     /api/v1/security/accounts/:account_type/:feature_code/:code
+POST    /api/v1/client/asset/:asset_id/roadmap/create
+GET     /api/v1/client/asset/:asset_id/roadmap/:roadmap_id
+PUT     /api/v1/client/asset/:asset_id/roadmap/:roadmap_id
+DELETE  /api/v1/client/asset/:asset_id/:roadmap_id
+GET     /api/v1/client/asset/:asset_id/roadmap
 POST    /api/v1/client/roadmaps/create
 GET     /api/v1/client/roadmaps/:roadmap_id
 PUT     /api/v1/client/roadmaps/:roadmap_id
@@ -58,4 +63,4 @@ DELETE  /api/v1/checkpoint/venue_types/:venue_type_id
 GET     /api/v1/checkpoint/venue_types
 GET     /api/v1/checkpoint/marks
 POST    /api/v1/checkpoint/roadmap_point_venue
-DELETE  /api/v1/checkpoint/roadmap_point_venue/:roadmap_point_id
+DELETE  /api/v1/checkpoint/roadmap_point_venue/:roadmap_point_id                               

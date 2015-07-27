@@ -27,9 +27,10 @@ defmodule CentralGPSWebApp.Router do
 
   scope "/monitor", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
-    get  "/",               MonitorController, :index
-    get  "/assets",         MonitorController, :assets
-    get  "/assets/record",  MonitorController, :record
+    get  "/",                MonitorController, :index
+    get  "/assets",          MonitorController, :assets
+    get  "/assets/record",   MonitorController, :record
+    get  "/assets/roadmap",  MonitorController, :roadmap
     #Checkpoint Module
     get  "/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
     get  "/venues",                  Checkpoint.MonitorController, :venues
@@ -50,70 +51,65 @@ defmodule CentralGPSWebApp.Router do
     delete "/delete", AccountController, :delete
   end
 
-  scope "/checkpoint/actions", CentralGPSWebApp.Client.Checkpoint do
+  scope "/checkpoint", CentralGPSWebApp.Client.Checkpoint do
     pipe_through :browser # Use the default browser stack
-    get    "/",       ActionController, :index
-    get    "/json",   ActionController, :list
-    get    "/new",    ActionController, :new
-    get    "/edit",   ActionController, :edit
-    post   "/save",   ActionController, :save
-    delete "/delete", ActionController, :delete
+    #Actions
+    get    "/actions/",       ActionController, :index
+    get    "/actions/json",   ActionController, :list
+    get    "/actions/new",    ActionController, :new
+    get    "/actions/edit",   ActionController, :edit
+    post   "/actions/save",   ActionController, :save
+    delete "/actions/delete", ActionController, :delete
+    #Reasons
+    get    "/reasons/",       ReasonController, :index
+    get    "/reasons/json",   ReasonController, :list
+    get    "/reasons/new",    ReasonController, :new
+    get    "/reasons/edit",   ReasonController, :edit
+    post   "/reasons/save",   ReasonController, :save
+    delete "/reasons/delete", ReasonController, :delete
+    #Venue types
+    get    "/venue_types/",       VenueTypeController, :index
+    get    "/venue_types/json",   VenueTypeController, :list
+    get    "/venue_types/new",    VenueTypeController, :new
+    get    "/venue_types/edit",   VenueTypeController, :edit
+    post   "/venue_types/save",   VenueTypeController, :save
+    delete "/venue_types/delete", VenueTypeController, :delete
+    #Venues
+    get    "/venues/",       VenueController, :index
+    get    "/venues/json",   VenueController, :list
+    get    "/venues/new",    VenueController, :new
+    get    "/venues/edit",   VenueController, :edit
+    post   "/venues/save",   VenueController, :save
+    delete "/venues/delete", VenueController, :delete
+    #Roadmap point / Venue
+    post   "/roadmap_point_venue/save",   RoadmapPointVenue, :save
+    delete "/roadmap_point_venue/delete", RoadmapPointVenue, :delete
   end
 
-  scope "/checkpoint/reasons", CentralGPSWebApp.Client.Checkpoint do
+  scope "/client", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
-    get    "/",       ReasonController, :index
-    get    "/json",   ReasonController, :list
-    get    "/new",    ReasonController, :new
-    get    "/edit",   ReasonController, :edit
-    post   "/save",   ReasonController, :save
-    delete "/delete", ReasonController, :delete
-  end
-
-  scope "/checkpoint/venue_types", CentralGPSWebApp.Client.Checkpoint do
-    pipe_through :browser # Use the default browser stack
-    get    "/",       VenueTypeController, :index
-    get    "/json",   VenueTypeController, :list
-    get    "/new",    VenueTypeController, :new
-    get    "/edit",   VenueTypeController, :edit
-    post   "/save",   VenueTypeController, :save
-    delete "/delete", VenueTypeController, :delete
-  end
-
-  scope "/checkpoint/venues", CentralGPSWebApp.Client.Checkpoint do
-    pipe_through :browser # Use the default browser stack
-    get    "/",       VenueController, :index
-    get    "/json",   VenueController, :list
-    get    "/new",    VenueController, :new
-    get    "/edit",   VenueController, :edit
-    post   "/save",   VenueController, :save
-    delete "/delete", VenueController, :delete
-  end
-
-  scope "/checkpoint/roadmap_point_venue", CentralGPSWebApp.Client.Checkpoint do
-    pipe_through :browser # Use the default browser stack
-    post   "/save",   RoadmapPointVenue, :save
-    delete "/delete", RoadmapPointVenue, :delete
-  end
-
-  scope "/client/roadmaps", CentralGPSWebApp.Client do
-    pipe_through :browser # Use the default browser stack
-    get    "/",       RoadmapController, :index
-    get    "/json",   RoadmapController, :list
-    get    "/new",    RoadmapController, :new
-    get    "/edit",   RoadmapController, :edit
-    post   "/save",   RoadmapController, :save
-    delete "/delete", RoadmapController, :delete
-  end
-
-  scope "/client/roadmaps/:roadmap_id/points", CentralGPSWebApp.Client do
-    pipe_through :browser # Use the default browser stack
-    get    "/",       RoadmapController, :index
-    get    "/json",   RoadmapController, :list
-    get    "/new",    RoadmapController, :new
-    get    "/edit",   RoadmapController, :edit
-    post   "/save",   RoadmapController, :save
-    delete "/delete", RoadmapController, :delete
+    #Asset/Roadmap
+    get    "/assets/roadmaps/json", AssetRoadmapController, :list_all
+    get    "/assets/:asset_id/roadmaps/",       AssetRoadmapController, :index
+    get    "/assets/:asset_id/roadmaps/json",   AssetRoadmapController, :list
+    get    "/assets/:asset_id/roadmaps/new",    AssetRoadmapController, :new
+    get    "/assets/:asset_id/roadmaps/edit",   AssetRoadmapController, :edit
+    post   "/assets/:asset_id/roadmaps/save",   AssetRoadmapController, :save
+    delete "/assets/:asset_id/roadmaps/delete", AssetRoadmapController, :delete
+    #Roadmaps
+    get    "/roadmaps/",       RoadmapController, :index
+    get    "/roadmaps/json",   RoadmapController, :list
+    get    "/roadmaps/new",    RoadmapController, :new
+    get    "/roadmaps/edit",   RoadmapController, :edit
+    post   "/roadmaps/save",   RoadmapController, :save
+    delete "/roadmaps/delete", RoadmapController, :delete
+    #Roadmap points
+    get    "/roadmaps/:roadmap_id/points/",       RoadmapController, :index
+    get    "/roadmaps/:roadmap_id/points/json",   RoadmapController, :list
+    get    "/roadmaps/:roadmap_id/points/new",    RoadmapController, :new
+    get    "/roadmaps/:roadmap_id/points/edit",   RoadmapController, :edit
+    post   "/roadmaps/:roadmap_id/points/save",   RoadmapController, :save
+    delete "/roadmaps/:roadmap_id/points/delete", RoadmapController, :delete
   end
 
   scope "/entity", CentralGPSWebApp.Entity do
