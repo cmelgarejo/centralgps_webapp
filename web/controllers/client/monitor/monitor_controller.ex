@@ -38,7 +38,7 @@ defmodule CentralGPSWebApp.Client.MonitorController do
     end
   end
 
-  def record(conn, _params) do
+  def roadmap(conn, _params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)

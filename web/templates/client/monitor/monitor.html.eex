@@ -220,7 +220,7 @@
             <table id="roadmap_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_ASSET") %></th>
+                      <th data-column-id="roadmap_at"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_POSITION_AT") %></th>
                       <th data-column-id="roadmap_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_TEXT") %></th>
                     </tr>
                 </thead>
@@ -251,8 +251,11 @@ $(document).ready(function() {
   var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"><br/>{{selected_asset_name}}<br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b><br/>{{&history_text}}</div>';
   var mark_text    = '<b>{{&venue}}</b><br/>{{&action}} - {{&reason}}<br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i><br/>'
   var mark_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"><br/>{{selected_asset_name}}<br/></div><div class="col-sm-8 col-md-8"><b>{{mark_at}}</b><br/>{{&mark_text}}</div>';
+  var roadmap_text    = '<b>{{&venue}}</b><br/>{{&action}} - {{&reason}}<br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i><br/>'
+  var roadmap_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"><br/>{{selected_asset_name}}<br/></div><div class="col-sm-8 col-md-8"><b>{{mark_at}}</b><br/>{{&mark_text}}</div>';
   setHistoryTemplate(history_text, history_html_popup);
   setMarkTemplate(mark_text, mark_html_popup);
+  setRoadmapTemplate(roadmap_text, roadmap_html_popup);
 });
 </script>
 <%# TODO: Timeline kind of implemented, I need to bind the click event on the items to center and show the popup
