@@ -169,7 +169,7 @@ function gridSetup_CRUD(gridFormatters, params){
     ajaxSettings: {method: __centralgps__.CRUD.grid_method, cache: false },
     requestHandler: function gridSetup_CRUD_requestHandler(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
     formatters: gridFormatters,
-    caseSensitive: false,
+    caseSensitive: false
   }).on("loaded.rs.jquery.bootgrid", function gridSetup_CRUD_onLoadedBootgrid() {
     Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
     /* Executes after data is loaded and rendered */
@@ -184,6 +184,7 @@ function gridSetup_CRUD(gridFormatters, params){
     });
   });
   bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
+  bootgrid_appendExportControls(); /*this appends the export control to all active bootgrids.*/
 }
 
 function generateCRUDGridObject(row, params) {
@@ -301,4 +302,43 @@ function bootgrid_appendSearchControl() {
 function bootgrid_clearSearch(grid_name) {
   grid_name = '#' + grid_name + '-header .search-field.form-control';
   $(grid_name).val(null).keyup();
+}
+var TYPE_NAME = {
+    json: 'JSON',
+    xml: 'XML',
+    png: 'PNG',
+    csv: 'CSV',
+    txt: 'TXT',
+    sql: 'SQL',
+    doc: 'MS-Word',
+    excel: 'Ms-Excel',
+    powerpoint: 'Ms-Powerpoint',
+    pdf: 'PDF'
+};
+function bootgrid_appendExportControls() {
+  $('.grid-container > .bootgrid-header > .row > .actionBar > .actions').each(function buildExportControls(i, t) {
+    t = $(t);
+    if(t) {
+      var exportTypes = ['json', 'xml', 'csv', 'txt', 'sql', 'excel'], menu = "";
+      $.each(exportTypes, function (i, type) {
+          if (TYPE_NAME.hasOwnProperty(type)) {
+              menu += (['<li data-type="' + type + '">',
+                      '<a href="javascript:void(0)">',
+                          TYPE_NAME[type],
+                      '</a>',
+                  '</li>'].join(''));
+          }
+      });
+
+      $(['<div class="dropdown btn-group">',
+        '<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button" data-toggle="dropdown" aria-expanded="false">',
+        '<span class="dropdown-text"><span class="glyphicon glyphicon-export icon-share"></span>',
+        '<span class="caret"></span>',
+        '</button>',
+        '<ul class="dropdown-menu pull-right" role="menu">',
+        menu,
+        '</ul>',
+        '</div>'].join('')).appendTo(t);
+    }
+  });
 }

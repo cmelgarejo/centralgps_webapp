@@ -113,6 +113,7 @@ function initMonitor(language_code, layers) {
     $('#history_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
     $('#roadmap_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
     bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
+    bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids.
     updateAssetGrid();
     updateVenueMap();
     updateAssetMap();
@@ -317,7 +318,6 @@ function updateAssetGrid() {
       $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false})
         .bootgrid('clear')
         .bootgrid('append', asset_list);
-      bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
       __centralgps__.asset.list = asset_list;
       //check if there is changes in the length of the loaded asset list (+1 for [All])
       //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
@@ -456,13 +456,15 @@ function updateVenueMap() {
 /*
 Roadmaps
 */
-
 var _roadmap_text = '';
+var _roadmap_mark_text = '';
 var _roadmap_html_popup = '';
-function setRoadmapTemplate(mt, mhp) {
-  _roadmap_text = mt;
-  _roadmap_html_popup = mhp;
+function setRoadmapTemplate(rt, rmt, rhp) {
+  _roadmap_text = rt;
+  _roadmap_mark_text = rmt;
+  _roadmap_html_popup = rhp;
   Mustache.parse(_roadmap_text);
+  Mustache.parse(_roadmap_mark_text);
   Mustache.parse(_roadmap_html_popup);
 }
 function clearRoadmaps() {
@@ -499,21 +501,23 @@ function getAssetRoadmapPoints(selected_asset, selected_roadmap, init, finish) {
         response.rows.forEach(function(m, idx, arr) {
           //TODO: do a template accesible and configurable from outside this func.
           var asset_image = 'images/profile/_placeholder.png'
-          __centralgps__.asset.list.forEach(function (asset) {
+          __centralgps__.asset.list.forEach(function iterateAssets(asset) {
             if (selected_asset.id == asset.id) asset_image = asset.asset_image
           });
-          var roadmap_at = moment(m.position_at).format(_dt_format_h);
-          var roadmap_text = Mustache.render(_roadmap_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
-          var roadmap_html_popup = Mustache.render(_roadmap_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, roadmap_at: roadmap_at, roadmap_text: roadmap_text});
+          var roadmap_at = m.position_at != null ? moment(m.position_at).format(_dt_format_h) : "-";
+          var roadmap_text = Mustache.render(_roadmap_text, { name: m.name, description: m.description, mean_arrival_time: m.mean_arrival_time, mean_leave_time: m.mean_leave_time });
+          var roadmap_mark_text = "", roadmap_html_popup = "";
           if (m.position_at != null) {
-            roadmap_list.push({ id: m.id, asset_name: selected_asset.name, roadmap_text: roadmap_text,
-              roadmap_html_popup: roadmap_html_popup, lat: m.lat, lon: m.lon, roadmap_at: roadmap_at });
             point_list.push([m.lat, m.lon]);
-            timeline_items.push({content: (idx + 1).toString(), start: m.position_at, roadmap: {id: m.id}});
+            timeline_items.push({content: (idx + 1).toString(), start: m.position_at, roadmap: {position_at: m.position_at}});
             var roadmap = __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name]
-              .addLayer(L.marker([m.lat, m.lon], { roadmap: { id: m.id }, zIndexOffset: 108, icon: _rand_marker_icon })
+              .addLayer(L.marker([m.lat, m.lon], { roadmap: { position_at: m.position_at }, zIndexOffset: 108, icon: _rand_marker_icon })
               .bindPopup(roadmap_html_popup));
+            roadmap_mark_text = Mustache.render(_roadmap_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
+            roadmap_html_popup = Mustache.render(_roadmap_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, roadmap_at: roadmap_at, roadmap_text: roadmap_text, roadmap_mark_text: roadmap_mark_text});
           }
+          roadmap_list.push({ id: m.id, asset_name: selected_asset.name, roadmap_text: roadmap_text, roadmap_mark_text: roadmap_mark_text,
+            roadmap_html_popup: roadmap_html_popup, lat: m.lat, lon: m.lon, roadmap_at: roadmap_at });
         });
         $("#roadmap_grid").bootgrid('append', roadmap_list);
         var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name]);
@@ -527,7 +531,7 @@ function getAssetRoadmapPoints(selected_asset, selected_roadmap, init, finish) {
         __centralgps__.timeline.instance.on('select', function selectTimelineItem(properties) {
             __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name].getLayers().forEach(
               function setTimelineLatLng(layer) {
-                if (layer.options.roadmap != null && layer.options.roadmap.id == __centralgps__.timeline.items.get(properties.items[0]).roadmap.id) {
+                if (layer.options.roadmap != null && layer.options.roadmap.position_at == __centralgps__.timeline.items.get(properties.items[0]).roadmap.position_at) {
                   layer.openPopup();
                   __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
                 }

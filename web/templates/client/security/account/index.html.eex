@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <div style="float:right !important; width: 50px;">
+    <div style="float:left !important; width: 50px;">
       <a onclick="get_page('<%= account_path(@conn, :new) %>');" class="btn btn-success btn-float" >
         <i class="md md-add"></i>
       </a>
@@ -33,6 +33,7 @@
   </div>
 </div>
 <script>
+__centralgps__.CRUD.exportFilename = '<%= l10n(@session.language_code, "account.crud.html", "PAGE_LIST_TITLE") %>';
 __centralgps__.CRUD.index_url  = '<%= account_path(@conn, :index) %>';
 __centralgps__.CRUD.edit_url   = '<%= account_path(@conn, :edit) %>';
 __centralgps__.CRUD.delete_url = '<%= account_path(@conn, :delete) %>';

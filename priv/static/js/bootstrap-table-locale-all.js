@@ -418,6 +418,49 @@
 
 })(jQuery);
 /**
+ * Bootstrap Table Persian translation
+ * Author: MJ Vakili <mjv.1989@Gmail.com>
+ */
+(function ($) {
+    'use strict';
+
+    $.fn.bootstrapTable.locales['fa-IR'] = {
+        formatLoadingMessage: function () {
+            return 'در حال بارگذاری, لطفا صبر کنید...';
+        },
+        formatRecordsPerPage: function (pageNumber) {
+            return pageNumber + ' رکورد در صفحه';
+        },
+        formatShowingRows: function (pageFrom, pageTo, totalRows) {
+            return 'نمایش ' + pageFrom + ' تا ' + pageTo + ' از ' + totalRows + ' ردیف';
+        },
+        formatSearch: function () {
+            return 'جستجو';
+        },
+        formatNoMatches: function () {
+            return 'رکوردی یافت نشد.';
+        },
+        formatPaginationSwitch: function () {
+            return 'نمایش/مخفی صفحه بندی';
+        },
+        formatRefresh: function () {
+            return 'به روز رسانی';
+        },
+        formatToggle: function () {
+            return 'تغییر نمایش';
+        },
+        formatColumns: function () {
+            return 'سطر ها';
+        },
+        formatAllRows: function () {
+            return 'همه';
+        }
+    };
+
+    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['fa-IR']);
+
+})(jQuery);
+/**
  * Bootstrap Table French (Belgium) translation
  * Author: Julien Bisconti (julien.bisconti@gmail.com)
  */
@@ -511,14 +554,20 @@
         formatNoMatches: function () {
             return 'Nincs találat';
         },
+        formatPaginationSwitch: function () {
+            return 'Lapozó elrejtése/megjelenítése';
+        },
         formatRefresh: function () {
             return 'Frissítés';
         },
         formatToggle: function () {
-            return 'Váltás';
+            return 'Összecsuk/Kinyit';
         },
         formatColumns: function () {
             return 'Oszlopok';
+        },
+        formatAllRows: function () {
+            return 'Összes';
         }
     };
 
@@ -1123,6 +1172,9 @@
         },
         formatColumns: function () {
             return 'Sütunlar';
+        },
+        formatAllRows: function () {
+            return 'Tüm Satırlar';
         }
     };
 

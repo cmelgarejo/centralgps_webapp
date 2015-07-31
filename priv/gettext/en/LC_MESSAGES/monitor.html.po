@@ -55,6 +55,9 @@ msgstr "Asset"
 msgid  "COLUMN_ROADMAP_TEXT"
 msgstr ""
 
+msgid  "COLUMN_ROADMAP_MARK_TEXT"
+msgstr "Roadmap point info"
+
 msgid  "COLUMN_ROADMAP_POSITION_AT"
 msgstr "Fecha y Hora"
 

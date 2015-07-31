@@ -83,19 +83,15 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
 
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
-      |> (Map.update :current, 1, &(parse_int(&1)))
-      |> (Map.update :rowCount, 10, &(parse_int(&1)))
-      |> (Map.update :searchColumn, nil, fn(v)->(v) end)
-      |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
-      |> (Map.put :sort_column, nil)
-      |> (Map.put :sort_order, nil)
-    if Map.has_key?_p, :sort do
-      _p = Map.put(_p, :sort_column, Map.keys(_p.sort) |> hd)
-        |> Map.put(:sort_order, Map.values(_p.sort) |> hd)
-    end
-    qs = %{offset: (_p.current - 1) * _p.rowCount, limit: _p.rowCount,
-      search_column: _p.searchColumn, search_phrase: _p.searchPhrase,
-      sort_column: _p.sort_column, sort_order: _p.sort_order}
+      |> (Map.update :offset, 1, &(parse_int(&1)))
+      |> (Map.update :limit, 10, &(parse_int(&1)))
+      |> (Map.update :search, nil, fn(v)->(v) end)
+      |> (Map.update :sort, nil, fn(v)->(v) end)
+      |> (Map.update :order, nil, fn(v)->(v) end)
+    qs = %{offset: _p.offset, limit: _p.limit,
+      search_column: "name",
+      search_phrase: _p.search,
+      sort_column: _p.sort, sort_order: _p.order}
     {api_status, res} = api_get_json api_method, _s.auth_token, _s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
@@ -113,7 +109,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
-    Map.merge (res.body |> Map.put :rows, rows), _p
+    Map.merge (res.body |> Map.put :data, rows), _p
   end
 
   defp get_record(_s, _p) do

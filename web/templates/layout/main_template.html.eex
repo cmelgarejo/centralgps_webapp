@@ -31,7 +31,9 @@
     <script src="<%= static_path(@conn, "/js/notify.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/notify-metro.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/jquery.bootgrid.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/bootstrap-table.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/jquery.bootgrid.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/tableExport.min.js")%>"></script>
     <script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/fx.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

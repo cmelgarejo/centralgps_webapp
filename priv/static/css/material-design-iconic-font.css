@@ -973,7 +973,7 @@
 .md-remove-circle:before {
   content: "\f112";
 }
-.md-remove-circle-outline:before {
+  .md-remove-circle-outline:before {
   content: "\f113";
 }
 .md-reply:before {
