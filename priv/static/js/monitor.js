@@ -325,15 +325,21 @@ function updateAssetGrid() {
       //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
         chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
       //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))
-        chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', function updateRoadmapCombo(event, object){
-          $.get('/client/assets/' + object.selected + '/roadmaps/json', function(response, status, xhr) {
-            if (response.status == true) {
-              chosenLoadSelect('_roadmap_list', response.rows, 'roadmap_id', 'roadmap_name', null);
-            }
-          });
+        chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', updateRoadmapCombo);
+        $('._roadmap_asset_list').on('chosen:ready', function(evt, params) {
+          updateRoadmapCombo(evt, params);
         });
     } else {
       console.log('updateAssetGrid: ' + response.msg);
+    }
+  });
+}
+function updateRoadmapCombo(event, object){
+  $.get('/client/assets/' + object.selected + '/roadmaps/json', function(response, status, xhr) {
+    if (response.status == true) {
+      chosenLoadSelect('_roadmap_list', response.rows, 'roadmap_id', 'roadmap_name', null);
+    } else {
+      //chosenLoadSelect('_roadmap_list', null, 'roadmap_id', 'roadmap_name', null);
     }
   });
 }
@@ -520,24 +526,25 @@ function getAssetRoadmapPoints(selected_asset, selected_roadmap, init, finish) {
             roadmap_html_popup: roadmap_html_popup, lat: m.lat, lon: m.lon, roadmap_at: roadmap_at });
         });
         $("#roadmap_grid").bootgrid('append', roadmap_list);
-        var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name]);
-        __centralgps__.asset.map.fitBounds(polyline.getBounds());
-        __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
-
-        __centralgps__.timeline.items = new vis.DataSet(timeline_items);
-        __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
-                                              { height: __centralgps__.timeline.container_height, stack: false });
-        $("#_asset_map").addClass('timeline-toggle');
-        __centralgps__.timeline.instance.on('select', function selectTimelineItem(properties) {
-            __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name].getLayers().forEach(
-              function setTimelineLatLng(layer) {
-                if (layer.options.roadmap != null && layer.options.roadmap.position_at == __centralgps__.timeline.items.get(properties.items[0]).roadmap.position_at) {
-                  layer.openPopup();
-                  __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
+        if(point_list.length > 0) {
+          var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name]);
+          __centralgps__.asset.map.fitBounds(polyline.getBounds());
+          __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
+          __centralgps__.timeline.items = new vis.DataSet(timeline_items);
+          __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
+                                                { height: __centralgps__.timeline.container_height, stack: false });
+          $("#_asset_map").addClass('timeline-toggle');
+          __centralgps__.timeline.instance.on('select', function selectTimelineItem(properties) {
+              __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name].getLayers().forEach(
+                function setTimelineLatLng(layer) {
+                  if (layer.options.roadmap != null && layer.options.roadmap.position_at == __centralgps__.timeline.items.get(properties.items[0]).roadmap.position_at) {
+                    layer.openPopup();
+                    __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
+                  }
                 }
-              }
-            );
-        });
+              );
+          });
+        }
       } else {
         console.log(selected_asset.name + '.updateRoadmaps: ' + response.msg + ' - query_string: ' + query_string);
       }

@@ -282,15 +282,20 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
   var $select = $('#' + select);
   $select.find('option').remove();
   var listitems = '';
-  $.each(items, function chosenLoadSelect_buildSelectOptions(key, value){
-      var selected = (selected_value != null) ? (value[value_obj] == selected_value ? 'selected' : '')  :  '';
-      listitems += '<option value=' + value[value_obj] + ' ' + selected + '>' + value[text_obj] + '</option>';
-  });
-  //console.log(listitems);
+  if(items != null) {
+    $.each(items, function chosenLoadSelect_buildSelectOptions(key, value){
+        var selected = (selected_value != null) ? (value[value_obj] == selected_value ? 'selected' : '')  :  '';
+        listitems += '<option value=' + value[value_obj] + ' ' + selected + '>' + value[text_obj] + '</option>';
+    });
+  }
   if(default_text != null && default_value != null)
     listitems += '<option value=' + default_value + '>' + default_text + '</option>';
   $select.append(listitems);
-  $select.chosen({no_results_text: __centralgps__.chosen.no_results_text, width: "100%" }).change(fnChange);
+  $select.chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    default_single_text: __centralgps__.chosen.no_results_text,
+    search_contains: true,
+    width: "100%" }).change(fnChange);
 }
 
 function bootgrid_appendSearchControl() {
@@ -329,7 +334,7 @@ function bootgrid_appendExportControls() {
                   '</li>'].join(''));
           }
       });
-
+//$menu.find('li').click(
       $(['<div class="dropdown btn-group">',
         '<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button" data-toggle="dropdown" aria-expanded="false">',
         '<span class="dropdown-text"><span class="glyphicon glyphicon-export icon-share"></span>',
@@ -341,4 +346,28 @@ function bootgrid_appendExportControls() {
         '</div>'].join('')).appendTo(t);
     }
   });
+}
+function exportData() {
+    var type = $(this).data('type'),
+        doExport = function () {
+            that.$el.tableExport($.extend({}, that.options.exportOptions, {
+                type: type,
+                escape: false
+            }));
+        };
+
+    if (that.options.exportDataType === 'all' && that.options.pagination) {
+        that.togglePagination();
+        doExport();
+        that.togglePagination();
+    } else if (that.options.exportDataType === 'selected') {
+        var data = that.getData(),
+            selectedData = that.getAllSelections();
+
+        that.load(selectedData);
+        doExport();
+        that.load(data);
+    } else {
+        doExport();
+    }
 }
