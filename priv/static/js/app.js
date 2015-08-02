@@ -1,5 +1,3 @@
-var bootgrid_labels;
-
 var __centralgps__ = {
   asset : { position: {} },
   monitor: {},
@@ -28,13 +26,18 @@ var __centralgps__ = {
   chosen: {
     no_results_text: "CHOSEN_NO_RESULTS_TEXT"
   },
-  bootgrid_labels : {
-      all:       "BOOTGRID_LABEL_ALL",
-      infos:     "BOOTGRID_LABEL_INFOS",
-      loading:   "BOOTGRID_LABEL_LOADING",
-      noResults: "BOOTGRID_LABEL_NORESULTS",
-      refresh:   "BOOTGRID_LABEL_REFRESH",
-      search:    "BOOTGRID_LABEL_SEARCH",
+  bootgrid: {
+    labels : {
+        all:       "BOOTGRID_LABEL_ALL",
+        infos:     "BOOTGRID_LABEL_INFOS",
+        loading:   "BOOTGRID_LABEL_LOADING",
+        noResults: "BOOTGRID_LABEL_NORESULTS",
+        refresh:   "BOOTGRID_LABEL_REFRESH",
+        search:    "BOOTGRID_LABEL_SEARCH",
+    },
+    showExport: false,
+    exportDataType: 'basic', // basic, all, selected
+    exportOptions: {}
   }
 };
 
@@ -165,7 +168,7 @@ function gridSetup_CRUD(gridFormatters, params){
   params = (params != null) ? params : [];
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
-    labels: __centralgps__.bootgrid_labels,
+    labels: __centralgps__.bootgrid.labels,
     ajaxSettings: {method: __centralgps__.CRUD.grid_method, cache: false },
     requestHandler: function gridSetup_CRUD_requestHandler(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
     formatters: gridFormatters,
@@ -323,51 +326,56 @@ var TYPE_NAME = {
 function bootgrid_appendExportControls() {
   $('.grid-container > .bootgrid-header > .row > .actionBar > .actions').each(function buildExportControls(i, t) {
     t = $(t);
+    var parent_grid = t.parent().parent().parent()
     if(t) {
-      var exportTypes = ['json', 'xml', 'csv', 'txt', 'sql', 'excel'], menu = "";
+      var exportTypes = ['json', 'xml', 'csv', 'txt', 'excel'], menu = "";
       $.each(exportTypes, function (i, type) {
           if (TYPE_NAME.hasOwnProperty(type)) {
-              menu += (['<li data-type="' + type + '">',
+              menu += (['<li data-type="' + type + '" onclick="exportData(this, \'', parent_grid[0].id.trim().replace("-header",""), '\')">',
                       '<a href="javascript:void(0)">',
                           TYPE_NAME[type],
                       '</a>',
                   '</li>'].join(''));
           }
       });
-//$menu.find('li').click(
       $(['<div class="dropdown btn-group">',
         '<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button" data-toggle="dropdown" aria-expanded="false">',
         '<span class="dropdown-text"><span class="glyphicon glyphicon-export icon-share"></span>',
         '<span class="caret"></span>',
         '</button>',
-        '<ul class="dropdown-menu pull-right" role="menu">',
+        '<ul class="dropdown-menu pull-left" role="menu">',
         menu,
         '</ul>',
         '</div>'].join('')).appendTo(t);
     }
   });
 }
-function exportData() {
-    var type = $(this).data('type'),
-        doExport = function () {
-            that.$el.tableExport($.extend({}, that.options.exportOptions, {
-                type: type,
-                escape: false
-            }));
-        };
-
-    if (that.options.exportDataType === 'all' && that.options.pagination) {
-        that.togglePagination();
-        doExport();
-        that.togglePagination();
-    } else if (that.options.exportDataType === 'selected') {
-        var data = that.getData(),
-            selectedData = that.getAllSelections();
-
-        that.load(selectedData);
-        doExport();
-        that.load(data);
-    } else {
-        doExport();
-    }
+function exportData(option, grid, fileName) {
+    if(fileName == null) fileName = grid;
+    grid = '#' + grid;
+    var type = $(option).data('type');
+    $(grid).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
+        type: type,
+        escape: false,
+        fileName: fileName
+    }));
+    //     doExport = function () {
+    //
+    //     };
+    // if (__centralgps__.bootgrid.exportDataType === 'all' && __centralgps__.bootgrid.exportOptions) {
+    //     doExport();
+    // } else if (__centralgps__.bootgrid.exportDataType === 'selected') {
+    //     var data = $(grid).bootgrid("getCurrentRows"),
+    //     selectedData = $(grid).bootgrid("getSelectedRows");
+    //     $(grid).bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
+    //       .bootgrid('clear')
+    //       .bootgrid('append', selectedData);
+    //     doExport();
+    //     $(grid).bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
+    //       .bootgrid('clear')
+    //       .bootgrid('append', data);
+    // } else {
+    //     doExport();
+    // }
+    return false;
 }

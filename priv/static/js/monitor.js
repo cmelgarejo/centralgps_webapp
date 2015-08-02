@@ -108,10 +108,10 @@ function initMonitor(language_code, layers) {
     } else {
       _browser_geo_error;
     }
-    $('#asset_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
-    $('#mark_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
-    $('#history_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
-    $('#roadmap_grid').bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false});
+    $('#asset_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
+    $('#mark_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
+    $('#history_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
+    $('#roadmap_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
     bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
     bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids.
     updateAssetGrid();
@@ -138,7 +138,7 @@ function setMarkTemplate(mt, mhp) {
 }
 function clearMarks() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name].clearLayers();
-  $("#mark_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  $("#mark_grid").bootgrid({labels: __centralgps__.bootgrid.labels}).bootgrid('clear');
   $("#_asset_map").removeClass('timeline-toggle');
   if (__centralgps__.timeline.instance != null) {
     __centralgps__.timeline.instance.destroy();
@@ -226,7 +226,7 @@ function setHistoryTemplate(ht, hhp) {
 }
 function clearHistory() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.history.layer_name].clearLayers();
-  $("#history_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  $("#history_grid").bootgrid({labels: __centralgps__.bootgrid.labels}).bootgrid('clear');
   $("#_asset_map").removeClass('timeline-toggle');
   if (__centralgps__.timeline.instance != null) {
     __centralgps__.timeline.instance.destroy();
@@ -315,7 +315,7 @@ function updateAssetGrid() {
         if(asset.position_at != null)
         asset_list.push(asset);
       });
-      $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid_labels, caseSensitive: false})
+      $("#asset_grid").bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
         .bootgrid('clear')
         .bootgrid('append', asset_list);
       __centralgps__.asset.list = asset_list;
@@ -475,7 +475,7 @@ function setRoadmapTemplate(rt, rmt, rhp) {
 }
 function clearRoadmaps() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.roadmap.layer_name].clearLayers();
-  $("#roadmap_grid").bootgrid({labels: __centralgps__.bootgrid_labels}).bootgrid('clear');
+  $("#roadmap_grid").bootgrid({labels: __centralgps__.bootgrid.labels}).bootgrid('clear');
   $("#_asset_map").removeClass('timeline-toggle');
   if (__centralgps__.timeline.instance != null) {
     __centralgps__.timeline.instance.destroy();
