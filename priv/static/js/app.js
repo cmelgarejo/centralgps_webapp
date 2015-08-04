@@ -298,6 +298,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
     no_results_text: __centralgps__.chosen.no_results_text,
     default_single_text: __centralgps__.chosen.no_results_text,
     search_contains: true,
+    //disable_search_threshold: 5,
     width: "100%" }).change(fnChange);
 }
 
@@ -326,12 +327,14 @@ var TYPE_NAME = {
 function bootgrid_appendExportControls() {
   $('.grid-container > .bootgrid-header > .row > .actionBar > .actions').each(function buildExportControls(i, t) {
     t = $(t);
-    var parent_grid = t.parent().parent().parent()
+    var parent_grid_header = (t.parent().parent().parent()).first();
+    var parent_grid_tableExport_filename = (t.parent().parent().parent().parent()).first().data('export-filename');
     if(t) {
       var exportTypes = ['json', 'xml', 'csv', 'txt', 'excel'], menu = "";
       $.each(exportTypes, function (i, type) {
           if (TYPE_NAME.hasOwnProperty(type)) {
-              menu += (['<li data-type="' + type + '" onclick="exportData(this, \'', parent_grid[0].id.trim().replace("-header",""), '\')">',
+              menu += (['<li data-type="' + type + '" onclick="exportData(this, \'',
+                      parent_grid_header[0].id.trim().replace("-header",""), '\',\'', parent_grid_tableExport_filename.trim(), '\')">',
                       '<a href="javascript:void(0)">',
                           TYPE_NAME[type],
                       '</a>',
@@ -357,7 +360,7 @@ function exportData(option, grid, fileName) {
     $(grid).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
         type: type,
         escape: false,
-        fileName: fileName
+        fileName: (fileName + moment().format())
     }));
     //     doExport = function () {
     //
@@ -378,4 +381,27 @@ function exportData(option, grid, fileName) {
     //     doExport();
     // }
     return false;
+}
+
+//Binds the div with a loader, and then returns the name of the loadscreen so you can take care of it later.
+function addLoadScreen(target) {
+  // add the overlay with loading image to the page
+  removeLoadScreen(target);
+  var loadScreenName = 'loading_' + target.replace("#","").replace(".","");
+  var over =
+  '<div id="' + loadScreenName + '" class="loading_overlay">' +
+    '<div class="loading_center">' +
+      '<div class="la-ball-clip-rotate-pulse">' +
+        '<div></div>' +
+        '<div></div>' +
+      '</div>' +
+    '</div>';
+  '</div>';
+  $(over).appendTo(target);
+  return loadScreenName;
+}
+
+function removeLoadScreen(target) {
+  var loadScreenName = '#loading_' + target.replace("#","").replace(".","");
+  $(loadScreenName).detach();
 }

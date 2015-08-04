@@ -7,7 +7,7 @@
     </div>
     <h4><%= l10n(@session.language_code, "roadmap.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
-  <div class="grid-container">
+  <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="action_grid" class="table table-condensed table-hover table-striped"
       data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/json">
         <thead>

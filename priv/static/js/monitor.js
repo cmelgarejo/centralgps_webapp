@@ -164,6 +164,7 @@ function updateMarks() {
       color: randomHexColor()}, init, finish);
 }
 function getAssetMarks(selected_asset, init, finish) {
+  addLoadScreen("#mark_grid_container");
   var query_string = '?asset_id=' + selected_asset.id +
         '&init_at=' + init +
         '&stop_at=' + finish;
@@ -214,6 +215,7 @@ function getAssetMarks(selected_asset, init, finish) {
       } else {
         console.log(selected_asset.name + '.updateMarks: ' + response.msg + ' - query_string: ' + query_string);
       }
+      removeLoadScreen("#mark_grid_container");
   });
 }
 var _history_text = '';
@@ -252,6 +254,7 @@ function updateHistory() {
       color: randomHexColor()}, init, finish);
 }
 function getAssetHistory(selected_asset, init, finish) {
+  addLoadScreen("#history_grid_container");
   var query_string = '?asset_id=' + selected_asset.id +
         '&init_at=' + init +
         '&stop_at=' + finish;
@@ -300,9 +303,11 @@ function getAssetHistory(selected_asset, init, finish) {
       } else {
         console.log(selected_asset.name + '.getAssetHistory: ' + response.msg + ' - query_string: ' + query_string);
       }
+      removeLoadScreen("#history_grid_container");
   });
 }
 function updateAssetGrid() {
+  addLoadScreen("#asset_grid_container");
   $.get('/monitor/assets', function(response, status, xhr) {
     if (response.status == true) {
       var asset_list = [];
@@ -319,19 +324,20 @@ function updateAssetGrid() {
         .bootgrid('clear')
         .bootgrid('append', asset_list);
       __centralgps__.asset.list = asset_list;
-      //check if there is changes in the length of the loaded asset list (+1 for [All])
-      //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-        chosenLoadSelect('_marks_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
-      //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-        chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
-      //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))
-        chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', updateRoadmapCombo);
-        $('._roadmap_asset_list').on('chosen:ready', function(evt, params) {
-          updateRoadmapCombo(evt, params);
-        });
+      if(__centralgps__.asset.list.length > 0) {
+        //check if there is changes in the length of the loaded asset list (+1 for [All])
+        //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
+          chosenLoadSelect('_marks_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
+        //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
+          chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
+        //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))
+          chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', updateRoadmapCombo);
+          updateRoadmapCombo(null, { selected: $('#_roadmap_asset_list').val() });
+      }
     } else {
       console.log('updateAssetGrid: ' + response.msg);
     }
+    removeLoadScreen("#asset_grid_container")
   });
 }
 function updateRoadmapCombo(event, object){
@@ -492,6 +498,7 @@ function updateRoadmaps() {
     color: randomHexColor()}, {id: selected_roadmap.val(), name: selected_roadmap.text()}, init, finish);
 }
 function getAssetRoadmapPoints(selected_asset, selected_roadmap, init, finish) {
+  addLoadScreen("#roadmap_grid_container");
   var query_string = '?asset_id=' + selected_asset.id +
         '&roadmap_id=' + selected_roadmap.id +
         '&init_at=' + init +
@@ -548,5 +555,6 @@ function getAssetRoadmapPoints(selected_asset, selected_roadmap, init, finish) {
       } else {
         console.log(selected_asset.name + '.updateRoadmaps: ' + response.msg + ' - query_string: ' + query_string);
       }
+      removeLoadScreen("#roadmap_grid_container");
   });
 }

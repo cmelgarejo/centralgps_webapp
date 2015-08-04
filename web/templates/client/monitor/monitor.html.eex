@@ -36,7 +36,7 @@
       <div class="card lc-block">
         <div class="card-body card-padding">
           <div class="row">
-            <div class="grid-container">
+            <div id="asset_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %>">
               <table id="asset_grid" class="table table-condensed table-hover table-striped">
                   <thead>
                       <tr>
@@ -92,7 +92,7 @@
               <button class="btn btn-default" onclick="clearHistory()"><i class="md md-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_HISTORY_CLEAR_FILTER") %></button>
             </div>
           </div>
-          <div class="grid-container">
+          <div id="history_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %>">
             <table id="history_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -148,7 +148,7 @@
               <button class="btn btn-default" onclick="clearMarks()"><i class="md md-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_MARK_CLEAR_FILTER") %></button>
             </div>
           </div>
-          <div class="grid-container">
+          <div id="mark_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %>">
             <table id="mark_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -222,7 +222,7 @@
               <button class="btn btn-default" onclick="clearRoadmaps()"><i class="md md-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_ROADMAP_CLEAR_FILTER") %></button>
             </div>
           </div>
-          <div class="grid-container">
+          <div id="roadmap_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "monitor.html", "TABPANEL_ROADMAP_TEXT") %>">
             <table id="roadmap_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
