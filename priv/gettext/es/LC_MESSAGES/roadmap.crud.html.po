@@ -34,6 +34,12 @@ msgstr "Hora de inicio"
 msgid  "COLUMN_END_TIME"
 msgstr "Hora de fin"
 
+msgid  "COLUMN_PUBLIC"
+msgstr "Publico"
+
+msgid  "COLUMN_ACTIVE"
+msgstr "Activo"
+
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha & hora de creación"
 

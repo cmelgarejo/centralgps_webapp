@@ -31,5 +31,5 @@ defmodule CentralGPSWebApp.Endpoint do
     key: "_centralgps_webapp_key",
     signing_salt: "oAPtYKsJ"
 
-  plug :router, CentralGPSWebApp.Router
+  plug CentralGPSWebApp.Router
 end

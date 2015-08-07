@@ -30,3 +30,21 @@ msgstr "Start"
 
 msgid  "FINISH"
 msgstr "Finish"
+
+msgid  "dow0"
+msgstr "Sunday"
+
+msgid  "dow1"
+msgstr "Monday"
+
+msgid  "dow2"
+msgstr "Tuesday"
+
+msgid  "dow3"
+msgstr "Wednesday"
+
+msgid  "dow4"
+msgstr "Thursday"
+
+msgid  "dow5"
+msgstr "Friday"

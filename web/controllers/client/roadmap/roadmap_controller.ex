@@ -74,7 +74,11 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, description: record.description}
+          %{id: record.id, name: record.name, description: record.description,
+          days_of_week: record.days_of_week, repetition: record.repetition,
+          one_time_date: record.one_time_date, start_time: record.start_time, end_time: record.end_time,
+          public: record.public, active: record.active }
+        #IO.puts "ROADMAP RECORD: #{inspect record}"
       end
     end
     record
@@ -84,10 +88,10 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
     if (String.to_atom(_p.__form__) ==  :edit) do
-      data = %{roadmap_id: _p.id, configuration_id: _s.client_id, description: _p.description}
+      data = %{roadmap_id: _p.id, name: _p.name, description: _p.description}
       {_, res} = api_put_json api_method(data.roadmap_id), _s.auth_token, _s.account_type, data
     else
-      data = %{ configuration_id: _s.client_id, description: _p.description }
+      data = %{ name: _p.name, description: _p.description }
       {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
     end
     res.body

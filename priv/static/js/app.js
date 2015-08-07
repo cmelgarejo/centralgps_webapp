@@ -261,24 +261,24 @@ function __ajaxForm(form, options) {
   options.success = typeof options.success !== 'undefined' ? options.success : ajaxformOnResponse;
   //console.log(options);
   // var options = {
-  //       target:        target,   // target element(s) to be updated with server response
-  //       beforeSubmit:  ajaxformOnRequest,  // pre-submit callback
-  //       success:       ajaxformOnResponse,  // post-submit callback
-  //       dataType:      dataType,
-  //       // other available options:
-  //       //url:       url         // override for form's 'action' attribute
-  //       //type:      type        // 'get' or 'post', override for form's 'method' attribute
-  //       clearForm: clearForm,         // clear all form fields after successful submit
-  //       //resetForm: true        // reset the form after successful submit
-  //       // $.ajax options can be used here too, for example:
-  //       //timeout:   3000
-  //   };
+  //     target:        target,   // target element(s) to be updated with server response
+  //     beforeSubmit:  ajaxformOnRequest,  // pre-submit callback
+  //     success:       ajaxformOnResponse,  // post-submit callback
+  //     dataType:      dataType,
+  //     // other available options:
+  //     //url:       url         // override for form's 'action' attribute
+  //     //type:      type        // 'get' or 'post', override for form's 'method' attribute
+  //     clearForm: clearForm,         // clear all form fields after successful submit
+  //     //resetForm: true        // reset the form after successful submit
+  //     // $.ajax options can be used here too, for example:
+  //     //timeout:   3000
+  // };
   $(form).ajaxSubmit(options);
   return false;
 }
 
 function randomHexColor() {
-  return '#'+Math.floor(Math.random()*16777215).toString(16);
+  return '#' + Math.floor(Math.random()*16777215).toString(16);
 }
 
 function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_value, default_text, selected_value) {

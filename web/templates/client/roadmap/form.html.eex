@@ -3,33 +3,107 @@
     action="<%= roadmap_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
-    <div class="form-group fg-float">
-      <%= if (@record.__form__ == :edit) do %>
-      <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
-      <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
-      <% end %>
-      <div class="fg-line fg-toggled">
-        <input class="form-control" type="text" id="description" name="description"
-        value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
-        required autofocus toggled/>
+    <%= if (@record.__form__ == :edit) do %>
+    <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+    <% end %>
+    <div class="row">
+      <div class="col-sm-6 col-md-6">
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="name" name="name"
+            value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
+            required autofocus toggled/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_NAME") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="description" name="description"
+            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <select class="chosen-select form-control" id="days_of_week" name="days_of_week">
+              <%= for (d <- @record.days_of_week) do %>
+              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "dow" <> Integer.to_string(d) ) %></option>
+              <% end %>
+            </select>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="one_time_date" name="one_time_date"
+            value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="repetition" name="repetition"
+            value="<%= if (@record.__form__ == :edit), do: @record.repetition, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="start_time" name="start_time"
+            value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="end_time" name="end_time"
+              value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></label>
+        </div>
+        <div class="row">
+          <div class="checkbox col-sm-3 col-md-3">
+            <label>
+              <input id="public" name="public" type="checkbox" <%= if (@record.__form__ == :edit && @record.public), do: "checked", else: "unchecked" %>>
+              <i class="input-helper"></i>
+              <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_PUBLIC") %>
+            </label>
+          </div>
+          <div class="checkbox col-sm-3 col-md-3">
+            <label>
+              <input id="active" name="active" type="checkbox" <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>>
+              <i class="input-helper"></i>
+              <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVE") %>
+            </label>
+          </div>
+        </div>
       </div>
-      <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
     </div>
-    <div id="alert"></div>
-    <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info pull-left">
-      <i class="md md-arrow-back"></i>
-      <%= l10n(@session.language_code, "generic", "BACK") %>
-    </a>
-    <button class="btn btn-success pull-right" type="submit">
-      <%= l10n(@session.language_code, "generic", "SAVE") %>
-      <i class="md md-save"></i>
-    </button>
+    <div class="row">
+      <div id="alert"></div>
+      <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info pull-left">
+        <i class="md md-arrow-back"></i>
+        <%= l10n(@session.language_code, "generic", "BACK") %>
+      </a>
+      <button class="btn btn-success pull-right" type="submit">
+        <%= l10n(@session.language_code, "generic", "SAVE") %>
+        <i class="md md-save"></i>
+      </button>
+    </div>
   </form>
 </div>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
   $.applyDataMask('.input-mask');
   $("form").submit(function(){ return __ajaxForm(this);});
   <%= if !@record.status do %>

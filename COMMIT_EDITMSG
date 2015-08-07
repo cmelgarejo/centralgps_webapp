@@ -1,0 +1,23 @@
+Managed to create a cool loading effect.
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#
+# 	modified:   priv/static/css/app.css
+# 	modified:   priv/static/js/app.js
+# 	modified:   priv/static/js/monitor.js
+# 	new file:   priv/static/js/tableExport.js
+# 	modified:   priv/static/js/tableExport.min.js
+# 	modified:   web/templates/client/checkpoint/action/index.html.eex
+# 	modified:   web/templates/client/checkpoint/reason/index.html.eex
+# 	modified:   web/templates/client/checkpoint/venue/index.html.eex
+# 	modified:   web/templates/client/checkpoint/venue_type/index.html.eex
+# 	modified:   web/templates/client/monitor/monitor.html.eex
+# 	modified:   web/templates/client/roadmap/index.html.eex
+# 	modified:   web/templates/client/roadmap_point/index.html.eex
+# 	modified:   web/templates/client/security/account/index.html.eex
+# 	modified:   web/templates/layout/main_template.html.eex

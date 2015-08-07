@@ -22,7 +22,7 @@
         </div>
         <div class="row">
           <div class="form-group fg-float col-sm-6 col-md-6">
-            <div class="fg-line fg-toggled">
+            <div class="fg-line">
               <input class="form-control" type="text" id="name" name="name"
               value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>" required autofocus toggled/>
             </div>
@@ -37,21 +37,21 @@
           </div>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
+          <div class="fg-line">
             <input class="form-control" type="text" id="code" name="code"
             value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
+          <div class="fg-line">
             <input class="form-control" type="text" id="description" name="description"
             value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
+          <div class="fg-line">
             <input class="form-control input-mask" type="number" id="detection_radius" name="detection_radius"
             data-mask="00000"  maxlength="5"
             value="<%= if (@record.__form__ == :edit), do: @record.detection_radius, else: 25 %>" required/>
@@ -59,7 +59,7 @@
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DETECTION_RADIUS") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
+          <div class="fg-line">
             <input class="form-control input-latlon" type="text" id="lat" name="lat" maxlength="20"
             pattern="-?\d{1,3}\.\d+"
             value="<%= if (@record.__form__ == :edit), do: @record.lat, else: 0.0 %>" required/>
@@ -67,7 +67,7 @@
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_LAT") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
+          <div class="fg-line">
             <input class="form-control input-latlon" type="text" id="lon" name="lon" maxlength="20"
             pattern="-?\d{1,3}\.\d+"
             value="<%= if (@record.__form__ == :edit), do: @record.lon, else: 0.0 %>" required/>
@@ -102,7 +102,7 @@
       <div class="col-sm-6 col-md-6">
         <%= if @record.__form__ == :edit do %>
         <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
+          <div class="fg-line">
             <input class="form-control" disabled type="text" id="creator" name="creator" value="<%= @record.creator %>" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CREATOR") %></label>
@@ -148,5 +148,13 @@ $(document).ready(function() {
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
 });
 </script>

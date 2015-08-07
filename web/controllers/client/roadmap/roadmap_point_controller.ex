@@ -75,7 +75,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, description: record.description}
+          %{id: record.id, name: record.name, description: record.description}
       end
     end
     record
