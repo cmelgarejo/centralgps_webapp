@@ -16,7 +16,7 @@
     __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
     __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
     __centralgps__.globalmessages.generic._all ="<%= l10n(@session.language_code, "generic", "ALL") %>";
-    __centralgps__.chosen = { no_results_text: "<%= l10n(@session.language_code, "main.html", "CHOSEN_NO_RESULTS_TEXT") %>"}
+    __centralgps__.chosen = { no_results_text: "<%= l10n(@session.language_code, "generic", "CHOSEN_NO_RESULTS_TEXT") %>"}
     __centralgps__.bootgrid.labels = {
         all:       "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_ALL") %>",
         infos:     "<%= l10n(@session.language_code, "main.html", "BOOTGRID_LABEL_INFOS") %>",

@@ -345,7 +345,7 @@ function updateRoadmapCombo(event, object){
     if (response.status == true) {
       chosenLoadSelect('_roadmap_list', response.rows, 'roadmap_id', 'roadmap_name', null);
     } else {
-      //chosenLoadSelect('_roadmap_list', null, 'roadmap_id', 'roadmap_name', null);
+      chosenLoadSelect('_roadmap_list');
     }
   });
 }

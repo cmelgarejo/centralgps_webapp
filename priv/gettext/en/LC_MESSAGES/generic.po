@@ -31,20 +31,26 @@ msgstr "Start"
 msgid  "FINISH"
 msgstr "Finish"
 
-msgid  "dow0"
+msgid  "DOW0"
 msgstr "Sunday"
 
-msgid  "dow1"
+msgid  "DOW1"
 msgstr "Monday"
 
-msgid  "dow2"
+msgid  "DOW2"
 msgstr "Tuesday"
 
-msgid  "dow3"
+msgid  "DOW3"
 msgstr "Wednesday"
 
-msgid  "dow4"
+msgid  "DOW4"
 msgstr "Thursday"
 
-msgid  "dow5"
+msgid  "DOW5"
 msgstr "Friday"
+
+msgid  "DOW6"
+msgstr "Saturday"
+
+msgid  "CHOSEN_NO_RESULTS_TEXT"
+msgstr "No results found"

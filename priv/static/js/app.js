@@ -284,22 +284,23 @@ function randomHexColor() {
 function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_value, default_text, selected_value) {
   var $select = $('#' + select);
   $select.find('option').remove();
-  var listitems = '';
   if(items != null) {
+    var listitems = '';
     $.each(items, function chosenLoadSelect_buildSelectOptions(key, value){
         var selected = (selected_value != null) ? (value[value_obj] == selected_value ? 'selected' : '')  :  '';
         listitems += '<option value=' + value[value_obj] + ' ' + selected + '>' + value[text_obj] + '</option>';
     });
+    if(default_text != null && default_value != null)
+      listitems += '<option value=' + default_value + '>' + default_text + '</option>';
+    $select.append(listitems);
+    $select.chosen({
+      no_results_text: __centralgps__.chosen.no_results_text,
+      default_single_text: __centralgps__.chosen.no_results_text,
+      search_contains: true,
+      //disable_search_threshold: 5,
+      width: "100%" }).change(fnChange);
   }
-  if(default_text != null && default_value != null)
-    listitems += '<option value=' + default_value + '>' + default_text + '</option>';
-  $select.append(listitems);
-  $select.chosen({
-    no_results_text: __centralgps__.chosen.no_results_text,
-    default_single_text: __centralgps__.chosen.no_results_text,
-    search_contains: true,
-    //disable_search_threshold: 5,
-    width: "100%" }).change(fnChange);
+  $select.trigger('chosen:updated');
 }
 
 function bootgrid_appendSearchControl() {

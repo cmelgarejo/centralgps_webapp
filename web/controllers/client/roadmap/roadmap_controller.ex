@@ -85,16 +85,33 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
   end
 
   defp save_record(_s, _p) do
-    _p = objectify_map(_p)
-    if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
-    if (String.to_atom(_p.__form__) ==  :edit) do
-      data = %{roadmap_id: _p.id, name: _p.name, description: _p.description}
-      {_, res} = api_put_json api_method(data.roadmap_id), _s.auth_token, _s.account_type, data
-    else
-      data = %{ name: _p.name, description: _p.description }
-      {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+    try do
+      _p = objectify_map(_p)
+      if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
+      if (!Map.has_key?_p, :one_time_date), do: _p = Map.put _p, :one_time_date, nil
+      if (!Map.has_key?_p, :public), do: _p = Map.put( _p, :public, false), else: _p = Map.update(_p, :public, false, &(&1 == "on"))
+      if (!Map.has_key?_p, :active), do: _p = Map.put( _p, :active, false), else: _p = Map.update(_p, :active, false, &(&1 == "on"))
+      if (!Map.has_key?_p, :xtra_info), do: _p = Map.put _p, :xtra_info, nil
+      if (!Map.has_key?_p, :days_of_week) do
+        _p = Map.put _p, :days_of_week, nil
+      else
+        _p = Map.put _p, :days_of_week, Enum.map(_p.days_of_week, &(parse_int(&1)))
+      end
+      if (String.to_atom(_p.__form__) ==  :edit) do
+        data = %{ roadmap_id: _p.id, name: _p.name, description: _p.description,
+          days_of_week: _p.days_of_week, one_time_date: _p.one_time_date,
+          repetition: _p.repetition, start_time: _p.start_time, end_time: _p.end_time,
+          public: _p.public, active: _p.active, xtra_info: _p.xtra_info}
+        IO.puts "data: #{inspect data}"
+        {_, res} = api_put_json api_method(data.roadmap_id), _s.auth_token, _s.account_type, data
+      else
+        data = %{ name: _p.name, description: _p.description }
+        {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+      end
+      res.body
+    rescue
+      e in _ -> %{ status: false, msg: error_logger(e, __ENV__) }
     end
-    res.body
   end
 
   defp delete_record(_s, _p) do

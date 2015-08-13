@@ -25,9 +25,12 @@
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
-            <select class="chosen-select form-control" id="days_of_week" name="days_of_week">
+            <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
               <%= for (d <- @record.days_of_week) do %>
-              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "dow" <> Integer.to_string(d) ) %></option>
+              <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+              <% end %>
+              <%= for (d <- remove_list_from_list [0,1,2,3,4,5,6], @record.days_of_week ) do %>
+              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
               <% end %>
             </select>
           </div>
@@ -62,14 +65,14 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></label>
         </div>
         <div class="row">
-          <div class="checkbox col-sm-3 col-md-3">
+          <div class="checkbox">
             <label>
               <input id="public" name="public" type="checkbox" <%= if (@record.__form__ == :edit && @record.public), do: "checked", else: "unchecked" %>>
               <i class="input-helper"></i>
-              <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_PUBLIC") %>
+              <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_PUBLIC_ROADMAP") %>
             </label>
           </div>
-          <div class="checkbox col-sm-3 col-md-3">
+          <div class="checkbox">
             <label>
               <input id="active" name="active" type="checkbox" <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>>
               <i class="input-helper"></i>
@@ -96,7 +99,7 @@
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
-  $.each($('input'), function(a, b) {
+  $.each($('input,select'), function(a, b) {
     var input = $(b).val();
     if(input) {
       if (!$(b).parent().hasClass('fg-toggled')) {
@@ -109,5 +112,12 @@ $(document).ready(function() {
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
+  var $select = $('#days_of_week');
+  $select.chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    default_single_text: __centralgps__.chosen.no_results_text,
+    search_contains: true,
+    //disable_search_threshold: 5,
+    width: "100%" });
 });
 </script>

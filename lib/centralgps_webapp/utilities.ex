@@ -1,6 +1,6 @@
 defmodule CentralGPSWebApp.Utilities do
-  #import Phoenix.Controller, only: [get_csrf_token: 0]
   import Plug.Conn, only: [get_session: 2, put_session: 3, assign: 3]
+  import CentralGPS.Repo.Utilities
 
   def centralgps_placeholder_file(base_dir \\ ""), do: base_dir <> "_placeholder.png"
 
@@ -34,5 +34,9 @@ defmodule CentralGPSWebApp.Utilities do
     else
       {conn, :error}
     end
+  end
+
+  def remove_list_from_list(l, ltr) do
+    remove_list(l, ltr)
   end
 end

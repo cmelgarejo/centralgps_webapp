@@ -34,7 +34,7 @@ msgstr "Start time"
 msgid  "COLUMN_END_TIME"
 msgstr "End time"
 
-msgid  "COLUMN_PUBLIC"
+msgid  "COLUMN_PUBLIC_ROADMAP"
 msgstr "Public"
 
 msgid  "COLUMN_ACTIVE"

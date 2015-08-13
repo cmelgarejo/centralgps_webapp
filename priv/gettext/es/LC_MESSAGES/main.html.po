@@ -111,6 +111,3 @@ msgstr "Eliminado"
 
 msgid "DELETE_RECORD_TEXT_DONE"
 msgstr "El registro #{RECORD} ha sido eliminado"
-
-msgid  "CHOSEN_NO_RESULTS_TEXT"
-msgstr "No results found"
