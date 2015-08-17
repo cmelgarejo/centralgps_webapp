@@ -24,20 +24,26 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line">
+          <div class="fg-line fg-toggled">
             <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
-              <%= for (d <- @record.days_of_week) do %>
+              <%= if @record.__form__ == :edit do %>
+              <%=   for (d <- @record.days_of_week) do %>
               <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <% end %>
-              <%= for (d <- remove_list_from_list [0,1,2,3,4,5,6], @record.days_of_week ) do %>
+              <%    end %>
+              <%=   for (d <- remove_list_from_list [0,1,2,3,4,5,6], @record.days_of_week ) do %>
               <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <% end %>
+              <%    end %>
+              <%  else %>
+              <%=   for (d <- [0,1,2,3,4,5,6]) do %>
+              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+              <%    end %>
+              <%  end %>
             </select>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line">
+          <div class="fg-toggled">
             <input class="form-control" type="date" id="one_time_date" name="one_time_date" maxlength="10"
             value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>"/>
           </div>
@@ -52,18 +58,18 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line">
+          <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="time" id="start_time" name="start_time"
             data-mask="00:00:00"  maxlength="6"
-            value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: nil %>"/>
+            value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: "07:00:00" %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line">
+          <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="time" id="end_time" name="end_time"
             data-mask="00:00:00"  maxlength="6"
-            value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: nil %>"/>
+            value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: "18:00:00" %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></label>
         </div>
@@ -84,6 +90,9 @@
           </div>
         </div>
       </div>
+      <div class="col-sm-6 col-md-6">
+        <div id="_roadmap_map"></div>
+      </div>
     </div>
     <div class="row">
       <div id="alert"></div>
@@ -100,9 +109,23 @@
 </div>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.draw.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.label.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.awesome-markers.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/MarkerCluster.Default.css") %>">
+<link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
+<script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.awesome-markers.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.measurecontrol.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/roadmap_form.js") %>"></script>
 <script>
 $(document).ready(function() {
-  $('#one_time_date').parent().addClass('fg-toggled');
   $.each($('input,select'), function(a, b) {
     var input = $(b).val();
     if(input) {
@@ -119,9 +142,11 @@ $(document).ready(function() {
   var $select = $('#days_of_week');
   $select.chosen({
     no_results_text: __centralgps__.chosen.no_results_text,
-    default_single_text: __centralgps__.chosen.no_results_text,
+    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
     search_contains: true,
     //disable_search_threshold: 5,
     width: "100%" });
+  loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>",
+    "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>");
 });
 </script>

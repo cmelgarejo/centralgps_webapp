@@ -22,7 +22,7 @@ L.TileLayer.Common = L.TileLayer.extend({
 }());
 function _browser_geo_success(position) {
   if(!$("#id").length) {
-    __centralgps__.venue.form.map.setView([position.coords.latitude, position.coords.longitude], 18);
+    __centralgps__.roadmap.form.map.setView([position.coords.latitude, position.coords.longitude], 18);
     $("#lat").val(position.coords.latitude);
     $("#lon").val(position.coords.longitude);
     setCurrentVenuePos();
@@ -48,10 +48,10 @@ function _updateVenueMap() {
       if (response.status == true) {
         response.rows.forEach(function(v, vidx, arr) {
           if ( !$('#id').length || ($('#id').val() != v.id) ) //!0 == true
-          __centralgps__.venue.form.map_overlays[__centralgps__.venue.form.layer_name].
+          __centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.venue_layer_name].
             addLayer(L.marker([v.lat, v.lon], { venue: v, zIndexOffset: 108, icon: _venue_icon })
               .bindPopup(v.name));
-          __centralgps__.venue.form.map_overlays[__centralgps__.venue.form.layer_name]
+          __centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.venue_layer_name]
             .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {
                 venue: { id: v.id }, //we dont need more information for the detection radius circle
                 color: 'green',
@@ -66,33 +66,23 @@ function _updateVenueMap() {
     });
   });
 }
-var current_marker_popup = new L.Popup().setContent('<b>' + $('#name').val() + '<b>');
-var current_marker = null;
-var current_marker_circle = null;
 
-function loadVenues(_venue_lat_lon, _venue_detection_radius, _layer_name) {
-  $('img').attr('src', __centralgps__.api_base_url + $('img').attr('src'));
+function loadMap(_roadmap_layer_name, _venue_layer_name) {
   try {
-    current_marker = new L.marker(_venue_lat_lon, {icon: venue_marker, draggable:'true'}).bindPopup(current_marker_popup);
-    current_marker_circle = L.circle(_venue_lat_lon, _venue_detection_radius, {
-        color: 'blue',
-        fillColor: '#0034ff',
-        fillOpacity: 0.5
-    });
-    __centralgps__.venue.form = { map: null, layer_name: null, map_overlays: {} };
-    __centralgps__.venue.form.layer_name = _layer_name;
-    __centralgps__.venue.form.map = L.map('_venue_map').setView([0, 0], 2);
+    __centralgps__.roadmap.form = { map: null, roadmap_layer_name: null, venue_layer_name: null, map_overlays: {} };
+    __centralgps__.roadmap.form.venue_layer_name = _venue_layer_name;
+    __centralgps__.roadmap.form.map = L.map('_roadmap_map').setView([0, 0], 2);
     L.Icon.Default.imagePath = '../images';
-    __centralgps__.venue.form.map_layers = {
-      "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.venue.form.map),
+    __centralgps__.roadmap.form.map_layers = {
+      "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.roadmap.form.map),
       "Mapbox": new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17}),
   	};
-    __centralgps__.venue.form.map_overlays[_layer_name] = new L.LayerGroup().addTo(__centralgps__.venue.form.map);
-    L.control.layers(__centralgps__.venue.form.map_layers, __centralgps__.venue.form.map_overlays)
-      .addTo(__centralgps__.venue.form.map);
-    L.Control.measureControl().addTo(__centralgps__.venue.form.map);
-    __centralgps__.venue.form.map.addControl(new L.Control.Scale());
-    __centralgps__.venue.form.map.addControl(new L.Control.OSMGeocoder({
+    __centralgps__.roadmap.form.map_overlays[_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
+    L.control.layers(__centralgps__.roadmap.form.map_layers, __centralgps__.roadmap.form.map_overlays)
+      .addTo(__centralgps__.roadmap.form.map);
+    L.Control.measureControl().addTo(__centralgps__.roadmap.form.map);
+    __centralgps__.roadmap.form.map.addControl(new L.Control.Scale());
+    __centralgps__.roadmap.form.map.addControl(new L.Control.OSMGeocoder({
         collapsed: true,
         position: 'bottomright',
         text: '',
@@ -104,40 +94,22 @@ function loadVenues(_venue_lat_lon, _venue_detection_radius, _layer_name) {
       _browser_geo_error;
     }
     _updateVenueMap();
-    __centralgps__.venue.form.map.addLayer(current_marker);
-    __centralgps__.venue.form.map.addLayer(current_marker_circle);
-    __centralgps__.venue.form.map.on('click', onMapClick);
-    if ($('#id').length)
-      setCurrentVenuePos();
-    $("#detection_radius").on('keyup', function() {
-      current_marker_circle.setRadius($(this).val());
-    });
-    $('#name').change(setCurrentVenuePos());
-    $('#name').on('keyup', function() {
-      setCurrentVenuePos();
-    });
-    $("#lat").change(setCurrentVenuePos());
-    $("#lat").on('keyup', function() {
-      setCurrentVenuePos();
-    });
-    $("#lon").change(setCurrentVenuePos());
-    $("#lon").on('keyup', function() {
-      setCurrentVenuePos();
-    });
-    current_marker.on('dragend', current_marker_dragEnd);
+    //__centralgps__.roadmap.form.map.on('click', onMapClick);
   }
   catch(err) {
     console.log(err);
   }
 }
+
 function setCurrentVenuePos() {
   current_marker.setLatLng([$('#lat').val(), $('#lon').val()]);
   current_marker_circle.setLatLng([$('#lat').val(), $('#lon').val()]);
-  __centralgps__.venue.form.map.setView(current_marker.getLatLng(), 18);
+  __centralgps__.roadmap.form.map.setView(current_marker.getLatLng(), 18);
   current_marker_popup.setContent('<b>' + $('#name').val() + '<b>').update();
   current_marker.openPopup();
   _venue_center_set = true;
 }
+
 function onMapClick(e) {
   $("#lat").val(e.latlng.lat);
   $("#lon").val(e.latlng.lng);

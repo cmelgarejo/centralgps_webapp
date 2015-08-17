@@ -54,3 +54,9 @@ msgstr "Sábado"
 
 msgid  "CHOSEN_NO_RESULTS_TEXT"
 msgstr "No se han encontrado resultados"
+
+msgid  "CHOSEN_PLACEHOLDER_TEXT_MULTIPLE"
+msgstr "Seleccione una o más opciones"
+
+msgid  "CHOSEN_DEFAULT_SINGLE_TEXT"
+msgstr "Seleccione una opción"

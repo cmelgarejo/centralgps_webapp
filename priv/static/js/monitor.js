@@ -75,7 +75,7 @@ function initMonitor(language_code, layers) {
     L.Icon.Default.imagePath = '../images';
     __centralgps__.asset.map_layers = {
       "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.asset.map),
-      "Mapbox": new L.TileLayer.MapBox({ accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f', maxZoom: 17}),
+      "Mapbox": new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17}),
   	};
     __centralgps__.asset.map_overlays = {};
     // __centralgps__.asset.map_overlays[layers.position] = new L.LayerGroup().addTo(__centralgps__.asset.map);

@@ -1,4 +1,7 @@
 var __centralgps__ = {
+  mapbox: { accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f' },
+  venue: { form: {} },
+  roadmap: { form: {} },
   asset : { position: {} },
   monitor: {},
   CRUD: {},
@@ -24,7 +27,9 @@ var __centralgps__ = {
     __root_url : "/",
   },
   chosen: {
-    no_results_text: "CHOSEN_NO_RESULTS_TEXT"
+    no_results_text: "CHOSEN_NO_RESULTS_TEXT",
+    placeholder_text_multiple: "CHOSEN_PLACEHOLDER_TEXT_MULTIPLE",
+    default_single_text: "CHOSEN_DEFAULT_SINGLE_TEXT",
   },
   bootgrid: {
     labels : {

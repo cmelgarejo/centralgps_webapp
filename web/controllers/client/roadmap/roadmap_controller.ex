@@ -102,10 +102,12 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
           days_of_week: _p.days_of_week, one_time_date: _p.one_time_date,
           repetition: _p.repetition, start_time: _p.start_time, end_time: _p.end_time,
           public: _p.public, active: _p.active, xtra_info: _p.xtra_info}
-        IO.puts "data: #{inspect data}"
         {_, res} = api_put_json api_method(data.roadmap_id), _s.auth_token, _s.account_type, data
       else
-        data = %{ name: _p.name, description: _p.description }
+        data = %{ name: _p.name, description: _p.description,
+          days_of_week: _p.days_of_week, one_time_date: _p.one_time_date,
+          repetition: _p.repetition, start_time: _p.start_time, end_time: _p.end_time,
+          public: _p.public, active: _p.active, xtra_info: _p.xtra_info}
         {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
       end
       res.body

@@ -20,8 +20,8 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :rest_client,
-  #rest_client_base_url: "http://api.centralgps.net/api/v1",
-  rest_client_base_url: "http://localhost:4000/api/v1",
+  rest_client_base_url: "http://api.centralgps.net/api/v1",
+  #rest_client_base_url: "http://localhost:4000/api/v1",
   rest_client_app_name: "centralgps_webapp"
 
 # Import environment specific config. This must remain at the bottom
