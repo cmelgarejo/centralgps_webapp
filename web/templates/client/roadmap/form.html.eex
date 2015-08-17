@@ -38,29 +38,32 @@
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
-            <input class="form-control" type="text" id="one_time_date" name="one_time_date"
-            value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>" />
+            <input class="form-control" type="date" id="one_time_date" name="one_time_date" maxlength="10"
+            value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
-            <input class="form-control" type="text" id="repetition" name="repetition"
-            value="<%= if (@record.__form__ == :edit), do: @record.repetition, else: nil %>" />
+            <input class="form-control input-mask" type="number" id="repetition" name="repetition"
+            data-mask="0"  maxlength="1"
+            value="<%= if (@record.__form__ == :edit), do: @record.repetition, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
-            <input class="form-control" type="text" id="start_time" name="start_time"
-            value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: nil %>" />
+            <input class="form-control input-mask" type="time" id="start_time" name="start_time"
+            data-mask="00:00:00"  maxlength="6"
+            value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
-            <input class="form-control" type="text" id="end_time" name="end_time"
-              value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: nil %>" />
+            <input class="form-control input-mask" type="time" id="end_time" name="end_time"
+            data-mask="00:00:00"  maxlength="6"
+            value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></label>
         </div>
@@ -99,6 +102,7 @@
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
+  $('#one_time_date').parent().addClass('fg-toggled');
   $.each($('input,select'), function(a, b) {
     var input = $(b).val();
     if(input) {

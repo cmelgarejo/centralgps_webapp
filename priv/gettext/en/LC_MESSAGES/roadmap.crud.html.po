@@ -26,7 +26,7 @@ msgid  "COLUMN_REPETITION"
 msgstr "Repetition"
 
 msgid  "COLUMN_ONE_TIME_DATE"
-msgstr "Date"
+msgstr "One time use Date"
 
 msgid  "COLUMN_START_TIME"
 msgstr "Start time"

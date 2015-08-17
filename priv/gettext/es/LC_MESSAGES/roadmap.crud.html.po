@@ -26,7 +26,7 @@ msgid  "COLUMN_REPETITION"
 msgstr "Repetición (en días)"
 
 msgid  "COLUMN_ONE_TIME_DATE"
-msgstr "Fecha"
+msgstr "Fecha (al setear esta fecha, solo se usará la hoja de ruta ese día, únicamente)"
 
 msgid  "COLUMN_START_TIME"
 msgstr "Hora de inicio"
