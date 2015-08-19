@@ -7,7 +7,7 @@
     <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
     <% end %>
     <div class="row">
-      <div class="col-sm-6 col-md-6">
+      <div class="col-sm-4 col-md-4">
         <div class="form-group fg-float">
           <div class="fg-line">
             <input class="form-control" type="text" id="name" name="name"
@@ -90,8 +90,34 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-6">
-        <div id="_roadmap_map"></div>
+      <div class="col-sm-8 col-md-8">
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div id="_roadmap_map"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
+              <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped">
+                  <thead>
+                      <tr>
+                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
+                        <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
+                        <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>
+                        <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
+                        <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
+                      </tr>
+                  </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -125,6 +151,8 @@
 <script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/roadmap_form.js") %>"></script>
 <script>
+__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+__centralgps__.CRUD.grid_search_column = 'name';
 $(document).ready(function() {
   $.each($('input,select'), function(a, b) {
     var input = $(b).val();
@@ -148,5 +176,9 @@ $(document).ready(function() {
     width: "100%" });
   loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>",
     "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>");
+  <%= if (@record.__form__ == :edit) do %>
+    getRoadmapPoints(<%= @record.id %>);
+  <% end %>
+  //roadmap_point_grid
 });
 </script>

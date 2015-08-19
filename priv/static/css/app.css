@@ -53,6 +53,10 @@
   background-color: rgba(0, 0, 0, 0.15);
 }
 
+#_roadmap_map {
+	height: 250px;
+}
+
 #_venue_map {
 	height: 500px;
 }

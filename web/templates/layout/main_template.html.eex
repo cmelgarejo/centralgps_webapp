@@ -36,6 +36,6 @@
     <script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/fx.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/jquery.mask.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/jquery.mask.min.js") %>"></script>
   </body>
 </html>

@@ -105,12 +105,12 @@ defmodule CentralGPSWebApp.Router do
     post   "/roadmaps/save",   RoadmapController, :save
     delete "/roadmaps/delete", RoadmapController, :delete
     #Roadmap points
-    get    "/roadmaps/:roadmap_id/points/",       RoadmapController, :index
-    get    "/roadmaps/:roadmap_id/points/json",   RoadmapController, :list
-    get    "/roadmaps/:roadmap_id/points/new",    RoadmapController, :new
-    get    "/roadmaps/:roadmap_id/points/edit",   RoadmapController, :edit
-    post   "/roadmaps/:roadmap_id/points/save",   RoadmapController, :save
-    delete "/roadmaps/:roadmap_id/points/delete", RoadmapController, :delete
+    get    "/roadmaps/:roadmap_id/",       RoadmapPointController, :index
+    get    "/roadmaps/:roadmap_id/json",   RoadmapPointController, :list
+    get    "/roadmaps/:roadmap_id/new",    RoadmapPointController, :new
+    get    "/roadmaps/:roadmap_id/edit",   RoadmapPointController, :edit
+    post   "/roadmaps/:roadmap_id/save",   RoadmapPointController, :save
+    delete "/roadmaps/:roadmap_id/delete", RoadmapPointController, :delete
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

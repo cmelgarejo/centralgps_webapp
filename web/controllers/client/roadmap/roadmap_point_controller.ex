@@ -64,8 +64,8 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   end
 
   #private functions
-  defp api_method(roadmap_id \\ "", action \\ "") when is_bitstring(action),
-    do: "/client/roadmap_points/" <> roadmap_id <> "/" <> action
+  defp api_method(roadmap_id \\ 0, action \\ "") when is_bitstring(action),
+    do: "/client/roadmaps/" <> Integer.to_string(roadmap_id) <> "/points/" <> action
 
   defp get_record(_s, _p) do
     _p = objectify_map(_p)
@@ -116,6 +116,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
 
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
+      |> (Map.update :roadmap_id, 0, &(parse_int(&1)))
       |> (Map.update :current, 1, &(parse_int(&1)))
       |> (Map.update :rowCount, 10, &(parse_int(&1)))
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
@@ -129,13 +130,13 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     qs = %{offset: (_p.current - 1) * _p.rowCount, limit: _p.rowCount,
       search_column: _p.searchColumn, search_phrase: _p.searchPhrase,
       sort_column: _p.sort_column, sort_order: _p.sort_order}
-    {api_status, res} = api_get_json api_method, _s.auth_token, _s.account_type, qs
+    {api_status, res} = api_get_json api_method(_p.roadmap_id), _s.auth_token, _s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id, description: &1.description })
+          #|> Enum.map &(%{id: &1.id, description: &1.description })
       else
         res = Map.put res, :body, %{ status: false, msg: res.reason }
       end

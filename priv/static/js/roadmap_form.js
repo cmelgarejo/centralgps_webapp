@@ -25,7 +25,7 @@ function _browser_geo_success(position) {
     __centralgps__.roadmap.form.map.setView([position.coords.latitude, position.coords.longitude], 18);
     $("#lat").val(position.coords.latitude);
     $("#lon").val(position.coords.longitude);
-    setCurrentVenuePos();
+    //setCurrentVenuePos();
   }
 }
 function _browser_geo_error(positionError) {
@@ -67,17 +67,25 @@ function _updateVenueMap() {
   });
 }
 
+var _rpt;
+function setRoadmapPointTemplate(rpt) {
+  _rpt = rpt ? rpt : '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>';
+  Mustache.parse(_rpt);
+}
+
 function loadMap(_roadmap_layer_name, _venue_layer_name) {
   try {
     __centralgps__.roadmap.form = { map: null, roadmap_layer_name: null, venue_layer_name: null, map_overlays: {} };
     __centralgps__.roadmap.form.venue_layer_name = _venue_layer_name;
+    __centralgps__.roadmap.form.roadmap_layer_name = _roadmap_layer_name;
     __centralgps__.roadmap.form.map = L.map('_roadmap_map').setView([0, 0], 2);
     L.Icon.Default.imagePath = '../images';
     __centralgps__.roadmap.form.map_layers = {
       "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.roadmap.form.map),
       "Mapbox": new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17}),
   	};
-    __centralgps__.roadmap.form.map_overlays[_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
+    __centralgps__.roadmap.form.map_overlays[_venue_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
+    __centralgps__.roadmap.form.map_overlays[_roadmap_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
     L.control.layers(__centralgps__.roadmap.form.map_layers, __centralgps__.roadmap.form.map_overlays)
       .addTo(__centralgps__.roadmap.form.map);
     L.Control.measureControl().addTo(__centralgps__.roadmap.form.map);
@@ -94,6 +102,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name) {
       _browser_geo_error;
     }
     _updateVenueMap();
+    setRoadmapPointTemplate();
     //__centralgps__.roadmap.form.map.on('click', onMapClick);
   }
   catch(err) {
@@ -113,13 +122,13 @@ function setCurrentVenuePos() {
 function onMapClick(e) {
   $("#lat").val(e.latlng.lat);
   $("#lon").val(e.latlng.lng);
-  setCurrentVenuePos();
+  //setCurrentVenuePos();
 };
 function current_marker_dragEnd(event){
   var p = event.target.getLatLng();
   $("#lat").val(p.lat);
   $("#lon").val(p.lng);
-  setCurrentVenuePos();
+  //setCurrentVenuePos();
 }
 
 $(document).ready(function() {
@@ -154,4 +163,47 @@ function loadVenueTypes() {
 }
 function fnChosenOnChange() {
   $('#venue_type_id').val($(this).val());
+}
+
+/*** Roadmap Points ***/
+
+function getRoadmapPoints(roadmap_id) {
+  var $grid = $('#roadmap_point_grid');
+  addLoadScreen($grid.get(0).id);
+  $.get('/client/roadmaps/' + roadmap_id + '/json',
+    function(response, status, xhr) {
+      if (response.status == true) {
+        var point_list = [], map_point_list = [];
+        var _marker_icon = L.AwesomeMarkers.icon({
+            markerColor: 'blue',
+            icon: 'star'
+        });
+        response.rows.forEach(function(rp, idx, arr) {
+          //var roadmap_point_text = Mustache.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
+          var roadmap_point_html_popup = Mustache.render(_rpt, {name: rp.name, description: rp.description,
+            mean_arrival_time: rp.mean_arrival_time, mean_leave_time: rp.mean_leave_time});
+          point_list.push({ id: rp.id, name: rp.name, point_order: rp.point_order, mean_arrival_time: rp.mean_arrival_time,
+            mean_leave_time: rp.mean_leave_time, lat: rp.lat, lon: rp.lon, description: rp.description});
+          map_point_list.push([rp.lat, rp.lon]);
+          __centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]
+            .addLayer(L.marker([rp.lat, rp.lon], { roadmap_point: { id: rp.id }, zIndexOffset: 108, icon: _marker_icon })
+            .bindPopup(roadmap_point_html_popup));
+        });
+        $grid.bootgrid({
+          css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
+          labels: __centralgps__.bootgrid.labels,
+          caseSensitive: false
+        }).bootgrid('append', point_list);
+        var polyline = L.polyline(map_point_list, {color: 'white', noClip: true}).addTo(__centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]);
+        __centralgps__.roadmap.form.map.fitBounds(polyline.getBounds());
+        __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
+        __centralgps__.roadmap.form.map.removeLayer(polyline);
+        __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
+      } else {
+        console.log('getRoadmapPoints: ' + response.msg + ' - roadmap_id: ' + roadmap_id);
+      }
+      removeLoadScreen($grid.get(0).id);
+      bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
+      bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids
+  });
 }

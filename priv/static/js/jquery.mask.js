@@ -378,7 +378,6 @@
 
     $.maskWatchers = {};
     var HTMLAttributes = function () {
-      console.log(input)
             var input = $(this),
                 options = {},
                 prefix = 'data-mask-',
