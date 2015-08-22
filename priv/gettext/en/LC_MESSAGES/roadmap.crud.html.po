@@ -51,3 +51,9 @@ msgstr "Activated at"
 
 msgid  "COLUMN_DEACTIVATED_AT"
 msgstr "Deactivated at"
+
+msgid  "TABPANEL_ROADMAP_TEXT"
+msgstr "Roadmap"
+
+msgid  "TABPANEL_ROADMAP_POINTS_TEXT"
+msgstr "Points"

@@ -1,9 +1,17 @@
 "use strict";
-var _venue_center_set = false;
+var current_marker_popup = new L.Popup();
+var current_marker = null;
+var current_marker_circle = null;
+
 var _dt_format = 'YYYY-MM-DD HH:mm:ss';
 var _venue_icon = L.AwesomeMarkers.icon({
     markerColor: 'orange', icon: 'bookmark'
 });
+
+function roadmapPoint_popupContent() {
+  return {name: $('#roadmap_point_name').val(), description: $('#roadmap_point_description').val(),
+    mean_arrival_time: $('#roadmap_point_mean_arrival_time').val(), mean_leave_time: $('#roadmap_point_mean_leave_time').val()};
+}
 // Lefalet shortcuts for common tile providers - is it worth adding such 1.5kb to Leaflet core?
 L.TileLayer.Common = L.TileLayer.extend({
 	initialize: function (options) {
@@ -22,10 +30,11 @@ L.TileLayer.Common = L.TileLayer.extend({
 }());
 function _browser_geo_success(position) {
   if(!$("#id").length) {
+    setRoadmapPointTemplate();
     __centralgps__.roadmap.form.map.setView([position.coords.latitude, position.coords.longitude], 18);
-    $("#lat").val(position.coords.latitude);
-    $("#lon").val(position.coords.longitude);
-    //setCurrentVenuePos();
+    $("#roadmap_point_lat").val(position.coords.latitude);
+    $("#roadmap_point_lon").val(position.coords.longitude);
+    setCurrentRoadmapPointPos();
   }
 }
 function _browser_geo_error(positionError) {
@@ -38,8 +47,9 @@ function _browser_geo_error(positionError) {
   }
   //$.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
 }
-var venue_marker = L.AwesomeMarkers.icon({
-    markerColor: 'green'
+
+var roadmap_point_marker = L.AwesomeMarkers.icon({
+    markerColor: 'blue'
 });
 
 function _updateVenueMap() {
@@ -75,6 +85,12 @@ function setRoadmapPointTemplate(rpt) {
 
 function loadMap(_roadmap_layer_name, _venue_layer_name) {
   try {
+    current_marker = new L.marker([0,0], {icon: roadmap_point_marker, draggable:'true'}).bindPopup(current_marker_popup);
+    current_marker_circle = L.circle([0,0], 0, {
+        color: 'blue',
+        fillColor: '#0034ff',
+        fillOpacity: 0.5
+    });
     __centralgps__.roadmap.form = { map: null, roadmap_layer_name: null, venue_layer_name: null, map_overlays: {} };
     __centralgps__.roadmap.form.venue_layer_name = _venue_layer_name;
     __centralgps__.roadmap.form.roadmap_layer_name = _roadmap_layer_name;
@@ -102,33 +118,61 @@ function loadMap(_roadmap_layer_name, _venue_layer_name) {
       _browser_geo_error;
     }
     _updateVenueMap();
-    setRoadmapPointTemplate();
-    //__centralgps__.roadmap.form.map.on('click', onMapClick);
+    __centralgps__.roadmap.form.map.addLayer(current_marker);
+    __centralgps__.roadmap.form.map.addLayer(current_marker_circle);
+    __centralgps__.roadmap.form.map.on('click', onMapClick);
+    $("#roadmap_point_detection_radius").on('keyup', function() {
+      current_marker_circle.setRadius($(this).val());
+    });
+    $('#roadmap_point_name').change(setCurrentRoadmapPointPos());
+    $('#roadmap_point_name').on('keyup', function() {
+      setCurrentRoadmapPointPos();
+    });
+    $('#roadmap_point_descirption').change(setCurrentRoadmapPointPos());
+    $('#roadmap_point_descirption').on('keyup', function() {
+      setCurrentRoadmapPointPos();
+    });
+    $("#roadmap_point_lat").change(setCurrentRoadmapPointPos());
+    $("#roadmap_point_lat").on('keyup', function() {
+      setCurrentRoadmapPointPos();
+    });
+    $("#roadmap_point_lon").change(setCurrentRoadmapPointPos());
+    $("#roadmap_point_lon").on('keyup', function() {
+      setCurrentRoadmapPointPos();
+    });
+    $("#roadmap_point_mean_arrival_time").change(setCurrentRoadmapPointPos());
+    $("#roadmap_point_mean_arrival_time").on('keyup', function() {
+      setCurrentRoadmapPointPos();
+    });
+    $("#roadmap_point_mean_leave_time").change(setCurrentRoadmapPointPos());
+    $("#roadmap_point_mean_leave_time").on('keyup', function() {
+      setCurrentRoadmapPointPos();
+    });
+    current_marker.on('dragend', current_marker_dragEnd);
   }
   catch(err) {
     console.log(err);
   }
 }
 
-function setCurrentVenuePos() {
-  current_marker.setLatLng([$('#lat').val(), $('#lon').val()]);
-  current_marker_circle.setLatLng([$('#lat').val(), $('#lon').val()]);
+function setCurrentRoadmapPointPos() {
+  current_marker.setLatLng([$('#roadmap_point_lat').val(), $('#roadmap_point_lon').val()]);
+  current_marker_circle.setLatLng([$('#roadmap_point_lat').val(), $('#roadmap_point_lon').val()]);
   __centralgps__.roadmap.form.map.setView(current_marker.getLatLng(), 18);
-  current_marker_popup.setContent('<b>' + $('#name').val() + '<b>').update();
+  current_marker_popup.setContent(Mustache.render(_rpt, roadmapPoint_popupContent())).update();
   current_marker.openPopup();
-  _venue_center_set = true;
 }
 
 function onMapClick(e) {
-  $("#lat").val(e.latlng.lat);
-  $("#lon").val(e.latlng.lng);
-  //setCurrentVenuePos();
+  $("#roadmap_point_lat").val(e.latlng.lat);
+  $("#roadmap_point_lon").val(e.latlng.lng);
+  setCurrentRoadmapPointPos();
 };
 function current_marker_dragEnd(event){
   var p = event.target.getLatLng();
-  $("#lat").val(p.lat);
-  $("#lon").val(p.lng);
-  //setCurrentVenuePos();
+  $("#roadmap_point_lat").val(p.lat);
+  $("#roadmap_point_lon").val(p.lng);
+  setCurrentRoadmapPointPos();
 }
 
 $(document).ready(function() {
@@ -141,32 +185,34 @@ $(document).ready(function() {
   });
   $.applyDataMask('.input-mask');
   $("form").submit(function(){return __ajaxForm(this);});
-  $('#code,#description,#detection_radius,#lat,#lon').change(function() {
-    if (!$(this).parent().hasClass('fg-toggled')) {
-      $(this).parent().addClass('fg-toggled');
+  $.each($('input,select'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
     }
   });
-  loadVenueTypes();
+  var $select = $('#days_of_week');
+  $select.chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
+    search_contains: true,
+    //disable_search_threshold: 5,
+    width: "100%" });
 });
-function loadVenueTypes() {
-  $.get('/checkpoint/venue_types/json', function(response, status, xhr) {
-    if (response.status == true) {
-      var venue_type_list = [];
-      response.rows.forEach(function(vt, aidx, arr) {
-        venue_type_list.push({ id: vt.id, description: vt.description });
-      });
-      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#venue_type_id').val());
-    } else {
-      console.log('loadVenueTypes: ' + response.msg);
-    }
-  });
-}
-function fnChosenOnChange() {
-  $('#venue_type_id').val($(this).val());
-}
 
 /*** Roadmap Points ***/
-
+function activateGrid() {
+  var $grid = $('#roadmap_point_grid');
+  $grid.bootgrid({
+    css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
+    labels: __centralgps__.bootgrid.labels,
+    caseSensitive: false
+  });
+  bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
+  bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids
+}
 function getRoadmapPoints(roadmap_id) {
   var $grid = $('#roadmap_point_grid');
   addLoadScreen($grid.get(0).id);
@@ -175,7 +221,7 @@ function getRoadmapPoints(roadmap_id) {
       if (response.status == true) {
         var point_list = [], map_point_list = [];
         var _marker_icon = L.AwesomeMarkers.icon({
-            markerColor: 'blue',
+            markerColor: 'green',
             icon: 'star'
         });
         response.rows.forEach(function(rp, idx, arr) {
@@ -189,11 +235,7 @@ function getRoadmapPoints(roadmap_id) {
             .addLayer(L.marker([rp.lat, rp.lon], { roadmap_point: { id: rp.id }, zIndexOffset: 108, icon: _marker_icon })
             .bindPopup(roadmap_point_html_popup));
         });
-        $grid.bootgrid({
-          css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
-          labels: __centralgps__.bootgrid.labels,
-          caseSensitive: false
-        }).bootgrid('append', point_list);
+        $grid.bootgrid('append', point_list);
         var polyline = L.polyline(map_point_list, {color: 'white', noClip: true}).addTo(__centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]);
         __centralgps__.roadmap.form.map.fitBounds(polyline.getBounds());
         __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
@@ -203,7 +245,5 @@ function getRoadmapPoints(roadmap_id) {
         console.log('getRoadmapPoints: ' + response.msg + ' - roadmap_id: ' + roadmap_id);
       }
       removeLoadScreen($grid.get(0).id);
-      bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
-      bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids
   });
 }

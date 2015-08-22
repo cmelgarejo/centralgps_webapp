@@ -1,125 +1,11 @@
-<div class="card-body card-padding">
-  <form role="form" method='post'
-    action="<%= roadmap_path Endpoint, :save %>">
-    <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
-    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
-    <%= if (@record.__form__ == :edit) do %>
-    <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
-    <% end %>
-    <div class="row">
-      <div class="col-sm-4 col-md-4">
-        <div class="form-group fg-float">
-          <div class="fg-line">
-            <input class="form-control" type="text" id="name" name="name"
-            value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
-            required autofocus toggled/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_NAME") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line">
-            <input class="form-control" type="text" id="description" name="description"
-            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>" />
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
-            <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
-              <%= if @record.__form__ == :edit do %>
-              <%=   for (d <- @record.days_of_week) do %>
-              <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <%    end %>
-              <%=   for (d <- remove_list_from_list [0,1,2,3,4,5,6], @record.days_of_week ) do %>
-              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <%    end %>
-              <%  else %>
-              <%=   for (d <- [0,1,2,3,4,5,6]) do %>
-              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <%    end %>
-              <%  end %>
-            </select>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-toggled">
-            <input class="form-control" type="date" id="one_time_date" name="one_time_date" maxlength="10"
-            value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>"/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line">
-            <input class="form-control input-mask" type="number" id="repetition" name="repetition"
-            data-mask="0"  maxlength="1"
-            value="<%= if (@record.__form__ == :edit), do: @record.repetition, else: nil %>"/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
-            <input class="form-control input-mask" type="time" id="start_time" name="start_time"
-            data-mask="00:00:00"  maxlength="6"
-            value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: "07:00:00" %>"/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
-            <input class="form-control input-mask" type="time" id="end_time" name="end_time"
-            data-mask="00:00:00"  maxlength="6"
-            value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: "18:00:00" %>"/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></label>
-        </div>
-        <div class="row">
-          <div class="checkbox">
-            <label>
-              <input id="public" name="public" type="checkbox" <%= if (@record.__form__ == :edit && @record.public), do: "checked", else: "unchecked" %>>
-              <i class="input-helper"></i>
-              <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_PUBLIC_ROADMAP") %>
-            </label>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input id="active" name="active" type="checkbox" <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>>
-              <i class="input-helper"></i>
-              <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVE") %>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-8 col-md-8">
-        <div class="row">
-          <div class="col-sm-12 col-md-12">
-            <div id="_roadmap_map"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 col-md-12">
-            <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
-              <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped">
-                  <thead>
-                      <tr>
-                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
-                        <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
-                        <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>
-                        <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
-                        <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
-                      </tr>
-                  </thead>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 col-md-12">
-
-          </div>
-        </div>
-      </div>
-    </div>
+<form role="form" method='post'
+  action="<%= roadmap_path Endpoint, :save %>">
+  <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
+  <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
+  <%= if (@record.__form__ == :edit) do %>
+  <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+  <% end %>
+  <div class="card-body card-padding">
     <div class="row">
       <div id="alert"></div>
       <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info pull-left">
@@ -131,8 +17,192 @@
         <i class="md md-save"></i>
       </button>
     </div>
-  </form>
-</div>
+    <div role="tabpanel">
+      <ul class="tab-nav tn-justified" role="tablist">
+          <li class="active"><a href="#tab_roadmap" aria-controls="tab_roadmap" role="tab" data-toggle="tab" ><%= l10n(@session.language_code, "roadmap.crud.html", "TABPANEL_ROADMAP_TEXT") %></a></li>
+          <li><a href="#tab_roadmap_points" aria-controls="tab_roadmap_points" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "roadmap.crud.html", "TABPANEL_ROADMAP_POINTS_TEXT") %></a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tab_roadmap">
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input class="form-control" type="text" id="name" name="name"
+              value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
+              required autofocus toggled/>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_NAME") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input class="form-control" type="text" id="description" name="description"
+              value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>" />
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+              <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
+                <%= if @record.__form__ == :edit do %>
+                <%=   for (d <- @record.days_of_week) do %>
+                <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%=   for (d <- remove_list_from_list [0,1,2,3,4,5,6], @record.days_of_week ) do %>
+                <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%  else %>
+                <%=   for (d <- [0,1,2,3,4,5,6]) do %>
+                <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%  end %>
+              </select>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-toggled">
+              <input class="form-control" type="date" id="one_time_date" name="one_time_date" maxlength="10"
+              value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>"/>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input class="form-control input-mask" type="number" id="repetition" name="repetition"
+              data-mask="000"  maxlength="3"
+              value="<%= if (@record.__form__ == :edit), do: @record.repetition, else: nil %>"/>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+              <input class="form-control input-mask" type="time" id="start_time" name="start_time"
+              data-mask="00:00:00"  maxlength="6"
+              value="<%= if (@record.__form__ == :edit), do: @record.start_time, else: "07:00:00" %>"/>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+              <input class="form-control input-mask" type="time" id="end_time" name="end_time"
+              data-mask="00:00:00"  maxlength="6"
+              value="<%= if (@record.__form__ == :edit), do: @record.end_time, else: "18:00:00" %>"/>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></label>
+          </div>
+          <div class="row">
+            <div class="checkbox">
+              <label>
+                <input id="public" name="public" type="checkbox" <%= if (@record.__form__ == :edit && @record.public), do: "checked", else: "unchecked" %>>
+                <i class="input-helper"></i>
+                <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_PUBLIC_ROADMAP") %>
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="active" name="active" type="checkbox" <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>>
+                <i class="input-helper"></i>
+                <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVE") %>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab_roadmap_points">
+          <div class="row">
+            <div class="col-sm-4 col-md-4">
+              <div class="form-group fg-float">
+                <div class="fg-line">
+                  <input class="form-control" type="text" id="roadmap_point_name" name="roadmap_point_name" toggled/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line">
+                  <input class="form-control" type="text" id="roadmap_point_description" name="roadmap_point_description" />
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_DESCRIPTION") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line">
+                  <input class="form-control input-latlon" type="text" id="roadmap_point_lat" name="roadmap_point_lat" maxlength="20"
+                  pattern="-?\d{1,3}\.\d+" value="0,0"/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_LAT") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line">
+                  <input class="form-control input-latlon" type="text" id="roadmap_point_lon" name="roadmap_point_lon" maxlength="20"
+                  pattern="-?\d{1,3}\.\d+" value="0,0"/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_LON") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line">
+                  <input class="form-control input-mask" type="number" id="roadmap_point_order" name="roadmap_point_order"
+                  data-mask="00000"  maxlength="5"/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line">
+                  <input class="form-control input-mask" type="number" id="roadmap_point_detection_radius" name="roadmap_point_detection_radius"
+                  data-mask="00000"  maxlength="5"/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_DETECTION_RADIUS") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line fg-toggled">
+                  <input class="form-control input-mask" type="time" id="roadmap_point_mean_arrival_time" name="roadmap_point_mean_arrival_time"
+                  data-mask="00:00:00"  maxlength="6"/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></label>
+              </div>
+              <div class="form-group fg-float">
+                <div class="fg-line fg-toggled">
+                  <input class="form-control input-mask" type="time" id="roadmap_point_mean_leave_time" name="roadmap_point_mean_leave_time"
+                  data-mask="00:00:00"  maxlength="6"/>
+                </div>
+                <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></label>
+              </div>
+              <div class="row">
+                <div class="checkbox">
+                  <label>
+                    <input id="roadmap_point_active" name="roadmap_point_active" type="checkbox">
+                    <i class="input-helper"></i>
+                    <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVE") %>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8 col-md-8">
+              <div class="row">
+                <div class="col-sm-12 col-md-12">
+                  <div id="_roadmap_map"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-md-12">
+                  <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
+                    <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped">
+                        <thead>
+                            <tr>
+                              <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
+                              <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
+                              <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>
+                              <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
+                              <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
+                            </tr>
+                        </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.css") %>">
@@ -154,31 +224,14 @@
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'name';
 $(document).ready(function() {
-  $.each($('input,select'), function(a, b) {
-    var input = $(b).val();
-    if(input) {
-      if (!$(b).parent().hasClass('fg-toggled')) {
-        $(b).parent().addClass('fg-toggled');
-      }
-    }
-  });
-  $.applyDataMask('.input-mask');
-  $("form").submit(function(){ return __ajaxForm(this);});
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
-  var $select = $('#days_of_week');
-  $select.chosen({
-    no_results_text: __centralgps__.chosen.no_results_text,
-    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
-    search_contains: true,
-    //disable_search_threshold: 5,
-    width: "100%" });
   loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>",
     "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>");
+  activateGrid();
   <%= if (@record.__form__ == :edit) do %>
     getRoadmapPoints(<%= @record.id %>);
   <% end %>
-  //roadmap_point_grid
 });
 </script>

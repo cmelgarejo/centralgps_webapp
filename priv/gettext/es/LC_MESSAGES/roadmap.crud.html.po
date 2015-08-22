@@ -51,3 +51,9 @@ msgstr "Fecha & hora de activación"
 
 msgid  "COLUMN_DEACTIVATED_AT"
 msgstr "Fecha & hora de desactivación"
+
+msgid  "TABPANEL_ROADMAP_TEXT"
+msgstr "Hoja de Ruta"
+
+msgid  "TABPANEL_ROADMAP_POINTS_TEXT"
+msgstr "Puntos"

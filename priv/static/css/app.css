@@ -7232,7 +7232,7 @@ button.close {
 .chosen-container .chosen-results li.highlighted {
   background-color: #2196f3;
   background-image: none;
-  color: white;
+  color: black;
 }
 .chosen-container .chosen-results li.highlighted em {
   background: transparent;
