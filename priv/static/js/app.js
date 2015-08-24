@@ -70,7 +70,7 @@ $( document ).ajaxError(function document_ajaxError( event, request, settings ) 
   }
   var notify = { title: settings.url, text:msg, image: '<i class="md-error"></i>'};
   //$.notify(notify, 'error');
-  console.log(event);
+  //console.log(event);
 });
 
 
@@ -169,7 +169,8 @@ function bootgrid_delete(grid, delete_url, record) {
 
 function gridSetup_CRUD(gridFormatters, params){
   gridFormatters = (gridFormatters != null) ? gridFormatters : {};
-  gridFormatters.commands = gridCommandFormatter;
+  if(!gridFormatters.commands) gridFormatters.commands = gridCommandFormatter;
+  //console.log(gridFormatters);
   params = (params != null) ? params : [];
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
@@ -186,6 +187,12 @@ function gridSetup_CRUD(gridFormatters, params){
       var query_string = '?';
       $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
       get_page(__centralgps__.CRUD.edit_url + query_string);
+    }).end().find(".cmd-detail").on("click", function gridSetup_CRUD_detailOnClick(e) {
+      var editParams = generateCRUDGridObject($(this), params);
+      var query_string = '?';
+      $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
+      //console.log(__centralgps__.CRUD.detail_url + query_string);
+      get_page(__centralgps__.CRUD.detail_url + query_string);
     }).end().find(".cmd-delete").on("click", function gridSetup_CRUD_deleteOnClick(e) {
       var deleteParams = generateCRUDGridObject($(this), params);
       bootgrid_delete(__centralgps__.CRUD.grid, __centralgps__.CRUD.delete_url, deleteParams);
@@ -410,4 +417,8 @@ function addLoadScreen(target) {
 function removeLoadScreen(target) {
   var loadScreenName = '#loading_' + target.replace("#","").replace(".","");
   $(loadScreenName).detach();
+}
+
+function isNumber (o) {
+  return ! isNaN (o-0) && o !== null && o !== "" && o !== false;
 }

@@ -14,7 +14,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "index.html"
+      render (conn |> assign :parent_record, get_parent_record(session, _params)), "index.html"
     end
   end
 
@@ -64,7 +64,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   end
 
   #private functions
-  defp api_method(roadmap_id \\ 0, action \\ "") when is_bitstring(action),
+  defp api_method(roadmap_id, action \\ "") when is_bitstring(action),
     do: "/client/roadmaps/" <> Integer.to_string(roadmap_id) <> "/points/" <> action
 
   defp get_record(_s, _p) do
@@ -86,10 +86,10 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
     if (String.to_atom(_p.__form__) ==  :edit) do
       data = %{roadmap_point_id: _p.id, configuration_id: _s.client_id, description: _p.description}
-      {_, res} = api_put_json api_method(data.roadmap_point_id), _s.auth_token, _s.account_type, data
+      {_, res} = api_put_json api_method(data.roadmap_id), _s.auth_token, _s.account_type, data
     else
       data = %{ configuration_id: _s.client_id, description: _p.description }
-      {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data
+      {_, res} = api_post_json api_method(data.roadmap_id, "create"), _s.auth_token, _s.account_type, data
     end
     res.body
   end
@@ -116,7 +116,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
 
   defp list_records(_s, _p) do
     _p = objectify_map(_p)
-      |> (Map.update :roadmap_id, 0, &(parse_int(&1)))
+      |> (Map.update :id, 0, &(parse_int(&1)))
       |> (Map.update :current, 1, &(parse_int(&1)))
       |> (Map.update :rowCount, 10, &(parse_int(&1)))
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
@@ -127,10 +127,11 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
       _p = Map.put(_p, :sort_column, Map.keys(_p.sort) |> hd)
         |> Map.put(:sort_order, Map.values(_p.sort) |> hd)
     end
+    IO.puts "popopo: #{inspect _p}"
     qs = %{offset: (_p.current - 1) * _p.rowCount, limit: _p.rowCount,
       search_column: _p.searchColumn, search_phrase: _p.searchPhrase,
       sort_column: _p.sort_column, sort_order: _p.sort_order}
-    {api_status, res} = api_get_json api_method(_p.roadmap_id), _s.auth_token, _s.account_type, qs
+    {api_status, res} = api_get_json api_method(_p.id), _s.auth_token, _s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
@@ -144,4 +145,22 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     Map.merge((res.body |> Map.put :rows, rows), _p)
   end
 
+  defp api_parent_method(action) when is_bitstring(action), do: "/client/roadmaps/" <> action
+  defp get_parent_record(_s, _p) do
+    _p = objectify_map(_p)
+    {api_status, res} = api_get_json api_parent_method(_p.id), _s.auth_token, _s.account_type
+    record = nil
+    if(api_status == :ok) do
+      record = objectify_map res.body.res
+      if res.body.status do
+        record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
+          %{id: record.id, name: record.name, description: record.description,
+          days_of_week: record.days_of_week, repetition: record.repetition,
+          one_time_date: record.one_time_date, start_time: record.start_time, end_time: record.end_time,
+          public: record.public, active: record.active }
+        #IO.puts "ROADMAP RECORD: #{inspect record}"
+      end
+    end
+    record
+  end
 end

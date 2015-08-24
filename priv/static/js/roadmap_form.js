@@ -1,7 +1,11 @@
 "use strict";
+var current_marker = new L.marker([0,0], {icon: roadmap_point_marker, draggable:'true'});
 var current_marker_popup = new L.Popup();
-var current_marker = null;
-var current_marker_circle = null;
+var current_marker_circle = current_marker_circle = L.circle([0,0], 0, {
+    color: 'blue',
+    fillColor: '#0034ff',
+    fillOpacity: 0.5
+});
 
 var _dt_format = 'YYYY-MM-DD HH:mm:ss';
 var _venue_icon = L.AwesomeMarkers.icon({
@@ -30,7 +34,6 @@ L.TileLayer.Common = L.TileLayer.extend({
 }());
 function _browser_geo_success(position) {
   if(!$("#id").length) {
-    setRoadmapPointTemplate();
     __centralgps__.roadmap.form.map.setView([position.coords.latitude, position.coords.longitude], 18);
     $("#roadmap_point_lat").val(position.coords.latitude);
     $("#roadmap_point_lon").val(position.coords.longitude);
@@ -83,16 +86,12 @@ function setRoadmapPointTemplate(rpt) {
   Mustache.parse(_rpt);
 }
 
-function loadMap(_roadmap_layer_name, _venue_layer_name) {
-  try {
-    current_marker = new L.marker([0,0], {icon: roadmap_point_marker, draggable:'true'}).bindPopup(current_marker_popup);
-    current_marker_circle = L.circle([0,0], 0, {
-        color: 'blue',
-        fillColor: '#0034ff',
-        fillOpacity: 0.5
-    });
+function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
+  // try {
+    if(!edit_roadmap_points) edit_roadmap_points = false;
+    setRoadmapPointTemplate();
     __centralgps__.roadmap.form = { map: null, roadmap_layer_name: null, venue_layer_name: null, map_overlays: {} };
-    __centralgps__.roadmap.form.venue_layer_name = _venue_layer_name;
+    if(_venue_layer_name) __centralgps__.roadmap.form.venue_layer_name = _venue_layer_name;
     __centralgps__.roadmap.form.roadmap_layer_name = _roadmap_layer_name;
     __centralgps__.roadmap.form.map = L.map('_roadmap_map').setView([0, 0], 2);
     L.Icon.Default.imagePath = '../images';
@@ -100,7 +99,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name) {
       "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.roadmap.form.map),
       "Mapbox": new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17}),
   	};
-    __centralgps__.roadmap.form.map_overlays[_venue_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
+    if(_venue_layer_name) __centralgps__.roadmap.form.map_overlays[_venue_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
     __centralgps__.roadmap.form.map_overlays[_roadmap_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
     L.control.layers(__centralgps__.roadmap.form.map_layers, __centralgps__.roadmap.form.map_overlays)
       .addTo(__centralgps__.roadmap.form.map);
@@ -117,50 +116,59 @@ function loadMap(_roadmap_layer_name, _venue_layer_name) {
     } else {
       _browser_geo_error;
     }
-    _updateVenueMap();
-    __centralgps__.roadmap.form.map.addLayer(current_marker);
-    __centralgps__.roadmap.form.map.addLayer(current_marker_circle);
-    __centralgps__.roadmap.form.map.on('click', onMapClick);
-    $("#roadmap_point_detection_radius").on('keyup', function() {
-      current_marker_circle.setRadius($(this).val());
-    });
-    $('#roadmap_point_name').change(setCurrentRoadmapPointPos());
-    $('#roadmap_point_name').on('keyup', function() {
-      setCurrentRoadmapPointPos();
-    });
-    $('#roadmap_point_descirption').change(setCurrentRoadmapPointPos());
-    $('#roadmap_point_descirption').on('keyup', function() {
-      setCurrentRoadmapPointPos();
-    });
-    $("#roadmap_point_lat").change(setCurrentRoadmapPointPos());
-    $("#roadmap_point_lat").on('keyup', function() {
-      setCurrentRoadmapPointPos();
-    });
-    $("#roadmap_point_lon").change(setCurrentRoadmapPointPos());
-    $("#roadmap_point_lon").on('keyup', function() {
-      setCurrentRoadmapPointPos();
-    });
-    $("#roadmap_point_mean_arrival_time").change(setCurrentRoadmapPointPos());
-    $("#roadmap_point_mean_arrival_time").on('keyup', function() {
-      setCurrentRoadmapPointPos();
-    });
-    $("#roadmap_point_mean_leave_time").change(setCurrentRoadmapPointPos());
-    $("#roadmap_point_mean_leave_time").on('keyup', function() {
-      setCurrentRoadmapPointPos();
-    });
-    current_marker.on('dragend', current_marker_dragEnd);
-  }
-  catch(err) {
-    console.log(err);
-  }
+    if(_venue_layer_name) _updateVenueMap();
+    if(edit_roadmap_points) {
+      current_marker = new L.marker([0,0], {icon: roadmap_point_marker, draggable:'true'}).bindPopup(current_marker_popup);
+      current_marker_circle = L.circle([0,0], 0, {
+          color: 'blue',
+          fillColor: '#0034ff',
+          fillOpacity: 0.5
+      });
+      __centralgps__.roadmap.form.map.addLayer(current_marker);
+      __centralgps__.roadmap.form.map.addLayer(current_marker_circle);
+      __centralgps__.roadmap.form.map.on('click', onMapClick);
+      $("#roadmap_point_detection_radius").on('keyup', function() {
+        current_marker_circle.setRadius($(this).val());
+      });
+      $('#roadmap_point_name').change(setCurrentRoadmapPointPos());
+      $('#roadmap_point_name').on('keyup', function() {
+        setCurrentRoadmapPointPos();
+      });
+      $('#roadmap_point_description').change(setCurrentRoadmapPointPos());
+      $('#roadmap_point_description').on('keyup', function() {
+        setCurrentRoadmapPointPos();
+      });
+      $("#roadmap_point_lat").change(setCurrentRoadmapPointPos());
+      $("#roadmap_point_lat").on('keyup', function() {
+        setCurrentRoadmapPointPos();
+      });
+      $("#roadmap_point_lon").change(setCurrentRoadmapPointPos());
+      $("#roadmap_point_lon").on('keyup', function() {
+        setCurrentRoadmapPointPos();
+      });
+      $("#roadmap_point_mean_arrival_time").change(setCurrentRoadmapPointPos());
+      $("#roadmap_point_mean_arrival_time").on('keyup', function() {
+        setCurrentRoadmapPointPos();
+      });
+      $("#roadmap_point_mean_leave_time").change(setCurrentRoadmapPointPos());
+      $("#roadmap_point_mean_leave_time").on('keyup', function() {
+        setCurrentRoadmapPointPos();
+      });
+      current_marker.on('dragend', current_marker_dragEnd);
+    }
 }
 
 function setCurrentRoadmapPointPos() {
-  current_marker.setLatLng([$('#roadmap_point_lat').val(), $('#roadmap_point_lon').val()]);
-  current_marker_circle.setLatLng([$('#roadmap_point_lat').val(), $('#roadmap_point_lon').val()]);
-  __centralgps__.roadmap.form.map.setView(current_marker.getLatLng(), 18);
-  current_marker_popup.setContent(Mustache.render(_rpt, roadmapPoint_popupContent())).update();
-  current_marker.openPopup();
+  if(current_marker && current_marker_circle) {
+    current_marker.setLatLng([$('#roadmap_point_lat').val(), $('#roadmap_point_lon').val()]);
+    current_marker_circle.setLatLng([$('#roadmap_point_lat').val(), $('#roadmap_point_lon').val()]);
+    var latlng = current_marker.getLatLng();
+    if(latlng.lat != 0 && latlng.lng != 0) {
+      __centralgps__.roadmap.form.map.setView(latlng, 18);
+      current_marker_popup.setContent(Mustache.render(_rpt, roadmapPoint_popupContent())).update();
+      current_marker.openPopup();
+    }
+  }
 }
 
 function onMapClick(e) {
@@ -185,7 +193,7 @@ $(document).ready(function() {
   });
   $.applyDataMask('.input-mask');
   $("form").submit(function(){return __ajaxForm(this);});
-  $.each($('input,select'), function(a, b) {
+  $.each($('input, select'), function(a, b) {
     var input = $(b).val();
     if(input) {
       if (!$(b).parent().hasClass('fg-toggled')) {

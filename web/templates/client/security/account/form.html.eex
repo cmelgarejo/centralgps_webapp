@@ -35,10 +35,10 @@
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="date" id="dob" name="dob"
-            data-mask="00/00/0000" maxlength="8"
+            data-mask="0000-00-00" maxlength="8"
             value="<%= if (@record.__form__ == :edit), do: @record.dob, else: nil %>" required/>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_DETECTION_RADIUS") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_DOB") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
@@ -93,9 +93,9 @@
         <div class="text-center">
           <%= if (@record.__form__ == :edit) do %>
           <input type="hidden" id="profile_image" name="profile_image" value="<%= @record.profile_image %>" required/>
-          <label class="fg-label"><%= l10n(@session.language_code, "account_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "account_type.crud.html", "COLUMN_IMAGE_CURRENT") %></label>
           <% else %>
-          <label class="fg-label"><%= l10n(@session.language_code, "account_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "account_type.crud.html", "COLUMN_IMAGE") %></label>
           <% end %>
           <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">

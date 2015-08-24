@@ -8,26 +8,26 @@
     <h4><%= l10n(@session.language_code, "roadmap.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
   <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap.crud.html", "PAGE_LIST_TITLE") %>">
-    <table id="action_grid" class="table table-condensed table-hover table-striped"
+    <table id="roadmap_grid" class="table table-condensed table-hover table-striped"
       data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/json">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="id" data-type="numeric" data-visible="false" data-identifier="true"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_NAME") %></th>
-              <th data-column-id="description"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></th>
               <%#
+              <th data-column-id="description"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION")</th>
               <th data-column-id="days_of_week"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") </th>
               <th data-column-id="repetition"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") </th>
               <th data-column-id="one_time_date"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") </th>
               %>
-              <th data-column-id="start_time"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></th>
-              <th data-column-id="end_time"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></th>
+              <th data-column-id="start_time" data-width="110"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_START_TIME") %></th>
+              <th data-column-id="end_time"   data-width="110"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_END_TIME") %></th>
               <%#
               <th data-column-id="created_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_CREATED_AT") </th>
               <th data-column-id="updated_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_UPDATED_AT") </th>
               <th data-column-id="activated_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVATED_AT") </th>
               <th data-column-id="deactivated_at"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DEACTIVATED_AT") </th> %>
-              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>
+              <th data-column-id="commands"   data-width="280" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>
     </table>
@@ -36,13 +36,20 @@
 <script>
 __centralgps__.CRUD.index_url = '<%= roadmap_path(@conn, :index) %>';
 __centralgps__.CRUD.edit_url = '<%= roadmap_path(@conn, :edit) %>';
+__centralgps__.CRUD.detail_url = '<%= roadmap_point_path(@conn, :index) %>';
 __centralgps__.CRUD.delete_url = '<%= roadmap_path(@conn, :delete) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
-__centralgps__.CRUD.grid_name = '#action_grid';
+__centralgps__.CRUD.grid_name = '#roadmap_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
+function _gridCommandFormatter(column, row)
+{
+  return "<button type='button' class='btn btn-sm btn-default cmd-detail' data-row-id='" + row.id + "'><span class='md md-details'></span><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %></button> " +
+  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' ><span class='md md-edit'></span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' ><span class='md md-delete'></span></button>";
+}
 $(document).ready(function() {
-  gridSetup_CRUD();
+  gridSetup_CRUD({ commands: _gridCommandFormatter });
 });
 </script>

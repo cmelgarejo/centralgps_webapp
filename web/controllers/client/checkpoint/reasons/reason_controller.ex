@@ -3,11 +3,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
-
   # POST    /checkpoint/reasons/create
-  # GET     /checkpoint/reasons/:action_id
-  # PUT     /checkpoint/reasons/:action_id
-  # DELETE  /checkpoint/reasons/:action_id
+  # GET     /checkpoint/reasons/:reason_id
+  # PUT     /checkpoint/reasons/:reason_id
+  # DELETE  /checkpoint/reasons/:reason_id
   # GET     /checkpoint/reasons
   # GET     /checkpoint/reasons/json
 
@@ -86,8 +85,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ReasonController do
     _p = objectify_map(_p)
     if (!Map.has_key?_p, :__form__), do: _p = Map.put _p, :__form__, :edit
     if (String.to_atom(_p.__form__) ==  :edit) do
-      data = %{action_id: _p.id, configuration_id: _s.client_id, description: _p.description}
-      {_, res} = api_put_json api_method(data.action_id), _s.auth_token, _s.account_type, data
+      data = %{reason_id: _p.id, configuration_id: _s.client_id, description: _p.description}
+      {_, res} = api_put_json api_method(data.reason_id), _s.auth_token, _s.account_type, data
     else
       data = %{ configuration_id: _s.client_id, description: _p.description }
       {_, res} = api_post_json api_method("create"), _s.auth_token, _s.account_type, data

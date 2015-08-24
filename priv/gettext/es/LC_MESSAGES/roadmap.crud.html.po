@@ -8,7 +8,7 @@ msgid  "PAGE_EDIT_TITLE"
 msgstr "Editar hoja de ruta"
 
 msgid  "GRID_COMMAND_COLUMN"
-msgstr "Commands"
+msgstr "Comandos"
 
 msgid  "COLUMN_ID"
 msgstr "ID"
