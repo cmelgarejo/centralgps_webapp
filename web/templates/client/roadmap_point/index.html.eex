@@ -5,7 +5,12 @@
         <i class="md md-add"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %></h4>
+    <h4><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>&nbsp;
+    <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info">
+      <i class="md md-arrow-back"></i>
+      <%= l10n(@session.language_code, "generic", "BACK") %>
+    </a>
+    </h4>
   </div>
   <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped"
@@ -14,9 +19,11 @@
             <tr>
               <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
+              <th data-column-id="description"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_DESCRIPTION") %></th>
               <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>
               <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
               <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>
     </table>
@@ -31,7 +38,13 @@ __centralgps__.CRUD.grid_name = '#roadmap_point_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
+function _gridCommandFormatter(column, row)
+{
+  return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='md md-edit'></span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='md md-delete'></span></button>";
+}
 $(document).ready(function() {
-  gridSetup_CRUD();
+  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
 });
 </script>

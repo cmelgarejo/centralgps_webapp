@@ -43,13 +43,14 @@ __centralgps__.CRUD.grid_name = '#roadmap_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
 function _gridCommandFormatter(column, row)
 {
-  return "<button type='button' class='btn btn-sm btn-default cmd-detail' data-row-id='" + row.id + "'><span class='md md-details'></span><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %></button> " +
+  return "<button type='button' class='btn btn-sm btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "'><span class='md md-details'></span><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %></button> " +
   "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' ><span class='md md-edit'></span></button> " +
   "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' ><span class='md md-delete'></span></button>";
 }
 $(document).ready(function() {
-  gridSetup_CRUD({ commands: _gridCommandFormatter });
+  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
 });
 </script>

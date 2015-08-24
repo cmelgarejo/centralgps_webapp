@@ -222,36 +222,37 @@ function activateGrid() {
   bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids
 }
 function getRoadmapPoints(roadmap_id) {
-  var $grid = $('#roadmap_point_grid');
-  addLoadScreen($grid.get(0).id);
-  $.get('/client/roadmaps/' + roadmap_id + '/json',
-    function(response, status, xhr) {
-      if (response.status == true) {
-        var point_list = [], map_point_list = [];
-        var _marker_icon = L.AwesomeMarkers.icon({
-            markerColor: 'green',
-            icon: 'star'
-        });
-        response.rows.forEach(function(rp, idx, arr) {
-          //var roadmap_point_text = Mustache.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
-          var roadmap_point_html_popup = Mustache.render(_rpt, {name: rp.name, description: rp.description,
-            mean_arrival_time: rp.mean_arrival_time, mean_leave_time: rp.mean_leave_time});
-          point_list.push({ id: rp.id, name: rp.name, point_order: rp.point_order, mean_arrival_time: rp.mean_arrival_time,
-            mean_leave_time: rp.mean_leave_time, lat: rp.lat, lon: rp.lon, description: rp.description});
-          map_point_list.push([rp.lat, rp.lon]);
-          __centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]
-            .addLayer(L.marker([rp.lat, rp.lon], { roadmap_point: { id: rp.id }, zIndexOffset: 108, icon: _marker_icon })
-            .bindPopup(roadmap_point_html_popup));
-        });
-        $grid.bootgrid('append', point_list);
-        var polyline = L.polyline(map_point_list, {color: 'white', noClip: true}).addTo(__centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]);
-        __centralgps__.roadmap.form.map.fitBounds(polyline.getBounds());
-        __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
-        __centralgps__.roadmap.form.map.removeLayer(polyline);
-        __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
-      } else {
-        console.log('getRoadmapPoints: ' + response.msg + ' - roadmap_id: ' + roadmap_id);
-      }
-      removeLoadScreen($grid.get(0).id);
-  });
+  try {
+    $.get('/client/roadmaps/points/json?id=' + roadmap_id,
+      function(response, status, xhr) {
+        if (response.status == true) {
+          var point_list = [], map_point_list = [];
+          var _marker_icon = L.AwesomeMarkers.icon({
+              markerColor: 'green',
+              icon: 'star'
+          });
+          console.log(response.rows);
+          response.rows.forEach(function(rp, idx, arr) {
+            //var roadmap_point_text = Mustache.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
+            var roadmap_point_html_popup = Mustache.render(_rpt, {name: rp.name, description: rp.description,
+              mean_arrival_time: rp.mean_arrival_time, mean_leave_time: rp.mean_leave_time});
+            point_list.push({ id: rp.id, name: rp.name, point_order: rp.point_order, mean_arrival_time: rp.mean_arrival_time,
+              mean_leave_time: rp.mean_leave_time, lat: rp.lat, lon: rp.lon, description: rp.description});
+            map_point_list.push([rp.lat, rp.lon]);
+            __centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]
+              .addLayer(L.marker([rp.lat, rp.lon], { roadmap_point: { id: rp.id }, zIndexOffset: 108, icon: _marker_icon })
+              .bindPopup(roadmap_point_html_popup));
+          });
+          var polyline = L.polyline(map_point_list, {color: 'white', noClip: true}).addTo(__centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]);
+          __centralgps__.roadmap.form.map.fitBounds(polyline.getBounds());
+          __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
+          __centralgps__.roadmap.form.map.removeLayer(polyline);
+          __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
+        } else {
+          console.log('getRoadmapPoints: ' + response.msg + ' - roadmap_id: ' + roadmap_id);
+        }
+    });
+  } catch(err) {
+    console.log(err);
+  }
 }

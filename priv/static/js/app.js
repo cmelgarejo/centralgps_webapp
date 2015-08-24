@@ -188,10 +188,10 @@ function gridSetup_CRUD(gridFormatters, params){
       $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
       get_page(__centralgps__.CRUD.edit_url + query_string);
     }).end().find(".cmd-detail").on("click", function gridSetup_CRUD_detailOnClick(e) {
-      var editParams = generateCRUDGridObject($(this), params);
+      var detailParams = generateCRUDGridObject($(this), params);
+      console.log(detailParams);
       var query_string = '?';
-      $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
-      //console.log(__centralgps__.CRUD.detail_url + query_string);
+      $.map(detailParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
       get_page(__centralgps__.CRUD.detail_url + query_string);
     }).end().find(".cmd-delete").on("click", function gridSetup_CRUD_deleteOnClick(e) {
       var deleteParams = generateCRUDGridObject($(this), params);
