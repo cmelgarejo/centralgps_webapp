@@ -157,7 +157,7 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          #|> Enum.map &(%{id: &1.id, name:&1.name, description: &1.description,
+          #|> Enum.map &(%{id: &1.id, name:&1.name, description: &1.des cription,
           #  days_of_week: &1.days_of_week, repetition: &1.repetition,
           #  one_time_date: &1.one_time_date, start_time: &1.start_time, end_time: &1.end_time,
           #  xtra_info: &1.xtra_info,

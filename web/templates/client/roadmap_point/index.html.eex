@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
-      <a onclick="get_page('<%= roadmap_point_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+      <a onclick="get_page('<%= roadmap_point_path(@conn, :new) %>?roadmap_id=<%= @parent_record.id %>');" class="btn btn-success btn-float" >
         <i class="md md-add"></i>
       </a>
     </div>
@@ -14,7 +14,7 @@
   </div>
   <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/points/json?id=<%= @parent_record.id %>">
+      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/points/json?roadmap_id=<%= @parent_record.id %>">
         <thead>
             <tr>
               <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>

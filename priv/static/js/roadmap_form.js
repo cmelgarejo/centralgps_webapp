@@ -223,7 +223,7 @@ function activateGrid() {
 }
 function getRoadmapPoints(roadmap_id) {
   try {
-    $.get('/client/roadmaps/points/json?id=' + roadmap_id,
+    $.get('/client/roadmaps/points/json?roadmap_id=' + roadmap_id,
       function(response, status, xhr) {
         if (response.status == true) {
           var point_list = [], map_point_list = [];

@@ -49,7 +49,7 @@ var __centralgps__ = {
 function get_page(resource) {
   Pace.track(function get_page_Pace(){
     $.get(resource, function get_page_replace_container(html) {
-      window.clearInterval(__centralgps__.asset.refresh_interval);
+      clearInterval(__centralgps__.asset.refresh_interval); //kill the interval
       $('#_centralgps_container').html(html);
       $(document).ready(function get_page_applyWaves(){
         Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
@@ -176,7 +176,7 @@ function gridSetup_CRUD(gridFormatters, params){
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
     labels: __centralgps__.bootgrid.labels,
     ajaxSettings: {method: __centralgps__.CRUD.grid_method, cache: false },
-    requestHandler: function gridSetup_CRUD_requestHandler(req){ req.searchColumn = __centralgps__.CRUD.grid_search_column; return req; },
+    requestHandler: gridSetup_CRUD_requestHandler,
     formatters: gridFormatters,
     caseSensitive: false
   }).on("loaded.rs.jquery.bootgrid", function gridSetup_CRUD_onLoadedBootgrid() {
@@ -189,7 +189,6 @@ function gridSetup_CRUD(gridFormatters, params){
       get_page(__centralgps__.CRUD.edit_url + query_string);
     }).end().find(".cmd-detail").on("click", function gridSetup_CRUD_detailOnClick(e) {
       var detailParams = generateCRUDGridObject($(this), params);
-      console.log(detailParams);
       var query_string = '?';
       $.map(detailParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
       get_page(__centralgps__.CRUD.detail_url + query_string);
@@ -200,6 +199,11 @@ function gridSetup_CRUD(gridFormatters, params){
   });
   bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
   bootgrid_appendExportControls(); /*this appends the export control to all active bootgrids.*/
+}
+
+function gridSetup_CRUD_requestHandler(req) {
+  req.searchColumn = __centralgps__.CRUD.grid_search_column;
+  return req;
 }
 
 function generateCRUDGridObject(row, params) {
