@@ -3,54 +3,60 @@
     action="<%= venue_type_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
-    <div class="row">
-      <%= if (@record.__form__ == :edit) do %>
-      <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
-      <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
-      <% end %>
-      <% #Simple text input Control %>
-      <div class="form-group fg-float col-sm-6 col-md-6">
-        <div class="fg-line fg-toggled">
-          <input class="form-control" type="text" id="" name="description"
-          value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
-          required autofocus toggled/>
-        </div>
-        <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_DESCRIPTION") %></label>
+    <div class="card-body card-padding">
+      <div class="row">
+        <div id="alert"></div>
+        <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
+          <i class="md md-arrow-back"></i>
+          <%= l10n(@session.language_code, "generic", "BACK") %>
+        </a>
+        <button class="btn btn-success pull-right" type="submit">
+          <%= l10n(@session.language_code, "generic", "SAVE") %>
+          <i class="md md-save"></i>
+        </button>
       </div>
-      <% #Image Control %>
-      <div class="text-center">
+    </div>
+    <div class="card-body card-padding">
+      <div class="row">
         <%= if (@record.__form__ == :edit) do %>
-        <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
-        <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
-        <% else %>
-        <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+        <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
+        <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
         <% end %>
+        <% #Simple text input Control %>
+        <div class="form-group fg-float col-sm-6 col-md-6">
+          <div class="fg-line fg-toggled">
+            <input class="form-control" type="text" id="" name="description"
+            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
+            required autofocus toggled/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_DESCRIPTION") %></label>
+        </div>
+        <% #Image Control %>
         <div class="text-center">
-          <div class="fileinput fileinput-new" data-provides="fileinput">
-            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
-              <img src='<%= @record.image_filename %>' style="width:150px;"/>
-            </div>
-            <div>
-                <span class="btn btn-info btn-file">
-                    <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
-                    <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
-                    <input type="file" name="image" id="image">
-                </span>
-                <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
+          <%= if (@record.__form__ == :edit) do %>
+          <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
+          <% else %>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+          <% end %>
+          <div class="text-center">
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+              <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
+                <img src='<%= @record.image_filename %>' style="width:150px;"/>
+              </div>
+              <div>
+                  <span class="btn btn-info btn-file">
+                      <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
+                      <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
+                      <input type="file" name="image" id="image">
+                  </span>
+                  <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="alert"></div>
-    <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
-      <i class="md md-arrow-back"></i>
-      <%= l10n(@session.language_code, "generic", "BACK") %>
-    </a>
-    <button class="btn btn-success pull-right" type="submit">
-      <%= l10n(@session.language_code, "generic", "SAVE") %>
-      <i class="md md-save"></i>
-    </button>
   </form>
 </div>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>

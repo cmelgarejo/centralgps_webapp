@@ -2,9 +2,24 @@
   <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
   <input type="hidden" id="roadmap_id" name="roadmap_id" value="<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>" required/>
   <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
+  <input class="form-control input-mask" type="hidden" id="point_order" name="point_order"
+    value="<%= if (@record.__form__ == :edit), do: @record.point_order, else: @parent_record.last_point_order %>" required/>
   <%= if (@record.__form__ == :edit) do %>
   <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
   <% end %>
+  <div class="card-body card-padding">
+    <div class="row">
+      <div id="alert"></div>
+      <a onclick="get_page('<%= roadmap_point_path(@conn, :index) %>?roadmap_id=<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>');" class="btn btn-info pull-left">
+        <i class="md md-arrow-back"></i>
+        <%= l10n(@session.language_code, "generic", "BACK") %>
+      </a>
+      <button class="btn btn-success pull-right" type="submit">
+        <%= l10n(@session.language_code, "generic", "SAVE") %>
+        <i class="md md-save"></i>
+      </button>
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm-4 col-md-4">
       <div class="card-body card-padding">
@@ -37,13 +52,12 @@
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_LON") %></label>
         </div>
-        <div class="form-group fg-float">
+        <!-- <div class="form-group fg-float">
           <div class="fg-line">
-            <input class="form-control input-mask" type="number" id="point_order" name="point_order"
-            data-mask="00000"  maxlength="5" value="<%= if (@record.__form__ == :edit), do: @record.point_order, else: 0 %>"/>
+            order
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></label>
-        </div>
+        </div> -->
         <div class="form-group fg-float">
           <div class="fg-line">
             <input class="form-control input-mask" type="number" id="detection_radius" name="detection_radius"
@@ -81,19 +95,6 @@
           <div id="_roadmap_map"></div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="card-body card-padding">
-    <div class="row">
-      <div id="alert"></div>
-      <a onclick="get_page('<%= roadmap_point_path(@conn, :index) %>?roadmap_id=<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>');" class="btn btn-info pull-left">
-        <i class="md md-arrow-back"></i>
-        <%= l10n(@session.language_code, "generic", "BACK") %>
-      </a>
-      <button class="btn btn-success pull-right" type="submit">
-        <%= l10n(@session.language_code, "generic", "SAVE") %>
-        <i class="md md-save"></i>
-      </button>
     </div>
   </div>
 </form>

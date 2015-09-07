@@ -102,6 +102,7 @@ defmodule CentralGPSWebApp.Router do
     get    "/roadmaps/json",   RoadmapController, :list
     get    "/roadmaps/new",    RoadmapController, :new
     get    "/roadmaps/edit",   RoadmapController, :edit
+    get    "/roadmaps/read",   RoadmapController, :view
     post   "/roadmaps/save",   RoadmapController, :save
     delete "/roadmaps/delete", RoadmapController, :delete
     #Roadmap points

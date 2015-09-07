@@ -166,7 +166,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   defp api_parent_method(action) when is_bitstring(action), do: "/client/roadmaps/" <> action
   defp get_parent_record(_s, _p) do
     _p = objectify_map(_p)
-    IO.puts "_p: #{inspect _p}"
+    #IO.puts "_p: #{inspect _p}"
     {api_status, res} = api_get_json api_parent_method(_p.roadmap_id), _s.auth_token, _s.account_type
     record = nil
     if(api_status == :ok) do
@@ -176,7 +176,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
           %{ id: record.id, name: record.name, description: record.description,
           days_of_week: record.days_of_week, repetition: record.repetition,
           one_time_date: record.one_time_date, start_time: record.start_time, end_time: record.end_time,
-          public: record.public, active: record.active }
+          public: record.public, active: record.active, last_point_order: record.last_point_order + 1 }
       end
     end
     record

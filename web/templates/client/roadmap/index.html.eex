@@ -36,6 +36,7 @@
 <script>
 __centralgps__.CRUD.index_url = '<%= roadmap_path(@conn, :index) %>';
 __centralgps__.CRUD.edit_url = '<%= roadmap_path(@conn, :edit) %>';
+__centralgps__.CRUD.view_url = '<%= roadmap_path(@conn, :view) %>';
 __centralgps__.CRUD.detail_url = '<%= roadmap_point_path(@conn, :index) %>';
 __centralgps__.CRUD.delete_url = '<%= roadmap_path(@conn, :delete) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
@@ -46,8 +47,9 @@ __centralgps__.CRUD.grid_search_column = 'description';
 __centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
 function _gridCommandFormatter(column, row)
 {
-  return "<button type='button' class='btn btn-sm btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "'><span class='md md-details'></span><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %></button> " +
-  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' ><span class='md md-edit'></span></button> " +
+  //<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>
+  return "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "'><span class='md md-trending-up'></span></button> " +
+  "<button type='button' class='btn btn-default cmd-view'   data-row-id='" + row.id + "' ><span class='md md-remove-red-eye'></span></button> " +
   "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' ><span class='md md-delete'></span></button>";
 }
 $(document).ready(function() {

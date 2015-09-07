@@ -12,6 +12,19 @@
       <input type="hidden" id="xtra_info" name="xtra_info" value="<%= if (@record.__form__ == :edit), do: @record.xtra_info, else: nil %>"/>
       <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= if (@record.__form__ == :edit), do: @record.venue_type_id, else: nil %>" required/>
     </div>
+    <div class="card-body card-padding">
+      <div class="row">
+        <div id="alert"></div>
+        <a onclick="get_page('<%= venue_path(@conn, :index) %>');" class="btn btn-info pull-left">
+          <i class="md md-arrow-back"></i>
+          <%= l10n(@session.language_code, "generic", "BACK") %>
+        </a>
+        <button class="btn btn-success pull-right" 33775="submit">
+          <%= l10n(@session.language_code, "generic", "SAVE") %>
+          <i class="md md-save"></i>
+        </button>
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-6 col-md-6">
         <div class="form-group fg-float">
@@ -111,15 +124,6 @@
         <div id="_venue_map"></div>
       </div>
     </div>
-    <div id="alert"></div>
-    <a onclick="get_page('<%= venue_path(@conn, :index) %>');" class="btn btn-info pull-left">
-      <i class="md md-arrow-back"></i>
-      <%= l10n(@session.language_code, "generic", "BACK") %>
-    </a>
-    <button class="btn btn-success pull-right" 33775="submit">
-      <%= l10n(@session.language_code, "generic", "SAVE") %>
-      <i class="md md-save"></i>
-    </button>
   </form>
 </div>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>

@@ -10,7 +10,7 @@ var asset_icon = L.icon({
     iconSize: [18, 18]
 });
 var venue_icon = L.AwesomeMarkers.icon({
-    markerColor: 'green'
+    markerColor: 'green', icon: 'bookmark'
 });
 Pace.options = {
   ajax: false
@@ -189,7 +189,7 @@ function getAssetMarks(selected_asset, init, finish) {
             mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, mark_at: mark_at });
           point_list.push([m.lat, m.lon]);
           timeline_items.push({content: (idx + 1).toString(), start: m.position_at, mark: {id: m.id}});
-          //var mark = 
+          //var mark =
           __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
             .addLayer(L.marker([m.lat, m.lon], { mark: { id: m.id }, zIndexOffset: 108, icon: _rand_marker_icon })
             .bindPopup(mark_html_popup));

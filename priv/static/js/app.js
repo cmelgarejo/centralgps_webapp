@@ -187,6 +187,11 @@ function gridSetup_CRUD(gridFormatters, params){
       var query_string = '?';
       $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
       get_page(__centralgps__.CRUD.edit_url + query_string);
+    }).end().find(".cmd-view").on("click", function gridSetup_CRUD_viewOnClick(e) {
+      var detailParams = generateCRUDGridObject($(this), params);
+      var query_string = '?';
+      $.map(detailParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
+      get_page(__centralgps__.CRUD.view_url + query_string);
     }).end().find(".cmd-detail").on("click", function gridSetup_CRUD_detailOnClick(e) {
       var detailParams = generateCRUDGridObject($(this), params);
       var query_string = '?';

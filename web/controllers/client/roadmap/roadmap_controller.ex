@@ -36,6 +36,15 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
     end
   end
 
+  def view(conn, _params) do
+    {conn, session} = centralgps_session conn
+    if(session == :error) do
+      redirect conn, to: login_path(Endpoint, :index)
+    else #do your stuff and render the page.
+      render (conn |> assign :record, get_record(session, _params)), "view.html"
+    end
+  end
+
   def edit(conn, _params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
