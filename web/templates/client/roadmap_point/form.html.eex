@@ -124,7 +124,7 @@ $(document).ready(function() {
     showError('<%= @record.msg %>');
   <% end %>
   loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>",
-    "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>");
+    "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>", true);
   activateGrid();
   getRoadmapPoints(<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>);
 });

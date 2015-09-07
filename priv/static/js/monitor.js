@@ -188,8 +188,9 @@ function getAssetMarks(selected_asset, init, finish) {
           mark_list.push({ id: m.id, asset_name: selected_asset.name, mark_text: mark_text,
             mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, mark_at: mark_at });
           point_list.push([m.lat, m.lon]);
-          timeline_items.push({content: (idx + 1).toString(), start: m.position_at, mark: {id: m.id}});
+          timeline_items.push({id: m.id, content: (idx + 1).toString(), start: m.position_at, mark: {id: m.id}});
           //var mark =
+          _rand_marker_icon
           __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
             .addLayer(L.marker([m.lat, m.lon], { mark: { id: m.id }, zIndexOffset: 108, icon: _rand_marker_icon })
             .bindPopup(mark_html_popup));
