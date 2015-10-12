@@ -1,0 +1,47 @@
+<div class="card-body card-padding">
+  <form role="form" method='post'
+    action="<%= form_path Endpoint, :save %>">
+    <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
+    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
+    <div class="card-body card-padding">
+      <div class="row">
+        <div id="alert"></div>
+        <a onclick="get_page('<%= form_path(@conn, :index) %>');" class="btn btn-info pull-left">
+          <i class="md md-arrow-back"></i>
+          <%= l10n(@session.language_code, "generic", "BACK") %>
+        </a>
+        <button class="btn btn-success pull-right" type="submit">
+          <%= l10n(@session.language_code, "generic", "SAVE") %>
+          <i class="md md-save"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card-body card-padding">
+      <div class="row">
+        <div class="form-group fg-float">
+          <%= if (@record.__form__ == :edit) do %>
+          <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
+          <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+          <% end %>
+          <div class="fg-line fg-toggled">
+            <input class="form-control" type="text" id="description" name="description"
+            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
+            required autofocus toggled/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "form.crud.html", "COLUMN_DESCRIPTION") %></label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
+<script>
+$(document).ready(function() {
+  $.applyDataMask('.input-mask');
+  $("form").submit(function(){ return __ajaxForm(this);});
+  <%= if !@record.status do %>
+    showError('<%= @record.msg %>');
+  <% end %>
+});
+</script>

@@ -3,7 +3,7 @@ defmodule CentralGPSWebApp.Mixfile do
 
   def project do
     [app: :central_g_p_s_web_app,
-     version: "0.0.2",
+     version: "0.0.5",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
@@ -20,7 +20,7 @@ defmodule CentralGPSWebApp.Mixfile do
   end
 
   def application do
-    apps = [:phoenix, :phoenix_html, :cowboy, :logger, :logger_file_backend, :httpoison, :gettext]
+    apps = [ :cowboy, :gettext, :httpoison, :logger, :logger_file_backend, :phoenix, :phoenix_html ]
     dev_apps = Mix.env == :dev && [ :reprise ] || []
     [ mod: {CentralGPSWebApp, []}, applications: dev_apps ++ apps ]
   end
@@ -29,18 +29,19 @@ defmodule CentralGPSWebApp.Mixfile do
   defp elixirc_paths(_),     do: ["lib", "web"]
 
   defp deps do
-    [{:exrm,                    github: "bitwalker/exrm"},
-     {:uuid,                    github: "zyro/elixir-uuid"},
-     {:httpoison,               github: "edgurgel/httpoison"},
-     {:gettext,                 github: "elixir-lang/gettext"},
-     {:reprise, only: :dev,     github: "herenowcoder/reprise"},
-     {:logger_file_backend,     github: "onkel-dirtus/logger_file_backend"},
-     {:phoenix, override: true, github: "phoenixframework/phoenix"},
-     #{:cowboy, override: true,  github: "ninenines/cowboy"},
-     {:phoenix_html,            github: "phoenixframework/phoenix_html"},
-     {:phoenix_live_reload,     github: "phoenixframework/phoenix_live_reload",
-      only: :dev},
-     {:cowboy, "~> 1.0"}
+    [
+      #{:cowboy,              github: "ninenines/cowboy", override: true}
+      {:cowboy,               "~> 1.0"},
+      {:exrm,                 github: "bitwalker/exrm"},
+      {:gettext,              github: "elixir-lang/gettext"},
+      {:httpoison,            github: "edgurgel/httpoison"},
+      {:logger_file_backend,  github: "onkel-dirtus/logger_file_backend"},
+      {:reprise,              github: "herenowcoder/reprise", only: :dev},
+      {:phoenix,              github: "phoenixframework/phoenix", override: true},
+      {:phoenix_live_reload,  github: "phoenixframework/phoenix_live_reload", only: :dev},
+      {:phoenix_html,         github: "phoenixframework/phoenix_html", override: true},
+      #{:phoenix_html,        "~> 1.4"},
+      {:uuid,                 github: "zyro/elixir-uuid"}
     ]
   end
 

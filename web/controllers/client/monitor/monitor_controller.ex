@@ -3,7 +3,7 @@ defmodule CentralGPSWebApp.Client.MonitorController do
   import CentralGPS.RestClient
 
 
-  def index(conn, _params) do
+  def index(conn, _) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
@@ -12,7 +12,7 @@ defmodule CentralGPSWebApp.Client.MonitorController do
     end
   end
 
-  def assets(conn, _params) do
+  def assets(conn, _) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
@@ -28,22 +28,22 @@ defmodule CentralGPSWebApp.Client.MonitorController do
     end
   end
 
-  def record(conn, _params) do
+  def record(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      {_, res} = api_get_json "/monitor/client/record", session.auth_token, session.account_type, _params
+      {_, res} = api_get_json "/monitor/client/record", session.auth_token, session.account_type, params
       json conn, res.body
     end
   end
 
-  def roadmap(conn, _params) do
+  def roadmap(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      {_, res} = api_get_json "/monitor/client/roadmap", session.auth_token, session.account_type, _params
+      {_, res} = api_get_json "/monitor/client/roadmap", session.auth_token, session.account_type, params
       json conn, res.body
     end
   end

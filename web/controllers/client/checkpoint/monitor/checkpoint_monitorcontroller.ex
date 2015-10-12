@@ -2,7 +2,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.MonitorController do
   use CentralGPSWebApp.Web, :controller
   import CentralGPS.RestClient
 
-  def venues(conn, _params) do
+  def venues(conn, _) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
@@ -15,12 +15,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.MonitorController do
     end
   end
 
-  def marks(conn, _params) do
+  def marks(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      {_, res} = api_get_json "/checkpoint/marks", session.auth_token, session.account_type, _params
+      {_, res} = api_get_json "/checkpoint/marks", session.auth_token, session.account_type, params
       json conn, res.body
     end
   end

@@ -14,7 +14,7 @@
             <tr>
               <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="account_type" data-visible="false"><%=# l10n(@session.language_code, "account.crud.html", "COLUMN_ID") %></th>
-              <th data-column-id="profile_image" data-formatter="image"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ACCOUNT_IMAGE") %></th>
+              <th data-column-id="image_path" data-formatter="image"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ACCOUNT_IMAGE") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="identity_document"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_IDENTITY_DOCUMENT") %></th>
               <th data-column-id="username" data-visible="false"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_USERNAME") %></th>

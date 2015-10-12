@@ -18,7 +18,7 @@
               <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>
               <th data-column-id="creator"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CREATOR") %></th>
               <th data-column-id="description"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_DESCRIPTION") %></th>
-              <th data-column-id="venue_image" data-formatter="image"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></th>
+              <th data-column-id="image_path" data-formatter="image"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "venue.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>

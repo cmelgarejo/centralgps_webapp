@@ -2,9 +2,9 @@
   <div class="pm-overview c-overflow" tabindex="4" style="overflow: hidden; outline: none;">
     <div class="pmo-pic">
       <div class="p-relative">
-        <img class="img-responsive" src="<%= @profile_image %>" alt="">
+        <img class="img-responsive" src="<%= @image_path %>" alt="">
           <a class="pmop-edit">
-            <i class="md md-camera-alt"></i> <span class="hidden-xs"><%= l10n(@session.language_code, "profile.html", "INFORMATION_ACTION_UPDATE_PROFILE_FOTO") %></span>
+            <i class="md md-camera-alt"></i> <span class="hidden-xs"><%= l10n(@session.language_code, "profile.html", "INFORMATION_FORM_UPDATE_PROFILE_FOTO") %></span>
           </a>
       </div>
       <!-- <div class="pmo-stat">
@@ -37,7 +37,7 @@
             <a href="" data-toggle="dropdown"><i class="md md-more-vert"></i></a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li>
-                <a data-pmb-action="edit"><%= l10n(@session.language_code, "profile.html", "INFORMATION_ACTION_EDIT") %></a>
+                <a data-pmb-action="edit"><%= l10n(@session.language_code, "profile.html", "INFORMATION_FORM_EDIT") %></a>
               </li>
             </ul>
           </li>

@@ -10,11 +10,11 @@ defmodule CentralGPSWebApp.Utilities do
     # """
   end
 
-  def centralgps_start_session(conn, session_data) do
+  def centralgps_startsession(conn, session_data) do
     put_session(conn, :session_data, session_data)
   end
 
-  def centralgps_kill_session(conn) do
+  def centralgps_killsession(conn) do
     put_session(conn, :session_data, nil)
   end
 

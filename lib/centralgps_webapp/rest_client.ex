@@ -2,7 +2,7 @@ defmodule CentralGPS.RestClient do
   use HTTPoison.Base
   import CentralGPS.Repo.Utilities
 
-  defp app_name, do: CentralGPSWebApp.rest_client_config(:rest_client_app_name)
+  defp app_name, do: CentralGPSWebApp.app_config(:rest_client_app_name)
   defp auth_header(token, type), do: [ {"Authorization", "CentralGPS token=#{token},type=#{type}"} ]
   defp ct_json_header, do: [{"Content-Type", "application/json;charset=utf-8"}]
   defp security_login_path(type), do: "/security/login/" <> type
@@ -29,21 +29,21 @@ defmodule CentralGPS.RestClient do
     put method_path, data, headers ++ ct_json_header ++ auth_header(token, type)
   end
 
-  def api_get_json(method_path, token, type, _params \\ nil, headers \\ []) do
+  def api_get_json(method_path, token, type, params \\ nil, headers \\ []) do
     method_path = URI.encode(method_path) <>
-      if _params != nil, do: "?" <> URI.encode_query(_params), else: ""
+      if params != nil, do: "?" <> URI.encode_query(params), else: ""
     get method_path, (headers ++ auth_header(token, type))
   end
 
-  def api_delete_json(method_path, token, type, _params \\ nil, headers \\ []) do
+  def api_delete_json(method_path, token, type, params \\ nil, headers \\ []) do
     method_path = URI.encode(method_path) <>
-      if _params != nil, do: "?" <> URI.encode_query(_params), else: ""
+      if params != nil, do: "?" <> URI.encode_query(params), else: ""
     delete method_path, (headers ++ auth_header(token, type))
   end
 
   def process_url(method_path) do
-    IO.puts "process_url: #{inspect CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path}"
-    CentralGPSWebApp.rest_client_config(:rest_client_base_url) <> method_path
+    IO.puts "process_url: #{inspect CentralGPSWebApp.app_config(:rest_client_base_url) <> method_path}"
+    CentralGPSWebApp.app_config(:rest_client_base_url) <> method_path
   end
 
   def process_response_body(body) do

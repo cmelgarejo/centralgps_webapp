@@ -25,11 +25,11 @@ msgstr "Logout"
 msgid  "CHECKPOINT_MENU_TEXT"
 msgstr "Checkpoint"
 
-msgid  "CHECKPOINT_ACTION_LINK_TEXT"
-msgstr "Actions"
+msgid  "CHECKPOINT_FORM_LINK_TEXT"
+msgstr "Forms"
 
-msgid  "CHECKPOINT_REASON_LINK_TEXT"
-msgstr "Reasons"
+msgid  "CHECKPOINT_ACTIVITY_LINK_TEXT"
+msgstr "Activities"
 
 msgid  "CHECKPOINT_VENUE_TYPE_LINK_TEXT"
 msgstr "Venue Types"

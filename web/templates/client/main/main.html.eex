@@ -1,6 +1,6 @@
 <script>
   $(document).ready(function() {
-    __centralgps__.api_base_url = "<%= CentralGPSWebApp.rest_client_config(:rest_client_base_url) %>",
+    __centralgps__.api_base_url = "<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>",
     __centralgps__.globalmessages._delete_record_title_sure    = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_TITLE_SURE") %>";
     __centralgps__.globalmessages._delete_record_removed       = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_REMOVED") %>";
     __centralgps__.globalmessages._delete_record_confirm_text  = "<%= l10n(@session.language_code, "main.html", "DELETE_RECORD_CONFIRM_TEXT") %>";
@@ -263,17 +263,17 @@
                   <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MENU_TEXT") %>
                   </a>
                   <ul>
-                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.action.list) do %>
+                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.form.list) do %>
                     <li>
-                      <a  onclick="get_page('checkpoint/actions');">
-                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_ACTION_LINK_TEXT") %>
+                      <a  onclick="get_page('checkpoint/forms');">
+                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_FORM_LINK_TEXT") %>
                         </a>
                     </li>
                     <% end %>
-                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.reason.list) do %>
+                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.activity.list) do %>
                     <li>
-                      <a  onclick="get_page('checkpoint/reasons');">
-                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_REASON_LINK_TEXT") %>
+                      <a  onclick="get_page('checkpoint/activities');">
+                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_ACTIVITY_LINK_TEXT") %>
                       </a>
                     </li>
                     <% end %>

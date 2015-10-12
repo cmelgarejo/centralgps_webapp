@@ -17,10 +17,10 @@ defmodule CentralGPS.Repo.Permissions do
     %{
       report:  %{read: "CHECKPOINT_REPORT_R"},
       monitor: %{read: "CHECKPOINT_MONITOR_R"},
-      action:  %{create: "CHECKPOINT_ACTION_C", read: "CHECKPOINT_ACTION_R", update: "CHECKPOINT_ACTION_U", delete: "CHECKPOINT_ACTION_D", list: "CHECKPOINT_ACTION_L" },
-      reason:  %{create: "CHECKPOINT_REASON_C", read: "CHECKPOINT_REASON_R", update: "CHECKPOINT_REASON_U", delete: "CHECKPOINT_REASON_D", list: "CHECKPOINT_REASON_L" },
+      form:  %{create: "CHECKPOINT_FORM_C", read: "CHECKPOINT_FORM_R", update: "CHECKPOINT_FORM_U", delete: "CHECKPOINT_FORM_D", list: "CHECKPOINT_FORM_L" },
+      activity:  %{create: "CHECKPOINT_ACTIVITY_C", read: "CHECKPOINT_ACTIVITY_R", update: "CHECKPOINT_ACTIVITY_U", delete: "CHECKPOINT_ACTIVITY_D", list: "CHECKPOINT_ACTIVITY_L" },
       venue:   %{create: "CHECKPOINT_VENUE_C", read: "CHECKPOINT_VENUE_R", update: "CHECKPOINT_VENUE_U", delete: "CHECKPOINT_VENUE_D", list: "CHECKPOINT_VENUE_L" },
-      reason_role:  %{create: "CHECKPOINT_REASON_ROLE_C", read: "CHECKPOINT_REASON_ROLE_R", update: "CHECKPOINT_REASON_ROLE_U", delete: "CHECKPOINT_REASON_ROLE_D", list: "CHECKPOINT_REASON_ROLE_L" },
+      activity_role:  %{create: "CHECKPOINT_ACTIVITY_ROLE_C", read: "CHECKPOINT_ACTIVITY_ROLE_R", update: "CHECKPOINT_ACTIVITY_ROLE_U", delete: "CHECKPOINT_ACTIVITY_ROLE_D", list: "CHECKPOINT_ACTIVITY_ROLE_L" },
       venue_type:   %{create: "CHECKPOINT_VENUE_TYPE_C", read: "CHECKPOINT_VENUE_TYPE_R", update: "CHECKPOINT_VENUE_TYPE_U", delete: "CHECKPOINT_VENUE_TYPE_D", list: "CHECKPOINT_VENUE_TYPE_L" },
       mark: %{create: "CHECKPOINT_MARK_C", list: "CHECKPOINT_MARK_L", manager_list: "CHECKPOINT_MANAGER_MARK_L"}
     }

@@ -4,29 +4,29 @@ defmodule CentralGPSWebApp.Client.LoginController do
   import CentralGPS.RestClient
   import CentralGPSWebApp
 
-  defp login_data_builder(_p) do
+  defp login_data_builder(p) do
     %{
-      _login_user: base64_encode("#{_p.username}@#{_p.domain}@#{app_config(:entity_tag)}"),
-      _password:   base64_encode(_p.password)
+      _login_user: base64_encode("#{p.username}@#{p.domain}@#{app_config(:entity_tag)}"),
+      _password:   base64_encode(p.password)
     }
     # %{
-    #   _login_user: base64_encode("#{_p["username"]}@#{_p["domain"]}@#{app_config(:entity_tag)}"),
-    #   _password:   base64_encode(_p["password"])
+    #   _login_user: base64_encode("#{p["username"]}@#{p["domain"]}@#{app_config(:entity_tag)}"),
+    #   _password:   base64_encode(p["password"])
     # }
   end
 
-  def index(conn, _params) do
+  def index(conn, _) do
     render conn |> put_layout("login_template.html"), "login.html"
   end
 
-  def login(conn, _params) do
-    #IO.puts "login_data: #{inspect login_data_builder(_params)}"
-    {status, res} = login_api_post_json "C", login_data_builder(objectify_map _params)
+  def login(conn, params) do
+    #IO.puts "login_data: #{inspect login_data_builder(params)}"
+    {status, res} = login_api_post_json "C", login_data_builder(objectify_map params)
     if status == :ok do
       status = res.status_code
       res = res.body
       case status do
-        201 -> conn = centralgps_start_session(conn, res.res |> objectify_map)
+        201 -> conn = centralgps_startsession(conn, res.res |> objectify_map)
                res = res |> Map.put(:res, main_url(Endpoint, :index))
           _ -> nil
       end
@@ -36,7 +36,7 @@ defmodule CentralGPSWebApp.Client.LoginController do
     json conn, res
   end
 
-  def logout(conn, _params) do
+  def logout(conn, _) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
@@ -48,7 +48,7 @@ defmodule CentralGPSWebApp.Client.LoginController do
           200 -> res = res.body |> objectify_map
                  #IO.puts "logout:res = #{inspect res}"
                  if(res.status == true) do
-                   conn = centralgps_kill_session(conn)
+                   conn = centralgps_killsession(conn)
                  end
             _ -> nil
         end

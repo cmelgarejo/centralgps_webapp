@@ -10,7 +10,7 @@ defmodule CentralGPSWebApp do
       # Start the endpoint when the application starts
       supervisor(CentralGPSWebApp.Endpoint, []),
 
-      
+
       # Here you could define other workers and supervisors as children
       # worker(CentralGPSWebApp.Worker, [arg1, arg2, arg3]),
     ]
@@ -29,11 +29,7 @@ defmodule CentralGPSWebApp do
   end
 
   def app_config(name) do
-    Application.get_env(:app_config, name)
-  end
-
-  def rest_client_config(name) do
-    Application.get_env(:rest_client, name)
+    Application.get_env(:central_g_p_s_web_app, CentralGPSWebApp.Endpoint)[name]
   end
 
 end
