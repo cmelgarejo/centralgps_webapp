@@ -54,6 +54,41 @@ defmodule CentralGPSWebApp.Router do
 
   scope "/checkpoint", CentralGPSWebApp.Client.Checkpoint do
     pipe_through :browser # Use the default browser stack
+    #Client
+    get    "/clients/",       ClientController, :index
+    get    "/clients/json",   ClientController, :list
+    get    "/clients/new",    ClientController, :new
+    get    "/clients/edit",   ClientController, :edit
+    post   "/clients/save",   ClientController, :save
+    delete "/clients/delete", ClientController, :delete
+    #Client Contacts
+    get    "/client/contacts/",       ClientContactController, :index
+    get    "/client/contacts/json",   ClientContactController, :list
+    get    "/client/contacts/new",    ClientContactController, :new
+    get    "/client/contacts/edit",   ClientContactController, :edit
+    post   "/client/contacts/save",   ClientContactController, :save
+    delete "/client/contacts/delete", ClientContactController, :delete
+    #Item
+    get    "/items/",       ItemController, :index
+    get    "/items/json",   ItemController, :list
+    get    "/items/new",    ItemController, :new
+    get    "/items/edit",   ItemController, :edit
+    post   "/items/save",   ItemController, :save
+    delete "/items/delete", ItemController, :delete
+    #Measure Unit
+    get    "/measure_units/",       MeasureUnitController, :index
+    get    "/measure_units/json",   MeasureUnitController, :list
+    get    "/measure_units/new",    MeasureUnitController, :new
+    get    "/measure_units/edit",   MeasureUnitController, :edit
+    post   "/measure_units/save",   MeasureUnitController, :save
+    delete "/measure_units/delete", MeasureUnitController, :delete
+    #Forms
+    get    "/forms/",       FormController, :index
+    get    "/forms/json",   FormController, :list
+    get    "/forms/new",    FormController, :new
+    get    "/forms/edit",   FormController, :edit
+    post   "/forms/save",   FormController, :save
+    delete "/forms/delete", FormController, :delete
     #Forms
     get    "/forms/",       FormController, :index
     get    "/forms/json",   FormController, :list

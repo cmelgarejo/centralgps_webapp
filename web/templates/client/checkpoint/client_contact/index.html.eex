@@ -1,48 +1,48 @@
 <div class="card">
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
-      <a onclick="get_page('<%= roadmap_point_path(@conn, :new) %>?roadmap_id=<%= @parent_record.id %>');" class="btn btn-success btn-float" >
+      <a onclick="get_page('<%= client_contact_path(@conn, :new) %>?client_id=<%= @parent_record.id %>');" class="btn btn-success btn-float" >
         <i class="md md-add"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>&nbsp;
-    <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info">
+    <h4><%= l10n(@session.language_code, "client_contact.crud.html", "PAGE_LIST_TITLE") %>&nbsp;
+    <a onclick="get_page('<%= client_path(@conn, :index) %>');" class="btn btn-info">
       <i class="md md-arrow-back"></i>
       <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>
     </h4>
   </div>
-  <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
-    <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/points/json?roadmap_id=<%= @parent_record.id %>">
+  <div id="client_contact_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "client_contact.crud.html", "PAGE_LIST_TITLE") %>">
+    <table id="client_contact_grid" class="table table-condensed table-hover table-striped"
+      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/clients/contacts/json?client_id=<%= @parent_record.id %>">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
-              <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
-              <th data-column-id="description"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_DESCRIPTION") %></th>
-              <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>
-              <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
-              <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
-              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>
+              <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="name"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_NAME") %></th>
+              <th data-column-id="description"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_DESCRIPTION") %></th>
+              <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_POINT_ORDER") %></th>
+              <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
+              <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "client.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>
     </table>
   </div>
 </div>
 <script>
-__centralgps__.CRUD.index_url = '<%= roadmap_point_path(@conn, :index) %>';
-__centralgps__.CRUD.edit_url = '<%= roadmap_point_path(@conn, :edit) %>';
-__centralgps__.CRUD.delete_url = '<%= roadmap_point_path(@conn, :delete) %>';
+__centralgps__.CRUD.index_url = '<%= client_contact_path(@conn, :index) %>';
+__centralgps__.CRUD.edit_url = '<%= client_contact_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= client_contact_path(@conn, :delete) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
-__centralgps__.CRUD.grid_name = '#roadmap_point_grid';
+__centralgps__.CRUD.grid_name = '#client_contact_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
-__centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
+__centralgps__.CRUD.grid_command_columns = ["client_id"];
 function _gridCommandFormatter(column, row)
 {
-  return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='md md-edit'></span></button> " +
-  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='md md-delete'></span></button>";
+  return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-client_id='<%= @parent_record.id %>'><span class='md md-edit'></span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' data-client_id='<%= @parent_record.id %>'><span class='md md-delete'></span></button>";
 }
 $(document).ready(function() {
   gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);

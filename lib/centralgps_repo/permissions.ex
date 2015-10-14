@@ -18,6 +18,11 @@ defmodule CentralGPS.Repo.Permissions do
       report:  %{read: "CHECKPOINT_REPORT_R"},
       monitor: %{read: "CHECKPOINT_MONITOR_R"},
       form:  %{create: "CHECKPOINT_FORM_C", read: "CHECKPOINT_FORM_R", update: "CHECKPOINT_FORM_U", delete: "CHECKPOINT_FORM_D", list: "CHECKPOINT_FORM_L" },
+      form_template:  %{create: "CHECKPOINT_FORM_TEMPLATE_C", read: "CHECKPOINT_FORM_TEMPLATE_R", update: "CHECKPOINT_FORM_TEMPLATE_U", delete: "CHECKPOINT_FORM_TEMPLATE_D", list: "CHECKPOINT_FORM_TEMPLATE_L" },
+      client:  %{create: "CHECKPOINT_CLIENT_C", read: "CHECKPOINT_CLIENT_R", update: "CHECKPOINT_CLIENT_U", delete: "CHECKPOINT_CLIENT_D", list: "CHECKPOINT_CLIENT_L" },
+      client_contact:  %{create: "CHECKPOINT_CLIENT_CONTACT_C", read: "CHECKPOINT_CLIENT_CONTACT_R", update: "CHECKPOINT_CLIENT_CONTACT_U", delete: "CHECKPOINT_CLIENT_CONTACT_D", list: "CHECKPOINT_CLIENT_CONTACT_L" },
+      item:  %{create: "CHECKPOINT_ITEM_C", read: "CHECKPOINT_ITEM_R", update: "CHECKPOINT_ITEM_U", delete: "CHECKPOINT_ITEM_D", list: "CHECKPOINT_ITEM_L" },
+      measure_unit:  %{create: "CHECKPOINT_MEASURE_UNIT_C", read: "CHECKPOINT_MEASURE_UNIT_R", update: "CHECKPOINT_MEASURE_UNIT_U", delete: "CHECKPOINT_MEASURE_UNIT_D", list: "CHECKPOINT_MEASURE_UNIT_L" },
       activity:  %{create: "CHECKPOINT_ACTIVITY_C", read: "CHECKPOINT_ACTIVITY_R", update: "CHECKPOINT_ACTIVITY_U", delete: "CHECKPOINT_ACTIVITY_D", list: "CHECKPOINT_ACTIVITY_L" },
       venue:   %{create: "CHECKPOINT_VENUE_C", read: "CHECKPOINT_VENUE_R", update: "CHECKPOINT_VENUE_U", delete: "CHECKPOINT_VENUE_D", list: "CHECKPOINT_VENUE_L" },
       activity_role:  %{create: "CHECKPOINT_ACTIVITY_ROLE_C", read: "CHECKPOINT_ACTIVITY_ROLE_R", update: "CHECKPOINT_ACTIVITY_ROLE_U", delete: "CHECKPOINT_ACTIVITY_ROLE_D", list: "CHECKPOINT_ACTIVITY_ROLE_L" },
@@ -41,7 +46,11 @@ defmodule CentralGPS.Repo.Permissions do
   Does the session contains this permission (accesible through the permission map objects)
   """
   def check(user_permissions, permission) do
-    Enum.find_value user_permissions, false, &(&1 == permission)
+    try do
+      Enum.find_value user_permissions, false, &(&1 == permission)
+    rescue
+      _ in KeyError -> false
+    end
   end
 
   @doc """

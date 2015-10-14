@@ -263,6 +263,27 @@
                   <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MENU_TEXT") %>
                   </a>
                   <ul>
+                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.client.list) do %>
+                    <li>
+                      <a  onclick="get_page('checkpoint/clients');">
+                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_CLIENT_LINK_TEXT") %>
+                        </a>
+                    </li>
+                    <% end %>
+                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.item.list) do %>
+                    <li>
+                      <a  onclick="get_page('checkpoint/items');">
+                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_ITEM_LINK_TEXT") %>
+                        </a>
+                    </li>
+                    <% end %>
+                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.measure_unit.list) do %>
+                    <li>
+                      <a  onclick="get_page('checkpoint/measure_units');">
+                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MEASURE_UNIT_LINK_TEXT") %>
+                        </a>
+                    </li>
+                    <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.form.list) do %>
                     <li>
                       <a  onclick="get_page('checkpoint/forms');">

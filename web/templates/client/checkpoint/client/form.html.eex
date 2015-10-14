@@ -1,6 +1,6 @@
 <div class="card-body card-padding">
   <form role="form" method='post'
-    action="<%= activity_path Endpoint, :save %>">
+    action="<%= client_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
     <div class="card-body card-padding">
@@ -24,11 +24,16 @@
           <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
           <% end %>
           <div class="fg-line fg-toggled">
-            <input class="form-control" type="text" id="description" name="description"
-            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
+            <input class="form-control" type="text" id="name" name="name"
+            value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
             required autofocus toggled/>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "activity.crud.html", "COLUMN_DESCRIPTION") %></label>
+          <div class="fg-line fg-toggled">
+            <input class="form-control" type="text" id="description" name="description"
+            value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"
+            required/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "client.crud.html", "COLUMN_DESCRIPTION") %></label>
         </div>
       </div>
     </div>

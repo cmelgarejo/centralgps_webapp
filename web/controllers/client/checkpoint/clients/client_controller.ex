@@ -75,7 +75,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, description: record.description}
+          %{ id: record.id, configuration_id: record.configuration_id, description: record.description }
       end
     end
     record
@@ -86,10 +86,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
     if (!Map.has_key?p, :xtra_info), do: p = Map.put p, :xtra_info, nil
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
-      data = %{ client_id: p.id, configuration_id: s.client_id, name: p.name, description: p.description, p.xtra_info }
+      data = %{ client_id: p.id, configuration_id: s.client_id, name: p.name, description: p.description, xtra_info: p.xtra_info }
       {_, res} = api_put_json api_method(data.client_id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, name: p.name, description: p.description, p.xtra_info }
+      data = %{ configuration_id: s.client_id, name: p.name, description: p.description, xtra_info: p.xtra_info }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body
@@ -135,7 +135,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
           |> Enum.map(&(objectify_map &1))
           #|> Enum.map &(%{id: &1.id, description: &1.description })
       else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+        res = Map.put res, :body, %{ status: false, msg: res.body.msg }
       end
     end
     Map.merge((res.body |> Map.put :rows, rows), p)
