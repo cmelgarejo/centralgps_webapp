@@ -48,9 +48,11 @@ defmodule CentralGPS.RestClient do
 
   def process_response_body(body) do
     try do
-      body
+      body = body
         |> Poison.decode!
         |> objectify_map
+      IO.puts "process_response_body: #{inspect body}"
+      body
     rescue
       _ in _ ->
         #error_logger e, __ENV__, [ body ]

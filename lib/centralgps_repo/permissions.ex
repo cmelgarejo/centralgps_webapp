@@ -1,6 +1,7 @@
 defmodule CentralGPS.Repo.Permissions do
   def security do
     %{
+      feature: "SECURITY",
       entity: %{
         account: %{create: "SECURITY_ENTITY_ACCOUNT_C", read: "SECURITY_ENTITY_ACCOUNT_R", update: "SECURITY_ENTITY_ACCOUNT_U", delete: "SECURITY_ENTITY_ACCOUNT_D", list: "SECURITY_ENTITY_ACCOUNT_L" },
         account_role: %{create: "SECURITY_ENTITY_ACCOUNT_ROLE_C", delete: "SECURITY_ENTITY_ACCOUNT_ROLE_D", list: "SECURITY_ENTITY_ACCOUNT_ROLE_L"},
@@ -15,6 +16,7 @@ defmodule CentralGPS.Repo.Permissions do
   end
   def checkpoint do
     %{
+      feature: "CHECKPOINT",
       report:  %{read: "CHECKPOINT_REPORT_R"},
       monitor: %{read: "CHECKPOINT_MONITOR_R"},
       form:  %{create: "CHECKPOINT_FORM_C", read: "CHECKPOINT_FORM_R", update: "CHECKPOINT_FORM_U", delete: "CHECKPOINT_FORM_D", list: "CHECKPOINT_FORM_L" },
@@ -32,6 +34,7 @@ defmodule CentralGPS.Repo.Permissions do
   end
   def client do
     %{
+      feature: "CLIENT",
       asset: %{
         monitor: %{list: "CLIENT_ASSET_MONITOR_L", manager_list: "CLIENT_ASSET_MONITOR_MANAGER_L"}
       },
@@ -41,6 +44,8 @@ defmodule CentralGPS.Repo.Permissions do
       }
     }
   end
+
+# TODO: use fn_api_account_permission_check for the reengineering of this section
 
   @doc """
   Does the session contains this permission (accesible through the permission map objects)

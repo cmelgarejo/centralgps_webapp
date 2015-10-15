@@ -3,6 +3,7 @@ defmodule CentralGPSWebApp.Client.MainController do
 
   def index(conn, _) do
     {conn, session} = centralgps_session conn
+    IO.puts "session: #{inspect session} - conn: #{inspect conn}"
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else

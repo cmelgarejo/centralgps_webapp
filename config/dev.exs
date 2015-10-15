@@ -7,6 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
+  url: [host: "localhost"],
   http: [port: 5000],
   debug_errors: false,
   code_reloader: false,

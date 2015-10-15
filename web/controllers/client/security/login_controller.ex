@@ -20,11 +20,11 @@ defmodule CentralGPSWebApp.Client.LoginController do
   end
 
   def login(conn, params) do
-    #IO.puts "login_data: #{inspect login_data_builder(params)}"
     {status, res} = login_api_post_json "C", login_data_builder(objectify_map params)
     if status == :ok do
       status = res.status_code
       res = res.body
+      IO.puts "***** LOGIN STATUS: #{inspect status}"
       case status do
         201 -> conn = centralgps_startsession(conn, res.res |> objectify_map)
                res = res |> Map.put(:res, main_url(Endpoint, :index))
@@ -46,7 +46,6 @@ defmodule CentralGPSWebApp.Client.LoginController do
         status = res.status_code
         case status do
           200 -> res = res.body |> objectify_map
-                 #IO.puts "logout:res = #{inspect res}"
                  if(res.status == true) do
                    conn = centralgps_killsession(conn)
                  end
