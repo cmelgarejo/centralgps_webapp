@@ -80,7 +80,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
           record = Map.merge %{status: res.body.status, msg: res.body.msg}, record
         end
       end
-      IO.puts "RECORD: #{inspect record}"
       record
     end
 
@@ -158,7 +157,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
     defp api_parent_method(form) when is_bitstring(form), do: "/checkpoint/client/" <> form
     defp get_parent_record(s, p) do
       p = objectify_map(p)
-      #IO.puts "p: #{inspect p}"
       {api_status, res} = api_get_json api_parent_method(p.client_id), s.auth_token, s.account_type
       record = nil
       if(api_status == :ok) do

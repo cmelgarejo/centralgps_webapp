@@ -87,7 +87,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
-        #IO.puts "res.body.rows: #{inspect res.body.rows}"
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
           |> Enum.map &(%{id: &1.id, configuration_id: &1.configuration_id, creator: &1.creator,

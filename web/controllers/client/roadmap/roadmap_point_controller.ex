@@ -71,7 +71,6 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
 
   defp get_record(s, p) do
     p = objectify_map(p)
-    IO.puts "p: #{inspect p}"
     {api_status, res} = api_get_json api_method(p.roadmap_id, p.id), s.auth_token, s.account_type
     record = nil
     if(api_status == :ok) do
@@ -81,7 +80,6 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
         record = Map.merge %{status: res.body.status, msg: res.body.msg}, record
       end
     end
-    IO.puts "RECORD: #{inspect record}"
     record
   end
 
@@ -166,7 +164,6 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   defp api_parent_method(form) when is_bitstring(form), do: "/client/roadmap/" <> form
   defp get_parent_record(s, p) do
     p = objectify_map(p)
-    #IO.puts "p: #{inspect p}"
     {api_status, res} = api_get_json api_parent_method(p.roadmap_id), s.auth_token, s.account_type
     record = nil
     if(api_status == :ok) do

@@ -89,7 +89,6 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
           months_of_year: record.months_of_year, days_of_month: record.days_of_month,
           recurs_every: record.recurs_every, start_time: record.start_time, end_time: record.end_time,
           public: record.public, active: record.active }
-        #IO.puts "ROADMAP RECORD: #{inspect record}"
       end
     end
     record

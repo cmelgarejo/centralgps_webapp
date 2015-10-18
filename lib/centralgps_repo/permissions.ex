@@ -3,14 +3,14 @@ defmodule CentralGPS.Repo.Permissions do
     %{
       feature: "SECURITY",
       entity: %{
-        account: %{create: "SECURITY_ENTITY_ACCOUNT_C", read: "SECURITY_ENTITY_ACCOUNT_R", update: "SECURITY_ENTITY_ACCOUNT_U", delete: "SECURITY_ENTITY_ACCOUNT_D", list: "SECURITY_ENTITY_ACCOUNT_L" },
-        account_role: %{create: "SECURITY_ENTITY_ACCOUNT_ROLE_C", delete: "SECURITY_ENTITY_ACCOUNT_ROLE_D", list: "SECURITY_ENTITY_ACCOUNT_ROLE_L"},
-    	  account_permission: %{create: "SECURITY_ENTITY_ACCOUNT_PERMISSION_C", delete: "SECURITY_ENTITY_ACCOUNT_PERMISSION_D", list: "SECURITY_ENTITY_ACCOUNT_PERMISSION_L"},
+        account: %{list: "SECURITY_ENTITY_ACCOUNT_L" },
+        account_role: %{list: "SECURITY_ENTITY_ACCOUNT_ROLE_L"},
+    	  account_permission: %{list: "SECURITY_ENTITY_ACCOUNT_PERMISSION_L"},
       },
       client: %{
-        account: %{create: "SECURITY_CLIENT_ACCOUNT_C", read: "SECURITY_CLIENT_ACCOUNT_R", update: "SECURITY_CLIENT_ACCOUNT_U", delete: "SECURITY_CLIENT_ACCOUNT_D", list: "SECURITY_CLIENT_ACCOUNT_L" },
-        account_role: %{create: "SECURITY_CLIENT_ACCOUNT_ROLE_C", delete: "SECURITY_CLIENT_ACCOUNT_ROLE_D", list: "SECURITY_CLIENT_ACCOUNT_ROLE_L"},
-    	  account_permission: %{create: "SECURITY_CLIENT_ACCOUNT_PERMISSION_C", delete: "SECURITY_CLIENT_ACCOUNT_PERMISSION_D", list: "SECURITY_CLIENT_ACCOUNT_PERMISSION_L"},
+        account: %{list: "SECURITY_CLIENT_ACCOUNT_L" },
+        account_role: %{list: "SECURITY_CLIENT_ACCOUNT_ROLE_L"},
+    	  account_permission: %{list: "SECURITY_CLIENT_ACCOUNT_PERMISSION_L"},
       }
     }
   end
@@ -19,17 +19,17 @@ defmodule CentralGPS.Repo.Permissions do
       feature: "CHECKPOINT",
       report:  %{read: "CHECKPOINT_REPORT_R"},
       monitor: %{read: "CHECKPOINT_MONITOR_R"},
-      form:  %{create: "CHECKPOINT_FORM_C", read: "CHECKPOINT_FORM_R", update: "CHECKPOINT_FORM_U", delete: "CHECKPOINT_FORM_D", list: "CHECKPOINT_FORM_L" },
-      form_template:  %{create: "CHECKPOINT_FORM_TEMPLATE_C", read: "CHECKPOINT_FORM_TEMPLATE_R", update: "CHECKPOINT_FORM_TEMPLATE_U", delete: "CHECKPOINT_FORM_TEMPLATE_D", list: "CHECKPOINT_FORM_TEMPLATE_L" },
-      client:  %{create: "CHECKPOINT_CLIENT_C", read: "CHECKPOINT_CLIENT_R", update: "CHECKPOINT_CLIENT_U", delete: "CHECKPOINT_CLIENT_D", list: "CHECKPOINT_CLIENT_L" },
-      client_contact:  %{create: "CHECKPOINT_CLIENT_CONTACT_C", read: "CHECKPOINT_CLIENT_CONTACT_R", update: "CHECKPOINT_CLIENT_CONTACT_U", delete: "CHECKPOINT_CLIENT_CONTACT_D", list: "CHECKPOINT_CLIENT_CONTACT_L" },
-      item:  %{create: "CHECKPOINT_ITEM_C", read: "CHECKPOINT_ITEM_R", update: "CHECKPOINT_ITEM_U", delete: "CHECKPOINT_ITEM_D", list: "CHECKPOINT_ITEM_L" },
-      measure_unit:  %{create: "CHECKPOINT_MEASURE_UNIT_C", read: "CHECKPOINT_MEASURE_UNIT_R", update: "CHECKPOINT_MEASURE_UNIT_U", delete: "CHECKPOINT_MEASURE_UNIT_D", list: "CHECKPOINT_MEASURE_UNIT_L" },
-      activity:  %{create: "CHECKPOINT_ACTIVITY_C", read: "CHECKPOINT_ACTIVITY_R", update: "CHECKPOINT_ACTIVITY_U", delete: "CHECKPOINT_ACTIVITY_D", list: "CHECKPOINT_ACTIVITY_L" },
-      venue:   %{create: "CHECKPOINT_VENUE_C", read: "CHECKPOINT_VENUE_R", update: "CHECKPOINT_VENUE_U", delete: "CHECKPOINT_VENUE_D", list: "CHECKPOINT_VENUE_L" },
-      activity_role:  %{create: "CHECKPOINT_ACTIVITY_ROLE_C", read: "CHECKPOINT_ACTIVITY_ROLE_R", update: "CHECKPOINT_ACTIVITY_ROLE_U", delete: "CHECKPOINT_ACTIVITY_ROLE_D", list: "CHECKPOINT_ACTIVITY_ROLE_L" },
-      venue_type:   %{create: "CHECKPOINT_VENUE_TYPE_C", read: "CHECKPOINT_VENUE_TYPE_R", update: "CHECKPOINT_VENUE_TYPE_U", delete: "CHECKPOINT_VENUE_TYPE_D", list: "CHECKPOINT_VENUE_TYPE_L" },
-      mark: %{create: "CHECKPOINT_MARK_C", list: "CHECKPOINT_MARK_L", manager_list: "CHECKPOINT_MANAGER_MARK_L"}
+      form:  %{list: "CHECKPOINT_FORM_L" },
+      form_template:  %{list: "CHECKPOINT_FORM_TEMPLATE_L" },
+      client:  %{list: "CHECKPOINT_CLIENT_L" },
+      client_contact:  %{list: "CHECKPOINT_CLIENT_CONTACT_L" },
+      item:  %{list: "CHECKPOINT_ITEM_L" },
+      measure_unit:  %{list: "CHECKPOINT_MEASURE_UNIT_L" },
+      activity:  %{list: "CHECKPOINT_ACTIVITY_L" },
+      venue:   %{list: "CHECKPOINT_VENUE_L" },
+      activity_role:  %{list: "CHECKPOINT_ACTIVITY_ROLE_L" },
+      venue_type:   %{list: "CHECKPOINT_VENUE_TYPE_L" },
+      mark: %{list: "CHECKPOINT_MARK_L", manager_list: "CHECKPOINT_MANAGER_MARK_L"}
     }
   end
   def client do
@@ -39,8 +39,8 @@ defmodule CentralGPS.Repo.Permissions do
         monitor: %{list: "CLIENT_ASSET_MONITOR_L", manager_list: "CLIENT_ASSET_MONITOR_MANAGER_L"}
       },
       roadmap: %{
-        create: "CLIENT_ROADMAP_C", read: "CLIENT_ROADMAP_R", update: "CLIENT_ROADMAP_U", delete: "CLIENT_ROADMAP_D", list: "CLIENT_ROADMAP_L",
-        point: %{ create: "CLIENT_ROADMAP_POINT_C", read: "CLIENT_ROADMAP_POINT_R", update: "CLIENT_ROADMAP_POINT_U", delete: "CLIENT_ROADMAP_POINT_D", list: "CLIENT_ROADMAP_POINT_L", }
+        list: "CLIENT_ROADMAP_L",
+        point: %{ list: "CLIENT_ROADMAP_POINT_L", }
       }
     }
   end

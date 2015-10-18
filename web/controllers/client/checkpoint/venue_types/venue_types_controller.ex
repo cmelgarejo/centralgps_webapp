@@ -154,7 +154,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
         if res.body.status && (p.image != nil) do #put the corresponding pic for the record.
           dest_dir = Enum.join [Utilities.priv_static_path, image_dir], "/"
           File.rm Enum.join([dest_dir,  String.split(p.image_filename, image_dir) |> List.last], "/") #removes the old image
-          #IO.puts "#{inspect dest_dir}"
           File.mkdir_p dest_dir
           File.copy(p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
         end
