@@ -26,7 +26,7 @@ msgid  "COLUMN_MIN_QTY"
 msgstr "Cantidad mínima de stock"
 
 msgid  "COLUMN_MAX_QTY"
-msgstr "Cantidad máxima de stock""
+msgstr "Cantidad máxima de stock"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha y hora de inserción"

@@ -133,12 +133,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormController do
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
-        rows = res.body.rows
-          |> Enum.map(&(objectify_map &1))
-          #|> Enum.map &(%{id: &1.id, something: &1.something })
+        rows = res.body.rows |> Enum.map(&(objectify_map &1))
       else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge((res.body |> Map.put :rows, rows), p)
   end

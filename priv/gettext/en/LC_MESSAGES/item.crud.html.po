@@ -1,23 +1,35 @@
 msgid  "PAGE_LIST_TITLE"
-msgstr "Activities"
+msgstr "Item"
 
 msgid  "PAGE_NEW_TITLE"
-msgstr "New Activity"
+msgstr "New Item"
 
 msgid  "PAGE_EDIT_TITLE"
-msgstr "Edit Activity"
+msgstr "Edit Item"
 
 msgid  "GRID_COMMAND_COLUMN"
-msgstr "Commands"
+msgstr "Comamnds"
 
 msgid  "COLUMN_ID"
 msgstr "ID"
 
+msgid  "COLUMN_NAME"
+msgstr "Name"
+
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Description"
+
+msgid  "COLUMN_STOCK"
+msgstr "Stock"
+
+msgid  "COLUMN_MIN_QTY"
+msgstr "Minimum Quantity"
+
+msgid  "COLUMN_MAX_QTY"
+msgstr "Maximum Quantity"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Created at"
 
 msgid  "COLUMN_UPDATED_AT"
-msgstr "Fecha y hora de actualización"
+msgstr "Updated at"

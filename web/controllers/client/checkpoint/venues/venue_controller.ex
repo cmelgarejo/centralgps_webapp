@@ -93,6 +93,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
           active: &1.active, name: &1.name, code: &1.code, description: &1.description,
           image_path: (if (&1.image_path != nil), do: &1.image_path, else: image_placeholder),
           lat: &1.lat, lon: &1.lon, detection_radius: &1.detection_radius })
+      else
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }

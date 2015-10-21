@@ -105,6 +105,8 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
           language_template: &1.language_template, image_path: &1.image_path,
           activated_at: &1.activated_at, deactivated_at: &1.deactivated_at,
           created_at: &1.created_at, updated_at: &1.updated_at })
+      else
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }

@@ -144,13 +144,12 @@ defmodule CentralGPSWebApp.Client.AssetRoadmapController do
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
-        rows = res.body.rows
-          |> Enum.map(&(objectify_map &1))
-          #|> Enum.map &(%{asset_id: &1.asset_id, description: &1.description })
+        rows = res.body.rows |> Enum.map(&(objectify_map &1))
       else
-        msg = if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg
-        res = Map.put res, :body, %{ status: false, msg: msg }
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
@@ -176,10 +175,11 @@ defmodule CentralGPSWebApp.Client.AssetRoadmapController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          #|> Enum.map &(%{id: &1.id, description: &1.description })
       else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge((res.body |> Map.put :rows, rows), p)
   end

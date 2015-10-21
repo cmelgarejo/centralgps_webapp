@@ -27,7 +27,6 @@ defmodule CentralGPSWebApp.Client.LoginController do
       case status do
         201 ->
               filter_keys = [ :auth_token, :activated_at, :client_profile_image, :created_at, :dob, :emails, :entity_profile_image, :identity_document, :language_code, :name, :permissions, :profile_image, :phones, :roles, :timezone, :updated_at, :username, :xtra_info ]
-              poop = res.res  |> objectify_map |> Map.take filter_keys
               conn = centralgps_startsession(conn, res.res  |> objectify_map |> Map.take filter_keys)
               res = res |> Map.put(:res, main_url(Endpoint, :index))
           _ -> nil

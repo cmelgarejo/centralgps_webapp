@@ -24,8 +24,8 @@ defmodule CentralGPSWebApp.Utilities do
   def centralgps_session(conn) do
     session = get_session(conn, :session_data)
     if (session != nil) do
-      IO.puts "auth_token: #{inspect session.auth_token}"
-      IO.puts "session: #{inspect session}"
+      #IO.puts "auth_token: #{inspect session.auth_token}"
+      #IO.puts "session: #{inspect session}"
       conn = conn
         |> assign(:session, session) #TOOD: Reduce footprint of session.
         |> assign(:profile_image, if(session.profile_image != nil, do: session.profile_image, else: "images/profile/" <> centralgps_placeholder_file ))

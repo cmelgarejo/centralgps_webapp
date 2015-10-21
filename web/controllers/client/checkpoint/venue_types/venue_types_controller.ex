@@ -87,9 +87,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
-        rows = res.body.rows
-          |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id, description: &1.description, image_path: &1.image_path })
+        rows = res.body.rows |> Enum.map(&(objectify_map &1)) #|> Enum.map &(%{id: &1.id, description: &1.description, image_path: &1.image_path })
+      else
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }

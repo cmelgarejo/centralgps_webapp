@@ -19,6 +19,9 @@ msgstr "Nombre"
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Descripción"
 
+msgid  "COLUMN_ACTIVE"
+msgstr "Activo"
+
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha y hora de inserción"
 

@@ -179,8 +179,7 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
-        rows = res.body.rows
-          |> Enum.map(&(objectify_map &1))
+        rows = res.body.rows |> Enum.map(&(objectify_map &1))
           #|> Enum.map &(%{id: &1.id, name:&1.name, description: &1.des cription,
           #  days_of_week: &1.days_of_week, repetition: &1.repetition,
           #  one_time_date: &1.one_time_date, start_time: &1.start_time, end_time: &1.end_time,
@@ -188,8 +187,10 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
           #  activated_at: &1.activated_at
           #  })
       else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
