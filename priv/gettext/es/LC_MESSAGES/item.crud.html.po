@@ -1,0 +1,35 @@
+msgid  "PAGE_LIST_TITLE"
+msgstr "Insumos"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "Nuevo Insumo"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Editar Insumo"
+
+msgid  "GRID_COMMAND_COLUMN"
+msgstr "Comandos"
+
+msgid  "COLUMN_ID"
+msgstr "ID"
+
+msgid  "COLUMN_NAME"
+msgstr "Nombre"
+
+msgid  "COLUMN_DESCRIPTION"
+msgstr "Descripción"
+
+msgid  "COLUMN_STOCK"
+msgstr "Stock"
+
+msgid  "COLUMN_MIN_QTY"
+msgstr "Cantidad mínima de stock"
+
+msgid  "COLUMN_MAX_QTY"
+msgstr "Cantidad máxima de stock""
+
+msgid  "COLUMN_CREATED_AT"
+msgstr "Fecha y hora de inserción"
+
+msgid  "COLUMN_UPDATED_AT"
+msgstr "Fecha y hora de actualización"
