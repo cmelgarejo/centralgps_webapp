@@ -76,7 +76,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg},
           %{ id: record.id, configuration_id: record.configuration_id,
-            name: record.name, active: record.active, description: record.description }
+            name: record.name, description: record.description }
       end
     end
     record
@@ -90,7 +90,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
       data = %{ id: p.id, configuration_id: s.client_id, name: p.name, description: p.description, xtra_info: p.xtra_info }
       {_, res} = api_put_json api_method(data.id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, name: p.name, active: true, #TODO: change to p.active if needed
+      data = %{ configuration_id: s.client_id, name: p.name, 
               description: p.description, xtra_info: p.xtra_info }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
