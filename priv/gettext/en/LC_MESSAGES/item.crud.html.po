@@ -19,6 +19,9 @@ msgstr "Name"
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Description"
 
+msgid  "COLUMN_NOTES"
+msgstr "Notes"
+
 msgid  "COLUMN_STOCK"
 msgstr "Stock"
 

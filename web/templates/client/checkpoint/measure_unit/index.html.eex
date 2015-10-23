@@ -13,7 +13,7 @@
         <thead>
             <tr>
               <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "measure_unit.crud.html", "COLUMN_ID") %></th>
-              <th data-column-id="description"><%= l10n(@session.language_code, "measure_unit.crud.html", "COLUMN_DESCRIPTION") %></th>
+              <th data-column-id="name"><%= l10n(@session.language_code, "measure_unit.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "measure_unit.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>

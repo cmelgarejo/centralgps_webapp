@@ -31,5 +31,13 @@ __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
 $(document).ready(function() {
   gridSetup_CRUD();
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
 });
 </script>

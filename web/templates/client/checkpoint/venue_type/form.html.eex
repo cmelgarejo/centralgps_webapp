@@ -68,5 +68,13 @@ $(document).ready(function() {
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
 });
 </script>

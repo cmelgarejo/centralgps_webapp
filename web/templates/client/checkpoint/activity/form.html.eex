@@ -6,7 +6,7 @@
     <div class="card-body card-padding">
       <div class="row">
         <div id="alert"></div>
-        <a onclick="get_page('<%= venue_type_path(@conn, :index) %>');" class="btn btn-info pull-left">
+        <a onclick="get_page('<%= activity_path(@conn, :index) %>');" class="btn btn-info pull-left">
           <i class="md md-arrow-back"></i>
           <%= l10n(@session.language_code, "generic", "BACK") %>
         </a>
@@ -43,5 +43,13 @@ $(document).ready(function() {
   <%= if !@record.status do %>
     showError('<%= @record.msg %>');
   <% end %>
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
 });
 </script>

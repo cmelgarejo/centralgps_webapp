@@ -127,5 +127,13 @@ $(document).ready(function() {
     "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>", true);
   activateGrid();
   getRoadmapPoints(<%= if (@record.__form__ == :edit), do: @record.client_id, else: @parent_record.id %>);
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
 });
 </script>

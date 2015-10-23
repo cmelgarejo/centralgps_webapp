@@ -1,11 +1,11 @@
 msgid  "PAGE_LIST_TITLE"
-msgstr "Unidades de Medida"
+msgstr "Actividades"
 
 msgid  "PAGE_NEW_TITLE"
-msgstr "Nuevo Unidad de Medida"
+msgstr "Nuevo Actividad"
 
 msgid  "PAGE_EDIT_TITLE"
-msgstr "Editar Unidad de Medida"
+msgstr "Editar Actividad"
 
 msgid  "GRID_COMMAND_COLUMN"
 msgstr "Comandos"
@@ -14,7 +14,10 @@ msgid  "COLUMN_ID"
 msgstr "ID"
 
 msgid  "COLUMN_NAME"
-msgstr "Nombre"
+msgstr "Name"
+
+msgid  "COLUMN_NOTES"
+msgstr "Notes"
 
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha y hora de inserción"
