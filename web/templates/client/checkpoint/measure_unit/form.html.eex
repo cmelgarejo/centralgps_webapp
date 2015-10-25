@@ -31,7 +31,7 @@
           <label class="fg-label"><%= l10n(@session.language_code, "measure_unit.crud.html", "COLUMN_NAME") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
+          <div class="fg-line">
             <input class="form-control" type="text" id="notes" name="notes"
             value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>"/>
           </div>

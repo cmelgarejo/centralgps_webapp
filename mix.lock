@@ -20,6 +20,6 @@
   "providers": {:hex, :providers, "1.4.1"},
   "ranch": {:hex, :ranch, "1.1.0"},
   "relx": {:hex, :relx, "3.5.0"},
-  "reprise": {:git, "https://github.com/herenowcoder/reprise.git", "2dd239ff586ddd1bfd58272afc5e91718da68e75", []},
+  "reprise": {:git, "https://github.com/herenowcoder/reprise.git", "98ebd27a66cdce3cabc8ea98d2e94a7e28dda484", []},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
   "uuid": {:git, "https://github.com/zyro/elixir-uuid.git", "278d4c96a4bb91634b21ec7298d69c47005d60e0", []}}

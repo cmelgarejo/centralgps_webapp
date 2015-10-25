@@ -256,7 +256,7 @@ $(document).ready(function() {
   initMonitor('<%= @session.language_code %>', layers);
   var history_text = '<%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_BEARING") %>: {{&bearing}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_SPEED") %>: {{&speed}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ACCURACY") %>: {{&accuracy}}';
   var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b> <br/>{{&history_text}}</div>';
-  var mark_text    = '<b>{{&venue}}</b> <br/>{{&form}} - {{&activity}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i>'
+  var mark_text    = '<b>{{&mark.venue}} - {{&mark.address}}</b> <br/>{{&mark.form}} - {{&mark.activities}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></span>: {{&mark.notes}}</i>---  ';
   var mark_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{mark_at}}</b> <br/>{{&mark_text}}</div>';
   var roadmap_text    = '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'
   var roadmap_mark_text    = '<b>{{&venue}}</b> <br/>{{&form}} - {{&activity}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i>'

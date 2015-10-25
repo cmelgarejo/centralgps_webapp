@@ -23,10 +23,10 @@ msgid  "MAP_VENUE_LAYER_NAME"
 msgstr "Establecimientos"
 
 msgid  "MAP_MARK_LAYER_NAME"
-msgstr "Marcaciones"
+msgstr "Visitas"
 
 msgid  "MAP_ROADMAP_LAYER_NAME"
-msgstr "Hoja de ruta"
+msgstr "Rutas"
 
 msgid  "COLUMN_ASSET_NAME"
 msgstr "Nombre"
@@ -49,8 +49,8 @@ msgstr "Nombre"
 msgid  "COLUMN_MARK_TEXT"
 msgstr "Marcación"
 
-msgid  "COLUMN_MARK_COMMENT"
-msgstr "Comentario"
+msgid  "COLUMN_MARK_NOTES"
+msgstr "Notas"
 
 msgid  "COLUMN_MARK_AT"
 msgstr "Fecha y hora"

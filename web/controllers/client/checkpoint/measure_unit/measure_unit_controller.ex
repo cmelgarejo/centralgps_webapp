@@ -75,7 +75,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.MeasureUnitController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, notes: record.notes}
+          %{id: record.id, configuration_id: record.configuration_id, name: record.name, notes: record.notes}
       end
     end
     record
@@ -85,10 +85,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.MeasureUnitController do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
-      data = %{measure_unit_id: p.id, configuration_id: s.client_id, notes: p.notes}
+      data = %{measure_unit_id: p.id, configuration_id: s.client_id, name: p.name,  notes: p.notes }
       {_, res} = api_put_json api_method(data.measure_unit_id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, notes: p.notes }
+      data = %{ configuration_id: s.client_id, name: p.name, notes: p.notes }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body

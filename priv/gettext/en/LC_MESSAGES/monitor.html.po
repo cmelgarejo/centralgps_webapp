@@ -43,8 +43,8 @@ msgstr "Asset"
 msgid  "COLUMN_MARK_TEXT"
 msgstr "Mark"
 
-msgid  "COLUMN_MARK_COMMENT"
-msgstr "Comment"
+msgid  "COLUMN_MARK_NOTES"
+msgstr "Notes"
 
 msgid  "COLUMN_MARK_AT"
 msgstr "Date & time"
