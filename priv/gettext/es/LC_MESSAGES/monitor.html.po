@@ -2,7 +2,7 @@ msgid  "TABPANEL_ASSET_TEXT"
 msgstr "Posiciones"
 
 msgid  "TABPANEL_MARK_TEXT"
-msgstr "Marcaciones"
+msgstr "Visitas"
 
 msgid  "TABPANEL_HISTORY_TEXT"
 msgstr "Histórico"
@@ -47,13 +47,16 @@ msgid  "COLUMN_MARK_ASSET"
 msgstr "Nombre"
 
 msgid  "COLUMN_MARK_TEXT"
-msgstr "Marcación"
+msgstr "Visitas"
 
 msgid  "COLUMN_MARK_NOTES"
 msgstr "Notas"
 
-msgid  "COLUMN_MARK_AT"
-msgstr "Fecha y hora"
+msgid  "COLUMN_EXECUTED_AT"
+msgstr "Fecha y hora de ejecución"
+
+msgid  "COLUMN_FINISHED_AT"
+msgstr "Fecha y hora de finalización"
 
 msgid  "COLUMN_ROADMAP_ASSET"
 msgstr "Nombre"

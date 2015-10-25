@@ -38,7 +38,7 @@ msgid  "CHECKPOINT_VENUE_LINK_TEXT"
 msgstr "Establecimientos"
 
 msgid  "CHECKPOINT_MARK_LINK_TEXT"
-msgstr "Marcaciones"
+msgstr "Visitas"
 
 msgid  "ACCOUNT_LINK_TEXT"
 msgstr "Cuentas de Acceso"
@@ -111,3 +111,12 @@ msgstr "Eliminado"
 
 msgid "DELETE_RECORD_TEXT_DONE"
 msgstr "El registro #{RECORD} ha sido eliminado"
+
+msgid "CHECKPOINT_CLIENT_LINK_TEXT"
+msgstr "Clientes"
+
+msgid "CHECKPOINT_ITEM_LINK_TEXT"
+msgstr "Insumos"
+
+msgid "CHECKPOINT_MEASURE_UNIT_LINK_TEXT"
+msgstr "Unidades de medida"

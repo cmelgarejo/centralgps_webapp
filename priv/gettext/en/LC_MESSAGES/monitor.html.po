@@ -46,8 +46,11 @@ msgstr "Mark"
 msgid  "COLUMN_MARK_NOTES"
 msgstr "Notes"
 
-msgid  "COLUMN_MARK_AT"
-msgstr "Date & time"
+msgid  "COLUMN_EXECUTED_AT"
+msgstr "Executed at"
+
+msgid  "COLUMN_FINISHED_AT"
+msgstr "`Finished at"
 
 msgid  "COLUMN_ROADMAP_ASSET"
 msgstr "Asset"

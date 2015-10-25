@@ -163,6 +163,15 @@ function updateMarks() {
     getAssetMarks({id: selected_asset.val(), name: selected_asset.text(),
       color: randomHexColor()}, init, finish);
 }
+
+function keepSelection(event, object) {
+  if (event)
+    __centralgps__.selects[event.currentTarget.id] = object.selected;
+}
+function getSelection(select) {
+  return __centralgps__.selects[select];
+}
+
 function getAssetMarks(selected_asset, init, finish) {
   addLoadScreen("#mark_grid_container");
   var query_string = '?asset_id=' + selected_asset.id +
@@ -181,24 +190,26 @@ function getAssetMarks(selected_asset, init, finish) {
           __centralgps__.asset.list.forEach(function (asset) {
             if (selected_asset.id == asset.id) asset_image = asset.asset_image
           });
-          console.log(m);
-          var mark_at = moment(m.position_at).format(_dt_format_h);
-          var mark_text = Mustache.render(_mark_text, { mark: m });
-          var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, mark_at: mark_at, mark_text: mark_text});
+          var position_at = moment(m.position_at).format(_dt_format_h);
+          var executed_at = moment(m.executed_at).format(_dt_format_h);
+          var finished_at = '--/--/-- --:--:--';
+          if(m.finished_at != null) finished_at = moment(m.finished_at).format(_dt_format_h);
+          var mark_text = Mustache.render(_mark_text, { mark: m, executed_at: executed_at, finished_at: finished_at });
+          var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, position_at: position_at, mark_text: mark_text});
           mark_list.push({ token: m.token, asset_name: selected_asset.name, mark_text: mark_text,
-            mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, mark_at: mark_at });
+            mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, position_at: position_at, executed_at: executed_at, finished_at: finished_at });
           point_list.push([m.lat, m.lon]);
           timeline_items.push({id: m.token, content: (idx + 1).toString(), start: m.position_at, mark: {id: m.token}});
           //var mark =
           __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]
             .addLayer(L.marker([m.lat, m.lon], { mark: { token: m.token }, zIndexOffset: 108, icon: _rand_marker_icon })
-            .bindPopup(mark_html_popup)
+            .bindPopup(mark_html_popup, {maxWidth: 920, maxHeight: 300})
             .on('click', function(){ __centralgps__.timeline.instance.focus(m.token); __centralgps__.timeline.instance.setSelection(m.token) }));
         });
         $("#mark_grid").bootgrid('append', mark_list);
         var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
         __centralgps__.asset.map.fitBounds(polyline.getBounds());
-        __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
+        __centralgps__.asset.map.setZoom (__centralgps__.asset.map.getZoom()); //force a refresh event.
 
         __centralgps__.timeline.items = new vis.DataSet(timeline_items);
         __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
@@ -330,11 +341,11 @@ function updateAssetGrid() {
       if(__centralgps__.asset.list.length > 0) {
         //check if there is changes in the length of the loaded asset list (+1 for [All])
         //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_marks_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
+          chosenLoadSelect('_marks_asset_list',   __centralgps__.asset.list, 'id', 'name', keepSelection,      -1, __centralgps__.globalmessages.generic._all, getSelection('_marks_asset_list'));
         //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', null, -1, __centralgps__.globalmessages.generic._all);
+          chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', keepSelection,      -1, __centralgps__.globalmessages.generic._all, getSelection('_history_asset_list'));
         //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', updateRoadmapCombo);
+          chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', updateRoadmapCombo, -1, __centralgps__.globalmessages.generic._all, getSelection('_roadmap_asset_list'));
           updateRoadmapCombo(null, { selected: $('#_roadmap_asset_list').val() });
       }
     } else {
@@ -344,6 +355,7 @@ function updateAssetGrid() {
   });
 }
 function updateRoadmapCombo(event, object){
+  keepSelection(event, object);
   $.get('/client/assets/' + object.selected + '/roadmaps/json', function(response, status, xhr) {
     if (response.status == true) {
       chosenLoadSelect('_roadmap_list', response.rows, 'roadmap_id', 'roadmap_name', null);

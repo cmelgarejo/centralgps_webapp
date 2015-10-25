@@ -1,4 +1,5 @@
 var __centralgps__ = {
+  selects: [],
   mapbox: { accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f' },
   venue: { form: {} },
   roadmap: { form: {} },

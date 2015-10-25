@@ -111,3 +111,12 @@ msgstr "Deleted!"
 
 msgid "DELETE_RECORD_TEXT_DONE"
 msgstr "The record #{RECORD} has been deleted"
+
+msgid "CHECKPOINT_CLIENT_LINK_TEXT"
+msgstr "Clients"
+
+msgid "CHECKPOINT_ITEM_LINK_TEXT"
+msgstr "Items"
+
+msgid "CHECKPOINT_MEASURE_UNIT_LINK_TEXT"
+msgstr "Measure Units"

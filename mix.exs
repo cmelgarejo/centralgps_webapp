@@ -15,7 +15,7 @@ defmodule CentralGPSWebApp.Mixfile do
 
   defp package do
       [ contributors: ["cmelgarejo"],
-        licenses: ["Licensed Closed Source"],
+        licenses: ["Licensed Private Source"],
         links: %{"GitLab" => "https://gitlab.com/CentralGPS/centralgps_webapp"} ]
   end
 

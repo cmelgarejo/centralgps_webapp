@@ -27,7 +27,7 @@
       <li><a href="#tab_mark_list" aria-controls="tab_mark_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %></a></li>
       <% end %>
       <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
-      <li><a href="#tab_roadmap_list" aria-controls="tab_roadmap_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ROADMAP_TEXT") %></a></li>
+      <!-- <li><a href="#tab_roadmap_list" aria-controls="tab_roadmap_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ROADMAP_TEXT") %></a></li> -->
       <% end %>
       <li class="active"><a href="#tab_map" aria-controls="tab_map" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MAP_TEXT") %></a></li>
   </ul>
@@ -96,7 +96,6 @@
             <table id="history_grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html",   "COLUMN_HISTORY_ASSET") %></th>
                       <th data-column-id="history_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ADDRESS") %></th>
                       <th data-column-id="history_at"><%= l10n(@session.language_code, "monitor.html",   "COLUMN_HISTORY_POSITION_AT") %></th>
                     </tr>
@@ -149,12 +148,12 @@
             </div>
           </div>
           <div id="mark_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %>">
-            <table id="mark_grid" class="table table-condensed table-hover table-striped">
+            <table id="mark_grid" class="table table-hover">
                 <thead>
                     <tr>
-                      <th data-column-id="asset_name"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_ASSET") %></th>
                       <th data-column-id="mark_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_TEXT") %></th>
-                      <th data-column-id="mark_at" data-order="desc"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_AT") %></th>
+                      <!-- <th data-column-id="executed_at" data-order="desc"><i class="glyphicon glyphicon-play"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_EXECUTED_AT") %></th>
+                      <th data-column-id="finished_at" data-order="desc"><i class="glyphicon glyphicon-stop"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_FINISHED_AT") %></th> -->
                     </tr>
                 </thead>
             </table>
@@ -256,8 +255,34 @@ $(document).ready(function() {
   initMonitor('<%= @session.language_code %>', layers);
   var history_text = '<%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_BEARING") %>: {{&bearing}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_SPEED") %>: {{&speed}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ACCURACY") %>: {{&accuracy}}';
   var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b> <br/>{{&history_text}}</div>';
-  var mark_text    = '<b>{{&mark.venue}} - {{&mark.address}}</b> <br/>{{&mark.form}} - {{&mark.activities}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></span>: {{&mark.notes}}</i>---  ';
-  var mark_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{mark_at}}</b> <br/>{{&mark_text}}</div>';
+  var mark_text    = '<table class="table table-condensed">\
+    <tr>\
+      <td><b>{{&mark.venue}}</b></td><td><i class="h6">({{&mark.address}})</i></td>\
+      <td><i class="glyphicon glyphicon-play"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_EXECUTED_AT") %></td><td>{{&executed_at}}</td>\
+      <td><i class="glyphicon glyphicon-stop"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_FINISHED_AT") %></td><td>{{&finished_at}}</td>\
+    </tr>\
+    <tr><td colspan="6" class="text-center">{{&mark.form}}</td></tr>\
+    <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{&mark.notes}}</td></tr>\
+    <tr><td colspan="6">\
+      {{#mark.activities}} \
+      <table class="table table-condensed table-striped table-bordered-black">\
+        <tr><td colspan="2"><b>{{description}}</b></td></tr>\
+        <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{notes}}</td></tr>\
+        <tr><td colspan="2">\
+          <table class="table table-condensed table-striped">\
+            {{#items}}\
+             <tr>\
+              <td>{{name}}</td>\
+              <td>{{measure_unit}}</td>\
+              <td>{{quantity}}</td>\
+             </tr>\
+            {{/items}} \
+          </table>\
+        </td></tr>\
+      </table>\
+     {{/mark.activities}}\
+  </tr></td></table>';
+  var mark_html_popup    = '<div class="row"><div class="col-sm-2 col-md-2 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}}</div><div class="col-sm-10 col-md-10">{{&mark_text}}</div>';
   var roadmap_text    = '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'
   var roadmap_mark_text    = '<b>{{&venue}}</b> <br/>{{&form}} - {{&activity}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i>'
   var roadmap_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{roadmap_at}}</b> <br/>{{&roadmap_text}} <br/>{{&roadmap_mark_text}}</div>';
