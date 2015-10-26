@@ -7,6 +7,9 @@ msgstr "Nueva hoja de ruta"
 msgid  "PAGE_EDIT_TITLE"
 msgstr "Editar hoja de ruta"
 
+msgid  "PAGE_VIEW_TITLE"
+msgstr "Hoja de ruta"
+
 msgid  "GRID_COMMAND_COLUMN"
 msgstr "Comandos"
 

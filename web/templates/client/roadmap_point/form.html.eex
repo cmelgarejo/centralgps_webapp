@@ -40,6 +40,13 @@
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
+            <input class="form-control" type="text" id="notes" name="notes"
+            value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>"/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NOTES") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
             <input class="form-control input-latlon" type="text" id="lat" name="lat" maxlength="20"
             pattern="-?\d{1,3}\.\d+" value="<%= if (@record.__form__ == :edit), do: @record.lat, else: 0 %>"/>
           </div>

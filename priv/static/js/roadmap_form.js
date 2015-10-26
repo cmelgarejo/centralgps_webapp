@@ -156,7 +156,7 @@ function setCurrentRoadmapPointPos() {
     current_marker.setLatLng([$('#lat').val(), $('#lon').val()]);
     current_marker_circle.setLatLng([$('#lat').val(), $('#lon').val()]);
     var latlng = current_marker.getLatLng();
-    if(latlng.lat != 0 && latlng.lng != 0) {
+    if(latlng != null && latlng.lat != 0 && latlng.lng != 0) {
       __centralgps__.roadmap.form.map.setView(latlng, 18);
       current_marker_popup.setContent(Mustache.render(_rpt, roadmapPoint_popupContent())).update();
       current_marker.openPopup();
