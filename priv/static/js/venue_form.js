@@ -71,7 +71,7 @@ var current_marker = null;
 var current_marker_circle = null;
 
 function loadVenues(_venue_lat_lon, _venue_detection_radius, _layer_name) {
-  $('img').attr('src', __centralgps__.api_base_url + $('img').attr('src'));
+  $('#image_preview').attr('src', __centralgps__.api_base_url + '/' + $('#image_preview').attr('src'));
   try {
     current_marker = new L.marker(_venue_lat_lon, {icon: venue_marker, draggable:'true'}).bindPopup(current_marker_popup);
     current_marker_circle = L.circle(_venue_lat_lon, _venue_detection_radius, {
@@ -166,6 +166,7 @@ $(document).ready(function() {
     }
   });
   loadVenueTypes();
+  loadClients();
 });
 function loadVenueTypes() {
   $.get('/checkpoint/venue_types/json', function(response, status, xhr) {
@@ -174,12 +175,30 @@ function loadVenueTypes() {
       response.rows.forEach(function(vt, aidx, arr) {
         venue_type_list.push({ id: vt.id, description: vt.description });
       });
-      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#venue_type_id').val());
+      chosenLoadSelect('venue_type_select', venue_type_list, 'id', 'description', fnChosen_VenueTypeOnChange, null, null, $('#venue_type_id').val());
     } else {
       console.log('loadVenueTypes: ' + response.msg);
     }
   });
 }
-function fnChosenOnChange() {
+function loadClients() {
+  $.get('/checkpoint/clients/json', function(response, status, xhr) {
+    if (response.status == true) {
+      var client_list = [];
+      client_list.push({ id: null, name: '-' });
+      response.rows.forEach(function(c, aidx, arr) {
+        client_list.push({ id: c.id, name: c.name });
+      });
+      chosenLoadSelect('client_select', client_list, 'id', 'name', fnChosen_ClientOnChange, null, null, $('#client_id').val());
+    } else {
+      console.log('loadVenueTypes: ' + response.msg);
+    }
+  });
+}
+function fnChosen_VenueTypeOnChange() {
   $('#venue_type_id').val($(this).val());
+}
+
+function fnChosen_ClientOnChange() {
+  $('#client_id').val($(this).val());
 }

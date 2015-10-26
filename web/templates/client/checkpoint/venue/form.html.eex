@@ -8,9 +8,9 @@
       <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <% end %>
-      <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
       <input type="hidden" id="xtra_info" name="xtra_info" value="<%= if (@record.__form__ == :edit), do: @record.xtra_info, else: nil %>"/>
       <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= if (@record.__form__ == :edit), do: @record.venue_type_id, else: nil %>" required/>
+      <input type="hidden" id="client_id" name="client_id" value="<%= if (@record.__form__ == :edit), do: @record.client_id, else: nil %>" required/>
     </div>
     <div class="card-body card-padding">
       <div class="row">
@@ -27,9 +27,17 @@
     </div>
     <div class="row">
       <div class="col-sm-6 col-md-6">
+        <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_TYPE") %></label>
         <div class="form-group fg-float">
           <div class="fg-line">
             <select class="chosen-select form-control" id="venue_type_select">
+            </select>
+          </div>
+        </div>
+        <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CLIENT") %></label>
+        <div class="form-group fg-float">
+          <div class="fg-line">
+            <select class="chosen-select form-control" id="client_select">
             </select>
           </div>
         </div>
@@ -65,6 +73,13 @@
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
+            <input class="form-control" type="text" id="address" name="address"
+            value="<%= if (@record.__form__ == :edit), do: @record.address, else: nil %>"/>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ADDRESS") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line">
             <input class="form-control input-mask" type="number" id="detection_radius" name="detection_radius"
             data-mask="00000"  maxlength="5"
             value="<%= if (@record.__form__ == :edit), do: @record.detection_radius, else: 25 %>" required/>
@@ -90,15 +105,15 @@
         <% #Image Control %>
         <div class="text-center">
           <%= if (@record.__form__ == :edit) do %>
-          <input type="hidden" id="image_filename" name="image_filename" value="<%= @record.image_filename %>" required/>
-          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
+          <input type="hidden" id="image_path" name="image_path" value="<%= @record.image_path %>" required/>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE_CURRENT") %></label>
           <% else %>
-          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_VENUE_IMAGE") %></label>
           <% end %>
           <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
               <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
-                <img src='<%= @record.image_filename %>' style="width:150px;"/>
+                <img id="image_preview" src='<%= @record.image_path %>' style="width:150px;"/>
               </div>
               <div>
                   <span class="btn btn-info btn-file">

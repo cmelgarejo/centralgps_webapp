@@ -51,3 +51,15 @@ msgstr "Fecha y hora de inserción"
 
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Fecha y hora de actualización"
+
+msgid  "COLUMN_VENUE_IMAGE_CURRENT"
+msgstr "Imagen actual"
+
+msgid  "COLUMN_VENUE_TYPE"
+msgstr "Tipo de Establecimiento"
+
+msgid  "COLUMN_CLIENT"
+msgstr "Cliente"
+
+msgid  "COLUMN_ADDRESS"
+msgstr "Dirección"
