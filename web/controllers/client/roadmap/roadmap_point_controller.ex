@@ -66,7 +66,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   #private functions
   defp api_method(roadmap_id, form \\ "") do
     if !is_bitstring(roadmap_id), do: roadmap_id = Integer.to_string(roadmap_id)
-    "/client/roadmap/" <> roadmap_id <> "/point/" <> form
+    "/client/roadmaps/" <> roadmap_id <> "/points/" <> form
   end
 
   defp get_record(s, p) do
@@ -161,7 +161,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
-  defp api_parent_method(form) when is_bitstring(form), do: "/client/roadmap/" <> form
+  defp api_parent_method(form) when is_bitstring(form), do: "/client/roadmaps/" <> form
   defp get_parent_record(s, p) do
     p = objectify_map(p)
     {api_status, res} = api_get_json api_parent_method(p.roadmap_id), s.auth_token, s.account_type

@@ -1,6 +1,9 @@
 msgid  "SAVE"
 msgstr "Save"
 
+msgid  "EDIT"
+msgstr "Edit"
+
 msgid  "BACK"
 msgstr "Back"
 

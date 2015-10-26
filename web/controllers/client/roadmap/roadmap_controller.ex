@@ -73,7 +73,7 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
   end
 
   #private functions
-  defp api_method(form \\ "") when is_bitstring(form), do: "/client/roadmap/" <> form
+  defp api_method(form \\ "") when is_bitstring(form), do: "/client/roadmaps/" <> form
 
   defp get_record(s, p) do
     p = objectify_map(p)
@@ -83,7 +83,7 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, name: record.name, description: record.description,
+          %{ id: record.id, roadmap_id: record.id, name: record.name, description: record.description,
           notes: record.notes, one_time_date: record.one_time_date,
           interval: record.interval, days_of_week: record.days_of_week,
           months_of_year: record.months_of_year, days_of_month: record.days_of_month,

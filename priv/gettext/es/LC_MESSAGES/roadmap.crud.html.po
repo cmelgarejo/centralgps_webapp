@@ -22,9 +22,6 @@ msgstr "Descripción"
 msgid  "COLUMN_DAYS_OF_WEEK"
 msgstr "Días de la semana"
 
-msgid  "COLUMN_REPETITION"
-msgstr "Repetición (en días)"
-
 msgid  "COLUMN_ONE_TIME_DATE"
 msgstr "Fecha (al setear esta fecha, solo se usará la hoja de ruta ese día, únicamente)"
 
@@ -57,3 +54,18 @@ msgstr "Hoja de Ruta"
 
 msgid  "TABPANEL_ROADMAP_POINTS_TEXT"
 msgstr "Puntos"
+
+msgid  "COLUMN_INTERVAL"
+msgstr "Intérvalo"
+
+msgid  "COLUMN_MONTHS_OF_YEAR"
+msgstr "Meses del Año"
+
+msgid  "COLUMN_DAYS_OF_MONTH"
+msgstr "Días del Mes"
+
+msgid  "COLUMN_RECURS_EVERY"
+msgstr "Ocurre cada [días/semanas]"
+
+msgid  "COLUMN_NOTES"
+msgstr "Notas"

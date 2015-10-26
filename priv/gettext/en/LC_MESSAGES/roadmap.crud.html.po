@@ -57,3 +57,18 @@ msgstr "Roadmap"
 
 msgid  "TABPANEL_ROADMAP_POINTS_TEXT"
 msgstr "Points"
+
+msgid  "COLUMN_INTERVAL"
+msgstr "Interval"
+
+msgid  "COLUMN_MONTHS_OF_YEAR"
+msgstr "Months of the year"
+
+msgid  "COLUMN_DAYS_OF_MONTH"
+msgstr "Days of month"
+
+msgid  "COLUMN_RECURS_EVERY"
+msgstr "Recurs every [day/week]"
+
+msgid  "COLUMN_NOTES"
+msgstr "Notes"

@@ -50,6 +50,7 @@ function _gridCommandFormatter(column, row)
   //<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>
   return "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "'><span class='md md-trending-up'></span></button> " +
   "<button type='button' class='btn btn-default cmd-view'   data-row-id='" + row.id + "' ><span class='md md-remove-red-eye'></span></button> " +
+  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' ><span class='md md-edit'></span></button> " +
   "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' ><span class='md md-delete'></span></button>";
 }
 $(document).ready(function() {

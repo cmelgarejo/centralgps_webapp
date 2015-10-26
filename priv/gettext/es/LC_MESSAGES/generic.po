@@ -1,6 +1,9 @@
 msgid  "SAVE"
 msgstr "Guardar"
 
+msgid  "EDIT"
+msgstr "Editar"
+
 msgid  "BACK"
 msgstr "Atrás"
 

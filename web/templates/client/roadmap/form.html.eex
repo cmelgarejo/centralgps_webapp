@@ -36,6 +36,30 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DESCRIPTION") %></label>
         </div>
         <div class="form-group fg-float">
+          <div class="fg-line">
+            <input class="form-control" type="text" id="notes" name="notes"
+            value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_NOTES") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <select class="chosen-select form-control" id="interval" name="interval">
+              <%= if @record.__form__ == :edit do %>
+              <option selected value="<%= @record.interval %>"><%= @record.interval %></option>
+              <%=   for (d <- remove_list_from_list ['d', 'w', 'm'], [@record.interval] ) do %>
+              <option value="<%= d %>"><%= d %></option>
+              <%    end %>
+              <%  else %>
+              <%=   for (d <- ['d', 'w', 'm']) do %>
+              <option value="<%= d %>"><%= d %></option>
+              <%    end %>
+              <%  end %>
+            </select>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_INTERVAL") %></label>
+        </div>
+        <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
               <%= if @record.__form__ == :edit do %>
@@ -55,6 +79,44 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
         </div>
         <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <select class="chosen-select form-control" id="months_of_year" name="months_of_year[]" multiple>
+              <%= if @record.__form__ == :edit do %>
+              <%=   for (d <- @record.months_of_year) do %>
+              <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
+              <%    end %>
+              <%=   for (d <- remove_list_from_list [1,2,3,4,5,6,7,8,9,10,11,12], @record.months_of_year ) do %>
+              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
+              <%    end %>
+              <%  else %>
+              <%=   for (d <- [1,2,3,4,5,6,7,8,9,10,11,12]) do %>
+              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
+              <%    end %>
+              <%  end %>
+            </select>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_MONTHS_OF_YEAR") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line fg-toggled">
+            <select class="chosen-select form-control" id="days_of_month" name="days_of_month[]" multiple>
+              <%= if @record.__form__ == :edit do %>
+              <%=   for (d <- @record.days_of_month) do %>
+              <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
+              <%    end %>
+              <%=   for (d <- remove_list_from_list [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,6,27,28,29,30], @record.days_of_month ) do %>
+              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
+              <%    end %>
+              <%  else %>
+              <%=   for (d <- [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,6,27,28,29,30]) do %>
+              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
+              <%    end %>
+              <%  end %>
+            </select>
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_MONTH") %></label>
+        </div>
+        <div class="form-group fg-float">
           <div class="fg-toggled">
             <input class="form-control" type="date" id="one_time_date" name="one_time_date" maxlength="10"
             value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>"/>
@@ -63,11 +125,11 @@
         </div>
         <div class="form-group fg-float">
           <div class="fg-line">
-            <input class="form-control input-mask" type="number" id="repetition" name="repetition"
+            <input class="form-control input-mask" type="number" id="recurs_every" name="recurs_every"
             data-mask="000"  maxlength="3"
-            value="<%= if (@record.__form__ == :edit), do: @record.repetition, else: nil %>"/>
+            value="<%= if (@record.__form__ == :edit), do: @record.recurs_every, else: nil %>"/>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_REPETITION") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_RECURS_EVERY") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
