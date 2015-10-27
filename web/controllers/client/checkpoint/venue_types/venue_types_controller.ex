@@ -68,6 +68,84 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
   defp image_dir, do: "images/venue_type"
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(form \\ "") when is_bitstring(form), do: "/checkpoint/venue_type/" <> form
+
+  defp get_record(s, p) do
+    p = objectify_map p
+    {api_status, res} = api_get_json api_method(p.id), s.auth_token, s.account_type
+    record = nil
+    if(api_status == :ok) do
+      record = objectify_map(res.body.res)
+      if res.body.status do
+        record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
+          %{id: record.id, configuration_id: record.configuration_id, description: record.description,
+          image_path: record.image_path }
+      end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
+    end
+    record
+  end
+
+  defp delete_record(s, p) do
+    p = objectify_map p
+    if(Map.has_key?p, :id) do
+      {api_status, res} =
+        api_delete_json api_method(p.id),
+        s.auth_token, s.account_type
+    else
+      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
+    end
+    if(api_status == :ok) do
+      if !res.body.status, do: res = Map.put res, :body, %{ status: false, msg: res.body.msg }
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
+    end
+    res.body
+  end
+
+  defp save_record(s, p) do
+    p = objectify_map(p)
+    if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
+    if (!Map.has_key?p, :image), do: p = Map.put(p, :image, nil), else:
+      (if p.image == "", do: p = Map.put p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
+    if (String.to_atom(p.__form__) ==  :edit) do
+      file = nil
+      if (p.image != nil) do #let's create a hash filename for the new pic.
+        image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
+        {:ok, file} = File.read p.image.path
+        file = Base.url_encode64(file)
+      else #or take the already existing one
+        image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
+      end
+      data = %{ venue_id: p.id, configuration_id: s.client_id, description: p.description,
+        image_path: Enum.join([image_dir, image_path], "/"), image_bin: file  }
+      {api_status, res} = api_put_json api_method(data.venue_id), s.auth_token, s.account_type, data
+      if api_status == :ok  do
+        if res.body.status && (p.image != nil) do #put the corresponding pic for the record.
+          dest_dir = Enum.join [priv_static_path, image_dir], "/"
+          File.rm Enum.join([dest_dir,  String.split(p.image_path, image_dir) |> List.last], "/") #removes the old image
+          File.mkdir_p dest_dir
+          File.copy(p.image.path, Enum.join([dest_dir,  image_path], "/"), :infinity)
+        end
+      else
+        res = Map.put res, :body, %{ status: false, msg: res.reason }
+      end
+    else
+      file = nil
+      if (p.image != nil) do
+        image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
+        {:ok, file} = File.read p.image.path
+        file = Base.url_encode64(file)
+      else
+        image_path = image_placeholder
+      end
+      data = %{ configuration_id: s.client_id, description: p.description,
+        image_path: image_path, image_bin: file  }
+      {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
+    end
+    res.body #return the message
+  end
+
   defp list_records(s, p) do
     p = objectify_map(p)
       |> (Map.update :current, 1, &(parse_int(&1)))
@@ -97,82 +175,4 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
     Map.merge (res.body |> Map.put :rows, rows), p
   end
 
-  defp get_record(s, p) do
-    p = objectify_map p
-    {api_status, res} = api_get_json api_method(p.id), s.auth_token, s.account_type
-    record = nil
-    if(api_status == :ok) do
-      record = objectify_map(res.body.res)
-      if res.body.status do
-        record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, description: record.description,
-          image_filename: record.image_path }
-      end
-    else
-      res = Map.put res, :body, %{ status: false, msg: res.reason }
-    end
-    record
-  end
-
-  defp delete_record(s, p) do
-    p = objectify_map p
-    if(Map.has_key?p, :id) do
-      {api_status, res} =
-        api_delete_json api_method(p.id),
-        s.auth_token, s.account_type
-    else
-      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
-    end
-    if(api_status == :ok) do
-      if !res.body.status, do: res = Map.put res, :body, %{ status: false, msg: res.body.msg }
-    else
-      res = Map.put res, :body, %{ status: false, msg: res.reason }
-    end
-    res.body
-  end
-
-
-  defp save_record(s, p) do
-    p = objectify_map(p)
-    if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
-    if (!Map.has_key?p, :image), do: p = Map.put(p, :image, nil), else:
-    (if p.image == "", do: p = Map.put p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
-    if (String.to_atom(p.__form__) ==  :edit) do
-      #image_filename = p.image_filename
-      file = nil
-      if (p.image != nil) do #let's create a hash filename for the new pic.
-        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
-        {:ok, file} = File.read p.image.path
-        file = Base.url_encode64(file)
-      else #or take the already existing one
-        image_filename = (String.split(p.image_filename, image_dir) |> List.last) |> String.replace "/", ""
-      end
-      data = %{ venue_id: p.id, configuration_id: s.client_id, description: p.description,
-        image: Enum.join([image_dir, image_filename], "/"), image_file: file  }
-      {api_status, res} = api_put_json api_method(data.venue_id), s.auth_token, s.account_type, data
-      if api_status == :ok  do
-        if res.body.status && (p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [Utilities.priv_static_path, image_dir], "/"
-          File.rm Enum.join([dest_dir,  String.split(p.image_filename, image_dir) |> List.last], "/") #removes the old image
-          File.mkdir_p dest_dir
-          File.copy(p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
-        end
-      else
-        res = Map.put res, :body, %{ status: false, msg: res.reason }
-      end
-    else
-      file = nil
-      if (p.image != nil) do
-        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
-        {:ok, file} = File.read p.image.path
-        file = Base.url_encode64(file)
-      else
-        image_filename = image_placeholder
-      end
-      data = %{ configuration_id: s.client_id, description: p.description,
-        image: image_filename, image_file: file  }
-      {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
-    end
-    res.body #return the message
-  end
 end

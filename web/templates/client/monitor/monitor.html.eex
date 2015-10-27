@@ -258,12 +258,13 @@ $(document).ready(function() {
   var mark_text    = '<table class="table table-condensed">\
     <tr>\
       <td><b>{{&mark.venue}}</b></td><td><i class="h6">{{&mark.address}}</i></td>\
-      <td><i class="glyphicon glyphicon-play"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_EXECUTED_AT") %></td><td>{{&executed_at}}</td>\
-      <td><i class="glyphicon glyphicon-stop"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_FINISHED_AT") %></td><td>{{&finished_at}}</td>\
+      <td><i class="glyphicon glyphicon-play">&nbsp;</i><%= l10n(@session.language_code, "monitor.html", "COLUMN_EXECUTED_AT") %></td><td>{{&executed_at}}</td>\
+      <td><i class="glyphicon glyphicon-stop">&nbsp;</i><%= l10n(@session.language_code, "monitor.html", "COLUMN_FINISHED_AT") %></td><td>{{&finished_at}}</td>\
+      <td><i class="glyphicon glyphicon-time">&nbsp;</i><%= l10n(@session.language_code, "monitor.html", "COLUMN_DURATION")    %></td><td>{{&duration}}</td>\
     </tr>\
-    <tr><td colspan="6" class="text-center h4">{{&mark.form}}</td></tr>\
+    <tr><td colspan="8" class="text-center h4">{{&mark.form}}</td></tr>\
       {{#mark.activities}}\
-    <tr><td colspan="6">\
+    <tr><td colspan="8">\
       <table class="table table-condensed table-striped table-bordered-black">\
         <tr><td colspan="2"><b>{{description}}</b></td></tr>\
         <tr><td colspan="2">\

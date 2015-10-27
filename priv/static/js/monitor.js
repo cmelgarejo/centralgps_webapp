@@ -193,8 +193,12 @@ function getAssetMarks(selected_asset, init, finish) {
           var position_at = moment(m.position_at).format(_dt_format_h);
           var executed_at = moment(m.executed_at).format(_dt_format_h);
           var finished_at = '--/--/-- --:--:--';
-          if(m.finished_at != null) finished_at = moment(m.finished_at).format(_dt_format_h);
-          var mark_text = Mustache.render(_mark_text, { mark: m, executed_at: executed_at, finished_at: finished_at });
+          var duration = '---'
+          if(m.finished_at != null) {
+            finished_at = moment(m.finished_at).format(_dt_format_h);
+            duration = moment.duration(moment(m.executed_at).diff(moment(m.finished_at))).humanize();
+          }
+          var mark_text = Mustache.render(_mark_text, { mark: m, executed_at: executed_at, finished_at: finished_at, duration: duration });
           var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, position_at: position_at, mark_text: mark_text});
           mark_list.push({ token: m.token, asset_name: selected_asset.name, mark_text: mark_text,
             mark_html_popup: mark_html_popup, lat: m.lat, lon: m.lon, position_at: position_at, executed_at: executed_at, finished_at: finished_at });

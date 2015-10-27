@@ -58,6 +58,9 @@ msgstr "Fecha y hora de ejecución"
 msgid  "COLUMN_FINISHED_AT"
 msgstr "Fecha y hora de finalización"
 
+msgid  "COLUMN_DURATION"
+msgstr "Duración"
+
 msgid  "COLUMN_ROADMAP_ASSET"
 msgstr "Nombre"
 

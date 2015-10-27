@@ -50,7 +50,10 @@ msgid  "COLUMN_EXECUTED_AT"
 msgstr "Executed at"
 
 msgid  "COLUMN_FINISHED_AT"
-msgstr "`Finished at"
+msgstr "Finished at"
+
+msgid  "COLUMN_DURATION"
+msgstr "Duration"
 
 msgid  "COLUMN_ROADMAP_ASSET"
 msgstr "Asset"
