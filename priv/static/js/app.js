@@ -267,11 +267,11 @@ function ajaxformOnResponse(response, status, xhr, jqForm)  {
       showSuccess(response.msg);
     else
       showError(response.msg);
-    setTimeout(function ajaxformOnResponse_disableButton(){
-      jqForm.find(':button:disabled').prop('disabled',false);
-      if(response.status)
-        get_page(__centralgps__.CRUD.index_url);
-    }, 2000);
+      setTimeout(function ajaxformOnResponse_disableButton(){
+        jqForm.find(':button:disabled').prop('disabled',false);
+        if(response.status)
+          get_page(__centralgps__.CRUD.index_url);
+      }, 2000);
     return false;
 }
 

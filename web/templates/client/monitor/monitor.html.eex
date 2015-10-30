@@ -255,17 +255,17 @@ $(document).ready(function() {
   initMonitor('<%= @session.language_code %>', layers);
   var history_text = '<%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_BEARING") %>: {{&bearing}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_SPEED") %>: {{&speed}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ACCURACY") %>: {{&accuracy}}';
   var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b> <br/>{{&history_text}}</div>';
-  var mark_text    = '<table class="table table-condensed">\
+  var mark_text    = '<table class="table-report table-condensed table-bordered-black table-condensed">\
     <tr>\
       <td><b>{{&mark.venue}}</b></td><td><i class="h6">{{&mark.address}}</i></td>\
-      <td><i class="glyphicon glyphicon-play">&nbsp;</i><%= l10n(@session.language_code, "monitor.html", "COLUMN_EXECUTED_AT") %></td><td>{{&executed_at}}</td>\
-      <td><i class="glyphicon glyphicon-stop">&nbsp;</i><%= l10n(@session.language_code, "monitor.html", "COLUMN_FINISHED_AT") %></td><td>{{&finished_at}}</td>\
-      <td><i class="glyphicon glyphicon-time">&nbsp;</i><%= l10n(@session.language_code, "monitor.html", "COLUMN_DURATION")    %></td><td>{{&duration}}</td>\
+      <td><i class="glyphicon glyphicon-play" style="color: green"></i>&nbsp;{{&executed_at}}</td>\
+      <td><i class="glyphicon glyphicon-stop" style="color: red"></i>&nbsp;{{&finished_at}}</td>\
+      <td><i class="glyphicon glyphicon-time"></i>&nbsp;{{&duration}}</td>\
     </tr>\
-    <tr><td colspan="8" class="text-center h4">{{&mark.form}}</td></tr>\
+    <tr><td colspan="6" class="text-center h4">{{&mark.form}}</td></tr>\
       {{#mark.activities}}\
-    <tr><td colspan="8">\
-      <table class="table table-condensed table-striped table-bordered-black">\
+    <tr><td colspan="6">\
+      <table class="table-report table-condensed table-bordered-black">\
         <tr><td colspan="2"><b>{{description}}</b></td></tr>\
         <tr><td colspan="2">\
           <table class="table table-condensed table-striped">\
@@ -284,7 +284,7 @@ $(document).ready(function() {
      {{/mark.activities}}\
      {{^mark.activities}}{{/mark.activities}}\
     </td></tr>\
-    <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{&mark.notes}}</td></tr>\
+    <tr><td ><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{&mark.notes}}</td></tr>\
   </tr></td></table>';
   var mark_html_popup    = '<div class="row"><div class="col-sm-2 col-md-2 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}}</div><div class="col-sm-10 col-md-10">{{&mark_text}}</div>';
   var roadmap_text    = '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'

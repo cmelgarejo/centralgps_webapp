@@ -284,18 +284,18 @@
                         </a>
                     </li>
                     <% end %>
-                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.form.list) do %>
-                    <li>
-                      <a  onclick="get_page('checkpoint/forms');">
-                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_FORM_LINK_TEXT") %>
-                        </a>
-                    </li>
-                    <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.activity.list) do %>
                     <li>
                       <a  onclick="get_page('checkpoint/activities');">
                         <%= l10n(@session.language_code, "main.html", "CHECKPOINT_ACTIVITY_LINK_TEXT") %>
                       </a>
+                    </li>
+                    <% end %>
+                    <%= if Permissions.check(@session.permissions, Permissions.checkpoint.form.list) do %>
+                    <li>
+                      <a  onclick="get_page('checkpoint/forms');">
+                        <%= l10n(@session.language_code, "main.html", "CHECKPOINT_FORM_LINK_TEXT") %>
+                        </a>
                     </li>
                     <% end %>
                     <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue_type.list) do %>
