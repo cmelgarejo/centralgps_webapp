@@ -62,12 +62,12 @@ defmodule CentralGPSWebApp.Router do
     post   "/clients/save",   ClientController, :save
     delete "/clients/delete", ClientController, :delete
     #Client Contacts
-    get    "/client/contacts/",       ClientContactController, :index
-    get    "/client/contacts/json",   ClientContactController, :list
-    get    "/client/contacts/new",    ClientContactController, :new
-    get    "/client/contacts/edit",   ClientContactController, :edit
-    post   "/client/contacts/save",   ClientContactController, :save
-    delete "/client/contacts/delete", ClientContactController, :delete
+    get    "/clients/contacts/",       ClientContactController, :index
+    get    "/clients/contacts/json",   ClientContactController, :list
+    get    "/clients/contacts/new",    ClientContactController, :new
+    get    "/clients/contacts/edit",   ClientContactController, :edit
+    post   "/clients/contacts/save",   ClientContactController, :save
+    delete "/clients/contacts/delete", ClientContactController, :delete
     #Item
     get    "/items/",       ItemController, :index
     get    "/items/json",   ItemController, :list

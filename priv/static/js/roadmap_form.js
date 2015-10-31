@@ -109,7 +109,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
         collapsed: true,
         position: 'bottomright',
         text: '',
-        cssclass: 'md md-search',
+        cssclass: 'zmdi zmdi-search',
     }));
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);

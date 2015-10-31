@@ -115,13 +115,15 @@ function gridCommandFormatter(column, row)
       additional_row_info += " data-" + k + "= " + row[k] + " ";
     });
   }
-  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " ><span class='md md-edit'></span></button> " +
-         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " ><span class='md md-delete'></span></button>";
+  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " ><span class='zmdi zmdi-edit'></span></button> " +
+         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " ><span class='zmdi zmdi-delete'></span></button>";
 }
 
 function gridImageFormatter(column, row)
 {
-  var image = (row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
+  var id = row[column.id];
+  console.log(id);
+  var image = (id != null && row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
   return "<img src='" + __centralgps__.api_base_url + "/" + image + "' style='width:50px'/>";
 }
 
@@ -328,7 +330,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
 function bootgrid_appendSearchControl() {
   $('.grid-container table').each(function bootgrid_appendSearchControl_build(i, t) {
     if (!$('#' + t.id + "-search-field-clear").length)
-      $('#' + t.id + '-header .input-group').append("<span id='" + t.id + "-search-field-clear' class='input-group-addon' style='vertical-align:middle;cursor:pointer'><i class='md md-close' onclick=\"bootgrid_clearSearch('" + t.id + "')\"></i></span>");
+      $('#' + t.id + '-header .input-group').append("<span id='" + t.id + "-search-field-clear' class='input-group-addon' style='vertical-align:middle;cursor:pointer'><i class='zmdi zmdi-close' onclick=\"bootgrid_clearSearch('" + t.id + "')\"></i></span>");
   });
 }
 function bootgrid_clearSearch(grid_name) {

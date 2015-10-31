@@ -2,5 +2,5 @@
   <div class="card-header">
     <h2><%= l10n(@session.language_code, "client_contact.crud.html", "PAGE_NEW_TITLE") %></h2>
   </div>
-<%= render "form.html", conn: @conn, session: @session, record: %{__form__: :new, status: true, msg: nil}, parent_record: @parent_record %>
+<%= render "form.html", conn: @conn, session: @session, record: %{__form__: :new, image_path: @image_placeholder, status: true, msg: nil}, parent_record: @parent_record %>
 </div>

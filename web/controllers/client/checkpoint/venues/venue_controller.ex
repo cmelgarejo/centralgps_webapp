@@ -65,7 +65,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   end
 
   #private functions
-  defp image_dir, do: "images/venue"
+  defp image_dir, do: "images/checkpoint/venue"
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(form \\ "") when is_bitstring(form), do: "/checkpoint/venue/" <> form
   defp list_records(s, p) do
@@ -150,7 +150,6 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if (!Map.has_key?p, :image), do: p = Map.put(p, :image, nil), else:
       (if p.image == "", do: p = Map.put p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(p.__form__) ==  :edit) do
-      #image_path = p.image_path
       file = nil
       if (p.image != nil) do #let's create a hash filename for the new pic.
         image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""

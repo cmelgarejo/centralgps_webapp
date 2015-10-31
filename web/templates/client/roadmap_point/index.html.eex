@@ -2,12 +2,12 @@
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
       <a onclick="get_page('<%= roadmap_point_path(@conn, :new) %>?roadmap_id=<%= @parent_record.id %>');" class="btn btn-success btn-float" >
-        <i class="md md-add"></i>
+        <i class="zmdi zmdi-add"></i>
       </a>
     </div>
     <h4><%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>&nbsp;
     <a onclick="get_page('<%= roadmap_path(@conn, :index) %>');" class="btn btn-info">
-      <i class="md md-arrow-back"></i>
+      <i class="zmdi zmdi-arrow-back"></i>
       <%= l10n(@session.language_code, "generic", "BACK") %>
     </a>
     </h4>
@@ -41,8 +41,8 @@ __centralgps__.CRUD.grid_search_column = 'description';
 __centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
 function _gridCommandFormatter(column, row)
 {
-  return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='md md-edit'></span></button> " +
-  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='md md-delete'></span></button>";
+  return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='zmdi zmdi-edit'>  </span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>'><span class='zmdi zmdi-delete'></span></button>";
 }
 $(document).ready(function() {
   gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);

@@ -4,7 +4,7 @@
       <div class="p-relative">
         <img class="img-responsive" src="<%= @profile_image %>" alt="">
           <a class="pmop-edit">
-            <i class="md md-camera-alt"></i> <span class="hidden-xs"><%= l10n(@session.language_code, "profile.html", "INFORMATION_FORM_UPDATE_PROFILE_FOTO") %></span>
+            <i class="zmdi zmdi-camera-alt"></i> <span class="hidden-xs"><%= l10n(@session.language_code, "profile.html", "INFORMATION_FORM_UPDATE_PROFILE_FOTO") %></span>
           </a>
       </div>
       <!-- <div class="pmo-stat">
@@ -15,10 +15,10 @@
     <div class="pmo-block pmo-contact hidden-xs">
       <h2><%= l10n(@session.language_code, "profile.html", "INFORMATION_CONTACT_TITLE") %></h2>
       <ul>
-        <li><i class="md md-phone"></i><%= @session.phones %></li>
-        <li><i class="md md-email"></i><%= @session.emails %></li>
+        <li><i class="zmdi zmdi-phone"></i><%= @session.phones %></li>
+        <li><i class="zmdi zmdi-email"></i><%= @session.emails %></li>
         <!-- <li>
-          <i class="md md-location-on"></i>
+          <i class="zmdi zmdi-location-on"></i>
           <address class="m-b-0">
               10098 ABC Towers, <br>
               Dubai Silicon Oasis, Dubai, <br>
@@ -31,10 +31,10 @@
   <div class="pm-body clearfix">
     <div class="pmb-block">
       <div class="pmbb-header">
-        <h2><i class="md md-person m-r-5"></i><%= l10n(@session.language_code, "profile.html", "INFORMATION_TITLE") %></h2>
+        <h2><i class="zmdi zmdi-person m-r-5"></i><%= l10n(@session.language_code, "profile.html", "INFORMATION_TITLE") %></h2>
         <ul class="actions">
           <li class="dropdown">
-            <a href="" data-toggle="dropdown"><i class="md md-more-vert"></i></a>
+            <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li>
                 <a data-pmb-action="edit"><%= l10n(@session.language_code, "profile.html", "INFORMATION_FORM_EDIT") %></a>

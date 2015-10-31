@@ -101,7 +101,7 @@ function initMonitor(language_code, layers) {
         collapsed: true,
         position: 'bottomright',
         text: '',
-        cssclass: 'md md-search',
+        cssclass: 'zmdi zmdi-search',
     }));
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);
@@ -458,16 +458,21 @@ function updateVenueMap() {
                 venue.setLatLng([v.lat, v.lon]);
                 if (venue.getRadius != null)
                   venue.setRadius(v.detection_radius);
-                else
-                  venue.getPopup().setContent('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + '/' + v.image_path + '\" class=\"thumbnail\" style="width:150px"/>');
+                else {
+                  var venue_image = 'images/checkpoint/venue/_placeholder.png'
+                  if (venue.image_path != null) venue_image = venue.image_path;
+                  venue.getPopup().setContent('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + '/' + venue_image + '\" class=\"thumbnail\" style="width:150px"/>');
+                }
               }
             });
           });
         } else {
           response.rows.forEach(function(v, vidx, arr) {
+            var venue_image = 'images/checkpoint/venue/_placeholder.png'
+            if (v.image_path != null) venue_image = v.image_path;
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
               addLayer(L.marker([v.lat, v.lon], { venue: { id: v.id }, zIndexOffset: 108, icon: venue_icon })
-                .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + v.image_path + '\" class=\"thumbnail\" style="width:150px"/>'))
+                .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + venue_image + '\" class=\"thumbnail\" style="width:150px"/>'))
             //__centralgps__.asset.map
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name]
               .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {
@@ -480,7 +485,7 @@ function updateVenueMap() {
           });
         }
       } else {
-        console.log('.updateVenueMap: ' + response.msg);
+        console.log('updateVenueMap: ' + response.msg);
       }
     });
   });

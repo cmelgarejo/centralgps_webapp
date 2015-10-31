@@ -2,7 +2,7 @@
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
       <a onclick="get_page('<%= client_path(@conn, :new) %>');" class="btn btn-success btn-float" >
-        <i class="md md-add"></i>
+        <i class="zmdi zmdi-add"></i>
       </a>
     </div>
     <h4><%= l10n(@session.language_code, "client.crud.html", "PAGE_LIST_TITLE") %></h4>
@@ -25,12 +25,20 @@
 __centralgps__.CRUD.index_url = '<%= client_path(@conn, :index) %>';
 __centralgps__.CRUD.edit_url = '<%= client_path(@conn, :edit) %>';
 __centralgps__.CRUD.delete_url = '<%= client_path(@conn, :delete) %>';
+__centralgps__.CRUD.detail_url = '<%= client_contact_path(@conn, :index) %>';
 __centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#client_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_command_columns = ["client_id"];
+function _gridCommandFormatter(column, row)
+{
+  return "<button type='button' class='btn btn-default cmd-detail' data-client_id='" + row.id + "' data-row-id='" + row.id + "'><span class='zmdi zmdi-accounts'></span></button> " +
+  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' ><span class='zmdi zmdi-edit'></span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' ><span class='zmdi zmdi-delete'></span></button>";
+}
 $(document).ready(function() {
-  gridSetup_CRUD();
+  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
 });
 </script>

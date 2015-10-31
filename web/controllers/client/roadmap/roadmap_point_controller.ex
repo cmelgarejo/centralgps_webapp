@@ -165,7 +165,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   defp get_parent_record(s, p) do
     p = objectify_map(p)
     {api_status, res} = api_get_json api_parent_method(p.roadmap_id), s.auth_token, s.account_type
-    record = nil
+    record = %{id: 0}
     if(api_status == :ok) do
       record = objectify_map res.body.res
       if res.body.status do

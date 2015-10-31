@@ -1,0 +1,41 @@
+msgid  "PAGE_LIST_TITLE"
+msgstr "Contactos del Cliente"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "Nuevo Contacto de cliente"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Editar contacto de cliente"
+
+msgid  "GRID_COMMAND_COLUMN"
+msgstr "Comandos"
+
+msgid  "COLUMN_ID"
+msgstr "ID"
+
+msgid  "COLUMN_CLIENT_CONTACT_IMAGE"
+msgstr ""
+
+msgid  "COLUMN_NAME"
+msgstr "Nombre"
+
+msgid  "COLUMN_IDENTITY_DOCUMENT"
+msgstr "Documento de Identidad"
+
+msgid  "COLUMN_NOTES"
+msgstr "Notas"
+
+msgid  "COLUMN_EMAILS"
+msgstr "Emails"
+
+msgid  "COLUMN_PHONES"
+msgstr "Teléfonos"
+
+msgid  "COLUMN_NOTIFY"
+msgstr "Notificar"
+
+msgid  "COLUMN_CREATED_AT"
+msgstr "Fecha y hora de inserción"
+
+msgid  "COLUMN_UPDATED_AT"
+msgstr "Fecha y hora de actualización"

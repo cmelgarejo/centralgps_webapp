@@ -96,7 +96,7 @@ function loadVenues(_venue_lat_lon, _venue_detection_radius, _layer_name) {
         collapsed: true,
         position: 'bottomright',
         text: '',
-        cssclass: 'md md-search',
+        cssclass: 'zmdi zmdi-search',
     }));
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);

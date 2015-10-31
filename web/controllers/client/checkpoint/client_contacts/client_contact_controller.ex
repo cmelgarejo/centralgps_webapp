@@ -32,7 +32,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
       if(session == :error) do
         redirect conn, to: login_path(Endpoint, :index)
       else #do your stuff and render the page.
-        render (conn |> assign :parent_record, get_parent_record(session, params)), "new.html"
+        render (conn |> assign(:parent_record, get_parent_record(session, params)) |> assign(:image_placeholder, image_placeholder)), "new.html"
       end
     end
 
@@ -64,6 +64,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
     end
 
     #private functions
+    defp image_dir, do: "images/checkpoint/client/contact"
+    defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
     defp api_method(client_id, form \\ "") do
       if !is_bitstring(client_id), do: client_id = Integer.to_string(client_id)
       "/checkpoint/client/" <> client_id <> "/contact/" <> form
@@ -88,18 +90,66 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
         p = objectify_map(p)
         if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
         if (!Map.has_key?p, :notify), do: p = Map.put( p, :notify, false), else: p = Map.update(p, :notify, false, &(&1 == "on"))
+        if (!Map.has_key?p, :image), do: p = Map.put(p, :image, nil), else:
+          (if p.image == "", do: p = Map.put p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
         if (String.to_atom(p.__form__) ==  :edit) do
+          file = nil
+          if (p.image != nil) do #let's create a hash filename for the new pic.
+            image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
+            {:ok, file} = File.read p.image.path
+            file = Base.url_encode64(file)
+          else #or take the already existing one
+            image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
+          end
           data = %{ client_contact_id: p.id, client_id: p.client_id, name: p.name, notes: p.notes,
-            emails: p.emails, phones: p.phones, notify: p.notify }
-          {_, res} = api_put_json api_method(data.client_id, data.id), s.auth_token, s.account_type, data
+            emails: p.emails, phones: p.phones, notify: p.notify, image_path: Enum.join([image_dir, image_path], "/"),
+            image_bin: file }
+          {api_status, res} = api_put_json api_method(data.client_id, data.client_contact_id), s.auth_token, s.account_type, data
+          if api_status == :ok do
+            if res.body.status do
+              local_save_image(p.image, data.image_path)
+            else
+              res = Map.put res, :body, %{ status: false, msg: res.body.msg }
+            end
+          else
+            res = Map.put res, :body, %{ status: false, msg: res.reason }
+          end
         else
-          data = %{ client_id: p.client_id, client_id: p.client_id, name: p.name, notes: p.notes,
-            emails: p.emails, phones: p.phones, notify: p.notify }
-          {_, res} = api_post_json api_method(data.client_id, "create"), s.auth_token, s.account_type, data
+          file = nil
+          if (p.image != nil) do
+            image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last))
+              |> String.replace( "/", "")
+            image_path = Enum.join [image_dir, image_path], "/"
+            {:ok, file} = File.read p.image.path
+            file = Base.url_encode64(file)
+          else
+            image_path = image_placeholder
+          end
+          data = %{ client_id: p.client_id, name: p.name, notes: p.notes,
+            emails: p.emails, phones: p.phones, notify: p.notify, image_path: image_path, image_bin: file }
+          {api_status, res} = api_post_json api_method(data.client_id, "create"), s.auth_token, s.account_type, data
+          if api_status == :ok do
+            if res.body.status do
+              local_save_image(p.image, data.image_path)
+            else
+              res = Map.put res, :body, %{ status: false, msg: res.body.msg }
+            end
+          else
+            res = Map.put res, :body, %{ status: false, msg: res.reason }
+          end
         end
         res.body
       rescue
         e in _ -> %{ status: false, msg: error_logger(e, __ENV__) }
+      end
+    end
+
+    defp local_save_image(image, image_path) do
+      if (image != nil) do #put the corresponding pic for the record.
+        dest_dir = Enum.join [priv_static_path, image_dir], "/"
+        File.rm Enum.join([dest_dir, String.split(image_path, image_dir) |> List.last], "/") #removes the old image
+        File.mkdir_p dest_dir
+        File.copy(image.path, Enum.join([dest_dir,  image_path], "/"), :infinity)
       end
     end
 
@@ -158,12 +208,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
     defp get_parent_record(s, p) do
       p = objectify_map(p)
       {api_status, res} = api_get_json api_parent_method(p.client_id), s.auth_token, s.account_type
-      record = nil
+      record = %{id: 0}
       if(api_status == :ok) do
         record = objectify_map res.body.res
         if res.body.status do
           record = Map.merge %{status: res.body.status, msg: res.body.msg},
-            %{ client_id: record.id, name: record.name, description: record.description,
+            %{ id: record.id, client_id: record.id, name: record.name, description: record.description,
               xtra_info: record.xtra_info }
         end
       end

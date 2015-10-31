@@ -87,7 +87,7 @@
                 <ul class="actions">
                   <li class="dropdown">
                     <a href="" data-clear="notification">
-                      <i class="md md-done-all">
+                      <i class="zmdi zmdi-done-all">
                       </i>
                     </a>
                   </li>
@@ -179,7 +179,7 @@
           <ul class="dropdown-menu dm-icon pull-right">
             <li>
               <a data-action="fullscreen" href="">
-                <i class="md md-fullscreen">
+                <i class="zmdi zmdi-fullscreen">
                 </i>
                 <%= l10n(@session.language_code, "main.html", "MENU_TEXT_TOGGLE_FULLSCREEN") %>
               </a>
@@ -207,7 +207,7 @@
             </div>
             <div class="profile-info">
               <%= @session.name %>
-                <i class="md md-arrow-drop-down">
+                <i class="zmdi zmdi-arrow-drop-down">
                 </i>
               </div>
             </a>
@@ -215,14 +215,14 @@
             <ul class="main-menu">
               <li>
                 <a  onclick="get_page('profile');">
-                  <i class="md md-person">
+                  <i class="zmdi zmdi-person">
                   </i>
                   <%= l10n(@session.language_code, "main.html", "PROFILE_LINK_TEXT") %>
                   </a>
                 </li>
                 <li>
                   <a href="logout">
-                    <i class="md md-history">
+                    <i class="zmdi zmdi-history">
                     </i>
                     <%= l10n(@session.language_code, "main.html", "LOGOUT_LINK_TEXT") %>
                     </a>
@@ -233,7 +233,7 @@
               <%= if false do %>
               <li>
                 <a  onclick="get_page('/dashboard');">
-                <i class="md md-dashboard">
+                <i class="zmdi zmdi-dashboard">
                 </i>
                   <%= l10n(@session.language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
                 </a>
@@ -242,7 +242,7 @@
               <%= if Permissions.contains(@session.permissions, [Permissions.client.asset.monitor.list, Permissions.client.asset.monitor.manager_list, Permissions.checkpoint.monitor.read]) do %>
               <li>
                 <a  onclick="get_page('monitor');">
-                  <i class="md md-pin-drop">
+                  <i class="zmdi zmdi-pin-drop">
                   </i>
                   <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
                 </a>
@@ -318,7 +318,7 @@
                 <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
                 <li>
                   <a  onclick="get_page('client/roadmaps');">
-                    <i class="md md-navigation">
+                    <i class="zmdi zmdi-navigation">
                     </i>
                     <%= l10n(@session.language_code, "main.html", "ROADMAP_LINK_TEXT") %>
                   </a>
