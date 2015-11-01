@@ -67,7 +67,7 @@
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
-                      <i class="zmdi zmdi-history"></i>
+                      <i class="zmdi zmdi-time-interval"></i>
                   </span>
                   <input id="_history_asset_start_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
@@ -78,7 +78,7 @@
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
-                      <i class="zmdi zmdi-history"></i>
+                      <i class="zmdi zmdi-time-interval"></i>
                   </span>
                   <input id="_history_asset_finish_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
@@ -122,7 +122,7 @@
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
-                      <i class="zmdi zmdi-event"></i>
+                      <i class="zmdi zmdi-calendar"></i>
                   </span>
                   <input id="_mark_asset_start_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
@@ -133,7 +133,7 @@
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
-                      <i class="zmdi zmdi-event"></i>
+                      <i class="zmdi zmdi-calendar"></i>
                   </span>
                   <input id="_mark_asset_finish_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
@@ -199,7 +199,7 @@
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
-                      <i class="zmdi zmdi-event"></i>
+                      <i class="zmdi zmdi-calendar"></i>
                   </span>
                   <input id="_roadmap_start_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
@@ -210,7 +210,7 @@
               <div class="form-group">
                 <div class='input-group date'>
                   <span class="input-group-addon">
-                      <i class="zmdi zmdi-event"></i>
+                      <i class="zmdi zmdi-calendar"></i>
                   </span>
                   <input id="_roadmap_finish_dt" type='text' class="form-control date-time-picker"
                   placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>

@@ -15,7 +15,10 @@
     __centralgps__.globalmessages.__geolocation_permission_denied    = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_PERMISSION_DENIED") %>";
     __centralgps__.globalmessages.__geolocation_position_unavailable = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_POSITION_UNAVAILABLE") %>";
     __centralgps__.globalmessages.__geolocation_timeout              = "<%= l10n(@session.language_code, "main.html", "__GEOLOCATION_TIMEOUT") %>";
-    __centralgps__.globalmessages.generic._all ="<%= l10n(@session.language_code, "generic", "ALL") %>";
+    __centralgps__.globalmessages.generic._all    = "<%= l10n(@session.language_code, "generic", "ALL") %>";
+    __centralgps__.globalmessages.generic._view   = "<%= l10n(@session.language_code, "generic", "VIEW") %>";
+    __centralgps__.globalmessages.generic._edit   = "<%= l10n(@session.language_code, "generic", "EDIT") %>";
+    __centralgps__.globalmessages.generic._delete = "<%= l10n(@session.language_code, "generic", "DELETE") %>";
     __centralgps__.chosen = {
       no_results_text: "<%= l10n(@session.language_code, "generic", "CHOSEN_NO_RESULTS_TEXT") %>",
       default_single_text: "<%= l10n(@session.language_code, "generic", "CHOSEN_DEFAULT_SINGLE_TEXT") %>",
@@ -207,7 +210,7 @@
             </div>
             <div class="profile-info">
               <%= @session.name %>
-                <i class="zmdi zmdi-arrow-drop-down">
+                <i class="zmdi zmdi-caret-down-circle">
                 </i>
               </div>
             </a>
@@ -215,14 +218,13 @@
             <ul class="main-menu">
               <li>
                 <a  onclick="get_page('profile');">
-                  <i class="zmdi zmdi-person">
-                  </i>
+                  <i class="zmdi zmdi-account"></i>
                   <%= l10n(@session.language_code, "main.html", "PROFILE_LINK_TEXT") %>
                   </a>
                 </li>
                 <li>
                   <a href="logout">
-                    <i class="zmdi zmdi-history">
+                    <i class="zmdi zmdi-close-circle">
                     </i>
                     <%= l10n(@session.language_code, "main.html", "LOGOUT_LINK_TEXT") %>
                     </a>
@@ -233,8 +235,7 @@
               <%= if false do %>
               <li>
                 <a  onclick="get_page('/dashboard');">
-                <i class="zmdi zmdi-dashboard">
-                </i>
+                <i class="zmdi zmdi-view-dashboard"></i>
                   <%= l10n(@session.language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
                 </a>
               </li>
@@ -242,8 +243,7 @@
               <%= if Permissions.contains(@session.permissions, [Permissions.client.asset.monitor.list, Permissions.client.asset.monitor.manager_list, Permissions.checkpoint.monitor.read]) do %>
               <li>
                 <a  onclick="get_page('monitor');">
-                  <i class="zmdi zmdi-pin-drop">
-                  </i>
+                  <i class="zmdi zmdi-pin-drop"></i>
                   <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
                 </a>
               </li>
@@ -251,6 +251,7 @@
               <%= if Permissions.check(@session.permissions, Permissions.security.client.account.list) do %>
               <li>
                 <a onclick="get_page('security/accounts');">
+                  <i class="zmdi zmdi-accounts-list"></i>
                   <%= l10n(@session.language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
                 </a>
               </li>
@@ -258,8 +259,7 @@
               <%= if Permissions.contains(@session.permissions, Map.drop(Permissions.checkpoint, [:monitor, :mark])) do %>
               <li class="sub-menu">
                 <a >
-                  <i class="glyphicon glyphicon-check">
-                  </i>
+                  <i class="glyphicon glyphicon-check"></i>
                   <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MENU_TEXT") %>
                   </a>
                   <ul>

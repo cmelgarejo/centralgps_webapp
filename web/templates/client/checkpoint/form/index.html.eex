@@ -2,7 +2,7 @@
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
       <a onclick="get_page('<%= form_path(@conn, :new) %>');" class="btn btn-success btn-float" >
-        <i class="zmdi zmdi-add"></i>
+        <i class="zmdi zmdi-plus"></i>
       </a>
     </div>
     <h4><%= l10n(@session.language_code, "form.crud.html", "PAGE_LIST_TITLE") %></h4>
@@ -29,15 +29,14 @@ __centralgps__.CRUD.grid_name = '#form_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_command_columns = ["form_grid"];
+function _gridCommandFormatter(column, row)
+{
+  return "<button type='button' class='btn btn-default cmd-detail' data-form_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "form.crud.html", "ACTIVITIES") %>'><span class='zmdi zmdi-check-circle'></span></button> " +
+  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
+}
 $(document).ready(function() {
-  gridSetup_CRUD();
-  $.each($('input'), function(a, b) {
-    var input = $(b).val();
-    if(input) {
-      if (!$(b).parent().hasClass('fg-toggled')) {
-        $(b).parent().addClass('fg-toggled');
-      }
-    }
-  });
+  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
 });
 </script>

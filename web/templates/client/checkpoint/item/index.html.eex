@@ -2,7 +2,7 @@
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
       <a onclick="get_page('<%= item_path(@conn, :new) %>');" class="btn btn-success btn-float" >
-        <i class="zmdi zmdi-add"></i>
+        <i class="zmdi zmdi-plus"></i>
       </a>
     </div>
     <h4><%= l10n(@session.language_code, "item.crud.html", "PAGE_LIST_TITLE") %></h4>

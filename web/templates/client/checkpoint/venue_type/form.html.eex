@@ -35,9 +35,9 @@
         <div class="text-center">
           <%= if (@record.__form__ == :edit) do %>
           <input type="hidden" id="image_path" name="image_path" value="<%= @record.image_path %>" required/>
-          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE_CURRENT") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "generic", "CURRENT_IMAGE") %></label>
           <% else %>
-          <label class="fg-label"><%= l10n(@session.language_code, "venue_type.crud.html", "COLUMN_VENUE_TYPE_IMAGE") %></label>
+          <label class="fg-label"><%= l10n(@session.language_code, "generic", "IMAGE") %></label>
           <% end %>
           <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -48,7 +48,7 @@
                   <span class="btn btn-info btn-file">
                       <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
                       <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
-                      <input type="file" name="image" id="image">
+                      <input type="file" name="image" id="image" accept="image/*">
                   </span>
                   <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
               </div>

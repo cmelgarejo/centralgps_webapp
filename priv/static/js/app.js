@@ -8,7 +8,12 @@ var __centralgps__ = {
   CRUD: {},
   timeline: {},
   globalmessages : {
-    generic : {},
+    generic : {
+      _view : "View",
+      _edit : "Edit",
+      _delete : "Delete",
+      _all : "All",
+    },
     _delete_record_title_sure    : "CLS_TITLE_SURE",
     _delete_record_removed       : "CLS_REMOVED",
     _delete_record_confirm_text  : "CLS_CONFIRM_TEXT",
@@ -71,7 +76,6 @@ $( document ).ajaxError(function document_ajaxError( event, request, settings ) 
   }
   var notify = { title: settings.url, text:msg, image: '<i class="md-error"></i>'};
   //$.notify(notify, 'error');
-  //console.log(event);
 });
 
 
@@ -115,14 +119,13 @@ function gridCommandFormatter(column, row)
       additional_row_info += " data-" + k + "= " + row[k] + " ";
     });
   }
-  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " ><span class='zmdi zmdi-edit'></span></button> " +
-         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " ><span class='zmdi zmdi-delete'></span></button>";
+  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " title=" + __centralgps__.globalmessages._edit +   "><span class='zmdi zmdi-edit'></span></button> " +
+         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " title=" + __centralgps__.globalmessages._delete + "><span class='zmdi zmdi-delete'></span></button>";
 }
 
 function gridImageFormatter(column, row)
 {
   var id = row[column.id];
-  console.log(id);
   var image = (id != null && row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
   return "<img src='" + __centralgps__.api_base_url + "/" + image + "' style='width:50px'/>";
 }
@@ -173,7 +176,6 @@ function bootgrid_delete(grid, delete_url, record) {
 function gridSetup_CRUD(gridFormatters, params){
   gridFormatters = (gridFormatters != null) ? gridFormatters : {};
   if(!gridFormatters.commands) gridFormatters.commands = gridCommandFormatter;
-  //console.log(gridFormatters);
   params = (params != null) ? params : [];
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },

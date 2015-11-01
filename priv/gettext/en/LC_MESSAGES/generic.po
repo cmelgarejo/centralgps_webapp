@@ -4,6 +4,9 @@ msgstr "Save"
 msgid  "EDIT"
 msgstr "Edit"
 
+msgid  "VIEW"
+msgstr "View"
+
 msgid  "BACK"
 msgstr "Back"
 

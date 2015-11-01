@@ -57,9 +57,3 @@ msgstr "Fecha & hora de creación"
 
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Fecha & hora de actualización"
-
-msgid  "COLUMN_IMAGE_CURRENT"
-msgstr "Imagen actual"
-
-msgid  "COLUMN_IMAGE"
-msgstr "Imagen"

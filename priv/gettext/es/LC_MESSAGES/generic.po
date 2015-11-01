@@ -1,6 +1,9 @@
 msgid  "SAVE"
 msgstr "Guardar"
 
+msgid  "VIEW"
+msgstr "Ver"
+
 msgid  "EDIT"
 msgstr "Editar"
 
@@ -21,6 +24,12 @@ msgstr "Eliminar"
 
 msgid  "SELECT_IMAGE"
 msgstr "Seleccionar Imagen"
+
+msgid  "CURRENT_IMAGE"
+msgstr "Imagen actual"
+
+msgid  "IMAGE"
+msgstr "Imagen"
 
 msgid  "CHANGE"
 msgstr "Cambiar"

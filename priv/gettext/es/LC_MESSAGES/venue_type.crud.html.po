@@ -16,12 +16,6 @@ msgstr "ID"
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Descripción"
 
-msgid  "COLUMN_VENUE_TYPE_IMAGE"
-msgstr "Imagen"
-
-msgid  "COLUMN_VENUE_TYPE_IMAGE_CURRENT"
-msgstr "Imagen actual"
-
 msgid  "COLUMN_CREATED_AT"
 msgstr "Fecha y hora de inserción"
 

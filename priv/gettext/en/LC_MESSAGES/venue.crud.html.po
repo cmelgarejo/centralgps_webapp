@@ -52,12 +52,6 @@ msgstr "Created at"
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Updated at"
 
-msgid  "COLUMN_VENUE_IMAGE_CURRENT"
-msgstr "Current Image"
-
-msgid  "COLUMN_VENUE_TYPE"
-msgstr "Venue type"
-
 msgid  "COLUMN_CLIENT"
 msgstr "Client"
 

@@ -8951,7 +8951,7 @@ h6 small,
   list-style: none;
 }
 .clist > li:before {
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   margin: 0 10px 0 -20px;
   vertical-align: middle;
 }
@@ -9474,7 +9474,7 @@ body #content {
   right: 10px;
   top: 12px;
   color: #575757;
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   font-size: 17px;
   -webkit-transition: all;
   -o-transition: all;
@@ -9486,14 +9486,14 @@ body #content {
   backface-visibility: hidden;
 }
 #sidebar .main-menu > li.sub-menu > a:before {
-  content: "\f0fb";
+  content: "\f277";
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   -o-transform: scale(1);
   transform: scale(1);
 }
 #sidebar .main-menu > li.sub-menu > a:after {
-  content: "\f111";
+  content: "\f277";
   -webkit-transform: scale(0);
   -ms-transform: scale(0);
   -o-transform: scale(0);
@@ -9522,14 +9522,14 @@ body #content {
   padding-bottom: 16px;
 }
 #sidebar .main-menu > li.sub-menu.toggled > a:before {
-  content: "\f0fb";
+  content: "\f272";
   -webkit-transform: scale(0) rotate(-90deg);
   -ms-transform: scale(0) rotate(-90deg);
   -o-transform: scale(0) rotate(-90deg);
   transform: scale(0) rotate(-90deg);
 }
 #sidebar .main-menu > li.sub-menu.toggled > a:after {
-  content: "\f111";
+  content: "\f272";
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   -o-transform: scale(1);
@@ -11148,7 +11148,7 @@ fieldset[disabled] .btn-inverse.active {
   height: 50px;
   border-radius: 50%;
   position: absolute;
-  line-height: 38px;
+  line-height: 48px;
 }
 .btn-float:hover {
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
@@ -12211,7 +12211,7 @@ a.thumbnail.active {
 }
 .panel-collapse .panel-heading:before,
 .panel-collapse .panel-heading:after {
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   font-size: 17px;
   position: absolute;
   left: 0;
@@ -12957,7 +12957,7 @@ a.thumbnail.active {
   font-size: 20px;
   line-height: 34px;
   color: #FFF;
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   z-index: 1;
 }
 .t-view:after {
@@ -13691,7 +13691,7 @@ a.thumbnail.active {
 }
 .fc-toolbar .ui-button > span {
   position: relative;
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   font-size: 20px;
   color: #FFF;
   line-height: 100%;
@@ -13785,7 +13785,7 @@ div.fc-row {
   filter: alpha(opacity=80);
 }
 .event-tag > span.selected:before {
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   content: "\f299";
   position: absolute;
   text-align: center;
@@ -13817,8 +13817,8 @@ div.fc-row {
   padding: 10px 10px 0 !important;
 }
 .bootgrid-header .search .glyphicon-search:before {
-  content: "\f05f";
-  font-family: 'Material Design Iconic Font';
+  content: "\f1c3";
+  font-family: 'Material-Design-Iconic-Font';
   font-size: 17px !important;
   vertical-align: top !important;
   line-height: 100% !important;
@@ -13987,8 +13987,8 @@ div.fc-row {
   top: 2px;
   width: 30px;
   height: 100%;
-  content: "\f05f";
-  font-family: 'Material Design Iconic Font';
+  content: "\f1c3";
+  font-family: 'Material-Design-Iconic-Font';
   font-size: 25px;
 }
 .bootstrap-select .bs-searchbox input {
@@ -14149,14 +14149,14 @@ div.fc-row {
   right: 5px;
 }
 .chosen-container .chosen-choices .search-choice .search-choice-close:before {
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   content: "\f29a";
   font-size: 14px;
   color: #696969;
   margin-right: 8px;
 }
 .chosen-container .chosen-choices .chosen-single-with-deselect:before {
-  font-family: 'Material Design Iconic Font';
+  font-family: 'Material-Design-Iconic-Font';
   content: "\f29a";
   font-size: 14px;
   color: #696969;
@@ -14198,8 +14198,8 @@ div.fc-row {
   top: 2px;
   width: 30px;
   height: 100%;
-  content: "\f05f";
-  font-family: 'Material Design Iconic Font';
+  content: "\f1c3";
+  font-family: 'Material-Design-Iconic-Font';
   font-size: 25px;
 }
 .chosen-container-single .chosen-search input[type=text] {
