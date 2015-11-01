@@ -21,3 +21,6 @@ msgstr "Created at"
 
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Updated at"
+
+msgid  "ITEMS"
+msgstr "Items"

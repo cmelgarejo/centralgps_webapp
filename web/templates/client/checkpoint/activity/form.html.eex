@@ -23,6 +23,7 @@
           <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
           <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
           <% end %>
+          <input type="hidden" id="form_id" name="form_id" value="<%= @parent_record.form_id %>" required/>
           <div class="fg-line fg-toggled">
             <input class="form-control" type="text" id="description" name="description"
             value="<%= if (@record.__form__ == :edit), do: @record.description, else: nil %>"

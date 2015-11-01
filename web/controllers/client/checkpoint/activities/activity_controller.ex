@@ -10,12 +10,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
   # GET     /checkpoint/activities
   # GET     /checkpoint/activities/json
 
-  def index(conn, _) do
+  def index(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "index.html"
+      render (conn |> assign :parent_record, get_parent_record(session, params)), "index.html"
     end
   end
 
@@ -28,12 +28,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     end
   end
 
-  def new(conn, _) do
+  def new(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "new.html"
+      render (conn |> assign :parent_record, get_parent_record(session, params)), "new.html"
     end
   end
 
@@ -113,6 +113,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
 
   defp list_records(s, p) do
     p = objectify_map(p)
+      |> (Map.update :form_id, 0, &(parse_int(&1)))
       |> (Map.update :current, 1, &(parse_int(&1)))
       |> (Map.update :rowCount, 10, &(parse_int(&1)))
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
@@ -125,7 +126,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     end
     qs = %{offset: (p.current - 1) * p.rowCount, limit: p.rowCount,
       search_column: p.searchColumn, search_phrase: p.searchPhrase,
-      sort_column: p.sort_column, sort_order: p.sort_order}
+      sort_column: p.sort_column, sort_order: p.sort_order, form_id: p.form_id}
     {api_status, res} = api_get_json api_method, s.auth_token, s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
@@ -140,4 +141,18 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
+  defp api_parent_method(form) when is_bitstring(form), do: "/checkpoint/form/" <> form
+  defp get_parent_record(s, p) do
+    p = objectify_map(p)
+    {api_status, res} = api_get_json api_parent_method(p.form_id), s.auth_token, s.account_type
+    record = %{id: 0}
+    if(api_status == :ok) do
+      record = objectify_map res.body.res
+      if res.body.status do
+        record = Map.merge %{status: res.body.status, msg: res.body.msg},
+          %{ id: record.id, form_id: record.id, description: record.description }
+      end
+    end
+    record
+  end
 end
