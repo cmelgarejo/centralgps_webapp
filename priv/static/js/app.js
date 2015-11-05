@@ -75,7 +75,7 @@ $( document ).ajaxError(function document_ajaxError( event, request, settings ) 
       break;
   }
   var notify = { title: settings.url, text:msg, image: '<i class="md-error"></i>'};
-  //$.notify(notify, 'error');
+  $.notify(notify, 'error');
 });
 
 
@@ -116,11 +116,11 @@ function gridCommandFormatter(column, row)
   var additional_row_info = '';
   if (__centralgps__.CRUD.grid_command_columns != null) {
     __centralgps__.CRUD.grid_command_columns.forEach(function gridCommandFormatter_aditionalInfo(k) {
-      additional_row_info += " data-" + k + "= " + row[k] + " ";
+      additional_row_info += " data-" + k + " = '" + row[k] + "' ";
     });
   }
-  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " title=" + __centralgps__.globalmessages._edit +   "><span class='zmdi zmdi-edit'></span></button> " +
-         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " title=" + __centralgps__.globalmessages._delete + "><span class='zmdi zmdi-delete'></span></button>";
+  return "<button type='button' class='btn btn-default cmd-edit'  data-row-id='" + row.id + "' " + additional_row_info + " title=" + __centralgps__.globalmessages.generic._edit +   "><span class='zmdi zmdi-edit'></span></button> " +
+         "<button type='submit' class='btn btn-danger cmd-delete' data-row-id='" + row.id + "' " + additional_row_info + " title=" + __centralgps__.globalmessages.generic._delete + "><span class='zmdi zmdi-delete'></span></button>";
 }
 
 function gridImageFormatter(column, row)
@@ -176,7 +176,8 @@ function bootgrid_delete(grid, delete_url, record) {
 function gridSetup_CRUD(gridFormatters, params){
   gridFormatters = (gridFormatters != null) ? gridFormatters : {};
   if(!gridFormatters.commands) gridFormatters.commands = gridCommandFormatter;
-  params = (params != null) ? params : [];
+  if (!__centralgps__.CRUD.grid_command_columns) __centralgps__.CRUD.grid_command_columns = []
+  params = (params != null) ? params : __centralgps__.CRUD.grid_command_columns;
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
     labels: __centralgps__.bootgrid.labels,
@@ -188,9 +189,12 @@ function gridSetup_CRUD(gridFormatters, params){
     Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
     /* Executes after data is loaded and rendered */
     __centralgps__.CRUD.grid.find(".cmd-edit").on("click", function gridSetup_CRUD_editOnClick(e) {
+      console.log(params);
       var editParams = generateCRUDGridObject($(this), params);
+      console.log(editParams);
       var query_string = '?';
       $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
+      console.log(query_string);
       get_page(__centralgps__.CRUD.edit_url + query_string);
     }).end().find(".cmd-view").on("click", function gridSetup_CRUD_viewOnClick(e) {
       var detailParams = generateCRUDGridObject($(this), params);
@@ -308,7 +312,9 @@ function randomHexColor() {
 }
 
 function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_value, default_text, selected_value) {
-  var $select = $('#' + select);
+  var $select = $(select);
+  if (select.substring(0,1) != '#')
+    $select = $('#' + select);
   $select.find('option').remove();
   if(items != null) {
     var listitems = '';

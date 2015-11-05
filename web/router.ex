@@ -89,13 +89,13 @@ defmodule CentralGPSWebApp.Router do
     get    "/forms/edit",   FormController, :edit
     post   "/forms/save",   FormController, :save
     delete "/forms/delete", FormController, :delete
-    #Forms
-    get    "/forms/",       FormController, :index
-    get    "/forms/json",   FormController, :list
-    get    "/forms/new",    FormController, :new
-    get    "/forms/edit",   FormController, :edit
-    post   "/forms/save",   FormController, :save
-    delete "/forms/delete", FormController, :delete
+    #Form Templates
+    get    "/form_templates/",       FormTemplateController, :index
+    get    "/form_templates/json",   FormTemplateController, :list
+    get    "/form_templates/new",    FormTemplateController, :new
+    get    "/form_templates/edit",   FormTemplateController, :edit
+    post   "/form_templates/save",   FormTemplateController, :save
+    delete "/form_templates/delete", FormTemplateController, :delete
     #Activities
     get    "/activities/",       ActivityController, :index
     get    "/activities/json",   ActivityController, :list

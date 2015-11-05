@@ -12,7 +12,7 @@
       data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/items/json">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="description"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_DESCRIPTION") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "item.crud.html", "GRID_COMMAND_COLUMN") %></th>

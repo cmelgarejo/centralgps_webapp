@@ -17,7 +17,7 @@
       data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/clients/contacts/json?client_id=<%= @parent_record.id %>">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true" data-width="30"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="image_path" data-formatter="image"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_CLIENT_CONTACT_IMAGE") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="identity_document"><%= l10n(@session.language_code, "client_contact.crud.html", "COLUMN_IDENTITY_DOCUMENT") %></th>

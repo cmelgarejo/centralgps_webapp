@@ -10,12 +10,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
   # GET     /checkpoint/form_template
   # GET     /checkpoint/form_template/json
 
-  def index(conn, _) do
+  def index(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "index.html"
+      render (conn |> assign :parent_record, get_parent_record(session, params)), "index.html"
     end
   end
 
@@ -28,12 +28,12 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     end
   end
 
-  def new(conn, _) do
+  def new(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render conn, "new.html"
+      render (conn |> assign :parent_record, get_parent_record(session, params)), "new.html"
     end
   end
 
@@ -42,7 +42,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :record, get_record(session, params)), "edit.html"
+      render conn |> assign(:record, get_record(session, params)) |> assign(:parent_record, get_parent_record(session, params)), "edit.html"
     end
   end
 
@@ -65,7 +65,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
   end
 
   #private functions
-  defp api_method(form \\ "") when is_bitstring(form), do: "/checkpoint/form_template/" <> form
+  defp api_method(form) when is_bitstring(form), do: "/checkpoint/form_template/" <> form
 
   defp get_record(s, p) do
     p = objectify_map(p)
@@ -76,7 +76,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
           %{id: record.id, form_id: record.form_id, activity_id: record.activity_id,
-            item_id: record.item_id, measure_unit_id: record.measure_unit_id}
+            item_id: record.item_id, measure_unit_id: record.measure_unit_id }
       end
     end
     record
@@ -101,7 +101,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     p = objectify_map p
     if(Map.has_key?p, :id) do
       {api_status, res} =
-        api_delete_json api_method(p.id),
+        api_delete_json api_method(p.id <> "/true"),
         s.auth_token, s.account_type
     else
       {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
@@ -132,7 +132,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     qs = %{offset: (p.current - 1) * p.rowCount, limit: p.rowCount,
       search_column: p.searchColumn, search_phrase: p.searchPhrase,
       sort_column: p.sort_column, sort_order: p.sort_order}
-    {api_status, res} = api_get_json api_method, s.auth_token, s.account_type, qs
+    {api_status, res} = api_get_json api_method(p.form_id <> "/" <> p.activity_id), s.auth_token, s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
@@ -144,6 +144,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
     Map.merge((res.body |> Map.put :rows, rows), p)
+  end
+
+  defp get_parent_record(_, p) do # we don't need to search for the parent
+    p = objectify_map(p)
+    %{ form_id: p.form_id, activity_id: p.activity_id }
   end
 
 end

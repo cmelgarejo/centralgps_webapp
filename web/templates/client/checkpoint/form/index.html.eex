@@ -12,7 +12,7 @@
       data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/forms/json">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "form.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "form.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="description"><%= l10n(@session.language_code, "form.crud.html", "COLUMN_DESCRIPTION") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "form.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
@@ -35,7 +35,7 @@ function _gridCommandFormatter(column, row)
 {
   var activities = '';
   <%= if Permissions.check(@session.permissions, Permissions.checkpoint.activity.list) do %>
-  activities = "<button type='button' class='btn btn-default cmd-detail' data-form_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "form.crud.html", "ACTIVITIES") %>'><span class='zmdi zmdi-check-circle'></span></button> ";
+  activities = "<button type='button' class='btn btn-default cmd-detail' data-form_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "form.crud.html", "ACTIVITIES") %>'><span class='zmdi zmdi-assignment-check'></span></button> ";
   <% end %>
   return activities +
   "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +

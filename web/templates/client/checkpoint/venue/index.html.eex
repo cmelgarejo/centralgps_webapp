@@ -12,7 +12,7 @@
       data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/venues/json">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="active" data-formatter="check"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ACTIVE") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>

@@ -17,7 +17,7 @@
       data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/points/json?roadmap_id=<%= @parent_record.id %>">
         <thead>
             <tr>
-              <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="description"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_DESCRIPTION") %></th>
               <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>

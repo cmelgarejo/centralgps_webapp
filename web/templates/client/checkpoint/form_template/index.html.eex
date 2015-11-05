@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-header">
+    <div style="float:right !important; width: 50px;">
+      <a onclick="get_page('<%= form_template_path(@conn, :new) %>?form_id=<%= @parent_record.form_id %>&activity_id=<%= @parent_record.activity_id %>');" class="btn btn-success btn-float" >
+        <i class="zmdi zmdi-plus"></i>
+      </a>
+    </div>
+    <h4>
+      <%= l10n(@session.language_code, "form_template.crud.html", "PAGE_LIST_TITLE") %>
+      <a onclick="get_page('<%= activity_path(@conn, :index) %>?form_id=<%= @parent_record.form_id %>');" class="btn btn-info">
+        <i class="zmdi zmdi-arrow-back"></i>
+        <%= l10n(@session.language_code, "generic", "BACK") %>
+      </a>
+    </h4>
+  </div>
+  <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "form_template.crud.html", "PAGE_LIST_TITLE") %>">
+    <table id="form_template_grid" class="table table-condensed table-hover table-striped"
+      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/form_templates/json?form_id=<%= @parent_record.form_id %>&activity_id=<%= @parent_record.activity_id %>">
+        <thead>
+            <tr>
+              <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_ID") %></th>
+              <th data-column-id="form_id"     data-visible="false" data-type="numeric"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_FORM_ID") %></th>
+              <th data-column-id="activity_id" data-visible="false" data-type="numeric"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_ACTIVITY_ID") %></th>
+              <th data-column-id="item"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_ITEM") %></th>
+              <th data-column-id="measure_unit"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_MEASURE_UNIT") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "form_template.crud.html", "GRID_COMMAND_COLUMN") %></th>
+            </tr>
+        </thead>
+    </table>
+  </div>
+</div>
+<script>
+__centralgps__.CRUD.index_url = '<%= form_template_path(@conn, :index) %>?form_id=<%= @parent_record.form_id %>&activity_id=<%= @parent_record.activity_id %>';
+__centralgps__.CRUD.edit_url = '<%= form_template_path(@conn, :edit) %>';
+__centralgps__.CRUD.delete_url = '<%= form_template_path(@conn, :delete) %>';
+__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.grid_name = '#form_template_grid';
+__centralgps__.CRUD.grid_method = 'GET';
+__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+__centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_command_columns = ["form_id", "activity_id"];
+$(document).ready(function() {
+  gridSetup_CRUD();
+});
+</script>
