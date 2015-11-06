@@ -6,7 +6,7 @@
       </a>
     </div>
     <h4>
-      <%= l10n(@session.language_code, "form_template.crud.html", "PAGE_LIST_TITLE") %>
+      <%= @parent_record.form %>&nbsp;>&nbsp;<%= @parent_record.activity %>&nbsp;>&nbsp;<%= l10n(@session.language_code, "form_template.crud.html", "PAGE_LIST_TITLE") %>
       <a onclick="get_page('<%= activity_path(@conn, :index) %>?form_id=<%= @parent_record.form_id %>');" class="btn btn-info">
         <i class="zmdi zmdi-arrow-back"></i>
         <%= l10n(@session.language_code, "generic", "BACK") %>

@@ -5,7 +5,8 @@
         <i class="zmdi zmdi-plus"></i>
       </a>
     </div>
-    <h4><%= l10n(@session.language_code, "activity.crud.html", "PAGE_LIST_TITLE") %>
+    <h4>
+      <%= @parent_record.description %>&nbsp;>&nbsp;<%= l10n(@session.language_code, "activity.crud.html", "PAGE_LIST_TITLE") %>
       <a onclick="get_page('<%= form_path(@conn, :index) %>');" class="btn btn-info">
         <i class="zmdi zmdi-arrow-back"></i>
         <%= l10n(@session.language_code, "generic", "BACK") %>

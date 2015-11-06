@@ -79,7 +79,6 @@ function loadChosenSelect(select_name, value_input, value_text, value_obj, url, 
         _list.push({ id: i.id, name: i.name });
       });
       chosenLoadSelect(select_name, _list, value_text, value_obj, onChange_callback, null, null, $(value_input).val());
-      //hacer que use los valores  de :edit cuando tiene algo, poner lo seleccionado
       var selected_value = $(select_name).val();
       if ($(value_input).val())
         selected_value = $(value_input).val();

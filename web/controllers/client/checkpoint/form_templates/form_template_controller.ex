@@ -86,7 +86,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
-      data = %{ form_id: p.form_id, activity_id: p.activity_id,
+      data = %{ id: p.id, form_id: p.form_id, activity_id: p.activity_id,
         item_id: p.item_id, measure_unit_id: p.measure_unit_id }
       {_, res} = api_put_json api_method(data.id), s.auth_token, s.account_type, data
     else
@@ -146,9 +146,27 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
-  defp get_parent_record(_, p) do # we don't need to search for the parent
+  defp api_form_parent_method(form)   when is_bitstring(form), do: "/checkpoint/form/" <> form
+  defp api_form_activity_method(activity) when is_bitstring(activity), do: "/checkpoint/activity/" <> activity
+  defp get_parent_record(s, p) do
     p = objectify_map(p)
-    %{ form_id: p.form_id, activity_id: p.activity_id }
+    activity = nil;
+    {api_status, res} = api_get_json api_form_parent_method(p.activity_id), s.auth_token, s.account_type
+    if(api_status == :ok) do
+      record = objectify_map res.body.res
+      if res.body.status do
+        activity = record.description
+      end
+    end
+    form = nil;
+    {api_status, res} = api_get_json api_form_activity_method(p.form_id), s.auth_token, s.account_type
+    if(api_status == :ok) do
+      record = objectify_map res.body.res
+      if res.body.status do
+        form = record.description
+      end
+    end
+    %{ form_id: p.form_id, activity_id: p.activity_id, form: form, activity: activity }
   end
 
 end
