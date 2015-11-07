@@ -6,7 +6,7 @@
     <div class="card-body card-padding">
       <div class="row">
         <div id="alert"></div>
-        <a onclick="get_page('<%= activity_path(@conn, :index) %>');" class="btn btn-info pull-left">
+        <a onclick="get_page('<%= activity_path(@conn, :index) %>?form_id=<%= @parent_record.id %>');" class="btn btn-info pull-left">
           <i class="zmdi zmdi-arrow-back"></i>
           <%= l10n(@session.language_code, "generic", "BACK") %>
         </a>
@@ -20,7 +20,6 @@
       <div class="row">
         <div class="form-group fg-float">
           <%= if (@record.__form__ == :edit) do %>
-          <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
           <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
           <% else %>
           <input type="hidden" id="form_id" name="form_id" value="<%= @parent_record.id %>" required/>

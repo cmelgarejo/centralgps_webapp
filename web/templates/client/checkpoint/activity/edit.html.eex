@@ -2,5 +2,5 @@
   <div class="card-header">
     <h2><%= l10n(@session.language_code, "activity.crud.html", "PAGE_EDIT_TITLE") %></h2>
   </div>
-<%= render "form.html", conn: @conn, session: @session, record: Map.merge(@record, %{__form__: :edit}) %>
+<%= render "form.html", conn: @conn, session: @session, record: Map.merge(@record, %{__form__: :edit, status: true, msg: nil}), parent_record: @parent_record %>
 </div>

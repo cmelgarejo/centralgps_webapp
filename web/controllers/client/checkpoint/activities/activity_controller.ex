@@ -42,7 +42,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :record, get_record(session, params)), "edit.html"
+      render (conn |> assign(:record, get_record(session, params)) |> assign(:parent_record, get_parent_record(session, params))), "edit.html"
     end
   end
 
@@ -65,17 +65,19 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
   end
 
   #private functions
-  defp api_method(form \\ "") when is_bitstring(form), do: "/checkpoint/activity/" <> form
+  defp api_method(form_id \\ "", activity_id \\ "") when is_bitstring(form_id) and is_bitstring(activity_id), do: "/checkpoint/activity/" <> form_id <> "/" <> activity_id
 
   defp get_record(s, p) do
     p = objectify_map(p)
-    {api_status, res} = api_get_json api_method(p.id), s.auth_token, s.account_type
+    {api_status, res} = api_get_json api_method(p.id, p.form_id), s.auth_token, s.account_type
     record = nil
     if(api_status == :ok) do
-      record = objectify_map res.body.res
+      if(Map.has_key?res.body, :res) do
+        record = objectify_map res.body.res
+        record = %{id: record.id, description: record.description}
+      end
       if res.body.status do
-        record = Map.merge %{status: res.body.status, msg: res.body.msg} ,
-          %{id: record.id, configuration_id: record.configuration_id, description: record.description}
+        record = Map.merge %{status: res.body.status, msg: res.body.msg} , record
       end
     end
     record
