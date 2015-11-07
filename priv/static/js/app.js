@@ -189,12 +189,9 @@ function gridSetup_CRUD(gridFormatters, params){
     Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
     /* Executes after data is loaded and rendered */
     __centralgps__.CRUD.grid.find(".cmd-edit").on("click", function gridSetup_CRUD_editOnClick(e) {
-      console.log(params);
       var editParams = generateCRUDGridObject($(this), params);
-      console.log(editParams);
       var query_string = '?';
       $.map(editParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
-      console.log(query_string);
       get_page(__centralgps__.CRUD.edit_url + query_string);
     }).end().find(".cmd-view").on("click", function gridSetup_CRUD_viewOnClick(e) {
       var detailParams = generateCRUDGridObject($(this), params);

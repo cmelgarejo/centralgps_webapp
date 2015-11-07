@@ -150,20 +150,20 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
   defp api_form_activity_method(form_id, activity_id) when is_bitstring(form_id) and is_bitstring(activity_id), do: "/checkpoint/activity/" <> form_id <> "/" <> activity_id
   defp get_parent_record(s, p) do
     p = objectify_map(p)
-    activity = nil;
-    {api_status, res} = api_get_json api_form_parent_method(p.activity_id), s.auth_token, s.account_type
-    if(api_status == :ok) do
-      record = objectify_map res.body.res
-      if res.body.status do
-        activity = record.description
-      end
-    end
     form = nil;
-    {api_status, res} = api_get_json api_form_activity_method(p.form_id, p.activity_id), s.auth_token, s.account_type
+    {api_status, res} = api_get_json api_form_parent_method(p.form_id), s.auth_token, s.account_type
     if(api_status == :ok) do
       record = objectify_map res.body.res
       if res.body.status do
         form = record.description
+      end
+    end
+    activity = nil;
+    {api_status, res} = api_get_json api_form_activity_method(p.form_id, p.activity_id), s.auth_token, s.account_type
+    if(api_status == :ok) do
+      record = objectify_map res.body.res
+      if res.body.status do
+        activity = record.description
       end
     end
     %{ form_id: p.form_id, activity_id: p.activity_id, form: form, activity: activity }
