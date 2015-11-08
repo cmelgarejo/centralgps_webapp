@@ -101,7 +101,7 @@ $(document).ready(function() {
   image_preview = (image_preview == null || image_preview == '') ? 'images/checkpoint/client/contact/_placeholder.png' : image_preview;
   $('#image_preview').attr('src', __centralgps__.api_base_url + '/' + image_preview);
   $("form").submit(function(){ return __ajaxForm(this);});
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
   $.each($('input'), function(a, b) {

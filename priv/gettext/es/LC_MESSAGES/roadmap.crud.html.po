@@ -72,3 +72,15 @@ msgstr "Ocurre cada [días/semanas]"
 
 msgid  "COLUMN_NOTES"
 msgstr "Notas"
+
+msgid "INTERVAL_d"
+msgstr "Diario"
+
+msgid "INTERVAL_w"
+msgstr "Semanal"
+
+msgid "INTERVAL_m"
+msgstr "Mensual"
+
+msgid "INTERVAL_o"
+msgstr "Día específico"

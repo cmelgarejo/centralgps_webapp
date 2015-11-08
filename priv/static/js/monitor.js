@@ -165,8 +165,10 @@ function updateMarks() {
 }
 
 function keepSelection(event, object) {
-  if (event)
+  if (event) {
     __centralgps__.selects[event.currentTarget.id] = object.selected;
+    $('select').trigger('chosen:close');
+  }
 }
 function getSelection(select) {
   return __centralgps__.selects[select];
@@ -347,12 +349,12 @@ function updateAssetGrid() {
       if(__centralgps__.asset.list.length > 0) {
         //check if there is changes in the length of the loaded asset list (+1 for [All])
         //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_marks_asset_list',   __centralgps__.asset.list, 'id', 'name', keepSelection,      -1, __centralgps__.globalmessages.generic._all, getSelection('_marks_asset_list'));
+          chosenLoadSelect('_marks_asset_list',   __centralgps__.asset.list, 'id', 'name', keepSelection, null, null, getSelection('_marks_asset_list'));
         //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', keepSelection,      -1, __centralgps__.globalmessages.generic._all, getSelection('_history_asset_list'));
+          chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', keepSelection, -1, __centralgps__.globalmessages.generic._all, getSelection('_history_asset_list'));
         //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', updateRoadmapCombo, -1, __centralgps__.globalmessages.generic._all, getSelection('_roadmap_asset_list'));
-          updateRoadmapCombo(null, { selected: $('#_roadmap_asset_list').val() });
+          chosenLoadSelect('_roadmap_asset_list', __centralgps__.asset.list, 'id', 'name', keepSelection, -1, __centralgps__.globalmessages.generic._all, getSelection('_roadmap_asset_list'));
+          //updateRoadmapCombo({ currentTarget: $('#_roadmap_asset_list')[0]}, { selected: $('#_roadmap_asset_list').val() });
       }
     } else {
       console.log('updateAssetGrid: ' + response.msg);
@@ -360,16 +362,7 @@ function updateAssetGrid() {
     removeLoadScreen("#asset_grid_container")
   });
 }
-function updateRoadmapCombo(event, object){
-  keepSelection(event, object);
-  $.get('/client/assets/' + object.selected + '/roadmaps/json', function(response, status, xhr) {
-    if (response.status == true) {
-      chosenLoadSelect('_roadmap_list', response.rows, 'roadmap_id', 'roadmap_name', null);
-    } else {
-      chosenLoadSelect('_roadmap_list');
-    }
-  });
-}
+
 var fitBoundsZoomed = false;
 function updateAssetMap() {
   $.get('/monitor/assets', function(response, status, xhr) {

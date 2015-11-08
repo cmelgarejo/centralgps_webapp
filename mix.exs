@@ -36,7 +36,7 @@ defmodule CentralGPSWebApp.Mixfile do
       {:gettext,              github: "elixir-lang/gettext"},
       {:httpoison,            github: "edgurgel/httpoison"},
       {:logger_file_backend,  github: "onkel-dirtus/logger_file_backend"},
-      {:reprise,              github: "herenowcoder/reprise" },#, only: :dev},
+      {:reprise,              github: "herenowcoder/reprise", only: :dev},
       {:phoenix,              github: "phoenixframework/phoenix", override: true},
       {:phoenix_live_reload,  github: "phoenixframework/phoenix_live_reload", only: :dev},
       {:phoenix_html,         github: "phoenixframework/phoenix_html", override: true},

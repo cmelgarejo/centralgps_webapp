@@ -1,4 +1,4 @@
-<form role="form" method='post' action="<%= roadmap_path Endpoint, :save %>">
+<form role="form" method='post' action="<%= roadmap_path Endpoint, :save %>" disabled>
   <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
   <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>" required/>
   <%= if (@record.__form__ == :edit) do %>
@@ -46,84 +46,88 @@
           <div class="fg-line fg-toggled">
             <select class="chosen-select form-control" id="interval" name="interval">
               <%= if @record.__form__ == :edit do %>
-              <option selected value="<%= @record.interval %>"><%= @record.interval %></option>
-              <%=   for (d <- remove_list_from_list ['d', 'w', 'm'], [@record.interval] ) do %>
-              <option value="<%= d %>"><%= d %></option>
+              <option selected value="<%= @record.interval %>"><%= l10n(@session.language_code, "roadmap.crud.html", "INTERVAL_" <> @record.interval) %></option>
+              <%=   for (opt <- remove_list_from_list ["d", "w", "m", "o"], [@record.interval] ) do %>
+              <option value="<%= opt %>"><%= l10n(@session.language_code, "roadmap.crud.html", "INTERVAL_" <> opt) %></option>
               <%    end %>
               <%  else %>
-              <%=   for (d <- ['d', 'w', 'm']) do %>
-              <option value="<%= d %>"><%= d %></option>
+              <%=   for (opt <- ["d", "w", "m", "o"]) do %>
+              <option value="<%= opt %>"><%= l10n(@session.language_code, "roadmap.crud.html", "INTERVAL_" <> opt) %></option>
               <%    end %>
               <%  end %>
             </select>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_INTERVAL") %></label>
         </div>
-        <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
-            <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
-              <%= if @record.__form__ == :edit do %>
-              <%=   for (d <- @record.days_of_week) do %>
-              <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <%    end %>
-              <%=   for (d <- remove_list_from_list [0,1,2,3,4,5,6], @record.days_of_week ) do %>
-              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <%    end %>
-              <%  else %>
-              <%=   for (d <- [0,1,2,3,4,5,6]) do %>
-              <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
-              <%    end %>
-              <%  end %>
-            </select>
+        <div class="INTERVAL_w">
+          <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+              <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
+                <%= if @record.__form__ == :edit do %>
+                <%=   for (d <- @record.days_of_week) do %>
+                <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%=   for (d <- remove_list_from_list Enum.to_list(0..6), @record.days_of_week ) do %>
+                <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%  else %>
+                <%=   for (d <- Enum.to_list(0..6)) do %>
+                <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%  end %>
+              </select>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_WEEK") %></label>
         </div>
-        <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
-            <select class="chosen-select form-control" id="months_of_year" name="months_of_year[]" multiple>
-              <%= if @record.__form__ == :edit do %>
-              <%=   for (d <- @record.months_of_year) do %>
-              <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
-              <%    end %>
-              <%=   for (d <- remove_list_from_list [1,2,3,4,5,6,7,8,9,10,11,12], @record.months_of_year ) do %>
-              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
-              <%    end %>
-              <%  else %>
-              <%=   for (d <- [1,2,3,4,5,6,7,8,9,10,11,12]) do %>
-              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
-              <%    end %>
-              <%  end %>
-            </select>
+        <div class="INTERVAL_m">
+          <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+              <select class="chosen-select form-control" id="months_of_year" name="months_of_year[]" multiple>
+                <%= if @record.__form__ == :edit do %>
+                <%=   for (d <- @record.months_of_year) do %>
+                <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
+                <%    end %>
+                <%=   for (d <- remove_list_from_list Enum.to_list(1..12), @record.months_of_year ) do %>
+                <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "MOY " <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%  else %>
+                <%=   for (d <- Enum.to_list(1..12)) do %>
+                <option value="<%= d %>"><%= l10n(@session.language_code, "generic", "MOY" <> Integer.to_string(d) ) %></option>
+                <%    end %>
+                <%  end %>
+              </select>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_MONTHS_OF_YEAR") %></label>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_MONTHS_OF_YEAR") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
-            <select class="chosen-select form-control" id="days_of_month" name="days_of_month[]" multiple>
-              <%= if @record.__form__ == :edit do %>
-              <%=   for (d <- @record.days_of_month) do %>
-              <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
-              <%    end %>
-              <%=   for (d <- remove_list_from_list [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,6,27,28,29,30], @record.days_of_month ) do %>
-              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
-              <%    end %>
-              <%  else %>
-              <%=   for (d <- [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,6,27,28,29,30]) do %>
-              <option value="<%= d %>"><%= Integer.to_string(d) %></option>
-              <%    end %>
-              <%  end %>
-            </select>
+          <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+              <select class="chosen-select form-control" id="days_of_month" name="days_of_month[]" multiple>
+                <%= if @record.__form__ == :edit do %>
+                <%=   for (d <- @record.days_of_month) do %>
+                <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
+                <%    end %>
+                <%=   for (d <- remove_list_from_list Enum.to_list(1..31), @record.days_of_month ) do %>
+                <option value="<%= d %>"><%= Integer.to_string(d) %></option>
+                <%    end %>
+                <%  else %>
+                <%=   for (d <- Enum.to_list(1..31)) do %>
+                <option value="<%= d %>"><%= Integer.to_string(d) %></option>
+                <%    end %>
+                <%  end %>
+              </select>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_MONTH") %></label>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_DAYS_OF_MONTH") %></label>
         </div>
-        <div class="form-group fg-float">
+        <div class="form-group fg-float INTERVAL_o">
           <div class="fg-toggled">
             <input class="form-control" type="date" id="one_time_date" name="one_time_date" maxlength="10"
             value="<%= if (@record.__form__ == :edit), do: @record.one_time_date, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ONE_TIME_DATE") %></label>
         </div>
-        <div class="form-group fg-float">
+        <div class="form-group fg-float INTERVAL_d INTERVAL_w">
           <div class="fg-line">
             <input class="form-control input-mask" type="number" id="recurs_every" name="recurs_every"
             data-mask="000"  maxlength="3"
@@ -175,8 +179,50 @@
 <script src="<%= static_path(@conn, "/js/roadmap_form.js") %>"></script>
 <script>
 $(document).ready(function() {
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
+  $('#interval').chosen({
+    no_results_text: __centralgps__.chosen.no_results_text, width: "100%", disable_search: true
+  }).change(interval_OnChange);
+  $('#interval_chosen > .chosen-drop > .chosen-search').remove();
+  $('#days_of_week').chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
+    search_contains: true, width: "100%"
+  });
+  $('#days_of_month').chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
+    search_contains: true, width: "100%"
+  });
+  $('#months_of_year').chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
+    search_contains: true, width: "100%"
+  });
+  interval_OnChange(null, { selected: $('#interval').val() })
 });
+
+function interval_OnChange(event, object) {
+  switch (object.selected) {
+    case 'd':
+      $('.INTERVAL_o, .INTERVAL_m, .INTERVAL_w').hide();
+      $('.INTERVAL_d').show()
+      break;
+    case 'w':
+      $('.INTERVAL_o, .INTERVAL_m, .INTERVAL_d').hide();
+      $('.INTERVAL_w').show()
+      break;
+    case 'm':
+      $('.INTERVAL_o, .INTERVAL_d, .INTERVAL_w').hide();
+      $('.INTERVAL_m').show()
+      break;
+    case 'o':
+      $('.INTERVAL_d, .INTERVAL_m, .INTERVAL_w').hide();
+      $('.INTERVAL_o').show()
+      break;
+  }
+  $('select').trigger('chosen:close');
+}
 </script>

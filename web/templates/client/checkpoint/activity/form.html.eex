@@ -41,7 +41,7 @@
 $(document).ready(function() {
   $.applyDataMask('.input-mask');
   $("form").submit(function(){ return __ajaxForm(this);});
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
   $.each($('input'), function(a, b) {

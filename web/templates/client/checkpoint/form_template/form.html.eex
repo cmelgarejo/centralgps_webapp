@@ -57,7 +57,7 @@
 <script>
 $(document).ready(function() {
   $("form").submit(function(){ return __ajaxForm(this);});
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
   $('select').chosen({
@@ -91,10 +91,12 @@ function loadChosenSelect(select_name, value_input, value_text, value_obj, url, 
 
 function measure_unit_OnChange(event, object) {
   $('#measure_unit_id').val(object.selected);
+  $('select').trigger('chosen:close');
 }
 
 function item_OnChange(event, object) {
   $('#item_id').val(object.selected);
+  $('select').trigger('chosen:close');
 }
 
 </script>

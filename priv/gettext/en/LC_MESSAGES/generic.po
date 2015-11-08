@@ -58,6 +58,42 @@ msgstr "Friday"
 msgid  "DOW6"
 msgstr "Saturday"
 
+msgid  "MOY1"
+msgstr "January"
+
+msgid  "MOY2"
+msgstr "February"
+
+msgid  "MOY3"
+msgstr "March"
+
+msgid  "MOY4"
+msgstr "April"
+
+msgid  "MOY5"
+msgstr "May"
+
+msgid  "MOY6"
+msgstr "June"
+
+msgid  "MOY7"
+msgstr "July"
+
+msgid  "MOY8"
+msgstr "August"
+
+msgid  "MOY9"
+msgstr "September"
+
+msgid  "MOY10"
+msgstr "October"
+
+msgid  "MOY11"
+msgstr "November"
+
+msgid  "MOY12"
+msgstr "December"
+
 msgid  "CHOSEN_NO_RESULTS_TEXT"
 msgstr "No results found"
 

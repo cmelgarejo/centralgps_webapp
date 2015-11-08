@@ -14150,14 +14150,14 @@ div.fc-row {
 }
 .chosen-container .chosen-choices .search-choice .search-choice-close:before {
   font-family: 'Material-Design-Iconic-Font';
-  content: "\f29a";
+  content: "\f136";
   font-size: 14px;
   color: #696969;
   margin-right: 8px;
 }
 .chosen-container .chosen-choices .chosen-single-with-deselect:before {
   font-family: 'Material-Design-Iconic-Font';
-  content: "\f29a";
+  content: "\f136";
   font-size: 14px;
   color: #696969;
   margin-right: 8px;

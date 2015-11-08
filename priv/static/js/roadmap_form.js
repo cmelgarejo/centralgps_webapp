@@ -33,7 +33,7 @@ L.TileLayer.Common = L.TileLayer.extend({
 	});
 }());
 function _browser_geo_success(position) {
-  if(!$("#id").length) {
+  if(!$("#id").length && __centralgps__.roadmap.form.map != null) {
     __centralgps__.roadmap.form.map.setView([position.coords.latitude, position.coords.longitude], 18);
     $("#lat").val(position.coords.latitude);
     $("#lon").val(position.coords.longitude);
@@ -194,13 +194,6 @@ $(document).ready(function() {
       }
     }
   });
-  var $select = $('#days_of_week');
-  $select.chosen({
-    no_results_text: __centralgps__.chosen.no_results_text,
-    placeholder_text_multiple: __centralgps__.chosen.placeholder_text_multiple,
-    search_contains: true,
-    //disable_search_threshold: 5,
-    width: "100%" });
 });
 
 /*** Roadmap Points ***/

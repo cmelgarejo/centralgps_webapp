@@ -152,7 +152,7 @@
 <script src="<%= static_path(@conn, "/js/roadmap_form.js") %>"></script>
 <script>
 $(document).ready(function() {
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
 });

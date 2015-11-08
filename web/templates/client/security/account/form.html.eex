@@ -160,7 +160,7 @@ $(document).ready(function() {
   });
   $.applyDataMask('.input-mask');
   $("form").submit(function(){return __ajaxForm(this);});
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
   $('#name,#description,#detection_radius,#lat,#lon').change(function() {
@@ -185,5 +185,6 @@ function loadAccountTypes() {
 }
 function fnChosenOnChange() {
   $('#account_type').val($(this).val());
+  $('select').trigger('chosen:close');
 }
 </script>

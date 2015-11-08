@@ -197,8 +197,10 @@ function loadClients() {
 }
 function fnChosen_VenueTypeOnChange() {
   $('#venue_type_id').val($(this).val());
+  $('select').trigger('chosen:close');
 }
 
 function fnChosen_ClientOnChange() {
   $('#client_id').val($(this).val());
+  $('select').trigger('chosen:close');
 }

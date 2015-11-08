@@ -127,7 +127,7 @@ __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'name';
 __centralgps__.CRUD.index_url = '<%= roadmap_point_path(@conn, :index) %>?roadmap_id=<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>';
 $(document).ready(function() {
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
   loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>",

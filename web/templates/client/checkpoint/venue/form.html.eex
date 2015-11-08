@@ -164,7 +164,7 @@ $(document).ready(function() {
     [<%= if (@record.__form__ == :edit), do: (to_string(@record.lat) <> "," <> to_string(@record.lon)), else: "0, 0" %>],
     [<%= if (@record.__form__ == :edit), do: @record.detection_radius, else: 25 %>],
     "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>");
-  <%= if !@record.status do %>
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
   $.each($('input'), function(a, b) {
