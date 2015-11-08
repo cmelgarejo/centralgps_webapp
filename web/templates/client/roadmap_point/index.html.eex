@@ -30,17 +30,21 @@
   </div>
 </div>
 <script>
-__centralgps__.CRUD.index_url = '<%= roadmap_point_path(@conn, :index) %>';
-__centralgps__.CRUD.edit_url = '<%= roadmap_point_path(@conn, :edit) %>';
+__centralgps__.CRUD.index_url =  '<%= roadmap_point_path(@conn, :index)  %>';
+__centralgps__.CRUD.edit_url =   '<%= roadmap_point_path(@conn, :edit)   %>';
 __centralgps__.CRUD.delete_url = '<%= roadmap_point_path(@conn, :delete) %>';
-__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.order_url =  '<%= roadmap_point_path(@conn, :order)  %>';
+__centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#roadmap_point_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'description';
-__centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
+__centralgps__.CRUD.grid_command_columns = ["roadmap_id", "order"];
 function _gridCommandFormatter(column, row) {
-  return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'></span></button> " +
+  return "" +
+  "<button type='submit' class='btn btn-default cmd-move-up'   data-order='false' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap_point.crud.html", "MOVE_UP")   %>' data-roadmap_id='<%= @parent_record.id %>' ><span class='zmdi zmdi-caret-up-circle'  ></span></button>" +
+  "<button type='submit' class='btn btn-default cmd-move-down' data-order='true'  data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap_point.crud.html", "MOVE_DOWN") %>' data-roadmap_id='<%= @parent_record.id %>' ><span class='zmdi zmdi-caret-down-circle'></span></button>" +
+  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'></span></button> " +
   "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' data-roadmap_id='<%= @parent_record.id %>' title='" + __centralgps__.globalmessages.generic._delete   + "'><span class='zmdi zmdi-delete'></span></button>";
 }
 $(document).ready(function() {

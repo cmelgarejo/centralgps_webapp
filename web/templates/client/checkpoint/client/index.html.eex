@@ -26,7 +26,7 @@ __centralgps__.CRUD.index_url = '<%= client_path(@conn, :index) %>';
 __centralgps__.CRUD.edit_url = '<%= client_path(@conn, :edit) %>';
 __centralgps__.CRUD.delete_url = '<%= client_path(@conn, :delete) %>';
 __centralgps__.CRUD.detail_url = '<%= client_contact_path(@conn, :index) %>';
-__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#client_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';

@@ -54,3 +54,9 @@ msgstr "Activated at"
 
 msgid  "COLUMN_DEACTIVATED_AT"
 msgstr "Deactivated at"
+
+msgid  "MOVE_UP"
+msgstr "Move up"
+
+msgid  "MOVE_DOWN"
+msgstr "Move down"

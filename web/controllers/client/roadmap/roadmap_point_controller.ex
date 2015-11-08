@@ -54,6 +54,15 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     end
   end
 
+  def order(conn, params) do
+    {conn, session} = centralgps_session conn
+    if(session == :error) do
+      redirect conn, to: login_path(Endpoint, :index)
+    else #do your stuff and render the page.
+      json conn, point_order(session, params)
+    end
+  end
+
   def delete(conn, params) do
     {conn, session} = centralgps_session conn
     if(session == :error) do
@@ -108,6 +117,26 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     rescue
       e in _ -> %{ status: false, msg: error_logger(e, __ENV__) }
     end
+  end
+
+  defp point_order(s, p) do
+    p = objectify_map p
+    if(Map.has_key?p, :id) do
+      {api_status, res} =
+        api_put_json api_method(p.roadmap_id, p.id <> "/" <> p.order),
+        s.auth_token, s.account_type, %{}
+    else
+      {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
+    end
+    if(api_status == :ok) do
+      if !res.body.status do
+        msg = if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg
+        res = Map.put res, :body, %{ status: false, msg: msg }
+      end
+    else
+      res = Map.put res, :body, %{ status: false, msg: res.reason }
+    end
+    res.body
   end
 
   defp delete_record(s, p) do

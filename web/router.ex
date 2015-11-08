@@ -146,6 +146,7 @@ defmodule CentralGPSWebApp.Router do
     get    "/roadmaps/points/new",    RoadmapPointController, :new
     get    "/roadmaps/points/edit",   RoadmapPointController, :edit
     post   "/roadmaps/points/save",   RoadmapPointController, :save
+    put    "/roadmaps/points/order",  RoadmapPointController, :order
     delete "/roadmaps/points/delete", RoadmapPointController, :delete
   end
 

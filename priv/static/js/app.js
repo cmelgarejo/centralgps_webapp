@@ -60,12 +60,38 @@ function get_page(resource) {
       $(document).ready(function get_page_applyWaves(){
         Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
       });
-    }).fail(function get_page_fail(html){ $('#_centralgps_container').html(html.responseText);});
+    }).fail(function get_page_fail(html){
+      var notify = { title: resource, text: html.responseText, image: '<i class="md-error"></i>'};
+      $.notify(notify, 'error');
+    });
   });
   return false;
 }
 
-$( document ).ajaxError(function document_ajaxError( event, request, settings ) {
+function put_page(resource, grid, record) {
+  Pace.track(function put_page_Pace(){
+    $.ajax({
+      url: resource,
+      method: "PUT",
+      headers: { "X-CSRF-TOKEN" : record.token },
+      data: record
+    }).done(function bootgrid__Done(data, status) {
+        if(data.status) {
+          grid.bootgrid('reload');
+        } else {
+          if(data.msg == "nxdomain") data.msg = _msg;
+        }
+    }).fail(function put_page_fail(html){
+      var notify = { title: resource, text: html.responseText, image: '<i class="md-error"></i>'};
+      $.notify(notify, 'error');
+    });
+  });
+  return false;
+}
+
+$( document ).ajaxError(document_ajaxError);
+
+function document_ajaxError( event, request, settings ) {
   var msg = "";
   switch(event.status)
   {
@@ -76,7 +102,7 @@ $( document ).ajaxError(function document_ajaxError( event, request, settings ) 
   }
   var notify = { title: settings.url, text:msg, image: '<i class="md-error"></i>'};
   $.notify(notify, 'error');
-});
+}
 
 
 function hostReachable() {
@@ -206,6 +232,16 @@ function gridSetup_CRUD(gridFormatters, params){
     }).end().find(".cmd-delete").on("click", function gridSetup_CRUD_deleteOnClick(e) {
       var deleteParams = generateCRUDGridObject($(this), params);
       bootgrid_delete(__centralgps__.CRUD.grid, __centralgps__.CRUD.delete_url, deleteParams);
+    }).end().find(".cmd-move-up").on("click", function gridSetup_CRUD_moveUp_OnClick(e) {
+      var moveUpParams = generateCRUDGridObject($(this), __centralgps__.CRUD.grid_command_columns);
+      var query_string = '?';
+      $.map(moveUpParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
+      put_page(__centralgps__.CRUD.order_url + query_string, __centralgps__.CRUD.grid, moveUpParams);
+    }).end().find(".cmd-move-down").on("click", function gridSetup_CRUD_moveDown_OnClick(e) {
+      var moveDownParams = generateCRUDGridObject($(this), __centralgps__.CRUD.grid_command_columns);
+      var query_string = '?';
+      $.map(moveDownParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
+      put_page(__centralgps__.CRUD.order_url + query_string, __centralgps__.CRUD.grid, moveDownParams);
     });
   });
   bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
@@ -224,7 +260,7 @@ function generateCRUDGridObject(row, params) {
   });
   /*Check if this necesary parameters exist*/
   objectParams.id    = (objectParams.id == null) ?  row.data("row-id") : objectParams.id;
-  objectParams.token = (objectParams.token == null) ? __centralgps__.CRUD.delete_token : objectParams.token;
+  objectParams.token = (objectParams.token == null) ? __centralgps__.CRUD.form_token : objectParams.token;
   return objectParams;
 }
 function showSuccess(message) {

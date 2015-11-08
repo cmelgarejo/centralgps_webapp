@@ -33,7 +33,7 @@
 __centralgps__.CRUD.index_url = '<%= form_template_path(@conn, :index) %>?form_id=<%= @parent_record.form_id %>&activity_id=<%= @parent_record.activity_id %>';
 __centralgps__.CRUD.edit_url = '<%= form_template_path(@conn, :edit) %>';
 __centralgps__.CRUD.delete_url = '<%= form_template_path(@conn, :delete) %>';
-__centralgps__.CRUD.delete_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#form_template_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
