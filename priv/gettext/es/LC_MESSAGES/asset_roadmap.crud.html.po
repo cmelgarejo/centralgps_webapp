@@ -24,7 +24,7 @@ msgstr "Activo"
 
 msgid  "COLUMN_ROADMAP"
 msgstr "Hoja de Ruta"
-z
+
 msgid  "COLUMN_EMAILS"
 msgstr "Emails"
 
