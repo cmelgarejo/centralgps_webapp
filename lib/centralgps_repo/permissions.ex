@@ -36,6 +36,8 @@ defmodule CentralGPS.Repo.Permissions do
     %{
       feature: "CLIENT",
       asset: %{
+        list: "CLIENT_ASSET_LIST",
+        manager_list: "CLIENT_ASSET_MONITOR_MANAGER_L",
         monitor: %{list: "CLIENT_ASSET_MONITOR_L", manager_list: "CLIENT_ASSET_MONITOR_MANAGER_L"}
       },
       roadmap: %{

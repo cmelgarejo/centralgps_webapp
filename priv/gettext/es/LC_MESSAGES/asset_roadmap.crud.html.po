@@ -1,0 +1,41 @@
+msgid  "PAGE_LIST_TITLE"
+msgstr "Asignaciones de hoja de ruta"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "Nuevo asignación"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Editar asignación"
+
+msgid  "GRID_COMMAND_COLUMN"
+msgstr "Comandos"
+
+msgid  "COLUMN_ID"
+msgstr "ID"
+
+msgid  "COLUMN_ASSET_ID"
+msgstr "ID Activo"
+
+msgid  "COLUMN_ROADMAP_ID"
+msgstr "ID Hoja de Ruta"
+
+msgid  "COLUMN_ASSET"
+msgstr "Activo"
+
+msgid  "COLUMN_ROADMAP"
+msgstr "Hoja de Ruta"
+z
+msgid  "COLUMN_EMAILS"
+msgstr "Emails"
+
+msgid  "COLUMN_PHONES"
+msgstr "Teléfonos"
+
+msgid  "COLUMN_ALERT"
+msgstr "Alertar"
+
+msgid  "COLUMN_CREATED_AT"
+msgstr "Creado"
+
+msgid  "COLUMN_UPDATED_AT"
+msgstr "Actualizado"

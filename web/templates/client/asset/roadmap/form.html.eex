@@ -1,0 +1,102 @@
+<div class="card-body card-padding">
+  <form role="form" method='post' action="<%= form_template_path Endpoint, :save %>">
+    <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
+    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
+    <div class="card-body card-padding">
+      <div class="row">
+        <div id="alert"></div>
+        <a onclick="get_page('<%= form_template_path(@conn, :index) %>?form_id=<%= @parent_record.form_id %>&activity_id=<%= @parent_record.activity_id %>');" class="btn btn-info pull-left">
+          <i class="zmdi zmdi-arrow-back"></i>
+          <%= l10n(@session.language_code, "generic", "BACK") %>
+        </a>
+        <button class="btn btn-success pull-right" type="submit">
+          <%= l10n(@session.language_code, "generic", "SAVE") %>
+          <i class="zmdi zmdi-save"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card-body card-padding">
+      <div class="row">
+        <div class="form-group fg-float">
+          <%= if (@record.__form__ == :edit) do %>
+          <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+          <% end %>
+          <input type="hidden" id="item_id" name="item_id" value="<%= if (@record.__form__ == :edit), do: @record.item_id, else: nil %>" required/>
+          <input type="hidden" id="measure_unit_id" name="measure_unit_id" value="<%= if (@record.__form__ == :edit), do: @record.measure_unit_id, else: nil %>" required/>
+          <input type="hidden" id="form_id" name="form_id" value="<%= @parent_record.form_id %>" required/>
+          <input type="hidden" id="activity_id" name="activity_id" value="<%= @parent_record.activity_id %>" required/>
+          <div class="col-sm-6 col-md-6">
+            <div class="form-group">
+              <div class="fg-line">
+                <label class="fg-label"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_ITEM") %></label>
+              </div>
+              <div class="fg-line">
+                <select class="chosen-select form-control" id="item_select">
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <div class="form-group">
+              <div class="fg-line">
+                <label class="fg-label"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_MEASURE_UNIT") %></label>
+              </div>
+              <div class="fg-line">
+                <select class="chosen-select form-control" id="measure_unit_select">
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
+<script>
+$(document).ready(function() {
+  $("form").submit(function(){ return __ajaxForm(this);});
+  <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
+    showError('<%= @record.msg %>');
+  <% end %>
+  $('select').chosen({
+    no_results_text: __centralgps__.chosen.no_results_text,
+    default_single_text: __centralgps__.chosen.no_results_text,
+    search_contains: true,
+    width: "100%" });
+  loadChosenSelect('measure_unit', 'measure_unit_id',  'id', 'name', '/checkpoint/measure_units/json', measure_unit_OnChange);
+  loadChosenSelect('item', 'item_id',  'id', 'name', '/checkpoint/items/json', item_OnChange);
+});
+
+function loadChosenSelect(select_name, value_input, value_text, value_obj, url, onChange_callback) {
+  value_input = '#' + value_input;
+  select_name = '#' + select_name + '_select';
+  $.get(url, function(response, status, xhr) {
+    if (response.status == true) {
+      var _list = [];
+      response.rows.forEach(function(i, aidx, arr) {
+        _list.push({ id: i.id, name: i.name });
+      });
+      chosenLoadSelect(select_name, _list, value_text, value_obj, onChange_callback, null, null, $(value_input).val());
+      var selected_value = $(select_name).val();
+      if ($(value_input).val())
+        selected_value = $(value_input).val();
+      onChange_callback(null, { selected: selected_value });
+    } else {
+      console.log('loadChosenSelect(' + select_name + '): ' + response.msg);
+    }
+  });
+}
+
+function measure_unit_OnChange(event, object) {
+  $('#measure_unit_id').val(object.selected);
+  $('select').trigger('chosen:close');
+}
+
+function item_OnChange(event, object) {
+  $('#item_id').val(object.selected);
+  $('select').trigger('chosen:close');
+}
+
+</script>

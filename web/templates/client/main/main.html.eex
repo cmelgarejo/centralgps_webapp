@@ -234,9 +234,17 @@
           <ul class="main-menu">
               <%= if false do %>
               <li>
-                <a  onclick="get_page('/dashboard');">
+                <a  onclick="get_page('dashboard');">
                 <i class="zmdi zmdi-view-dashboard"></i>
                   <%= l10n(@session.language_code, "main.html", "DASHBOARD_LINK_TEXT") %>
+                </a>
+              </li>
+              <% end %>
+              <%= if Permissions.contains(@session.permissions, [ Permissions.client.asset.list ]) do %>
+              <li>
+                <a  onclick="get_page('client/asset');">
+                  <i class="zmdi zmdi-pin-drop"></i>
+                  <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
                 </a>
               </li>
               <% end %>
@@ -244,7 +252,7 @@
               <li>
                 <a  onclick="get_page('monitor');">
                   <i class="zmdi zmdi-pin-drop"></i>
-                  <%= l10n(@session.language_code, "main.html", "ASSET_LINK_TEXT") %>
+                  <%= l10n(@session.language_code, "main.html", "MONITOR_ASSET_LINK_TEXT") %>
                 </a>
               </li>
               <% end %>

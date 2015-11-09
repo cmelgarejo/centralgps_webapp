@@ -21,7 +21,7 @@ defmodule CentralGPSWebApp.Mixfile do
 
   def application do
     apps = [ :reprise, :cowboy, :gettext, :httpoison, :logger, :logger_file_backend, :phoenix, :phoenix_html, :phoenix_live_reload]
-    dev_apps = Mix.env == :dev && [ :reprise ] || []
+    dev_apps = [] #Mix.env == :dev && [ :reprise ] || []
     [ mod: {CentralGPSWebApp, []}, applications: dev_apps ++ apps ]
   end
 
@@ -36,7 +36,7 @@ defmodule CentralGPSWebApp.Mixfile do
       {:gettext,              github: "elixir-lang/gettext"},
       {:httpoison,            github: "edgurgel/httpoison"},
       {:logger_file_backend,  github: "onkel-dirtus/logger_file_backend"},
-      {:reprise,              github: "herenowcoder/reprise", only: :dev},
+      #{:reprise,              github: "herenowcoder/reprise", only: :dev},
       {:phoenix,              github: "phoenixframework/phoenix", override: true},
       {:phoenix_live_reload,  github: "phoenixframework/phoenix_live_reload", only: :dev},
       {:phoenix_html,         github: "phoenixframework/phoenix_html", override: true},

@@ -1,0 +1,23 @@
+msgid  "PAGE_LIST_TITLE"
+msgstr "Activos"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "Nuevo Activo"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Editar Activo"
+
+msgid  "GRID_COMMAND_COLUMN"
+msgstr "Comandos"
+
+msgid  "COLUMN_ID"
+msgstr "ID"
+
+msgid  "COLUMN_DESCRIPTION"
+msgstr "Descripción"
+
+msgid  "COLUMN_CREATED_AT"
+msgstr "Fecha y hora de inserción"
+
+msgid  "COLUMN_UPDATED_AT"
+msgstr "Fecha y hora de actualización"

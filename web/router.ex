@@ -124,6 +124,13 @@ defmodule CentralGPSWebApp.Router do
 
   scope "/client", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
+    #Assets
+    get    "/assets/",       AssetController, :index
+    get    "/assets/json",   AssetController, :list
+    get    "/assets/new",    AssetController, :new
+    get    "/assets/edit",   AssetController, :edit
+    post   "/assets/save",   AssetController, :save
+    delete "/assets/delete", AssetController, :delete
     #Asset/Roadmap
     get    "/assets/roadmaps/json",             AssetRoadmapController, :list_all
     get    "/assets/:asset_id/roadmaps/",       AssetRoadmapController, :index
