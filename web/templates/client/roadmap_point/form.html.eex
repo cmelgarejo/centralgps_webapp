@@ -6,6 +6,7 @@
     value="<%= if (@record.__form__ == :edit), do: @record.point_order, else: @parent_record.last_point_order %>" required/>
   <%= if (@record.__form__ == :edit) do %>
   <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
+  <input type="hidden" id="rpvf_id" name="rpvf_id" value="<%= @record.rpvf_id %>" required/>
   <% end %>
   <div class="card-body card-padding">
     <div class="row">
@@ -75,14 +76,14 @@
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="time" id="mean_arrival_time" name="mean_arrival_time"
-            data-mask="00:00:00"  maxlength="6" value="<%= if (@record.__form__ == :edit), do: @record.mean_arrival_time, else: nil %>"/>
+            data-mask="00:00:00"  maxlength="6" value="<%= if (@record.__form__ == :edit), do: @record.mean_arrival_time, else: @parent_record.start_time %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="time" id="mean_leave_time" name="mean_leave_time"
-            data-mask="00:00:00"  maxlength="6" value="<%= if (@record.__form__ == :edit), do: @record.mean_leave_time, else: nil %>"/>
+            data-mask="00:00:00"  maxlength="6" value="<%= if (@record.__form__ == :edit), do: @record.mean_leave_time, else: @parent_record.end_time %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></label>
         </div>
@@ -91,12 +92,38 @@
             <input id="active" name="active" type="checkbox"
             <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>/>
             <i class="input-helper"></i>
-            <%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ACTIVE") %>
+            <%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ACTIVE") %>
           </label>
         </div>
       </div>
     </div>
     <div class="col-sm-8 col-md-8">
+      <%= if Permissions.check(@session.permissions, Permissions.checkpoint.venue.list) do %>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_VENUE") %></label>
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input type="hidden" id="venue_id" name="venue_id" value="<%= @record.venue_id %>" required/>
+              <select class="chosen-select form-control" id="venue_id_select" name="venue_id_select">
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_FORM") %></label>
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input type="hidden" id="form_id" name="form_id" value="<%= @record.form_id %>" required/>
+              <select class="chosen-select form-control" id="form_id_select" name="form_id_select">
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
       <div class="row">
         <div class="col-sm-12 col-md-12">
           <div id="_roadmap_map"></div>
@@ -116,9 +143,9 @@
 <link rel="stylesheet" href="<%= static_path(@conn, "/css/leaflet.measurecontrol.css") %>">
 <script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.label.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.awesome-markers.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.measurecontrol.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/roadmap_form.js") %>"></script>
@@ -130,9 +157,16 @@ $(document).ready(function() {
   <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>
-  loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>",
-    "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>", true);
-  activateGrid();
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
+  loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>", "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>", true);
   getRoadmapPoints(<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>);
 });
+
 </script>

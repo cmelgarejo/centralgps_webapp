@@ -55,10 +55,12 @@ var marker = L.AwesomeMarkers.icon({
     markerColor: 'blue'
 });
 
+var available_venues = [];
 function _updateVenueMap() {
   Pace.ignore(function(){
     $.get('/monitor/venues', function(response, status, xhr) {
       if (response.status == true) {
+        available_venues = response.rows;
         response.rows.forEach(function(v, vidx, arr) {
           if ( !$('#id').length || ($('#id').val() != v.id) ) //!0 == true
           __centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.venue_layer_name].
@@ -76,8 +78,41 @@ function _updateVenueMap() {
       } else {
         console.log('._updateVenueMap: ' + response.msg);
       }
+      chosenLoadSelect('venue_id_select', available_venues, 'id', 'name', fnChosen_VenueOnChange, null, null, $('#venue_id').val());
+      fnChosen_VenueOnChange(null, { selected: $('#venue_id').val()})
     });
   });
+}
+
+function fnChosen_VenueOnChange(event, object) {
+  $('#venue_id').val(object.selected);
+  available_venues.forEach(function findVenue(v, vidx, arr) {
+    if(object.selected == v.id) {
+      $("#lat").val(v.lat);
+      $("#lon").val(v.lon);
+      $('#venue_id').val(v.id);
+    }
+  });
+  setCurrentRoadmapPointPos();
+}
+
+var available_forms  = [];
+function _updateForms() {
+  Pace.ignore(function(){
+    $.get('/checkpoint/forms/json', function(response, status, xhr) {
+      if (response.status == true) {
+        available_forms = response.rows;
+      } else {
+        console.log('._updateForms: ' + response.msg);
+      }
+      chosenLoadSelect('form_id_select', available_forms, 'id', 'description', fnChosen_FormsOnChange, null, null, $('#form_id').val());
+      fnChosen_FormsOnChange(null, { selected: $('#venue_id').val()})
+    });
+  });
+}
+
+function fnChosen_FormsOnChange(event, object) {
+  $('#form_id').val(object.selected);
 }
 
 var _rpt;
@@ -103,7 +138,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
     __centralgps__.roadmap.form.map_overlays[_roadmap_layer_name] = new L.LayerGroup().addTo(__centralgps__.roadmap.form.map);
     L.control.layers(__centralgps__.roadmap.form.map_layers, __centralgps__.roadmap.form.map_overlays)
       .addTo(__centralgps__.roadmap.form.map);
-    L.Control.measureControl().addTo(__centralgps__.roadmap.form.map);
+    // L.Control.measureControl().addTo(__centralgps__.roadmap.form.map);
     __centralgps__.roadmap.form.map.addControl(new L.Control.Scale());
     __centralgps__.roadmap.form.map.addControl(new L.Control.OSMGeocoder({
         collapsed: true,
@@ -116,6 +151,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
     } else {
       _browser_geo_error;
     }
+    _updateForms();
     if(_venue_layer_name) _updateVenueMap();
     if(edit_roadmap_points) {
       current_marker = new L.marker([0,0], {icon: marker, draggable:'true'}).bindPopup(current_marker_popup);
@@ -148,6 +184,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
       $("#mean_leave_time").change(setCurrentRoadmapPointPos());
       $("#mean_leave_time").on('keyup', setCurrentRoadmapPointPos());
       current_marker.on('dragend', current_marker_dragEnd);
+      setCurrentRoadmapPointPos()
     }
 }
 

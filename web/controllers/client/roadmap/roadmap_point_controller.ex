@@ -97,6 +97,9 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
       p = objectify_map(p)
       if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
       if (!Map.has_key?p, :mean_arrival_time), do: p = Map.put p, :mean_arrival_time, nil
+      if (!Map.has_key?p, :rpvf_id), do: p = Map.put p, :rpvf_id, nil
+      if (!Map.has_key?p, :venue_id), do: p = Map.put p, :venue_id, nil
+      if (!Map.has_key?p, :form_id), do: p = Map.put p, :form_id, nil
       if (!Map.has_key?p, :mean_leave_time), do: p = Map.put p, :mean_leave_time, nil
       if (!Map.has_key?p, :active), do: p = Map.put( p, :active, false), else: p = Map.update(p, :active, false, &(&1 == "on"))
       if (!Map.has_key?p, :xtra_info), do: p = Map.put p, :xtra_info, nil
@@ -104,13 +107,15 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
         data = %{ id: p.id, roadmap_id: p.roadmap_id, name: p.name, description: p.description,
           notes: p.notes, lat: p.lat, lon: p.lon, point_order: p.point_order,
           mean_arrival_time: p.mean_arrival_time, mean_leave_time: p.mean_leave_time,
-          detection_radius: p.detection_radius, active: p.active, xtra_info: p.xtra_info}
+          detection_radius: p.detection_radius, active: p.active, xtra_info: p.xtra_info,
+          rpvf_id: p.rpvf_id, venue_id: p.venue_id, form_id: p.form_id }
         {_, res} = api_put_json api_method(data.roadmap_id, data.id), s.auth_token, s.account_type, data
       else
         data = %{ roadmap_id: p.roadmap_id, name: p.name, description: p.description,
           notes: p.notes, lat: p.lat, lon: p.lon, point_order: p.point_order,
           mean_arrival_time: p.mean_arrival_time, mean_leave_time: p.mean_leave_time,
-          detection_radius: p.detection_radius, active: p.active, xtra_info: p.xtra_info}
+          detection_radius: p.detection_radius, active: p.active, xtra_info: p.xtra_info,
+          venue_id: p.venue_id, form_id: p.form_id }
         {_, res} = api_post_json api_method(data.roadmap_id, "create"), s.auth_token, s.account_type, data
       end
       res.body

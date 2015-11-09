@@ -20,7 +20,7 @@ defmodule CentralGPSWebApp.Mixfile do
   end
 
   def application do
-    apps = [ :reprise, :cowboy, :gettext, :httpoison, :logger, :logger_file_backend, :phoenix, :phoenix_html ]
+    apps = [ :reprise, :cowboy, :gettext, :httpoison, :logger, :logger_file_backend, :phoenix, :phoenix_html, :phoenix_live_reload]
     dev_apps = Mix.env == :dev && [ :reprise ] || []
     [ mod: {CentralGPSWebApp, []}, applications: dev_apps ++ apps ]
   end
@@ -40,7 +40,6 @@ defmodule CentralGPSWebApp.Mixfile do
       {:phoenix,              github: "phoenixframework/phoenix", override: true},
       {:phoenix_live_reload,  github: "phoenixframework/phoenix_live_reload", only: :dev},
       {:phoenix_html,         github: "phoenixframework/phoenix_html", override: true},
-      #{:phoenix_html,        "~> 1.4"},
       {:uuid,                 github: "zyro/elixir-uuid"}
     ]
   end

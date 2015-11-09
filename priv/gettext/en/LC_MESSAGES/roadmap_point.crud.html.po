@@ -60,3 +60,9 @@ msgstr "Move up"
 
 msgid  "MOVE_DOWN"
 msgstr "Move down"
+
+msgid  "COLUMN_VENUE"
+msgstr "Venue"
+
+msgid  "COLUMN_FORM"
+msgstr "Form"
