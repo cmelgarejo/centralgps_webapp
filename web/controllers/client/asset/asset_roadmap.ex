@@ -66,12 +66,12 @@ defmodule CentralGPSWebApp.Client.AssetRoadmapController do
   end
 
   #private functions
-  defp api_method(asset_id \\ "", roadmap_id \\ "", form \\ "") when is_bitstring(form),
-    do: String.replace("/client/asset/" <> asset_id <> "/roadmap/" <> roadmap_id <> "/" <> form, "//", "/")
+  defp api_method(roadmap_id, asset_id \\ "", form \\ "") when is_bitstring(form),
+    do: String.replace("/client/roadmap/" <> roadmap_id <> "/asset/" <> asset_id <> "/" <> form, "//", "/")
 
   defp get_record(s, p) do
     p = objectify_map(p)
-    {api_status, res} = api_get_json api_method(p.asset_id, p.roadmap_id), s.auth_token, s.account_type
+    {api_status, res} = api_get_json api_method(p.roadmap_id, p.asset_id), s.auth_token, s.account_type
     record = nil
     if(api_status == :ok) do
       record = objectify_map res.body.res
@@ -88,10 +88,10 @@ defmodule CentralGPSWebApp.Client.AssetRoadmapController do
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{ emails: p.emails, phones: p.phones, alarm: p.alarm }
-      {_, res} = api_put_json api_method(p.form_id, p.roadmap_id), s.auth_token, s.account_type, data
+      {_, res} = api_put_json api_method(p.roadmap_id, p.asset_id), s.auth_token, s.account_type, data
     else
       data = %{ roadmap_id: p.roadmap_id, emails: p.emails, phones: p.phones, alarm: p.alarm }
-      {_, res} = api_post_json api_method(p.asset_id, "", "create"), s.auth_token, s.account_type, data
+      {_, res} = api_post_json api_method(p.roadmap_id, p.asset_id, "create"), s.auth_token, s.account_type, data
     end
     res.body
   end
@@ -131,7 +131,7 @@ defmodule CentralGPSWebApp.Client.AssetRoadmapController do
     qs = %{offset: (p.current - 1) * p.rowCount, limit: p.rowCount,
       search_column: p.searchColumn, search_phrase: p.searchPhrase,
       sort_column: p.sort_column, sort_order: p.sort_order}
-    {api_status, res} = api_get_json api_method(p.asset_id), s.auth_token, s.account_type, qs
+    {api_status, res} = api_get_json api_method(p.roadmap_id), s.auth_token, s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
