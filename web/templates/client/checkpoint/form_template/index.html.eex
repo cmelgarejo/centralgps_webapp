@@ -37,7 +37,7 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#form_template_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_search_column = 'item';
 __centralgps__.CRUD.grid_command_columns = ["form_id", "activity_id"];
 $(document).ready(function() {
   gridSetup_CRUD();

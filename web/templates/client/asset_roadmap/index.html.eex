@@ -1,13 +1,13 @@
 <div class="card">
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
-      <a onclick="get_page('<%= asset_roadmap_path(@conn, :new) %>?roadmap_id=<%= @parent_record.roadmap_id %>');" class="btn btn-success btn-float" >
+      <a onclick="get_page('<%= asset_roadmap_path(@conn, :new) %>?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>');" class="btn btn-success btn-float" >
         <i class="zmdi zmdi-plus"></i>
       </a>
     </div>
     <h4>
-      <%= @parent_record.form %>&nbsp;>&nbsp;<%= @parent_record.activity %>&nbsp;>&nbsp;<%= l10n(@session.language_code, "asset_roadmap.crud.html", "PAGE_LIST_TITLE") %>
-      <a onclick="get_page('<%= activity_path(@conn, :index) %>?asset_id=<%= @parent_record.asset_id %>');" class="btn btn-info">
+      <%= @parent_record.roadmap %>&nbsp;>&nbsp;<%= l10n(@session.language_code, "asset_roadmap.crud.html", "PAGE_LIST_TITLE") %>
+      <a onclick="get_page('<%= roadmap_path(@conn, :index) %>?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>');" class="btn btn-info">
         <i class="zmdi zmdi-arrow-back"></i>
         <%= l10n(@session.language_code, "generic", "BACK") %>
       </a>
@@ -15,31 +15,39 @@
   </div>
   <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "asset_roadmap.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="asset_roadmap_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/checkpoint/asset_roadmaps/json?roadmap_id=<%= @parent_record.roadmap_id %>">
+      data-toggle="bootgrid" data-ajax="true" data-url="/client/assets/roadmap/json?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>">
         <thead>
             <tr>
               <th data-column-id="roadmap_id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP_ID") %></th>
               <th data-column-id="asset_id"   data-visible="false" data-type="numeric"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET_ID") %></th>
-              <th data-column-id="asset">  <%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET") %></th>
-              <th data-column-id="roadmap"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP") %></th>
+              <th data-column-id="asset_name">  <%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET") %></th>
+              <th data-column-id="roadmap_name"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP") %></th>
               <th data-column-id="emails"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_EMAILS") %></th>
               <th data-column-id="phones"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_PHONES") %></th>
+              <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>
             </tr>
         </thead>
     </table>
   </div>
 </div>
 <script>
-__centralgps__.CRUD.index_url = '<%= asset_roadmap_path(@conn, :index) %>?roadmap_id=<%= @parent_record.roadmap_id %>';
-__centralgps__.CRUD.edit_url = '<%= asset_roadmap_path(@conn, :edit) %>';
+__centralgps__.CRUD.index_url = '<%= asset_roadmap_path(@conn, :index) %>?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>';
+__centralgps__.CRUD.edit_url = '<%= asset_roadmap_path(@conn, :edit)%>';
 __centralgps__.CRUD.delete_url = '<%= asset_roadmap_path(@conn, :delete) %>';
 __centralgps__.CRUD.asset_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#asset_roadmap_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'description';
-__centralgps__.CRUD.grid_command_columns = ["asset_id", "activity_id"];
+__centralgps__.CRUD.grid_search_column = 'asset';
+__centralgps__.CRUD.grid_command_columns = ["asset_id", "roadmap_id"];
+function _gridCommandFormatter(column, row)
+{
+
+  return "<button type='submit' class='btn btn-default cmd-edit' data-asset_id='" + row.asset_id + "' data-roadmap_id='" + row.roadmap_id + "' title='" + __centralgps__.globalmessages.generic._edit + "'><span class='zmdi zmdi-edit'</span></button>" +
+  "<button type='submit' class='btn btn-danger cmd-delete' data-asset_id='" + row.asset_id + "' data-roadmap_id='" + row.roadmap_id + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
+}
 $(document).ready(function() {
-  gridSetup_CRUD();
+  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
 });
+
 </script>

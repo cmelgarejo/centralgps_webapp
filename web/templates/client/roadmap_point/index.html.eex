@@ -14,7 +14,7 @@
   </div>
   <div id="roadmap_point_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap_point.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="roadmap_point_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/points/json?roadmap_id=<%= @parent_record.id %>">
+      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmap/point/json?roadmap_id=<%= @parent_record.id %>">
         <thead>
             <tr>
               <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true" data-width="30"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ID") %></th>
@@ -39,7 +39,7 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#roadmap_point_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_search_column = 'name';
 __centralgps__.CRUD.grid_command_columns = ["roadmap_id", "order"];
 function _gridCommandFormatter(column, row) {
   return "" +

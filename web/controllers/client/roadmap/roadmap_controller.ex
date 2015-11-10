@@ -3,11 +3,11 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
-  # POST    /api/v1/client/roadmaps/create
-  # GET     /api/v1/client/roadmaps/:roadmap_id
-  # PUT     /api/v1/client/roadmaps/:roadmap_id
-  # DELETE  /api/v1/client/roadmaps/:roadmap_id
-  # GET     /api/v1/client/roadmaps
+  # POST    /api/v1/client/roadmap/create
+  # GET     /api/v1/client/roadmap/:roadmap_id
+  # PUT     /api/v1/client/roadmap/:roadmap_id
+  # DELETE  /api/v1/client/roadmap/:roadmap_id
+  # GET     /api/v1/client/roadmap
 
   def index(conn, _) do
     {conn, session} = centralgps_session conn
@@ -73,7 +73,7 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
   end
 
   #private functions
-  defp api_method(form \\ "") when is_bitstring(form), do: "/client/roadmaps/" <> form
+  defp api_method(action \\ "") when is_bitstring(action), do: "/client/roadmap/" <> action
 
   defp get_record(s, p) do
     p = objectify_map(p)

@@ -66,9 +66,9 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
     #private functions
     defp image_dir, do: "images/checkpoint/client/contact"
     defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
-    defp api_method(client_id, form \\ "") do
+    defp api_method(client_id, action \\ "") do
       if !is_bitstring(client_id), do: client_id = Integer.to_string(client_id)
-      "/checkpoint/client/" <> client_id <> "/contact/" <> form
+      "/checkpoint/client/" <> client_id <> "/contact/" <> action
     end
 
     defp get_record(s, p) do
@@ -204,7 +204,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
       Map.merge((res.body |> Map.put :rows, rows), p)
     end
 
-    defp api_parent_method(form) when is_bitstring(form), do: "/checkpoint/client/" <> form
+    defp api_parent_method(action) when is_bitstring(action), do: "/checkpoint/client/" <> action
     defp get_parent_record(s, p) do
       p = objectify_map(p)
       {api_status, res} = api_get_json api_parent_method(p.client_id), s.auth_token, s.account_type

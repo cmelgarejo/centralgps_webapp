@@ -31,7 +31,7 @@ defmodule CentralGPSWebApp.Router do
     get  "/",                 MonitorController, :index
     get  "/assets",           MonitorController, :assets
     get  "/assets/record",    MonitorController, :record
-    get  "/assets/roadmaps",  MonitorController, :roadmap
+    get  "/assets/roadmap",  MonitorController, :roadmap
     #Checkpoint Module
     get  "/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
     get  "/venues",                  Checkpoint.MonitorController, :venues
@@ -132,29 +132,28 @@ defmodule CentralGPSWebApp.Router do
     post   "/assets/save",   AssetController, :save
     delete "/assets/delete", AssetController, :delete
     #Asset/Roadmap
-    get    "/assets/roadmaps/json",             AssetRoadmapController, :list_all
-    get    "/assets/:asset_id/roadmaps/",       AssetRoadmapController, :index
-    get    "/assets/:asset_id/roadmaps/json",   AssetRoadmapController, :list
-    get    "/assets/:asset_id/roadmaps/new",    AssetRoadmapController, :new
-    get    "/assets/:asset_id/roadmaps/edit",   AssetRoadmapController, :edit
-    post   "/assets/:asset_id/roadmaps/save",   AssetRoadmapController, :save
-    delete "/assets/:asset_id/roadmaps/delete", AssetRoadmapController, :delete
+    get    "/assets/roadmap",        AssetRoadmapController, :index
+    get    "/assets/roadmap/json",   AssetRoadmapController, :list
+    get    "/assets/roadmap/new",    AssetRoadmapController, :new
+    get    "/assets/roadmap/edit",   AssetRoadmapController, :edit
+    post   "/assets/roadmap/save",   AssetRoadmapController, :save
+    delete "/assets/roadmap/delete", AssetRoadmapController, :delete
     #Roadmaps
-    get    "/roadmaps/",       RoadmapController, :index
-    get    "/roadmaps/json",   RoadmapController, :list
-    get    "/roadmaps/new",    RoadmapController, :new
-    get    "/roadmaps/edit",   RoadmapController, :edit
-    get    "/roadmaps/read",   RoadmapController, :view
-    post   "/roadmaps/save",   RoadmapController, :save
-    delete "/roadmaps/delete", RoadmapController, :delete
+    get    "/roadmap/",       RoadmapController, :index
+    get    "/roadmap/json",   RoadmapController, :list
+    get    "/roadmap/new",    RoadmapController, :new
+    get    "/roadmap/edit",   RoadmapController, :edit
+    get    "/roadmap/read",   RoadmapController, :view
+    post   "/roadmap/save",   RoadmapController, :save
+    delete "/roadmap/delete", RoadmapController, :delete
     #Roadmap points
-    get    "/roadmaps/points/",       RoadmapPointController, :index
-    get    "/roadmaps/points/json",   RoadmapPointController, :list
-    get    "/roadmaps/points/new",    RoadmapPointController, :new
-    get    "/roadmaps/points/edit",   RoadmapPointController, :edit
-    post   "/roadmaps/points/save",   RoadmapPointController, :save
-    put    "/roadmaps/points/order",  RoadmapPointController, :order
-    delete "/roadmaps/points/delete", RoadmapPointController, :delete
+    get    "/roadmap/point/",       RoadmapPointController, :index
+    get    "/roadmap/point/json",   RoadmapPointController, :list
+    get    "/roadmap/point/new",    RoadmapPointController, :new
+    get    "/roadmap/point/edit",   RoadmapPointController, :edit
+    post   "/roadmap/point/save",   RoadmapPointController, :save
+    put    "/roadmap/point/order",  RoadmapPointController, :order
+    delete "/roadmap/point/delete", RoadmapPointController, :delete
   end
 
   scope "/entity", CentralGPSWebApp.Entity do

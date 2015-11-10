@@ -7,7 +7,7 @@
                  monitor_path  GET     /monitor                                     CentralGPSWebApp.Client.MonitorController :index
                  monitor_path  GET     /monitor/assets                              CentralGPSWebApp.Client.MonitorController :assets
                  monitor_path  GET     /monitor/assets/record                       CentralGPSWebApp.Client.MonitorController :record
-                 monitor_path  GET     /monitor/assets/roadmaps                     CentralGPSWebApp.Client.MonitorController :roadmap
+                 monitor_path  GET     /monitor/assets/roadmap                     CentralGPSWebApp.Client.MonitorController :roadmap
                  monitor_path  GET     /monitor/assets/checkpoint/marks             CentralGPSWebApp.Client.Checkpoint.MonitorController :marks
                  monitor_path  GET     /monitor/venues                              CentralGPSWebApp.Client.Checkpoint.MonitorController :venues
                  profile_path  GET     /profile                                     CentralGPSWebApp.Client.ProfileController :index
@@ -73,26 +73,26 @@
                    venue_path  DELETE  /checkpoint/venues/delete                    CentralGPSWebApp.Client.Checkpoint.VenueController :delete
 roadmap_point_venue_form_path  POST    /checkpoint/roadmap_point_venue_form/save    CentralGPSWebApp.Client.Checkpoint.RoadmapPointVenueForm :save
 roadmap_point_venue_form_path  DELETE  /checkpoint/roadmap_point_venue_form/delete  CentralGPSWebApp.Client.Checkpoint.RoadmapPointVenueForm :delete
-           asset_roadmap_path  GET     /client/assets/roadmaps/json                 CentralGPSWebApp.Client.AssetRoadmapController :list_all
-           asset_roadmap_path  GET     /client/assets/:asset_id/roadmaps            CentralGPSWebApp.Client.AssetRoadmapController :index
-           asset_roadmap_path  GET     /client/assets/:asset_id/roadmaps/json       CentralGPSWebApp.Client.AssetRoadmapController :list
-           asset_roadmap_path  GET     /client/assets/:asset_id/roadmaps/new        CentralGPSWebApp.Client.AssetRoadmapController :new
-           asset_roadmap_path  GET     /client/assets/:asset_id/roadmaps/edit       CentralGPSWebApp.Client.AssetRoadmapController :edit
-           asset_roadmap_path  POST    /client/assets/:asset_id/roadmaps/save       CentralGPSWebApp.Client.AssetRoadmapController :save
-           asset_roadmap_path  DELETE  /client/assets/:asset_id/roadmaps/delete     CentralGPSWebApp.Client.AssetRoadmapController :delete
-                 roadmap_path  GET     /client/roadmaps                             CentralGPSWebApp.Client.RoadmapController :index
-                 roadmap_path  GET     /client/roadmaps/json                        CentralGPSWebApp.Client.RoadmapController :list
-                 roadmap_path  GET     /client/roadmaps/new                         CentralGPSWebApp.Client.RoadmapController :new
-                 roadmap_path  GET     /client/roadmaps/edit                        CentralGPSWebApp.Client.RoadmapController :edit
-                 roadmap_path  GET     /client/roadmaps/read                        CentralGPSWebApp.Client.RoadmapController :view
-                 roadmap_path  POST    /client/roadmaps/save                        CentralGPSWebApp.Client.RoadmapController :save
-                 roadmap_path  DELETE  /client/roadmaps/delete                      CentralGPSWebApp.Client.RoadmapController :delete
-           roadmap_point_path  GET     /client/roadmaps/points                      CentralGPSWebApp.Client.RoadmapPointController :index
-           roadmap_point_path  GET     /client/roadmaps/points/json                 CentralGPSWebApp.Client.RoadmapPointController :list
-           roadmap_point_path  GET     /client/roadmaps/points/new                  CentralGPSWebApp.Client.RoadmapPointController :new
-           roadmap_point_path  GET     /client/roadmaps/points/edit                 CentralGPSWebApp.Client.RoadmapPointController :edit
-           roadmap_point_path  POST    /client/roadmaps/points/save                 CentralGPSWebApp.Client.RoadmapPointController :save
-           roadmap_point_path  PUT     /client/roadmaps/points/order                CentralGPSWebApp.Client.RoadmapPointController :order
-           roadmap_point_path  DELETE  /client/roadmaps/points/delete               CentralGPSWebApp.Client.RoadmapPointController :delete
+           asset_roadmap_path  GET     /client/assets/roadmap/json                 CentralGPSWebApp.Client.AssetRoadmapController :list_all
+           asset_roadmap_path  GET     /client/assets/:asset_id/roadmap            CentralGPSWebApp.Client.AssetRoadmapController :index
+           asset_roadmap_path  GET     /client/assets/:asset_id/roadmap/json       CentralGPSWebApp.Client.AssetRoadmapController :list
+           asset_roadmap_path  GET     /client/assets/:asset_id/roadmap/new        CentralGPSWebApp.Client.AssetRoadmapController :new
+           asset_roadmap_path  GET     /client/assets/:asset_id/roadmap/edit       CentralGPSWebApp.Client.AssetRoadmapController :edit
+           asset_roadmap_path  POST    /client/assets/:asset_id/roadmap/save       CentralGPSWebApp.Client.AssetRoadmapController :save
+           asset_roadmap_path  DELETE  /client/assets/:asset_id/roadmap/delete     CentralGPSWebApp.Client.AssetRoadmapController :delete
+                 roadmap_path  GET     /client/roadmap                             CentralGPSWebApp.Client.RoadmapController :index
+                 roadmap_path  GET     /client/roadmap/json                        CentralGPSWebApp.Client.RoadmapController :list
+                 roadmap_path  GET     /client/roadmap/new                         CentralGPSWebApp.Client.RoadmapController :new
+                 roadmap_path  GET     /client/roadmap/edit                        CentralGPSWebApp.Client.RoadmapController :edit
+                 roadmap_path  GET     /client/roadmap/read                        CentralGPSWebApp.Client.RoadmapController :view
+                 roadmap_path  POST    /client/roadmap/save                        CentralGPSWebApp.Client.RoadmapController :save
+                 roadmap_path  DELETE  /client/roadmap/delete                      CentralGPSWebApp.Client.RoadmapController :delete
+           roadmap_point_path  GET     /client/roadmap/point                      CentralGPSWebApp.Client.RoadmapPointController :index
+           roadmap_point_path  GET     /client/roadmap/point/json                 CentralGPSWebApp.Client.RoadmapPointController :list
+           roadmap_point_path  GET     /client/roadmap/point/new                  CentralGPSWebApp.Client.RoadmapPointController :new
+           roadmap_point_path  GET     /client/roadmap/point/edit                 CentralGPSWebApp.Client.RoadmapPointController :edit
+           roadmap_point_path  POST    /client/roadmap/point/save                 CentralGPSWebApp.Client.RoadmapPointController :save
+           roadmap_point_path  PUT     /client/roadmap/point/order                CentralGPSWebApp.Client.RoadmapPointController :order
+           roadmap_point_path  DELETE  /client/roadmap/point/delete               CentralGPSWebApp.Client.RoadmapPointController :delete
                    login_path  GET     /entity                                      CentralGPSWebApp.Entity.LoginController :login
 

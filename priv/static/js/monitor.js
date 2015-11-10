@@ -522,7 +522,7 @@ function getAssetRoadmapPoints(selected_asset, selected_roadmap, init, finish) {
         '&roadmap_id=' + selected_roadmap.id +
         '&init_at=' + init +
         '&stop_at=' + finish;
-  $.get('/monitor/assets/roadmaps' + query_string,
+  $.get('/monitor/assets/roadmap' + query_string,
     function(response, status, xhr) {
       if (response.status == true) {
         var roadmap_list = [], point_list = [], timeline_items = [];

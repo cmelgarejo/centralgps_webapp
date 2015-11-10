@@ -3,11 +3,11 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
-  # POST    /api/v1/client/roadmaps/:roadmap_id/points/create
-  # GET     /api/v1/client/roadmaps/:roadmap_id/points/:roadmap_point_id
-  # PUT     /api/v1/client/roadmaps/:roadmap_id/points/:roadmap_point_id
-  # DELETE  /api/v1/client/roadmaps/:roadmap_id/points/:roadmap_point_id
-  # GET     /api/v1/client/roadmaps/:roadmap_id/points
+  # POST    /api/v1/client/roadmap/:roadmap_id/point/create
+  # GET     /api/v1/client/roadmap/:roadmap_id/point/:roadmap_point_id
+  # PUT     /api/v1/client/roadmap/:roadmap_id/point/:roadmap_point_id
+  # DELETE  /api/v1/client/roadmap/:roadmap_id/point/:roadmap_point_id
+  # GET     /api/v1/client/roadmap/:roadmap_id/point
 
   def index(conn, params) do
     {conn, session} = centralgps_session conn
@@ -73,9 +73,9 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
   end
 
   #private functions
-  defp api_method(roadmap_id, form \\ "") do
+  defp api_method(roadmap_id, action \\ "") do
     if !is_bitstring(roadmap_id), do: roadmap_id = Integer.to_string(roadmap_id)
-    "/client/roadmaps/" <> roadmap_id <> "/points/" <> form
+    "/client/roadmap/" <> roadmap_id <> "/point/" <> action
   end
 
   defp get_record(s, p) do
@@ -195,7 +195,7 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
-  defp api_parent_method(form) when is_bitstring(form), do: "/client/roadmaps/" <> form
+  defp api_parent_method(action) when is_bitstring(action), do: "/client/roadmap/" <> action
   defp get_parent_record(s, p) do
     p = objectify_map(p)
     {api_status, res} = api_get_json api_parent_method(p.roadmap_id), s.auth_token, s.account_type

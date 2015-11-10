@@ -143,7 +143,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
-  defp api_parent_method(form) when is_bitstring(form), do: "/checkpoint/form/" <> form
+  defp api_parent_method(action) when is_bitstring(action), do: "/checkpoint/form/" <> action
   defp get_parent_record(s, p) do
     p = objectify_map(p)
     {api_status, res} = api_get_json api_parent_method(p.form_id), s.auth_token, s.account_type

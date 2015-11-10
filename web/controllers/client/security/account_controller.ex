@@ -78,8 +78,8 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   #private functions
   defp image_dir, do: "images/account"
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
-  defp api_method(account_type \\ "", form \\ "") when is_bitstring(form), do:
-    "/security/accounts/" <> account_type <> "/" <> form
+  defp api_method(account_type \\ "", action \\ "") when is_bitstring(action), do:
+    "/security/accounts/" <> account_type <> "/" <> action
 
   defp list_records(s, p) do
     p = objectify_map(p)

@@ -229,7 +229,7 @@ function gridSetup_CRUD(gridFormatters, params){
       var query_string = '?';
       $.map(detailParams, function map_to_querystring(v, k) { if (k != "detail_url") query_string += '&' + k + '=' + v; });
       var detail_url = __centralgps__.CRUD.detail_url;
-      if(params.detail_url != null) detail_url = params.detail_url;
+      if(detailParams.detail_url != null) detail_url = detailParams.detail_url;
       get_page(detail_url + query_string);
     }).end().find(".cmd-delete").on("click", function gridSetup_CRUD_deleteOnClick(e) {
       var deleteParams = generateCRUDGridObject($(this), params);
@@ -265,6 +265,7 @@ function generateCRUDGridObject(row, params) {
   objectParams.token = (objectParams.token == null) ? __centralgps__.CRUD.form_token : objectParams.token;
   return objectParams;
 }
+
 function showSuccess(message) {
   $(document).find('#alert').html("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='X'><span aria-hidden='true'>×</span></button>"
     + message + "</div>")

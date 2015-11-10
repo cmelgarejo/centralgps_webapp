@@ -39,7 +39,7 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#client_contact_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_search_column = 'name';
 __centralgps__.CRUD.grid_command_columns = ["client_id"];
 function _gridCommandFormatter(column, row) {
   return "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' data-client_id='<%= @parent_record.id %>' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'></span></button> " +

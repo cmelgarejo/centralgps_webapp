@@ -65,7 +65,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
   end
 
   #private functions
-  defp api_method(form \\ "") when is_bitstring(form), do: "/checkpoint/client/" <> form
+  defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/client/" <> action
 
   defp get_record(s, p) do
     p = objectify_map(p)

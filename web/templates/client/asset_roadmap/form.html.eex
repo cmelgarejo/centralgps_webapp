@@ -1,11 +1,11 @@
 <div class="card-body card-padding">
-  <form role="form" method='post' action="<%= form_template_path Endpoint, :save %>">
+  <form role="form" method='post' action="<%= asset_roadmap_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
     <div class="card-body card-padding">
       <div class="row">
         <div id="alert"></div>
-        <a onclick="get_page('<%= form_template_path(@conn, :index) %>?form_id=<%= @parent_record.form_id %>&activity_id=<%= @parent_record.activity_id %>');" class="btn btn-info pull-left">
+        <a onclick="get_page('<%= asset_roadmap_path(@conn, :index) %>?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>');" class="btn btn-info pull-left">
           <i class="zmdi zmdi-arrow-back"></i>
           <%= l10n(@session.language_code, "generic", "BACK") %>
         </a>
@@ -18,20 +18,15 @@
     <div class="card-body card-padding">
       <div class="row">
         <div class="form-group fg-float">
-          <%= if (@record.__form__ == :edit) do %>
-          <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
-          <% end %>
-          <input type="hidden" id="item_id" name="item_id" value="<%= if (@record.__form__ == :edit), do: @record.item_id, else: nil %>" required/>
-          <input type="hidden" id="measure_unit_id" name="measure_unit_id" value="<%= if (@record.__form__ == :edit), do: @record.measure_unit_id, else: nil %>" required/>
-          <input type="hidden" id="form_id" name="form_id" value="<%= @parent_record.form_id %>" required/>
-          <input type="hidden" id="activity_id" name="activity_id" value="<%= @parent_record.activity_id %>" required/>
+          <input type="hidden" id="asset_id" name="asset_id" value="<%= if (@record.__form__ == :edit), do: @record.asset_id, else: nil %>" required/>
+          <input type="hidden" id="roadmap_id" name="roadmap_id" value="<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: nil %>" required/>
           <div class="col-sm-6 col-md-6">
             <div class="form-group">
               <div class="fg-line">
-                <label class="fg-label"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_ITEM") %></label>
+                <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET") %></label>
               </div>
               <div class="fg-line">
-                <select class="chosen-select form-control" id="item_select">
+                <select class="chosen-select form-control" id="asset_select">
                 </select>
               </div>
             </div>
@@ -39,13 +34,29 @@
           <div class="col-sm-6 col-md-6">
             <div class="form-group">
               <div class="fg-line">
-                <label class="fg-label"><%= l10n(@session.language_code, "form_template.crud.html", "COLUMN_MEASURE_UNIT") %></label>
+                <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP") %></label>
               </div>
               <div class="fg-line">
-                <select class="chosen-select form-control" id="measure_unit_select">
+                <select class="chosen-select form-control" id="roadmap_select">
                 </select>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input class="form-control" type="text" id="emails" name="emails" value="<%= if (@record.__form__ == :edit), do: @record.emails, else: nil %>" />
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_EMAILS") %></label>
+          </div>
+          <div class="form-group fg-float">
+            <div class="fg-line">
+              <input class="form-control" type="text" id="phones" name="phones" value="<%= if (@record.__form__ == :edit), do: @record.phones, else: nil %>"/>
+            </div>
+            <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_PHONES") %></label>
           </div>
         </div>
       </div>
@@ -65,8 +76,8 @@ $(document).ready(function() {
     default_single_text: __centralgps__.chosen.no_results_text,
     search_contains: true,
     width: "100%" });
-  loadChosenSelect('measure_unit', 'measure_unit_id',  'id', 'name', '/checkpoint/measure_units/json', measure_unit_OnChange);
-  loadChosenSelect('item', 'item_id',  'id', 'name', '/checkpoint/items/json', item_OnChange);
+  loadChosenSelect('roadmap', 'roadmap_id',  'id', 'name', '/client/roadmap/json', roadmap_OnChange);
+  loadChosenSelect('asset', 'asset_id',  'id', 'name', '/client/asset/json', asset_OnChange);
 });
 
 function loadChosenSelect(select_name, value_input, value_text, value_obj, url, onChange_callback) {
@@ -89,13 +100,13 @@ function loadChosenSelect(select_name, value_input, value_text, value_obj, url, 
   });
 }
 
-function measure_unit_OnChange(event, object) {
-  $('#measure_unit_id').val(object.selected);
+function roadmap_OnChange(event, object) {
+  $('#roadmap_id').val(object.selected);
   $('select').trigger('chosen:close');
 }
 
-function item_OnChange(event, object) {
-  $('#item_id').val(object.selected);
+function asset_OnChange(event, object) {
+  $('#asset_id').val(object.selected);
   $('select').trigger('chosen:close');
 }
 

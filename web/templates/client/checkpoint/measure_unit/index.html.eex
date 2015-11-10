@@ -28,7 +28,7 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#measure_unit_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'description';
+__centralgps__.CRUD.grid_search_column = 'name';
 $(document).ready(function() {
   gridSetup_CRUD();
 });

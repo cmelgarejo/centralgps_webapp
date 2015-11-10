@@ -9,7 +9,7 @@
   </div>
   <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "roadmap.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="roadmap_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmaps/json">
+      data-toggle="bootgrid" data-ajax="true" data-url="/client/roadmap/json">
         <thead>
             <tr>
               <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "roadmap.crud.html", "COLUMN_ID") %></th>
@@ -43,13 +43,13 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#roadmap_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'description';
-__centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
+__centralgps__.CRUD.grid_search_column = 'name';
+__centralgps__.CRUD.grid_command_columns = ["roadmap_id", "detail_url"];
 function _gridCommandFormatter(column, row)
 {
   return "" +
+  "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap.crud.html", "ASSETS") %>' data-detail_url='<%= asset_roadmap_path(@conn, :index) %>?roadmap_id=" + row.id+ "'><span class='zmdi zmdi-mail-send'></span></button> " +
   "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap.crud.html", "ROADMAP_POINTS") %>'><span class='zmdi zmdi-trending-up'></span></button> " +
-  "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap.crud.html", "ASSETS") %>' row-detail_url='<%= asset_roadmap_path(@conn, :index) %>'><span class='zmdi zmdi-trending-up'></span></button> " +
   //"<button type='button' class='btn btn-default cmd-view'       data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._view   + "'><span class='zmdi zmdi-eye'></span></button> " +
   "<button type='button' class='btn btn-default cmd-edit'       data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
   "<button type='submit' class='btn btn-danger  cmd-delete'     data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";

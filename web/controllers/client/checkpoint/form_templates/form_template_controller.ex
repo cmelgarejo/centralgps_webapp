@@ -65,7 +65,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
   end
 
   #private functions
-  defp api_method(form) when is_bitstring(form), do: "/checkpoint/form_template/" <> form
+  defp api_method(action) when is_bitstring(action), do: "/checkpoint/form_template/" <> action
 
   defp get_record(s, p) do
     p = objectify_map(p)
@@ -146,7 +146,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormTemplateController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
-  defp api_form_parent_method(form)   when is_bitstring(form), do: "/checkpoint/form/" <> form
+  defp api_form_parent_method(action) when is_bitstring(action), do: "/checkpoint/form/" <> action
   defp api_form_activity_method(form_id, activity_id) when is_bitstring(form_id) and is_bitstring(activity_id), do: "/checkpoint/activity/" <> form_id <> "/" <> activity_id
   defp get_parent_record(s, p) do
     p = objectify_map(p)

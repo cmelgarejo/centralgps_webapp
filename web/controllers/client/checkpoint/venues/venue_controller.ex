@@ -67,7 +67,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   #private functions
   defp image_dir, do: "images/checkpoint/venue"
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
-  defp api_method(form \\ "") when is_bitstring(form), do: "/checkpoint/venue/" <> form
+  defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venue/" <> action
   defp list_records(s, p) do
     p = objectify_map(p)
       |> (Map.update :current, 1, &(parse_int(&1)))
