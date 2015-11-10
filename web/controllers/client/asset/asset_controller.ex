@@ -65,19 +65,18 @@ defmodule CentralGPSWebApp.Client.AssetController do
   end
 
   #private functions
-  defp api_method(form_id \\ "", asset_id \\ "") when is_bitstring(form_id) and is_bitstring(asset_id), do: "/client/asset/" <> form_id <> "/" <> asset_id
+  defp api_method(roadmap_id, asset_id \\ "", form \\ "") when is_bitstring(form),
+    do: String.replace("/client/roadmap/" <> roadmap_id <> "/asset/" <> asset_id <> "/" <> form, "//", "/")
 
   defp get_record(s, p) do
     p = objectify_map(p)
-    {api_status, res} = api_get_json api_method(p.id, p.form_id), s.auth_token, s.account_type
+    {api_status, res} = api_get_json api_method(p.roadmap_id, p.asset_id), s.auth_token, s.account_type
     record = nil
     if(api_status == :ok) do
-      if(Map.has_key?res.body, :res) do
-        record = objectify_map res.body.res
-        record = %{id: record.id, description: record.description}
-      end
+      record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg} , record
+          #%{asset_id: record.asset_id, roadmap_id: record.roadmap_id, emails: record.emails, phones: record.phones, alarm: record.alarm}
       end
     end
     record
@@ -87,11 +86,11 @@ defmodule CentralGPSWebApp.Client.AssetController do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
-      data = %{asset_id: p.id, configuration_id: s.client_id, description: p.description}
-      {_, res} = api_put_json api_method(p.id), s.auth_token, s.account_type, data
+      data = %{ emails: p.emails, phones: p.phones, alarm: p.alarm }
+      {_, res} = api_put_json api_method(p.roadmap_id, p.asset_id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, form_id: p.form_id, description: p.description }
-      {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
+      data = %{ roadmap_id: p.roadmap_id, emails: p.emails, phones: p.phones, alarm: p.alarm }
+      {_, res} = api_post_json api_method(p.roadmap_id, p.asset_id, "create"), s.auth_token, s.account_type, data
     end
     res.body
   end
@@ -100,13 +99,16 @@ defmodule CentralGPSWebApp.Client.AssetController do
     p = objectify_map p
     if(Map.has_key?p, :id) do
       {api_status, res} =
-        api_delete_json api_method(p.id),
+        api_delete_json api_method(p.asset_id, p.roadmap_id),
         s.auth_token, s.account_type
     else
       {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
     end
     if(api_status == :ok) do
-      if !res.body.status, do: res = Map.put res, :body, %{ status: false, msg: res.body.msg }
+      if !res.body.status do
+        msg = if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg
+        res = Map.put res, :body, %{ status: false, msg: msg }
+      end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
@@ -115,7 +117,6 @@ defmodule CentralGPSWebApp.Client.AssetController do
 
   defp list_records(s, p) do
     p = objectify_map(p)
-      |> (Map.update :form_id, 0, &(parse_int(&1)))
       |> (Map.update :current, 1, &(parse_int(&1)))
       |> (Map.update :rowCount, 10, &(parse_int(&1)))
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
@@ -128,14 +129,14 @@ defmodule CentralGPSWebApp.Client.AssetController do
     end
     qs = %{offset: (p.current - 1) * p.rowCount, limit: p.rowCount,
       search_column: p.searchColumn, search_phrase: p.searchPhrase,
-      sort_column: p.sort_column, sort_order: p.sort_order, form_id: p.form_id}
-    {api_status, res} = api_get_json api_method, s.auth_token, s.account_type, qs
+      sort_column: p.sort_column, sort_order: p.sort_order}
+    {api_status, res} = api_get_json api_method(p.roadmap_id), s.auth_token, s.account_type, qs
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
         rows = res.body.rows |> Enum.map(&(objectify_map &1))
       else
-        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :asset), do: res.asset, else: res.body.msg) }
+        res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
@@ -143,7 +144,7 @@ defmodule CentralGPSWebApp.Client.AssetController do
     Map.merge((res.body |> Map.put :rows, rows), p)
   end
 
-  defp api_parent_method(form) when is_bitstring(form), do: "/client/form/" <> form
+  defp api_parent_method(roadmap_id) when is_bitstring(roadmap_id), do: "/checkpoint/roadmap/" <> roadmap_id
   defp get_parent_record(s, p) do
     p = objectify_map(p)
     {api_status, res} = api_get_json api_parent_method(p.form_id), s.auth_token, s.account_type
@@ -152,7 +153,7 @@ defmodule CentralGPSWebApp.Client.AssetController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg},
-          %{ id: record.id, form_id: record.id, description: record.description }
+          %{ id: record.id, roadmap_id: record.id, name: record.name, description: record.description }
       end
     end
     record

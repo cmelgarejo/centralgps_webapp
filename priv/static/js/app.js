@@ -227,8 +227,10 @@ function gridSetup_CRUD(gridFormatters, params){
     }).end().find(".cmd-detail").on("click", function gridSetup_CRUD_detailOnClick(e) {
       var detailParams = generateCRUDGridObject($(this), params);
       var query_string = '?';
-      $.map(detailParams, function map_to_querystring(v, k) { query_string += '&' + k + '=' + v });
-      get_page(__centralgps__.CRUD.detail_url + query_string);
+      $.map(detailParams, function map_to_querystring(v, k) { if (k != "detail_url") query_string += '&' + k + '=' + v; });
+      var detail_url = __centralgps__.CRUD.detail_url;
+      if(params.detail_url != null) detail_url = params.detail_url;
+      get_page(detail_url + query_string);
     }).end().find(".cmd-delete").on("click", function gridSetup_CRUD_deleteOnClick(e) {
       var deleteParams = generateCRUDGridObject($(this), params);
       bootgrid_delete(__centralgps__.CRUD.grid, __centralgps__.CRUD.delete_url, deleteParams);

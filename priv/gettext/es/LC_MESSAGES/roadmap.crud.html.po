@@ -73,6 +73,12 @@ msgstr "Ocurre cada [días/semanas]"
 msgid  "COLUMN_NOTES"
 msgstr "Notas"
 
+msgid "ROADMAP_POINTS"
+msgstr "Puntos asociados"
+
+msgid "ASSETS"
+msgstr "Activos asociados"
+
 msgid "INTERVAL_d"
 msgstr "Diario"
 

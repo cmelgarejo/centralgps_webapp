@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <div style="float:right !important; width: 50px;">
-      <a onclick="get_page('<%= asset_roadmap_path(@conn, :new) %>?roadmap_id=<%# @parent_record.roadmap_id %>');" class="btn btn-success btn-float" >
+      <a onclick="get_page('<%= asset_roadmap_path(@conn, :new) %>?roadmap_id=<%= @parent_record.roadmap_id %>');" class="btn btn-success btn-float" >
         <i class="zmdi zmdi-plus"></i>
       </a>
     </div>

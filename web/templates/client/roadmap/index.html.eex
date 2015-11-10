@@ -47,10 +47,12 @@ __centralgps__.CRUD.grid_search_column = 'description';
 __centralgps__.CRUD.grid_command_columns = ["roadmap_id"];
 function _gridCommandFormatter(column, row)
 {
-  return "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "form.crud.html", "CONTACTS") %>'><span class='zmdi zmdi-trending-up'></span></button> " +
-  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._view   + "'><span class='zmdi zmdi-eye'></span></button> " +
-  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
-  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
+  return "" +
+  "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap.crud.html", "ROADMAP_POINTS") %>'><span class='zmdi zmdi-trending-up'></span></button> " +
+  "<button type='button' class='btn btn-default cmd-detail' data-roadmap_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "roadmap.crud.html", "ASSETS") %>' row-detail_url='<%= asset_roadmap_path(@conn, :index) %>'><span class='zmdi zmdi-trending-up'></span></button> " +
+  //"<button type='button' class='btn btn-default cmd-view'       data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._view   + "'><span class='zmdi zmdi-eye'></span></button> " +
+  "<button type='button' class='btn btn-default cmd-edit'       data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete'     data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
 }
 $(document).ready(function() {
   gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
