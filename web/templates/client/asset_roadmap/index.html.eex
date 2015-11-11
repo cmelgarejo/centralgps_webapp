@@ -15,7 +15,7 @@
   </div>
   <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "asset_roadmap.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="asset_roadmap_grid" class="table table-condensed table-hover table-striped"
-      data-toggle="bootgrid" data-ajax="true" data-url="/client/assets/roadmap/json?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>">
+      data-toggle="bootgrid" data-ajax="true" data-url="/client/asset/roadmap/json?asset_id=<%= @parent_record.asset_id %>&roadmap_id=<%= @parent_record.roadmap_id %>">
         <thead>
             <tr>
               <th data-column-id="roadmap_id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP_ID") %></th>

@@ -58,6 +58,13 @@
             </div>
             <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_PHONES") %></label>
           </div>
+          <div class="checkbox">
+            <label>
+              <input id="alert" name="alert" type="checkbox" <%= if (@record.__form__ == :edit && @record.alert), do: "checked", else: "unchecked" %>>
+              <i class="input-helper"></i>
+              <%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ALERT") %>
+            </label>
+          </div>
         </div>
       </div>
     </div>

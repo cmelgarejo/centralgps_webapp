@@ -31,7 +31,7 @@ defmodule CentralGPSWebApp.Router do
     get  "/",                 MonitorController, :index
     get  "/assets",           MonitorController, :assets
     get  "/assets/record",    MonitorController, :record
-    get  "/assets/roadmap",  MonitorController, :roadmap
+    get  "/assets/roadmap",   MonitorController, :roadmap
     #Checkpoint Module
     get  "/assets/checkpoint/marks", Checkpoint.MonitorController, :marks
     get  "/venues",                  Checkpoint.MonitorController, :venues
@@ -42,7 +42,7 @@ defmodule CentralGPSWebApp.Router do
     get  "/", ProfileController, :index
   end
 
-  scope "/security/accounts", CentralGPSWebApp.Client.Security do
+  scope "/security/account", CentralGPSWebApp.Client.Security do
     pipe_through :browser # Use the default browser stack
     get    "/",       AccountController, :index
     get    "/json",   AccountController, :list
@@ -125,19 +125,19 @@ defmodule CentralGPSWebApp.Router do
   scope "/client", CentralGPSWebApp.Client do
     pipe_through :browser # Use the default browser stack
     #Assets
-    get    "/assets/",       AssetController, :index
-    get    "/assets/json",   AssetController, :list
-    get    "/assets/new",    AssetController, :new
-    get    "/assets/edit",   AssetController, :edit
-    post   "/assets/save",   AssetController, :save
-    delete "/assets/delete", AssetController, :delete
+    get    "/asset/",       AssetController, :index
+    get    "/asset/json",   AssetController, :list
+    get    "/asset/new",    AssetController, :new
+    get    "/asset/edit",   AssetController, :edit
+    post   "/asset/save",   AssetController, :save
+    delete "/asset/delete", AssetController, :delete
     #Asset/Roadmap
-    get    "/assets/roadmap",        AssetRoadmapController, :index
-    get    "/assets/roadmap/json",   AssetRoadmapController, :list
-    get    "/assets/roadmap/new",    AssetRoadmapController, :new
-    get    "/assets/roadmap/edit",   AssetRoadmapController, :edit
-    post   "/assets/roadmap/save",   AssetRoadmapController, :save
-    delete "/assets/roadmap/delete", AssetRoadmapController, :delete
+    get    "/asset/roadmap",        AssetRoadmapController, :index
+    get    "/asset/roadmap/json",   AssetRoadmapController, :list
+    get    "/asset/roadmap/new",    AssetRoadmapController, :new
+    get    "/asset/roadmap/edit",   AssetRoadmapController, :edit
+    post   "/asset/roadmap/save",   AssetRoadmapController, :save
+    delete "/asset/roadmap/delete", AssetRoadmapController, :delete
     #Roadmaps
     get    "/roadmap/",       RoadmapController, :index
     get    "/roadmap/json",   RoadmapController, :list

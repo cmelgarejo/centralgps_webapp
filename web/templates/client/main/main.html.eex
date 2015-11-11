@@ -258,7 +258,7 @@
               <% end %>
               <%= if Permissions.check(@session.permissions, Permissions.security.client.account.list) do %>
               <li>
-                <a onclick="get_page('security/accounts');">
+                <a onclick="get_page('security/account');">
                   <i class="zmdi zmdi-accounts-list"></i>
                   <%= l10n(@session.language_code, "main.html", "ACCOUNT_LINK_TEXT") %>
                 </a>

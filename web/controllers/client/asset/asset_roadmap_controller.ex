@@ -101,6 +101,7 @@ defmodule CentralGPSWebApp.Client.AssetRoadmapController do
   defp save_record(s, p) do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
+    if (!Map.has_key?p, :alert), do: p = Map.put( p, :alert, false), else: p = Map.update(p, :alert, false, &(&1 == "on"))
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{ emails: p.emails, phones: p.phones, alert: p.alert }
       {_, res} = api_put_json api_method(p.asset_id, p.roadmap_id), s.auth_token, s.account_type, data

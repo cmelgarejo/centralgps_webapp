@@ -263,7 +263,7 @@ $(document).ready(function() {
       <td><i class="glyphicon glyphicon-time"></i>&nbsp;{{&duration}}</td>\
     </tr>\
     <tr><td colspan="6" class="text-center h4">{{&mark.form}}</td></tr>\
-      {{#mark.activities}}\
+    {{#mark.activities}}\
     <tr><td colspan="6">\
       <table class="table-report table-condensed table-bordered-black">\
         <tr><td colspan="2"><b>{{description}}</b></td></tr>\
@@ -281,10 +281,28 @@ $(document).ready(function() {
         </td></tr>\
         <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{notes}}</td></tr>\
       </table>\
-     {{/mark.activities}}\
-     {{^mark.activities}}{{/mark.activities}}\
+    {{/mark.activities}}\
+    {{^mark.activities}}{{/mark.activities}}\
     </td></tr>\
-    <tr><td ><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{&mark.notes}}</td></tr>\
+    <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{&mark.notes}}</td></tr>\
+    {{#mark.contact}}\
+    <tr>\
+      <td colspan="4"></td>\
+      <td>\
+        <table class="table-report table-condensed table-bordered-black">\
+          <tr>\
+          <td><img src=' + __centralgps__.api_base_url + '/{{image_path}} style="width:50px"/></td>\
+          <td>\
+            <b>{{name}}</b><br/>\
+            <b>{{emails}}</b><br/>\
+            <b>{{phones}}</b>\
+          </td>\
+          </tr>\
+        </table>\
+      </td>\
+    </tr>\
+    {{/mark.contact}}\
+    {{^mark.contact}}{{/mark.contact}}\
   </tr></td></table>';
   var mark_html_popup    = '<div class="row"><div class="col-sm-2 col-md-2 text-center"><img src="{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}}</div><div class="col-sm-10 col-md-10">{{&mark_text}}</div>';
   var roadmap_text    = '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'

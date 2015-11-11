@@ -121,8 +121,8 @@ defmodule CentralGPSWebApp.Client.AssetController do
       |> (Map.update :rowCount,      10, &(parse_int(&1)))
       |> (Map.update :searchColumn, nil, fn(v)->(v) end)
       |> (Map.update :searchPhrase, nil, fn(v)->(v) end)
-      |> (Map.put :sort_column, nil)
-      |> (Map.put :sort_order, nil)
+      |> (Map.put :sort_column,     nil)
+      |> (Map.put :sort_order,      nil)
     if Map.has_key?p, :sort do
       p = Map.put(p, :sort_column, Map.keys(p.sort) |> hd)
         |> Map.put(:sort_order, Map.values(p.sort) |> hd)
@@ -136,9 +136,6 @@ defmodule CentralGPSWebApp.Client.AssetController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id,
-            asset_name: &1.asset_name,
-            emails: &1.emails, phones: &1.phones, alert: &1.alert })
       else
         res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end

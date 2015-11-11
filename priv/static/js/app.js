@@ -248,6 +248,7 @@ function gridSetup_CRUD(gridFormatters, params){
   });
   bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
   bootgrid_appendExportControls(); /*this appends the export control to all active bootgrids.*/
+  bootgrid_appendPrintControls(); /*this appends the print control to all active bootgrids.*/
 }
 
 function gridSetup_CRUD_requestHandler(req) {
@@ -421,6 +422,15 @@ function bootgrid_appendExportControls() {
         '</div>'].join('')).appendTo(t);
     }
   });
+}
+function bootgrid_appendPrintControls() {
+  // $('.grid-container > .bootgrid-header > .row > .actionBar > .actions').each(function buildExportControls(i, t) {
+  //   t = $(t);
+  //   $(['<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button" onclick="javascript://window.print()">',
+  //       '<span class="dropdown-text"><span class="glyphicon glyphicon-print icon-print"></span>',
+  //       '<span class="caret"></span>',
+  //       '</button>'].join('')).appendTo(t);
+  // });
 }
 function exportData(option, grid, fileName) {
     if(fileName == null) fileName = grid;

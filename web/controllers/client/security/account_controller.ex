@@ -3,23 +3,23 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   import CentralGPS.RestClient
   import CentralGPS.Repo.Utilities
 
-  # POST    /security/accounts/create
-  # GET     /security/accounts/:account_id
-  # PUT     /security/accounts/:account_id
-  # DELETE  /security/accounts/:account_id
-  # GET     /security/accounts
-  # GET     /security/accounts/json
+  # POST    /security/account/create
+  # GET     /security/account/:account_id
+  # PUT     /security/account/:account_id
+  # DELETE  /security/account/:account_id
+  # GET     /security/account
+  # GET     /security/account/json
 
-  # PUT     /api/v1/security/accounts/activate/:account_type/:account_id
-  # POST    /api/v1/security/accounts/create/:account_type
-  # GET     /api/v1/security/accounts/:account_type/:account_id
-  # PUT     /api/v1/security/accounts/:account_type/:account_id
-  # DELETE  /api/v1/security/accounts/:account_type/:account_id
-  # GET     /api/v1/security/accounts
-  # POST    /api/v1/security/accounts/:account_type/:account_id/roles/create/:role_id
-  # DELETE  /api/v1/security/accounts/:account_type/:account_id/roles/:role_id
-  # POST    /api/v1/security/accounts/:account_type/:account_id/permissions/create/:permission_id
-  # DELETE  /api/v1/security/accounts/:account_type/:account_id/permissions/:permission_id
+  # PUT     /api/v1/security/account/activate/:account_type/:account_id
+  # POST    /api/v1/security/account/create/:account_type
+  # GET     /api/v1/security/account/:account_type/:account_id
+  # PUT     /api/v1/security/account/:account_type/:account_id
+  # DELETE  /api/v1/security/account/:account_type/:account_id
+  # GET     /api/v1/security/account
+  # POST    /api/v1/security/account/:account_type/:account_id/roles/create/:role_id
+  # DELETE  /api/v1/security/account/:account_type/:account_id/roles/:role_id
+  # POST    /api/v1/security/account/:account_type/:account_id/permissions/create/:permission_id
+  # DELETE  /api/v1/security/account/:account_type/:account_id/permissions/:permission_id
 
   def index(conn, _) do
     {conn, session} = centralgps_session conn
@@ -79,7 +79,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   defp image_dir, do: "images/account"
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(account_type \\ "", action \\ "") when is_bitstring(action), do:
-    "/security/accounts/" <> account_type <> "/" <> action
+    "/security/account/" <> account_type <> "/" <> action
 
   defp list_records(s, p) do
     p = objectify_map(p)
