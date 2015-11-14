@@ -78,8 +78,15 @@ function _updateVenueMap() {
       } else {
         console.log('._updateVenueMap: ' + response.msg);
       }
-      chosenLoadSelect('venue_id_select', available_venues, 'id', 'name', fnChosen_VenueOnChange, null, null, $('#venue_id').val());
-      fnChosen_VenueOnChange(null, { selected: $('#venue_id').val()})
+      var val = $('#venue_id').val();
+      if(val == null) {
+        if(available_venues[0])
+         val = available_venues[0].id;
+      }
+      else
+        val = 1;
+      chosenLoadSelect('venue_id_select', available_venues, 'id', 'name', fnChosen_VenueOnChange, null, null, val);
+      fnChosen_VenueOnChange(null, { selected: val})
     });
   });
 }
@@ -105,8 +112,15 @@ function _updateForms() {
       } else {
         console.log('._updateForms: ' + response.msg);
       }
-      chosenLoadSelect('form_id_select', available_forms, 'id', 'description', fnChosen_FormsOnChange, null, null, $('#form_id').val());
-      fnChosen_FormsOnChange(null, { selected: $('#venue_id').val()})
+      var val = $('#form_id').val();
+      if(val == null) {
+        if(available_venues[0])
+         val = available_venues[0].id;
+      }
+      else
+        val = 1;
+      chosenLoadSelect('form_id_select', available_forms, 'id', 'description', fnChosen_FormsOnChange, null, null, val);
+      fnChosen_FormsOnChange(null, { selected: val})
     });
   });
 }

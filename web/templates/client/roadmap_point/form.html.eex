@@ -104,7 +104,7 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_VENUE") %></label>
           <div class="form-group fg-float">
             <div class="fg-line">
-              <input type="hidden" id="venue_id" name="venue_id" value="<%= @record.venue_id %>" required/>
+              <input type="hidden" id="venue_id" name="venue_id" value="<%= if (@record.__form__ == :edit), do: @record.venue_id, else: nil %>" required/>
               <select class="chosen-select form-control" id="venue_id_select" name="venue_id_select">
               </select>
             </div>
@@ -116,7 +116,7 @@
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_FORM") %></label>
           <div class="form-group fg-float">
             <div class="fg-line">
-              <input type="hidden" id="form_id" name="form_id" value="<%= @record.form_id %>" required/>
+              <input type="hidden" id="form_id" name="form_id" value="<%= if (@record.__form__ == :edit), do: @record.form_id, else: nil %>" required/>
               <select class="chosen-select form-control" id="form_id_select" name="form_id_select">
               </select>
             </div>
