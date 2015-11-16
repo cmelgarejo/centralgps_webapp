@@ -237,6 +237,9 @@ function getAssetMarks(selected_asset, init, finish) {
         console.log(selected_asset.name + '.updateMarks: ' + response.msg + ' - query_string: ' + query_string);
       }
       removeLoadScreen("#mark_grid_container");
+      setTimeout(function () {
+        $(".zoomable").elevateZoom({scrollZoom: true, zoomWindowPosition: 14, tint:true, tintColour:'black', tintOpacity:0.5});
+      }, 500);
   });
 }
 var _history_text = '';

@@ -242,6 +242,7 @@
     </div>
   </div>
 </div>
+<script src="<%= static_path(@conn, "/js/jquery.elevateZoom-3.0.8.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/monitor.js") %>"></script>
 <script>
 $(document).ready(function() {
@@ -279,6 +280,16 @@ $(document).ready(function() {
             {{^items}}{{/items}}\
           </table>\
         </td></tr>\
+        <tr><td colspan="2">\
+          <div class="row" style="padding-left: 10px">\
+          {{#images}}\
+            <div class="col-sm-2 col-md-2" style="padding-bottom: 10px">\
+              <a href="' + __centralgps__.api_base_url + '/{{image_path}}" target="_blank"><img class="zoomable" src="' + __centralgps__.api_base_url + '/{{image_path}}" data-zoom-image="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:150px"/></a>\
+            </div>\
+          {{/images}}\
+          {{^images}}{{/images}}\
+          </div>\
+        </td></tr>\
         <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{notes}}</td></tr>\
       </table>\
     {{/mark.activities}}\
@@ -291,7 +302,7 @@ $(document).ready(function() {
       <td>\
         <table class="table-report table-condensed table-bordered-black">\
           <tr>\
-          <td><img src=' + __centralgps__.api_base_url + '/{{image_path}} style="width:50px"/></td>\
+          <td><img src="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:50px"/></td>\
           <td>\
             <b>{{name}}</b><br/>\
             <b>{{emails}}</b><br/>\
