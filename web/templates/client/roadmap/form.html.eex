@@ -63,7 +63,7 @@
           <div class="form-group fg-float">
             <div class="fg-line fg-toggled">
               <select class="chosen-select form-control" id="days_of_week" name="days_of_week[]" multiple>
-                <%= if @record.__form__ == :edit do %>
+                <%= if @record.__form__ == :edit && @record.days_of_week != nil do %>
                 <%=   for (d <- @record.days_of_week) do %>
                 <option selected value="<%= d %>"><%= l10n(@session.language_code, "generic", "DOW" <> Integer.to_string(d) ) %></option>
                 <%    end %>
@@ -84,7 +84,7 @@
           <div class="form-group fg-float">
             <div class="fg-line fg-toggled">
               <select class="chosen-select form-control" id="months_of_year" name="months_of_year[]" multiple>
-                <%= if @record.__form__ == :edit do %>
+                <%= if @record.__form__ == :edit && @record.months_of_year != nil do %>
                 <%=   for (d <- @record.months_of_year) do %>
                 <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
                 <%    end %>
@@ -103,7 +103,7 @@
           <div class="form-group fg-float">
             <div class="fg-line fg-toggled">
               <select class="chosen-select form-control" id="days_of_month" name="days_of_month[]" multiple>
-                <%= if @record.__form__ == :edit do %>
+                <%= if @record.__form__ == :edit && @record.days_of_month != nil do %>
                 <%=   for (d <- @record.days_of_month) do %>
                 <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
                 <%    end %>

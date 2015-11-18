@@ -204,7 +204,7 @@
     <div class="sidebar-inner">
       <div class="si-inner">
         <div class="profile-menu" style="background: url(images/client/_placeholder.png) no-repeat left top;background-size:100%;">
-          <a href="" style="background: url(<%= @client_profile_image %>) no-repeat left top;background-size:100%;">
+          <a href="" style="background: url(<%= @client_profile_image %>) no-repeat left top;background-size:100% 100%;">
             <div class="profile-pic">
               <img src="<%= @profile_image %>" alt="">
             </div>

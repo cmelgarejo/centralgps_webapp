@@ -151,7 +151,7 @@
             <table id="mark_grid" class="table table-hover">
                 <thead>
                     <tr>
-                      <th data-column-id="mark_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_TEXT") %></th>
+                      <th data-column-id="mark_text" data-searchable="true"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_TEXT") %></th>
                       <!-- <th data-column-id="executed_at" data-order="desc"><i class="glyphicon glyphicon-play"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_EXECUTED_AT") %></th>
                       <th data-column-id="finished_at" data-order="desc"><i class="glyphicon glyphicon-stop"></i><%= l10n(@session.language_code, "monitor.html", "COLUMN_FINISHED_AT") %></th> -->
                     </tr>
@@ -242,7 +242,6 @@
     </div>
   </div>
 </div>
-<script src="<%= static_path(@conn, "/js/jquery.elevateZoom-3.0.8.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/monitor.js") %>"></script>
 <script>
 $(document).ready(function() {

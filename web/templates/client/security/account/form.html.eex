@@ -25,12 +25,12 @@
     </div>
     <div class="row">
       <div class="col-sm-6 col-md-6">
-        <div class="form-group fg-float">
+        <!-- <div class="form-group fg-float">
           <div class="fg-line">
             <select class="chosen-select form-control" id="account_type_select">
             </select>
           </div>
-        </div>
+        </div> -->
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control" type="text" id="name" name="name"
@@ -44,6 +44,12 @@
             value="<%= if (@record.__form__ == :edit), do: @record.identity_document, else: nil %>" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_IDENTITY_DOCUMENT") %></label>
+        </div>
+        <div class="form-group fg-float">
+          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
+            <input class="form-control" type="password" id="login_password" name="login_password" />
+          </div>
+          <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_PASSWORD") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
@@ -170,19 +176,19 @@ $(document).ready(function() {
   });
   loadAccountTypes();
 });
-function loadAccountTypes() {
-  $.get('/checkpoint/account/json', function(response, status, xhr) {
-    if (response.status == true) {
-      var account_type_list = [];
-      response.rows.forEach(function(vt, aidx, arr) {
-        account_type_list.push({ id: vt.id, description: vt.description });
-      });
-      chosenLoadSelect('account_type_select', account_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#account_type').val());
-    } else {
-
-    }
-  });
-}
+// function loadAccountTypes() {
+//   $.get('/security/account/json', function(response, status, xhr) {
+//     if (response.status == true) {
+//       var account_type_list = [];
+//       response.rows.forEach(function(vt, aidx, arr) {
+//         account_type_list.push({ id: vt.id, description: vt.description });
+//       });
+//       chosenLoadSelect('account_type_select', account_type_list, 'id', 'description', fnChosenOnChange, null, null, $('#account_type').val());
+//     } else {
+//
+//     }
+//   });
+// }
 function fnChosenOnChange() {
   $('#account_type').val($(this).val());
   $('select').trigger('chosen:close');

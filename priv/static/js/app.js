@@ -60,6 +60,11 @@ function get_page(resource) {
       $(document).ready(function get_page_applyWaves(){
         Waves.attach('.btn', ['waves-button', 'waves-float']); Waves.init();
       });
+      $(document).ready(function get_page_applyElevateZoom(){
+        setTimeout(function () {
+          //$(".zoomable").elevateZoom({scrollZoom: true, zoomWindowPosition: 14, tint:true, tintColour:'black', tintOpacity:0.5});
+        }, 500);
+      });
     }).fail(function get_page_fail(html){
       var notify = { title: resource, text: html.responseText, image: '<i class="md-error"></i>'};
       $.notify(notify, 'error');
@@ -153,7 +158,7 @@ function gridImageFormatter(column, row)
 {
   var id = row[column.id];
   var image = (id != null && row[column.id] != '') ? row[column.id] : "images/_placeholder.png";
-  return "<img src='" + __centralgps__.api_base_url + "/" + image + "' style='width:50px'/>";
+  return "<img class='zoomable' src='" + __centralgps__.api_base_url + "/" + image + "' data-zoom-image='" + __centralgps__.api_base_url + "/" + image + "' style='width:50px'/>";
 }
 
 function gridCheckFormatter(column, row)

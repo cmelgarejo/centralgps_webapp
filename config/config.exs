@@ -12,8 +12,8 @@ config :central_g_p_s_web_app, CentralGPSWebApp.Endpoint,
   debug_errors: false,
   #pubsub: [name: CentralGPSWebApp.PubSub, adapter: Phoenix.PubSub.PG2],
   entity_tag: "edge",
-  rest_client_base_url: "https://api.centralgps.net/api/v1",
-  #rest_client_base_url: "http://localhost:4000/api/v1",
+  #rest_client_base_url: "https://api.centralgps.net/api/v1",
+  rest_client_base_url: "http://localhost:4000/api/v1",
   rest_client_app_name: "centralgps_webapp"
 
 # Configures Elixir's Logger

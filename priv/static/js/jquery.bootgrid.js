@@ -175,8 +175,8 @@
 
             for (var i = 0; i < that.columns.length; i++)
             {
-                if (column.searchable && column.visible &&
-                    column.converter.to(row[column.id]).search(searchPattern) > -1)
+              if (that.columns[i].searchable && that.columns[i].visible &&
+                  that.columns[i].converter.to(row[that.columns[i].id]).search(searchPattern) > -1)
                 {
                     return true;
                 }

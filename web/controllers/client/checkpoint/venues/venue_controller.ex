@@ -160,8 +160,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
       end
       data = %{ venue_id: p.id, client_id: p.client_id, venue_type_id: p.venue_type_id, active: p.active,
         configuration_id: s.client_id, name: p.name, code: p.code, address: p.address,
-        description: p.description, lat: p.lat, lon: p.lon, image_path: Enum.join([image_dir, image_path], "/"),
-        image_bin: file, detection_radius: p.detection_radius, xtra_info: p.xtra_info }
+        description: p.description, lat: p.lat, lon: p.lon, image_path: Enum.join([image_dir, image_path], "/"), image_bin: file, 
+        detection_radius: p.detection_radius, xtra_info: p.xtra_info }
       {api_status, res} = api_put_json api_method(data.venue_id), s.auth_token, s.account_type, data
       if api_status == :ok && res.body.status do
         local_save_image(p.image, p.image_path)

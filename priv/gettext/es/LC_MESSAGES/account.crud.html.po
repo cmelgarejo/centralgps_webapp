@@ -43,6 +43,9 @@ msgstr "Lenguaje"
 msgid  "COLUMN_USERNAME"
 msgstr "Nombre de usuario"
 
+msgid  "COLUMN_PASSWORD"
+msgstr "Contraseña"
+
 msgid  "COLUMN_ACCOUNT_IMAGE"
 msgstr "Imagen de Perfil"
 

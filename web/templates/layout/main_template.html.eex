@@ -34,6 +34,8 @@
     <script src="<%= static_path(@conn, "/js/jquery.bootgrid.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/tableExport.min.js")%>"></script>
     <script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/jquery.elevateZoom-3.0.8.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/fx.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/jquery.mask.min.js") %>"></script>

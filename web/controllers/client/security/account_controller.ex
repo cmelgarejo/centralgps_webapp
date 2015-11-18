@@ -76,8 +76,8 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   end
 
   #private functions
-  defp image_dir, do: "images/account"
-  defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
+  defp image_dir(client_id \\ ""), do: "images/client/#{client_id}/account"
+  defp image_placeholder, do: String.replace(Enum.join([image_dir, centralgps_placeholder_file], "/"), "//", "/")
   defp api_method(account_type \\ "", action \\ "") when is_bitstring(action), do:
     "/security/account/" <> account_type <> "/" <> action
 
@@ -158,30 +158,29 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (!Map.has_key?(p, :xtra_info) || p.xtra_info == ""), do: p = Map.put p, :xtra_info, nil
+    if (!Map.has_key?(p, :account_type)), do: p = Map.put p, :account_type, "C"
     if (!Map.has_key?p, :image), do: p = Map.put(p, :image, nil), else:
       (if p.image == "", do: p = Map.put p, :image, nil) #if the parameter is there and it's empty, let's just NIL it :)
     if (String.to_atom(p.__form__) ==  :edit) do
       #image_filename = p.image_path
       file = nil
       if (p.image != nil) do #let's create a hash filename for the new pic.
-        image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
+        image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
         {:ok, file} = File.read p.image.path
-        file = Base.url_enidentity_document64(file)
+        file = Base.url_encode64(file)
       else #or take the already existing one
-        image_filename = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
+        image_path = (String.split(p.image_path, image_dir(s.client_id)) |> List.last) |> String.replace "/", ""
       end
-      data = %{ account_id: p.id, account_type_id: p.account_type_id,
-        configuration_id: s.client_id, name: p.name, identity_document: p.identity_document,
-        description: p.description, lat: p.lat, lon: p.lon, image_path: image_filename,
-        image: Enum.join([image_dir, image_filename], "/"), image_file: file,
-        detection_radius: p.detection_radius, xtra_info: p.xtra_info }
+      data = %{ account_id: p.id, account_type: p.account_type, login_password: s.login_password, dob: p.dob, identity_document: p.identity_document,
+        image_path: Enum.join([image_dir(s.client_id), image_path], "/"), image_bin: file,
+        info_emails: p.info_emails, info_phones: p.info_phones, language_template_id: p.language_template_id, name: p.name, info_emails: p.info_emails, xtra_info: p.xtra_info }
       {api_status, res} = api_put_json api_method(data.account_type, data.id), s.auth_token, s.account_type, data
       if api_status == :ok  do
         if res.body.status && (p.image != nil) do #put the corresponding pic for the record.
-          dest_dir = Enum.join [Utilities.priv_static_path, image_dir], "/"
-          File.rm Enum.join([dest_dir,  String.split(p.image_path, image_dir) |> List.last], "/") #removes the old image
+          dest_dir = Enum.join [Utilities.priv_static_path, image_dir(s.client_id)], "/"
+          File.rm Enum.join([dest_dir,  String.split(p.image_path, image_dir(s.client_id)) |> List.last], "/") #removes the old image
           File.mkdir_p dest_dir
-          File.copy(p.image.path, Enum.join([dest_dir,  image_filename], "/"), :infinity)
+          File.copy(p.image.path, Enum.join([dest_dir,  image_path], "/"), :infinity)
         end
       else
         res = Map.put res, :body, %{ status: false, msg: res.reason }
@@ -191,11 +190,11 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
       if (p.image != nil) do
         image_filename = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
         {:ok, file} = File.read p.image.path
-        file = Base.url_enidentity_document64(file)
+        file = Base.url_encode64(file)
       else
         image_filename = image_placeholder
       end
-      data = %{ account_type_id: p.account_type_id, configuration_id: s.client_id,
+      data = %{ account_type: p.account_type, configuration_id: s.client_id,
         name: p.name, identity_document: p.identity_document, description: p.description,
         lat: p.lat, lon: p.lon, image: image_filename, image_file: file,
         detection_radius: p.detection_radius, xtra_info: p.xtra_info }
