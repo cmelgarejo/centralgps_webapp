@@ -31,6 +31,30 @@
             </select>
           </div>
         </div> -->
+        <% #Image Control %>
+        <div class="text-center">
+          <%= if (@record.__form__ == :edit) do %>
+          <input type="hidden" id="image_path" name="image_path" value="<%= @record.image_path %>" required/>
+          <label class="fg-label"><%= l10n(@session.language_code, "generic", "CURRENT_IMAGE") %></label>
+          <% else %>
+          <label class="fg-label"><%= l10n(@session.language_code, "generic", "IMAGE") %></label>
+          <% end %>
+          <div class="text-center">
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+              <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
+                <img src='<%= @record.image_path %>' style="width:150px;"/>
+              </div>
+              <div>
+                  <span class="btn btn-info btn-file">
+                      <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
+                      <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
+                      <input type="file" name="image" id="image" accept="image/*">
+                  </span>
+                  <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control" type="text" id="name" name="name"
@@ -46,7 +70,7 @@
           <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_IDENTITY_DOCUMENT") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
+          <div class="fg-line">
             <input class="form-control" type="password" id="login_password" name="login_password" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_PASSWORD") %></label>
@@ -82,56 +106,28 @@
         </div>
         <div class="form-group fg-float">
           <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
-            <input class="form-control" type="text" id="username" name="username"
-            value="<%= if (@record.__form__ == :edit), do: @record.username, else: nil %>"/>
+            <input class="form-control" type="text" id="login_name" name="login_name"
+            value="<%= if (@record.__form__ == :edit), do: @record.login_name, else: nil %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_USERNAME") %></label>
         </div>
+        <!-- <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_LANGUAGE_TEMPLATE") %></label>
         <div class="form-group fg-float">
-          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
-            <input class="form-control" type="text" id="language_template" name="language_template"
-            value="<%= if (@record.__form__ == :edit), do: @record.language_template, else: nil %>"/>
+          <div class="fg-line">
+            <select class="chosen-select form-control" id="language_template">
+            </select>
           </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_LANGUAGE_TEMPLATE") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
-            <input class="form-control" type="text" id="active" name="active"
-            value="<%= if (@record.__form__ == :edit), do: @record.active, else: nil %>"/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_ACTIVE") %></label>
-        </div>
-        <div class="form-group fg-float">
-          <div class="fg-line <%= if (@record.__form__ == :edit), do: "fg-toggled" %>">
-            <input class="form-control" type="text" id="blocked" name="blocked"
-            value="<%= if (@record.__form__ == :edit), do: @record.active, else: nil %>"/>
-          </div>
-          <label class="fg-label"><%= l10n(@session.language_code, "account.crud.html", "COLUMN_BLOCKED") %></label>
-        </div>
-        <% #Image Control %>
-        <div class="text-center">
-          <%= if (@record.__form__ == :edit) do %>
-          <input type="hidden" id="image_path" name="image_path" value="<%= @record.image_path %>" required/>
-          <label class="fg-label"><%= l10n(@session.language_code, "generic", "CURRENT_IMAGE") %></label>
-          <% else %>
-          <label class="fg-label"><%= l10n(@session.language_code, "generic", "IMAGE") %></label>
-          <% end %>
-          <div class="text-center">
-            <div class="fileinput fileinput-new" data-provides="fileinput">
-              <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
-                <img src='<%= @record.image_path %>' style="width:150px;"/>
-              </div>
-              <div>
-                  <span class="btn btn-info btn-file">
-                      <span class="fileinput-new"><%= l10n(@session.language_code, "generic", "SELECT_IMAGE") %></span>
-                      <span class="fileinput-exists"><%= l10n(@session.language_code, "generic", "CHANGE") %></span>
-                      <input type="file" name="image" id="image" accept="image/*">
-                  </span>
-                  <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><%= l10n(@session.language_code, "generic", "REMOVE") %></a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div> -->
+        <label>
+            <input id="active" name="active" type="checkbox" <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>>
+            <i class="input-helper"></i>
+            <%= l10n(@session.language_code, "account.crud.html", "COLUMN_ACTIVE") %>
+        </label>
+        <label>
+            <input id="blocked" name="blocked" type="checkbox" <%= if (@record.__form__ == :edit && @record.blocked), do: "checked", else: "unchecked" %>>
+            <i class="input-helper"></i>
+            <%= l10n(@session.language_code, "account.crud.html", "COLUMN_BLOCKED") %>
+        </label>
       </div>
       <div class="col-sm-6 col-md-6">
         <div id="_account_map"></div>
@@ -174,7 +170,7 @@ $(document).ready(function() {
       $(this).parent().addClass('fg-toggled');
     }
   });
-  loadAccountTypes();
+  //loadAccountTypes();
 });
 // function loadAccountTypes() {
 //   $.get('/security/account/json', function(response, status, xhr) {
