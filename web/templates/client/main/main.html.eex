@@ -100,7 +100,7 @@
                 <a class="lv-item" href="">
                   <div class="media">
                     <div class="pull-left">
-                      <img class="lv-img-sm" src="images/vehicle/1.jpg" alt="">
+                      <!-- <img class="lv-img-sm" src="images/vehicle/1.jpg" alt=""> -->
                     </div>
                     <div class="media-body">
                       <div class="lv-title">
@@ -203,10 +203,10 @@
   <aside id="sidebar">
     <div class="sidebar-inner">
       <div class="si-inner">
-        <div class="profile-menu" style="background: url(images/client/_placeholder.png) no-repeat left top;background-size:100%;">
-          <a href="" style="background: url(<%= @client_profile_image %>) no-repeat left top;background-size:100% 100%;">
+        <div class="profile-menu" style="background: url(<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/images/client/_placeholder.png) no-repeat left top;background-size:100%;">
+          <a href="" style="background: url(<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/<%= @client_profile_image %>) no-repeat left top;background-size:100% 100%;">
             <div class="profile-pic">
-              <img src="<%= @profile_image %>" alt="">
+              <img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/<%= @profile_image %>" alt="">
             </div>
             <div class="profile-info">
               <%= @session.name %>

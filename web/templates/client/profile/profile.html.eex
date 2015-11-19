@@ -2,7 +2,7 @@
   <div class="pm-overview c-overflow" tabindex="4" style="overflow: hidden; outline: none;">
     <div class="pmo-pic">
       <div class="p-relative">
-        <img class="img-responsive" src="<%= @profile_image %>" alt="">
+        <img class="img-responsive" src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/<%= @profile_image %>" alt="">
           <a class="pmop-edit">
             <i class="zmdi zmdi-camera-alt"></i> <span class="hidden-xs"><%= l10n(@session.language_code, "profile.html", "INFORMATION_FORM_UPDATE_PROFILE_FOTO") %></span>
           </a>
