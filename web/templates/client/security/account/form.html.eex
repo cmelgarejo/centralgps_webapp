@@ -42,7 +42,7 @@
           <div class="text-center">
             <div class="fileinput fileinput-new" data-provides="fileinput">
               <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="line-height:150px;">
-                <img src='<%= @record.image_path %>' style="width:150px;"/>
+                <img src='<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/<%= @record.image_path %>' style="width:150px;"/>
               </div>
               <div>
                   <span class="btn btn-info btn-file">
