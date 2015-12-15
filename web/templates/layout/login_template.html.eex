@@ -17,7 +17,7 @@
     <script src="<%= static_path(@conn, "/js/pace.min.js") %>"></script>
   </head>
   <body class="login-content">
-    <%= @inner %>
+    <%= render @view_module, @view_template, assigns %>
     <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/sweet-alert.min.js") %>"></script>

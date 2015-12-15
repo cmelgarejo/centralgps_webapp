@@ -14,7 +14,7 @@ msgid  "COLUMN_ID"
 msgstr "ID"
 
 msgid  "COLUMN_CLIENT_CONTACT_IMAGE"
-msgstr ""
+msgstr " "
 
 msgid  "COLUMN_NAME"
 msgstr "Nombre"

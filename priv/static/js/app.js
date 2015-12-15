@@ -1,3 +1,33 @@
+function excelExportHtml(table, includeCss) {
+    if (includeCss) {
+        var styles = [];
+
+        //grab all styles defined on the page
+        $("style").each(function (index, domEle) {
+            styles.push($(domEle).html());
+        });
+
+        //grab all styles referenced by stylesheet links on the page
+        var ajaxCalls = [];
+        $("[rel=stylesheet]").each(function () {
+            ajaxCalls.push($.get(this.href, '', function (data) {
+                styles.push(data);
+            }));
+        });
+
+        return $.when.apply(null, ajaxCalls)
+                .then(function () {
+                    return "<html><style type='text/css'>" + styles.join("\n") + "</style>\n" + table.outerHTML + "</html>";
+                });
+    }
+    else {
+        return $.when({ owcHtml: table.outerHTML })
+                .then(function (result) {
+                    return "<html>" + result.owcHtml + "</html>";
+                });
+    }
+}
+
 var __centralgps__ = {
   selects: [],
   mapbox: { accessToken: 'pk.eyJ1IjoiY2VudHJhbGdwcyIsImEiOiJjZWE3NTUzOWM5ZmZiZTAzYmE1NTM4ZGEwOTFiMzE4OSJ9.TLvKAlHfThCDEc-DaMzglQ', id: 'centralgps.f62d543f' },
@@ -441,11 +471,18 @@ function exportData(option, grid, fileName) {
     if(fileName == null) fileName = grid;
     grid = '#' + grid;
     var type = $(option).data('type');
-    $(grid).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
-        type: type,
-        escape: false,
-        fileName: (fileName + moment().format())
-    }));
+    var tbl = excelExportHtml($(grid)[0], true).then(function(table) {
+      $(table[0]).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
+          type: type,
+          escape: false,
+          fileName: (fileName + moment().format())
+      }));
+    })
+    // $(grid).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
+    //     type: type,
+    //     escape: false,
+    //     fileName: (fileName + moment().format())
+    // }));
     //     doExport = function () {
     //
     //     };

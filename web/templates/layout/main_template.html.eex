@@ -24,7 +24,7 @@
   </head>
   <body>
     <div class="container">
-      <%= @inner %>
+      <%= render @view_module, @view_template, assigns %>
     </div>
     <script src="<%= static_path(@conn, "/js/waves.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/notify.js") %>"></script>

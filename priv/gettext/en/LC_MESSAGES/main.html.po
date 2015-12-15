@@ -2,7 +2,7 @@ msgid  "PAGE_TITLE"
 msgstr "Dashboard"
 
 msgid  "MENU_TITLE"
-msgstr ""
+msgstr " "
 
 msgid  "MENU_TEXT_TOGGLE_FULLSCREEN"
 msgstr "Toggle Fullscreen"

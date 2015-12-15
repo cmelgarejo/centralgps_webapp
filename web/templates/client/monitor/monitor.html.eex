@@ -265,36 +265,36 @@ $(document).ready(function() {
     <tr><td colspan="6" class="text-center h4">{{&mark.form}}</td></tr>\
     {{#mark.activities}}\
     <tr><td colspan="6">\
-      <table class="table-report table-condensed table-bordered-black">\
-        <tr><td colspan="2"><b>{{description}}</b></td></tr>\
-        <tr><td colspan="2">\
-          <table class="table table-condensed table-striped">\
-            {{#items}}\
-             <tr>\
-              <td>{{name}}</td>\
-              <td>{{measure_unit}}</td>\
-              <td>{{quantity}}</td>\
-             </tr>\
-            {{/items}}\
-            {{^items}}{{/items}}\
-          </table>\
-        </td></tr>\
-        <tr><td colspan="2">\
-          <div class="row" style="padding-left: 10px">\
-          {{#images}}\
-            <div class="col-sm-2 col-md-2" style="padding-bottom: 10px">\
-              <a href="' + __centralgps__.api_base_url + '/{{image_path}}" target="_blank"><img class="zoomable" src="' + __centralgps__.api_base_url + '/{{image_path}}" data-zoom-image="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:150px"/></a>\
-            </div>\
-          {{/images}}\
-          {{^images}}{{/images}}\
-          </div>\
-        </td></tr>\
-        <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{notes}}</td></tr>\
-      </table>\
+       <button class="btn btn-report btn-block" type="button" data-toggle="collapse" data-target="#collapse{{mark.id}}-{{id}}" aria-expanded="false" aria-controls="collapse{{mark.id}}-{{id}}" onclick="$(\'#collapse{{mark.id}}-{{id}}\').collapse(\'toggle\')">\
+       {{description}}\
+       </button>\
+       <div class="collapse report" id="collapse{{mark.id}}-{{id}}" >\
+           <div class="panel-body">\
+             <table class="table table-condensed table-striped">\
+               {{#items}}\
+                <tr>\
+                 <td>{{name}}</td>\
+                 <td>{{measure_unit}}</td>\
+                 <td>{{quantity}}</td>\
+                </tr>\
+               {{/items}}\
+               {{^items}}{{/items}}\
+             </table>\
+             <div class="row" style="padding-left: 10px">\
+             {{#images}}\
+               <div class="col-sm-2 col-md-2" style="padding-bottom: 10px">\
+                 <a href="' + __centralgps__.api_base_url + '/{{image_path}}" target="_blank"><img class="zoomable" src="' + __centralgps__.api_base_url + '/{{image_path}}" data-zoom-image="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:150px"/></a>\
+               </div>\
+             {{/images}}\
+             {{^images}}{{/images}}\
+             </div>\
+             <%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:{{notes}}\
+           </div>\
+       </div>\
     {{/mark.activities}}\
     {{^mark.activities}}{{/mark.activities}}\
     </td></tr>\
-    <tr><td><i><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></i>:</td><td>{{&mark.notes}}</td></tr>\
+    <tr><td><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:</td><td>{{&mark.notes}}</td></tr>\
     {{#mark.contact}}\
     <tr>\
       <td colspan="4"></td>\

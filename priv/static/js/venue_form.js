@@ -43,7 +43,7 @@ var venue_marker = L.AwesomeMarkers.icon({
 });
 
 function _updateVenueMap() {
-  Pace.ignore(function(){
+  //Pace.ignore(function(){
     $.get('/monitor/venues', function(response, status, xhr) {
       if (response.status == true) {
         response.rows.forEach(function(v, vidx, arr) {
@@ -64,7 +64,7 @@ function _updateVenueMap() {
         console.log('._updateVenueMap: ' + response.msg);
       }
     });
-  });
+  // });
 }
 var current_marker_popup = new L.Popup().setContent('<b>' + $('#name').val() + '<b>');
 var current_marker = null;

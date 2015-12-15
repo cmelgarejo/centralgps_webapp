@@ -59,7 +59,7 @@ msgid  "COLUMN_ROADMAP_ASSET"
 msgstr "Asset"
 
 msgid  "COLUMN_ROADMAP_TEXT"
-msgstr ""
+msgstr " "
 
 msgid  "COLUMN_ROADMAP_MARK_TEXT"
 msgstr "Roadmap point info"

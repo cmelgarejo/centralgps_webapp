@@ -266,7 +266,7 @@
               <% end %>
               <%= if Permissions.contains(@session.permissions, Map.drop(Permissions.checkpoint, [:monitor, :mark])) do %>
               <li class="sub-menu">
-                <a >
+                <a>
                   <i class="glyphicon glyphicon-check"></i>
                   <%= l10n(@session.language_code, "main.html", "CHECKPOINT_MENU_TEXT") %>
                   </a>

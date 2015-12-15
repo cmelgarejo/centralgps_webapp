@@ -57,7 +57,7 @@ var marker = L.AwesomeMarkers.icon({
 
 var available_venues = [];
 function _updateVenueMap() {
-  Pace.ignore(function(){
+  // Pace.ignore(function(){
     $.get('/monitor/venues', function(response, status, xhr) {
       if (response.status == true) {
         available_venues = response.rows;
@@ -88,7 +88,7 @@ function _updateVenueMap() {
       chosenLoadSelect('venue_id_select', available_venues, 'id', 'name', fnChosen_VenueOnChange, null, null, val);
       fnChosen_VenueOnChange(null, { selected: val})
     });
-  });
+  // });
 }
 
 function fnChosen_VenueOnChange(event, object) {
@@ -105,7 +105,7 @@ function fnChosen_VenueOnChange(event, object) {
 
 var available_forms  = [];
 function _updateForms() {
-  Pace.ignore(function(){
+  // Pace.ignore(function(){
     $.get('/checkpoint/forms/json', function(response, status, xhr) {
       if (response.status == true) {
         available_forms = response.rows;
@@ -122,7 +122,7 @@ function _updateForms() {
       chosenLoadSelect('form_id_select', available_forms, 'id', 'description', fnChosen_FormsOnChange, null, null, val);
       fnChosen_FormsOnChange(null, { selected: val})
     });
-  });
+  // });
 }
 
 function fnChosen_FormsOnChange(event, object) {
