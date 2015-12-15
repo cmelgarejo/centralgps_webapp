@@ -7,14 +7,9 @@ div .report {
 }
 
 .btn-report {
-  color: #ffffff;
-  background-color: #009688;
-  border-color: #0d8aee;
-}
-.btn-report:hover {
-  color: #ffffff;
-  background-color: #009688;
-  border-color: #0d8aee;
+  color: white;
+  background-color: grey;
+  border-color: #009688;
 }
 
 .table-report {
