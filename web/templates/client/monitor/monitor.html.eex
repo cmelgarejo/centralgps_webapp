@@ -244,6 +244,17 @@
 </div>
 <script src="<%= static_path(@conn, "/js/monitor.js") %>"></script>
 <script>
+
+function updateChevron(object) {
+  var up   = $(object).find('i.glyphicon-chevron-up');
+  var down = $(object).find('i.glyphicon-chevron-down');
+  if(up.length)
+    up.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+  else if(down.length)
+    down.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+  return false;
+}
+
 $(document).ready(function() {
   layers = {
     history:  "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_HISTORY_LAYER_NAME" ) %>",
@@ -265,8 +276,8 @@ $(document).ready(function() {
     <tr><td colspan="6" class="text-center h4">{{&mark.form}}</td></tr>\
     {{#mark.activities}}\
     <tr><td colspan="6">\
-       <button class="btn btn-report btn-block" type="button" data-toggle="collapse" data-target="#collapse{{mark.id}}-{{id}}" aria-expanded="false" aria-controls="collapse{{mark.id}}-{{id}}" onclick="$(\'#collapse{{mark.id}}-{{id}}\').collapse(\'toggle\')">\
-       {{description}}\
+       <button class="btn btn-report btn-block" type="button" data-toggle="collapse" data-target="#collapse{{mark.id}}-{{id}}" aria-expanded="false" aria-controls="collapse{{mark.id}}-{{id}}" onclick="$(\'#collapse{{mark.id}}-{{id}}\').collapse(\'toggle\');updateChevron(this);">\
+       {{description}}<i class="pull-left noprint glyphicon glyphicon-chevron-down"></i>\
        </button>\
        <div class="collapse report" id="collapse{{mark.id}}-{{id}}" >\
            <div class="panel-body">\

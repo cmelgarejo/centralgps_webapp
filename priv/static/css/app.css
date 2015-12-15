@@ -12,6 +12,14 @@ div .report {
   border-color: #009688;
 }
 
+.btn-report:hover {
+  color: white !important;
+}
+.btn-report:focus,
+.btn-report.focus {
+  color: white !important;
+}
+
 .table-report {
   width: 100%;
   max-width: 100%;
