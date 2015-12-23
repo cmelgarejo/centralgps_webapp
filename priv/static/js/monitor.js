@@ -194,7 +194,8 @@ function getAssetMarks(selected_asset, init, finish) {
               icon: 'check'
           });
           response.rows.forEach(function(m, idx, arr) {
-            var asset_image = 'images/profile/_placeholder.png'
+            var placeholder_image = 'images/profile/_placeholder.png'
+            var asset_image = placeholder_image;
             __centralgps__.asset.list.forEach(function (asset) {
               if (selected_asset.id == asset.id) asset_image = asset.asset_image
             });
@@ -208,6 +209,9 @@ function getAssetMarks(selected_asset, init, finish) {
             } else {
               duration = moment.duration(moment(m.executed_at).diff(moment())).humanize();
             }
+            m.contact.forEach(function eachContactImage(contact) {
+              if(contact.image_path == null) contact.image_path = placeholder_image;
+            });
             var mark_text = Mustache.render(_mark_text, { mark: m, executed_at: executed_at, finished_at: finished_at, duration: duration });
             var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, position_at: position_at, mark_text: mark_text});
             mark_list.push({ token: m.token, asset_name: selected_asset.name, mark_text: mark_text,
