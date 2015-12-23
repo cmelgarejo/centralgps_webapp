@@ -3,6 +3,7 @@ defmodule CentralGPSWebApp.Utilities do
   import CentralGPS.Repo.Utilities
 
   def centralgps_placeholder_file(base_dir \\ ""), do: base_dir <> "_placeholder.png"
+  def centralgps_profile_placeholder_file(base_dir \\ ""), do: base_dir <> "/profile/_placeholder.png"
 
   def csrf_token_tag do
     # raw """

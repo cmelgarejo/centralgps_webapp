@@ -65,7 +65,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
 
     #private functions
     defp image_dir, do: "images/checkpoint/client/contact"
-    defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
+    defp image_placeholder, do: Enum.join([image_dir, centralgps_profile_placeholder_file], "/")
     defp api_method(client_id, action \\ "") do
       if !is_bitstring(client_id), do: client_id = Integer.to_string(client_id)
       "/checkpoint/client/" <> client_id <> "/contact/" <> action
@@ -101,7 +101,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
           else #or take the already existing one
             image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
           end
-          data = %{ client_contact_id: p.id, client_id: p.client_id, name: p.name, notes: p.notes,
+          data = %{ client_contact_id: p.id, client_id: p.client_id, name: p.name, notes: p.notes, identity_document: p.identity_document,
             emails: p.emails, phones: p.phones, notify: p.notify, image_path: Enum.join([image_dir, image_path], "/"),
             image_bin: file }
           {api_status, res} = api_put_json api_method(data.client_id, data.client_contact_id), s.auth_token, s.account_type, data
@@ -125,7 +125,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientContactController do
           else
             image_path = image_placeholder
           end
-          data = %{ client_id: p.client_id, name: p.name, notes: p.notes,
+          data = %{ client_id: p.client_id, name: p.name, notes: p.notes, identity_document: p.identity_document,
             emails: p.emails, phones: p.phones, notify: p.notify, image_path: image_path, image_bin: file }
           {api_status, res} = api_post_json api_method(data.client_id, "create"), s.auth_token, s.account_type, data
           if api_status == :ok do

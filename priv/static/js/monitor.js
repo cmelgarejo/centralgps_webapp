@@ -210,7 +210,7 @@ function getAssetMarks(selected_asset, init, finish) {
               duration = moment.duration(moment(m.executed_at).diff(moment())).humanize();
             }
             m.contact.forEach(function eachContactImage(contact) {
-              if(contact.image_path == null) contact.image_path = placeholder_image;
+              if(contact.image_path == null || contact.image_path == "") contact.image_path = placeholder_image;
             });
             var mark_text = Mustache.render(_mark_text, { mark: m, executed_at: executed_at, finished_at: finished_at, duration: duration });
             var mark_html_popup = Mustache.render(_mark_html_popup, {asset_image: asset_image, selected_asset_name: selected_asset.name, position_at: position_at, mark_text: mark_text});
