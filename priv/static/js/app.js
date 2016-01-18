@@ -283,7 +283,7 @@ function gridSetup_CRUD(gridFormatters, params){
   });
   bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
   bootgrid_appendExportControls(); /*this appends the export control to all active bootgrids.*/
-  bootgrid_appendPrintControls(); /*this appends the print control to all active bootgrids.*/
+  bootgrid_appendPrintControls(__centralgps__.CRUD.grid_name); /*this appends the print control to all active bootgrids.*/
 }
 
 function gridSetup_CRUD_requestHandler(req) {
@@ -459,49 +459,104 @@ function bootgrid_appendExportControls() {
   });
 }
 function bootgrid_appendPrintControls() {
-  // $('.grid-container > .bootgrid-header > .row > .actionBar > .actions').each(function buildExportControls(i, t) {
-  //   t = $(t);
-  //   $(['<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button" onclick="javascript://window.print()">',
-  //       '<span class="dropdown-text"><span class="glyphicon glyphicon-print icon-print"></span>',
-  //       '<span class="caret"></span>',
-  //       '</button>'].join('')).appendTo(t);
-  // });
+  $('.grid-container > .bootgrid-header > .row > .actionBar > .actions').each(function buildExportControls(i, t) {
+    t = $(t);
+    var parent_grid_container = (t.parent().parent().parent().parent()).first();
+    var parent_grid_tableExport_filename = (t.parent().parent().parent().parent()).first().data('export-filename');
+    var grid_to_print = parent_grid_container[0].id.replace('-header','');
+    $(['<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button"',
+        'onclick="print_a_div(\'', grid_to_print, '\', \'' ,parent_grid_tableExport_filename, '\')">',
+        '<span class="dropdown-text"><span class="glyphicon glyphicon-print icon-print"></span>',
+        '</button>'].join('')).appendTo(t);
+  });
 }
+
+function print_a_div(divName, fileName) {
+  $("div[id^='collapse']").collapse('show');
+  var printContents = document.head.outerHTML + document.getElementById(divName).innerHTML;
+  printContents = printContents.replace('pace.', 'no-pace');
+  printContents = printContents.replace('<title>Checkpoint::App</title>', '<title>' + fileName + moment().format() + '</title>');
+  $("div[id^='collapse']").collapse('hide');
+  var w = window.open();
+  w.document.write(printContents);
+  setTimeout(function() { w.print(); w.close(); }, 100);
+}
+
 function exportData(option, grid, fileName) {
     if(fileName == null) fileName = grid;
     grid = '#' + grid;
     var type = $(option).data('type');
-    var tbl = excelExportHtml($(grid)[0], true).then(function(table) {
-      $(table[0]).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
-          type: type,
-          escape: false,
-          fileName: (fileName + moment().format())
-      }));
-    })
-    // $(grid).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
-    //     type: type,
-    //     escape: false,
-    //     fileName: (fileName + moment().format())
-    // }));
-    //     doExport = function () {
-    //
-    //     };
-    // if (__centralgps__.bootgrid.exportDataType === 'all' && __centralgps__.bootgrid.exportOptions) {
-    //     doExport();
-    // } else if (__centralgps__.bootgrid.exportDataType === 'selected') {
-    //     var data = $(grid).bootgrid("getCurrentRows"),
-    //     selectedData = $(grid).bootgrid("getSelectedRows");
-    //     $(grid).bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
-    //       .bootgrid('clear')
-    //       .bootgrid('append', selectedData);
-    //     doExport();
-    //     $(grid).bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
-    //       .bootgrid('clear')
-    //       .bootgrid('append', data);
-    // } else {
-    //     doExport();
-    // }
+    switch(type)
+    {
+      case "excel":
+        var tbl = excelExportHtml($(grid)[0], true).then(function(table) {
+          // console.log($(table));console.log(table);
+          // $(table).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
+          //     type: type,
+          //     escape: false,
+          //     fileName: (fileName + moment().format())
+          // }));
+          // var blob = new Blob(table, {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"});
+          // saveAs(blob, "Report.xls");
+
+        })
+        break;
+      default:
+        $(grid).tableExport($.extend({}, __centralgps__.bootgrid.exportOptions, {
+            type: type,
+            escape: false,
+            fileName: (fileName + moment().format())
+        }));
+        doExport = function () {
+
+        };
+        if (__centralgps__.bootgrid.exportDataType === 'all' && __centralgps__.bootgrid.exportOptions) {
+            doExport();
+        } else if (__centralgps__.bootgrid.exportDataType === 'selected') {
+            var data = $(grid).bootgrid("getCurrentRows"),
+            selectedData = $(grid).bootgrid("getSelectedRows");
+            $(grid).bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
+              .bootgrid('clear')
+              .bootgrid('append', selectedData);
+            doExport();
+            $(grid).bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false})
+              .bootgrid('clear')
+              .bootgrid('append', data);
+        } else {
+            doExport();
+        }
+        break;
+    }
     return false;
+}
+
+function exportToExcel(){
+    var htmls = "";
+    var uri = 'data:application/vnd.ms-excel;base64,';
+    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+    var base64 = function(s) {
+        return window.btoa(unescape(encodeURIComponent(s)))
+    };
+
+    var format = function(s, c) {
+        return s.replace(/{(\w+)}/g, function(m, p) {
+            return c[p];
+        })
+    };
+
+    htmls = "YOUR HTML AS TABLE"
+
+    var ctx = {
+        worksheet : 'Worksheet',
+        table : htmls
+    }
+
+
+    var link = document.createElement("a");
+    link.download = "export.xls";
+    link.href = uri + base64(format(template, ctx));
+    link.click();
+    document.remove(link);
 }
 
 //Binds the div with a loader, and then returns the name of the loadscreen so you can take care of it later.

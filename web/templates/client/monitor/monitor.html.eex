@@ -299,13 +299,18 @@ $(document).ready(function() {
              {{/images}}\
              {{^images}}{{/images}}\
              </div>\
-             <%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:{{notes}}\
+             {{#notes}}\
+             <br/>\
+             <b><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %></b>:&nbsp;{{notes}}\
+             {{/notes}}\
            </div>\
        </div>\
     {{/mark.activities}}\
     {{^mark.activities}}{{/mark.activities}}\
     </td></tr>\
+    {{#notes}}\
     <tr><td><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:</td><td>{{&mark.notes}}</td></tr>\
+    {{/notes}}\
     {{#mark.contact}}\
     <tr>\
       <td colspan="4"></td>\

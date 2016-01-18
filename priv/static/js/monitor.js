@@ -114,6 +114,7 @@ function initMonitor(language_code, layers) {
     $('#roadmap_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
     bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
     bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids.
+    bootgrid_appendPrintControls(); /*this appends the print control to all the bootgrids.*/
     updateAssetGrid();
     updateVenueMap();
     updateAssetMap();
@@ -129,7 +130,7 @@ function initMonitor(language_code, layers) {
   }
 }
 function mark_grid_requestHandler() {
-  console("oi, im tem");
+  //console("oi, im tem");
   req.searchColumn = "mark_text";
   return req;
 }

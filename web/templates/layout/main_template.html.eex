@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Checkpoint :: App</title>
+    <title>Checkpoint::App</title>
     <link rel="shortcut icon" href="<%= static_path(@conn, "/images/favicon.ico")%>" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/notify-metro.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/jquery.bootgrid.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/ag-grid.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/theme-blue.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/theme-dark.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/theme-fresh.min.css") %>">
     <script src="<%= static_path(@conn, "/js/moment-with-locales.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/mustache.js") %>"></script>
@@ -34,10 +38,11 @@
     <script src="<%= static_path(@conn, "/js/jquery.bootgrid.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/tableExport.min.js")%>"></script>
     <script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/chosen.jquery.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/jquery.elevateZoom-3.0.8.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/fx.js") %>"></script>
+    <!-- <script src="<%= static_path(@conn, "/js/FileSaver.min.js") %>"></script> -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/jquery.mask.min.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/ag-grid.min.js") %>"></script>
   </body>
 </html>
