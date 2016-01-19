@@ -119,10 +119,10 @@ function initMonitor(language_code, layers) {
     updateVenueMap();
     updateAssetMap();
     __centralgps__.asset.refresh_interval = setInterval(function() {
-      Pace.ignore(function() {
+      //Pace.ignore(function() {
         updateAssetMap();
         updateAssetGrid();
-      });
+      //});
     }, 30*1000);
   }
   catch(err) {
@@ -463,7 +463,7 @@ function updateMarkMap(asset) {
   }
 }
 function updateVenueMap() {
-  Pace.ignore(function(){
+  //Pace.ignore(function(){
     $.get('/monitor/venues', function(response, status, xhr) {
       if (response.status == true) {
         if (__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].getLayers().length > 0) {
@@ -504,7 +504,7 @@ function updateVenueMap() {
         console.log('updateVenueMap: ' + response.msg);
       }
     });
-  });
+  // });
 }
 
 /*

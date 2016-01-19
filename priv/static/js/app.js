@@ -83,7 +83,7 @@ var __centralgps__ = {
 };
 
 function get_page(resource) {
-  Pace.track(function get_page_Pace(){
+  Pace.track(function get_page_Pace() {
     $.get(resource, function get_page_replace_container(html) {
       clearInterval(__centralgps__.asset.refresh_interval); //kill the interval
       $('#_centralgps_container').html(html);
@@ -339,19 +339,23 @@ function ajaxformOnResponse(response, status, xhr, jqForm)  {
     // if the ajaxForm method was passed an Options Object with the dataType
     // property set to 'json' then the first argument to the success callback
     // is the json data object returned by the server
-    // console.log(response);
-    // console.log(status);
-    // console.log(jqForm);
-    // console.log(xhr);
-    if(response.status)
-      showSuccess(response.msg);
-    else
-      showError(response.msg);
-      setTimeout(function ajaxformOnResponse_disableButton(){
-        jqForm.find(':button:disabled').prop('disabled',false);
-        if(response.status)
+    //  console.log(response);
+    //  console.log(status);
+    //  console.log(jqForm);
+    //  console.log(xhr);
+    if(status == 'success') {
+      if(response.status) {
+        showSuccess(response.msg);
+        setTimeout(function ajaxformOnResponse_getPage() {
           get_page(__centralgps__.CRUD.index_url);
-      }, 2000);
+        }, 2000);
+      } else {
+        showError(response.msg);
+      }
+    }
+    else
+      showError(xhr);
+    jqForm.find(':button:disabled').prop('disabled',false);
     return false;
 }
 
@@ -361,6 +365,7 @@ function __ajaxForm(form, options) {
   options.dataType = typeof options.dataType !== 'undefined' ? options.dataType : 'json';
   options.beforeSubmit = typeof options.beforeSubmit !== 'undefined' ? options.beforeSubmit : ajaxformOnRequest;
   options.success = typeof options.success !== 'undefined' ? options.success : ajaxformOnResponse;
+  options.error = typeof options.error !== 'undefined' ? options.error : ajaxformOnResponse;
   //console.log(options);
   // var options = {
   //     target:        target,   // target element(s) to be updated with server response

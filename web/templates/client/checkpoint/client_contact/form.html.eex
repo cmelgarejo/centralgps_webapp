@@ -97,10 +97,10 @@
 __centralgps__.CRUD.index_url = '<%= client_contact_path(@conn, :index) %>?client_id=<%= if (@record.__form__ == :edit), do: @record.client_id, else: @parent_record.id %>';
 $(document).ready(function() {
   var image_preview = $('#image_preview').attr('src');
-  console.log(image_preview)
+  //console.log(image_preview)
   image_preview = (image_preview == null || image_preview == '') ? 'images/checkpoint/client/contact/_placeholder.png' : image_preview;
   $('#image_preview').attr('src', __centralgps__.api_base_url + '/' + image_preview);
-  $("form").submit(function(){ return __ajaxForm(this);});
+  $("form").submit(function() { return __ajaxForm(this);});
   <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
   <% end %>

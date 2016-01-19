@@ -15,7 +15,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :parent_record, get_parent_record(session, params)), "index.html"
+      render (conn |> assign(:parent_record, get_parent_record(session, params))), "index.html"
     end
   end
 
@@ -33,7 +33,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :parent_record, get_parent_record(session, params)), "new.html"
+      render (conn |> assign(:parent_record, get_parent_record(session, params))), "new.html"
     end
   end
 
@@ -69,14 +69,14 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
 
   defp get_record(s, p) do
     p = objectify_map(p)
-    {api_status, res} = api_get_json api_method(p.id, p.form_id), s.auth_token, s.account_type
+    {api_status, res} = api_get_json api_method(p.form_id, p.id), s.auth_token, s.account_type
     record = nil
     if(api_status == :ok) do
-      if(Map.has_key?res.body, :res) do
-        record = objectify_map res.body.res
-        record = %{id: record.id, description: record.description}
-      end
       if res.body.status do
+        if(Map.has_key?res.body, :res) do
+          record = objectify_map res.body.res
+          record = %{id: record.id, description: record.description}
+        end
         record = Map.merge %{status: res.body.status, msg: res.body.msg} , record
       end
     end
@@ -86,7 +86,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
   defp save_record(s, p) do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
-    if (String.to_atom(p.__form__) ==  :edit) do
+    res = %{body: nil}
+    if (String.to_atom(p.__form__) ==  :edit) && res do
       data = %{activity_id: p.id, configuration_id: s.client_id, description: p.description}
       {_, res} = api_put_json api_method(p.id), s.auth_token, s.account_type, data
     else
@@ -98,19 +99,18 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
 
   defp delete_record(s, p) do
     p = objectify_map p
-    if(Map.has_key?p, :id) do
-      {api_status, res} =
-        api_delete_json api_method(p.id),
-        s.auth_token, s.account_type
+    {api_status, res} = {false, nil}
+    if (Map.has_key?p, :id) && !api_status && res do
+      {api_status, res} = api_delete_json(api_method(p.id), s.auth_token, s.account_type)
     else
       {api_status, res} = {:error, %{body: %{ status: false, msg: "no id"}}}
     end
-    if(api_status == :ok) do
+    if (api_status == :ok) do
       if !res.body.status, do: res = Map.put res, :body, %{ status: false, msg: res.body.msg }
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
-    res.body
+    res
   end
 
   defp list_records(s, p) do
@@ -140,7 +140,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
-    Map.merge((res.body |> Map.put :rows, rows), p)
+    Map.merge((res.body |> Map.put(:rows, rows)), p)
   end
 
   defp api_parent_method(action) when is_bitstring(action), do: "/checkpoint/form/" <> action

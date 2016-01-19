@@ -76,14 +76,14 @@
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="time" id="mean_arrival_time" name="mean_arrival_time"
-            data-mask="00:00:00"  maxlength="6" value="<%= if (@record.__form__ == :edit), do: @record.mean_arrival_time, else: @parent_record.start_time %>"/>
+            data-mask="00:00:00"  maxlength="8" value="<%= if (@record.__form__ == :edit), do: @record.mean_arrival_time, else: @parent_record.start_time %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></label>
         </div>
         <div class="form-group fg-float">
           <div class="fg-line fg-toggled">
             <input class="form-control input-mask" type="time" id="mean_leave_time" name="mean_leave_time"
-            data-mask="00:00:00"  maxlength="6" value="<%= if (@record.__form__ == :edit), do: @record.mean_leave_time, else: @parent_record.end_time %>"/>
+            data-mask="00:00:00"  maxlength="8" value="<%= if (@record.__form__ == :edit), do: @record.mean_leave_time, else: @parent_record.end_time %>"/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></label>
         </div>

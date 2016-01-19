@@ -1,9 +1,11 @@
 <div class="card">
   <div class="card-header">
     <div style="float:left !important; width: 50px;">
-      <a onclick="get_page('<%= account_path(@conn, :new) %>');" class="btn btn-success btn-float" >
+      <%#
+      <a onclick="get_page('<!-- this is an elixir func: account_path(@conn, :new) -->');" class="btn btn-success btn-float" >
         <i class="zmdi zmdi-plus"></i>
       </a>
+      %>
     </div>
     <h4><%= l10n(@session.language_code, "account.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>

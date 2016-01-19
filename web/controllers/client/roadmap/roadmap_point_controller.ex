@@ -97,10 +97,10 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
       p = objectify_map(p)
       if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
       if (!Map.has_key?p, :mean_arrival_time), do: p = Map.put p, :mean_arrival_time, nil
+      if (!Map.has_key?p, :mean_leave_time),   do: p = Map.put p, :mean_leave_time, nil
       if (!Map.has_key?p, :rpvf_id), do: p = Map.put p, :rpvf_id, nil
       if (!Map.has_key?p, :venue_id), do: p = Map.put p, :venue_id, nil
       if (!Map.has_key?p, :form_id), do: p = Map.put p, :form_id, nil
-      if (!Map.has_key?p, :mean_leave_time), do: p = Map.put p, :mean_leave_time, nil
       if (!Map.has_key?p, :active), do: p = Map.put( p, :active, false), else: p = Map.update(p, :active, false, &(&1 == "on"))
       if (!Map.has_key?p, :xtra_info), do: p = Map.put p, :xtra_info, nil
       if (String.to_atom(p.__form__) ==  :edit) do

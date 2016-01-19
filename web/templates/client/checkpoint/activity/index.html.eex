@@ -40,7 +40,7 @@ __centralgps__.CRUD.grid_command_columns = ["form_id", "activity_id"];
 function _gridCommandFormatter(column, row)
 {
   return "<button type='button' class='btn btn-default cmd-detail' data-form_id='" + row.form_id + "' data-activity_id='" + row.id + "' data-row-id='" + row.id + "' title='<%= l10n(@session.language_code, "activity.crud.html", "ITEMS") %>'><span class='zmdi zmdi-assignment'></span></button> " +
-  "<button type='button' class='btn btn-default cmd-edit'   data-form_id='" + row.form_id + "' data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
+  "<button type='button' class='btn btn-default cmd-edit'   data-form_id='" + row.form_id + "' data-activity_id='" + row.id + "' data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
   "<button type='submit' class='btn btn-danger  cmd-delete' data-form_id='" + row.form_id + "' data-row-id='" + row.id + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
 }
 $(document).ready(function() {
