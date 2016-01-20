@@ -79,7 +79,7 @@ function _updateVenueMap() {
         console.log('._updateVenueMap: ' + response.msg);
       }
       var val = $('#venue_id').val();
-      if(val == null) {
+      if(val == null || val == '') {
         if(available_venues[0])
          val = available_venues[0].id;
       }
@@ -113,12 +113,10 @@ function _updateForms() {
         console.log('._updateForms: ' + response.msg);
       }
       var val = $('#form_id').val();
-      if(val == null) {
-        if(available_venues[0])
-         val = available_venues[0].id;
+      if(val == null || val == '') {
+        if(available_forms[0])
+         val = available_forms[0].id;
       }
-      else
-        val = 1;
       chosenLoadSelect('form_id_select', available_forms, 'id', 'description', fnChosen_FormsOnChange, null, null, val);
       fnChosen_FormsOnChange(null, { selected: val})
     });
@@ -126,6 +124,7 @@ function _updateForms() {
 }
 
 function fnChosen_FormsOnChange(event, object) {
+  console.log(object)
   $('#form_id').val(object.selected);
 }
 

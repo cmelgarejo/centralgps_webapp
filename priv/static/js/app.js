@@ -406,6 +406,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
       no_results_text: __centralgps__.chosen.no_results_text,
       default_single_text: __centralgps__.chosen.no_results_text,
       search_contains: true,
+      allow_single_deselect: 
       //disable_search_threshold: 5,
       width: "100%" }).change(fnChange);
   }

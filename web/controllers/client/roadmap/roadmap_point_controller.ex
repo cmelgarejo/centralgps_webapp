@@ -98,6 +98,8 @@ defmodule CentralGPSWebApp.Client.RoadmapPointController do
       if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
       if (!Map.has_key?p, :mean_arrival_time), do: p = Map.put p, :mean_arrival_time, nil
       if (!Map.has_key?p, :mean_leave_time),   do: p = Map.put p, :mean_leave_time, nil
+      if (String.length(p.mean_arrival_time) == 5), do: p = Map.update!(p, :mean_arrival_time, &((&1 <> ":00"))) #quick and dirty patch, TODO: find a better way to check TIME strings
+      if (String.length(p.mean_leave_time) == 5), do: p = Map.update!(p, :mean_leave_time, &((&1 <> ":00"))) #quick and dirty patch, TODO: find a better way to check TIME strings
       if (!Map.has_key?p, :rpvf_id), do: p = Map.put p, :rpvf_id, nil
       if (!Map.has_key?p, :venue_id), do: p = Map.put p, :venue_id, nil
       if (!Map.has_key?p, :form_id), do: p = Map.put p, :form_id, nil

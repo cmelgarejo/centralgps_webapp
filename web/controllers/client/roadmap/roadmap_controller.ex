@@ -117,6 +117,8 @@ defmodule CentralGPSWebApp.Client.RoadmapController do
       else
         p = Map.put p, :days_of_month, Enum.map(p.days_of_month, &(parse_int(&1)))
       end
+      if (String.length(p.start_time) == 5), do: p = Map.update!(p, :start_time, &((&1 <> ":00"))) #quick and dirty patch, TODO: find a better way to check TIME strings
+      if (String.length(p.end_time) == 5), do: p = Map.update!(p, :end_time, &((&1 <> ":00"))) #quick and dirty patch, TODO: find a better way to check TIME strings
       if (String.to_atom(p.__form__) ==  :edit) do
         data = %{ roadmap_id: p.id, name: p.name, description: p.description,
           notes: p.notes, one_time_date: p.one_time_date,

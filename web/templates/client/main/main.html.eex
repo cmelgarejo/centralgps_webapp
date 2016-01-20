@@ -319,7 +319,7 @@
                 <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
                 <li>
                   <a  onclick="get_page('client/roadmap');">
-                    <i class="zmdi zmdi-navigation">
+                    <i class="zmdi zmdi-map">
                     </i>
                     <%= l10n(@session.language_code, "main.html", "ROADMAP_LINK_TEXT") %>
                   </a>

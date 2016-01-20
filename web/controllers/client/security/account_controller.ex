@@ -44,7 +44,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :image_placeholder, image_placeholder), "new.html"
+      render (conn |> assign(:image_placeholder, image_placeholder)), "new.html"
     end
   end
 
@@ -53,7 +53,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :record, get_record(session, params)), "edit.html"
+      render (conn |> assign(:record, get_record(session, params))), "edit.html"
     end
   end
 
@@ -102,20 +102,20 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id, account_type: &1.account_type, name: &1.name,
+          |> Enum.map(&(%{id: &1.id, account_type: &1.account_type, name: &1.name,
           identity_document: &1.identity_document, login_name: &1.username,
           dob: &1.dob, emails: &1.emails, phones: &1.phones,
           timezone: &1.timezone, active: &1.active, blocked: &1.blocked,
           language_template: &1.language_template, image_path: &1.image_path,
           activated_at: &1.activated_at, deactivated_at: &1.deactivated_at,
-          created_at: &1.created_at, updated_at: &1.updated_at })
+          created_at: &1.created_at, updated_at: &1.updated_at }))
       else
         res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
-    Map.merge (res.body |> Map.put :data, rows), p
+    Map.merge (res.body |> Map.put(:data, rows)), p
   end
 
   defp get_record(s, p) do
@@ -143,6 +143,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
 
   defp delete_record(s, p) do
     p = objectify_map p
+    {api_status, res} = {:error, nil}
     if(Map.has_key?(p, :id) && Map.has_key?(p, :account_type)) do
       {api_status, res} =
         api_delete_json api_method(p.account_type, p.id),
@@ -161,6 +162,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
   defp save_record(s, p) do
     p = objectify_map(p)
     language_template_id = 2 #TODO: remove this! :(
+    if (!Map.has_key?(p, :login_password) || p.login_password == ""), do: p = Map.put p, :login_password, nil
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (!Map.has_key?(p, :xtra_info) || p.xtra_info == ""), do: p = Map.put p, :xtra_info, nil
     if (!Map.has_key?(p, :account_type)), do: p = Map.put p, :account_type, "C"
@@ -173,30 +175,32 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
       do: p = Map.put( p, :blocked, false),
       else: p = Map.update(p, :blocked, false, &(&1 == "on"))
     file = nil
+    v_image_path = ""
     if (p.image != nil) do #let's create a hash filename for the new pic.
-      image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
+      v_image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace("/", "")
       {:ok, file} = File.read p.image.path
       file = Base.url_encode64(file)
     else #or take the already existing one
-      image_path = (String.split(p.image_path, image_dir(s.client_id)) |> List.last) |> String.replace "/", ""
+      v_image_path = (String.split(p.image_path, image_dir(s.client_id)) |> List.last) |> String.replace("/", "")
     end
+    {api_status, res} = {:error, nil}
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{ account_id: p.id, account_type: p.account_type, login_password: p.login_password, dob: p.dob, identity_document: p.identity_document,
-        image_path: Enum.join([image_dir(s.client_id), image_path], "/"), image_bin: file,
+        image_path: Enum.join([image_dir(s.client_id), v_image_path], "/"), image_bin: file,
         info_emails: p.emails, info_phones: p.phones, language_template_id: language_template_id, name: p.name, timezone: p.timezone, xtra_info: p.xtra_info }
       {api_status, res} = api_put_json api_method(data.account_type, data.account_id), s.auth_token, s.account_type, data
     else
       data = %{ client_id: s.client_id, account_type: p.account_type, login_name: p.login_name, login_password: p.login_password, dob: p.dob, identity_document: p.identity_document,
-        image_path: Enum.join([image_dir(s.client_id), image_path], "/"), image_bin: file,
+        image_path: Enum.join([image_dir(s.client_id), v_image_path], "/"), image_bin: file,
         info_emails: p.emails, info_phones: p.phones, language_template_id: language_template_id, name: p.name, timezone: p.timezone, xtra_info: p.xtra_info }
       {api_status, res} = api_post_json api_method("create", s.account_type), s.auth_token, s.account_type, data
     end
     if api_status == :ok  do
       if res.body.status && (p.image != nil) do #put the corresponding pic for the record.
         dest_dir = Enum.join [priv_static_path, image_dir(s.client_id)], "/"
-        File.rm Enum.join([dest_dir,  String.split(image_path, image_dir(s.client_id)) |> List.last], "/") #removes the old image
+        File.rm Enum.join([dest_dir,  String.split(v_image_path, image_dir(s.client_id)) |> List.last], "/") #removes the old image
         File.mkdir_p dest_dir
-        File.copy(p.image.path, Enum.join([dest_dir, image_path], "/"), :infinity)
+        File.copy(p.image.path, Enum.join([dest_dir, v_image_path], "/"), :infinity)
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }

@@ -27,3 +27,6 @@ msgstr "Fecha y hora de inserción"
 
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Fecha y hora de actualización"
+
+msgid "CONTACTS"
+msgstr "Contactos"
