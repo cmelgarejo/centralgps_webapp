@@ -9,7 +9,7 @@
     </div>
     <h4><%= l10n(@session.language_code, "account.crud.html", "PAGE_LIST_TITLE") %></h4>
   </div>
-  <div class="grid-container" data-export-filename="<%= l10n(@session.language_code, "account.crud.html", "PAGE_LIST_TITLE") %>">
+  <div id=class="grid-container" data-export-filename="<%= l10n(@session.language_code, "account.crud.html", "PAGE_LIST_TITLE") %>">
     <table id="account_grid" class="table table-condensed table-hover table-striped"
       data-toggle="bootgrid" data-ajax="true" data-url="/security/account/json">
         <thead>

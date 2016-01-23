@@ -172,8 +172,10 @@ function updateMarks() {
 
 function keepSelection(event, object) {
   if (event) {
+    //console.log(event)
+    //console.log(object)
     __centralgps__.selects[event.currentTarget.id] = object.selected;
-    $('select').trigger('chosen:close');
+    $(event.target).trigger('chosen:close');
   }
 }
 function getSelection(select) {
@@ -252,6 +254,7 @@ function getAssetMarks(selected_asset, init, finish) {
         }
       } catch (e) {
         console.log(selected_asset.name + '.updateMarks: ' + e + ' - query_string: ' + query_string);
+        throw e;
       } finally {
         removeLoadScreen("#mark_grid_container");
       }
@@ -372,7 +375,7 @@ function updateAssetGrid() {
       if(__centralgps__.asset.list.length > 0) {
         //check if there is changes in the length of the loaded asset list (+1 for [All])
         //if($('#_marks_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
-          chosenLoadSelect('_marks_asset_list',   __centralgps__.asset.list, 'id', 'name', keepSelection, null, null, getSelection('_marks_asset_list'));
+          chosenLoadSelect('_marks_asset_list',   __centralgps__.asset.list, 'id', 'name', keepSelection, -1, __centralgps__.globalmessages.generic._all, getSelection('_marks_asset_list'));
         //if($('#_history_asset_list').find('option').length != (__centralgps__.asset.list.length + 1))
           chosenLoadSelect('_history_asset_list', __centralgps__.asset.list, 'id', 'name', keepSelection, -1, __centralgps__.globalmessages.generic._all, getSelection('_history_asset_list'));
         //if($('#_roadmap_list').find('option').length != (__centralgps__.asset.list.length + 1))

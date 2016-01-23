@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/sweet-alert.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/notify-metro.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/jquery.bootgrid.min.css") %>">
+    <!-- <link rel="stylesheet" href="<%= static_path(@conn, "/css/chosen.min.css") %>"> -->
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/ag-grid.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/theme-blue.min.css") %>">

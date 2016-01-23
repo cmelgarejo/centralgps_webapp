@@ -83,8 +83,6 @@ function _updateVenueMap() {
         if(available_venues[0])
          val = available_venues[0].id;
       }
-      else
-        val = 1;
       chosenLoadSelect('venue_id_select', available_venues, 'id', 'name', fnChosen_VenueOnChange, null, null, val);
       fnChosen_VenueOnChange(null, { selected: val})
     });
@@ -124,7 +122,7 @@ function _updateForms() {
 }
 
 function fnChosen_FormsOnChange(event, object) {
-  console.log(object)
+  console.log(object);
   $('#form_id').val(object.selected);
 }
 

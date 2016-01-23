@@ -308,16 +308,36 @@ $(document).ready(function() {
     {{/mark.activities}}\
     {{^mark.activities}}{{/mark.activities}}\
     </td></tr>\
-    {{#notes}}\
+    {{#mark.notes}}\
     <tr><td><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:</td><td>{{&mark.notes}}</td></tr>\
-    {{/notes}}\
-    {{#mark.contact}}\
+    {{/mark.notes}}\
     <tr>\
-      <td colspan="4"></td>\
+      {{#mark.asset_name}}\
       <td>\
         <table class="table-report table-condensed table-bordered-black">\
           <tr>\
-          <td><img src="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:50px"/></td>\
+          {{#mark.asset_image}}\
+          <td><img src="' + __centralgps__.api_base_url + '/{{mark.asset_image}}\" style="width:45px"/></td>\
+          {{/mark.asset_image}}\
+          {{^mark.asset_image}}\
+          <td><img src="' + __centralgps__.api_base_url + '/images/_placeholder.png style="width:45px"/></td>\
+          {{/mark.asset_image}}\
+          <td>\
+            <b>{{mark.asset_name}}</b><br/>\
+          </td>\
+          </tr>\
+        </table>\
+      </td>\
+      {{/mark.asset_name}}\
+      {{^mark.asset_name}}\
+      <td></td>\
+      {{/mark.asset_name}}\
+      <td colspan="2"></td>\
+      {{#mark.contact}}\
+      <td>\
+        <table class="table-report table-condensed table-bordered-black">\
+          <tr>\
+          <td><img src="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:45px"/></td>\
           <td>\
             <b>{{name}}</b><br/>\
             <b>{{emails}}</b><br/>\
@@ -326,9 +346,11 @@ $(document).ready(function() {
           </tr>\
         </table>\
       </td>\
+      {{/mark.contact}}\
+      {{^mark.contact}}\
+      <td></td>\
+      {{/mark.contact}}\
     </tr>\
-    {{/mark.contact}}\
-    {{^mark.contact}}{{/mark.contact}}\
   </tr></td></table>';
   var mark_html_popup    = '<div class="row"><div class="col-sm-2 col-md-2 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}}</div><div class="col-sm-10 col-md-10">{{&mark_text}}</div>';
   var roadmap_text    = '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'

@@ -406,7 +406,7 @@ function chosenLoadSelect(select, items, value_obj, text_obj, fnChange, default_
       no_results_text: __centralgps__.chosen.no_results_text,
       default_single_text: __centralgps__.chosen.no_results_text,
       search_contains: true,
-      allow_single_deselect: 
+      allow_single_deselect: true,
       //disable_search_threshold: 5,
       width: "100%" }).change(fnChange);
   }
@@ -469,7 +469,7 @@ function bootgrid_appendPrintControls() {
     t = $(t);
     var parent_grid_container = (t.parent().parent().parent().parent()).first();
     var parent_grid_tableExport_filename = (t.parent().parent().parent().parent()).first().data('export-filename');
-    var grid_to_print = parent_grid_container[0].id.replace('-header','');
+    var grid_to_print = parent_grid_container[0].id;//.replace('-header','');
     $(['<button class="btn btn-default dropdown-toggle waves-effect waves-button waves-float" type="button"',
         'onclick="print_a_div(\'', grid_to_print, '\', \'' ,parent_grid_tableExport_filename, '\')">',
         '<span class="dropdown-text"><span class="glyphicon glyphicon-print icon-print"></span>',
