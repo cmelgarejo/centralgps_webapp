@@ -172,8 +172,6 @@ function updateMarks() {
 
 function keepSelection(event, object) {
   if (event) {
-    //console.log(event)
-    //console.log(object)
     __centralgps__.selects[event.currentTarget.id] = object.selected;
     $(event.target).trigger('chosen:close');
   }
