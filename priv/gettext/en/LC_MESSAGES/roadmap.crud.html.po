@@ -68,7 +68,7 @@ msgid  "COLUMN_DAYS_OF_MONTH"
 msgstr "Days of month"
 
 msgid  "COLUMN_RECURS_EVERY"
-msgstr "Recurs every [day/week]"
+msgstr "Recurs every (for day/weeks)"
 
 msgid  "COLUMN_NOTES"
 msgstr "Notes"

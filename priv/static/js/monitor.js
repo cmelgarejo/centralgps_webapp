@@ -113,7 +113,7 @@ function initMonitor(language_code, layers) {
     $('#history_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
     $('#roadmap_grid').bootgrid({labels: __centralgps__.bootgrid.labels, caseSensitive: false});
     bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
-    bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids.
+    //bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids.
     bootgrid_appendPrintControls(); /*this appends the print control to all the bootgrids.*/
     updateAssetGrid();
     updateVenueMap();

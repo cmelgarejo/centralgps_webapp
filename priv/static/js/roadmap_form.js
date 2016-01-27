@@ -253,7 +253,7 @@ function activateGrid() {
     caseSensitive: false
   });
   bootgrid_appendSearchControl(); //this appends the clear control to all active bootgrids.
-  bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids
+  //bootgrid_appendExportControls(); //this appends the clear control to all active bootgrids
 }
 function getRoadmapPoints(roadmap_id) {
   try {

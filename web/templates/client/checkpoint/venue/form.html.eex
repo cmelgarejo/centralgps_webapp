@@ -8,7 +8,7 @@
       <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
       <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
       <% end %>
-      <input type="hidden" id="xtra_info" name="xtra_info" value="<%= if (@record.__form__ == :edit), do: @record.xtra_info, else: nil %>"/>
+      <%= #<input type="hidden" id="xtra_info" name="xtra_info" value="<eex if (@record.__form__ == :edit), do: @record.xtra_info, else: nil /eex>"/> %>
       <input type="hidden" id="venue_type_id" name="venue_type_id" value="<%= if (@record.__form__ == :edit), do: @record.venue_type_id, else: nil %>" required/>
       <input type="hidden" id="client_id" name="client_id" value="<%= if (@record.__form__ == :edit), do: @record.client_id, else: nil %>" required/>
     </div>
