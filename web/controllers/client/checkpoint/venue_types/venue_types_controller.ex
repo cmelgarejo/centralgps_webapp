@@ -117,7 +117,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       else #or take the already existing one
         image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
       end
-      data = %{ venue_id: p.id, configuration_id: s.client_id, description: p.description,
+      data = %{ venue_id: p.id, configuration_id: s.configuration_id, description: p.description,
         image_path: Enum.join([image_dir, image_path], "/"), image_bin: file  }
       {api_status, res} = api_put_json api_method(data.venue_id), s.auth_token, s.account_type, data
       if api_status == :ok  do
@@ -139,7 +139,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueTypeController do
       else
         image_path = image_placeholder
       end
-      data = %{ configuration_id: s.client_id, description: p.description,
+      data = %{ configuration_id: s.configuration_id, description: p.description,
         image_path: image_path, image_bin: file  }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end

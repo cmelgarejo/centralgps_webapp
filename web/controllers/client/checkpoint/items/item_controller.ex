@@ -75,7 +75,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
       record = objectify_map res.body.res
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg},
-          %{id: record.id, configuration_id: s.client_id, name: record.name,
+          %{id: record.id, configuration_id: s.configuration_id, name: record.name,
             description: record.description, notes: record.notes }#, stock: nil, min_qty: nil, max_qty: nil}
         IO.puts "*****record: #{inspect record}"
       end
@@ -87,11 +87,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
     p = objectify_map(p)
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
-      data = %{item_id: p.id, configuration_id: s.client_id, name: p.name,
+      data = %{item_id: p.id, configuration_id: s.configuration_id, name: p.name,
         description: p.description, notes: p.notes , stock: nil, min_qty: nil, max_qty: nil}
       {_, res} = api_put_json api_method(data.item_id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, name: p.name,
+      data = %{ configuration_id: s.configuration_id, name: p.name,
         description: p.description, notes: p.notes , stock: nil, min_qty: nil, max_qty: nil}
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end

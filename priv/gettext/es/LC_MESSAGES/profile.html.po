@@ -1,7 +1,7 @@
 msgid  "PAGE_TITLE"
 msgstr "Perfil"
 
-msgid  "INFORMATION_ACTION_UPDATE_PROFILE_FOTO"
+msgid  "INFORMATION_FORM_UPDATE_PROFILE_FOTO"
 msgstr "Actualizar foto de perfil"
 
 msgid  "INFORMATION_ACTION_EDIT"

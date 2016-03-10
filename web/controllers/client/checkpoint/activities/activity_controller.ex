@@ -88,10 +88,10 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ActivityController do
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     res = %{body: nil}
     if (String.to_atom(p.__form__) ==  :edit) && res do
-      data = %{activity_id: p.id, configuration_id: s.client_id, description: p.description}
+      data = %{activity_id: p.id, configuration_id: s.configuration_id, description: p.description}
       {_, res} = api_put_json api_method(p.id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, form_id: p.form_id, description: p.description }
+      data = %{ configuration_id: s.configuration_id, form_id: p.form_id, description: p.description }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body

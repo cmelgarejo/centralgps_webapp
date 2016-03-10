@@ -445,13 +445,13 @@ defmodule CentralGPS.Repo.Utilities do
     end
   end
 
-  @doc """
-  Removes a list of elements from another list, given they exist on said list.
-  """
-  def remove_list(l, ltr) do
-    if (!Enum.empty?ltr), do:
-      remove_list(List.delete(l, hd(ltr)), List.delete(ltr, hd(ltr))),
-    else:
-      l
-  end
+    @doc """
+    Removes a list of elements from another list, given they exist on said list.
+    """
+    def remove_list(l, ltr) do
+      if (!Enum.empty?ltr), do:
+        remove_list(List.delete(l, hd(ltr)), List.delete(ltr, hd(ltr))),
+      else:
+        l
+    end
 end

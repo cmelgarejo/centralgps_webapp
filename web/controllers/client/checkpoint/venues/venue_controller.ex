@@ -160,7 +160,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
         image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
       end
       data = %{ venue_id: p.id, client_id: p.client_id, venue_type_id: p.venue_type_id, active: p.active,
-        configuration_id: s.client_id, name: p.name, code: p.code, address: p.address,
+        configuration_id: s.configuration_id, name: p.name, code: p.code, address: p.address,
         description: p.description, lat: p.lat, lon: p.lon, image_path: Enum.join([image_dir, image_path], "/"), image_bin: file,
         detection_radius: p.detection_radius, xtra_info: p.xtra_info }
       {api_status, res} = api_put_json api_method(data.venue_id), s.auth_token, s.account_type, data
@@ -180,7 +180,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
       else
         image_path = image_placeholder
       end
-      data = %{ client_id: p.client_id, venue_type_id: p.venue_type_id, configuration_id: s.client_id,
+      data = %{ client_id: p.client_id, venue_type_id: p.venue_type_id, configuration_id: s.configuration_id,
         active: p.active, name: p.name, code: p.code, description: p.description, address: p.address,
         lat: p.lat, lon: p.lon, image_path: image_path, image_bin: file,
         detection_radius: p.detection_radius, xtra_info: p.xtra_info }

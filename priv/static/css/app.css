@@ -11184,7 +11184,7 @@ fieldset[disabled] .btn-inverse.active {
   -webkit-transition: all;
   -o-transition: all;
   transition: all;
-  -webkit-transition-duration: 500ms;
+  -webkit-transition-duration: 500ms;\
   transition-duration: 500ms;
 }
 .btn-float:hover i {

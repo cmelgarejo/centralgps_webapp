@@ -83,14 +83,14 @@ defmodule CentralGPSWebApp.Client.Checkpoint.FormController do
 
   defp save_record(s, p) do
     p = objectify_map p
-      |> Map.update(:configuration_id,  s.client_id, &(parse_int(&1)))
+      |> Map.update(:configuration_id,  s.configuration_id, &(parse_int(&1)))
       |> Map.update(:form_id,           nil,         &(parse_int(&1)))
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{ form_id: p.id, configuration_id: p.configuration_id, description: p.description }
       {_, res} = api_put_json api_method(data.form_id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.client_id, description: p.description }
+      data = %{ configuration_id: s.configuration_id, description: p.description }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body
