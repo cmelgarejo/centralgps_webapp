@@ -26,7 +26,7 @@
           <div class="fg-line fg-toggled">
             <input class="form-control" type="text" id="name" name="name"
             value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
-            required autofocus toggled/>
+            required autofocus/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NAME") %></label>
         </div>
@@ -43,6 +43,10 @@
             value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NOTES") %></label>
+        </div
+        <div class="form-group fg-float">
+            <input class="form-control" type="text" id="xtra_info" name="xtra_info"
+            value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>" />
         </div>
       </div>
     </div>

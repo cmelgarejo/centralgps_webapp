@@ -122,7 +122,7 @@ function _updateForms() {
 }
 
 function fnChosen_FormsOnChange(event, object) {
-  console.log(object);
+  //console.log(object);
   $('#form_id').val(object.selected);
 }
 
@@ -195,7 +195,7 @@ function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
       $("#mean_leave_time").change(setCurrentRoadmapPointPos());
       $("#mean_leave_time").on('keyup', setCurrentRoadmapPointPos());
       current_marker.on('dragend', current_marker_dragEnd);
-      setCurrentRoadmapPointPos()
+      setCurrentRoadmapPointPos();
     }
 }
 
@@ -278,7 +278,7 @@ function getRoadmapPoints(roadmap_id) {
               .bindPopup(html_popup));
           });
           var polyline = L.polyline(map_point_list, {color: 'white', noClip: true}).addTo(__centralgps__.roadmap.form.map_overlays[__centralgps__.roadmap.form.roadmap_layer_name]);
-          __centralgps__.roadmap.form.map.fitBounds(polyline.getBounds());
+          //__centralgps__.roadmap.form.map.fitBounds(polyline.getBounds());
           __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.
           __centralgps__.roadmap.form.map.removeLayer(polyline);
           __centralgps__.roadmap.form.map.setZoom(__centralgps__.roadmap.form.map.getZoom()); //force a refresh event.

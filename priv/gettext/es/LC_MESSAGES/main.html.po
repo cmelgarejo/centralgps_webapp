@@ -119,7 +119,7 @@ msgid "CHECKPOINT_CLIENT_LINK_TEXT"
 msgstr "Clientes"
 
 msgid "CHECKPOINT_ITEM_LINK_TEXT"
-msgstr "Insumos"
+msgstr "Items"
 
 msgid "CHECKPOINT_MEASURE_UNIT_LINK_TEXT"
 msgstr "Unidades de medida"

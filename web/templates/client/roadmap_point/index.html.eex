@@ -21,6 +21,7 @@
               <th data-column-id="name"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="venue"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_VENUE") %></th>
               <th data-column-id="form"> <%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_FORM") %></th>
+              <th data-column-id="client"> <%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_CLIENT") %></th>
               <th data-column-id="point_order" data-type="numeric" data-width="100" data-order="asc"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_POINT_ORDER") %></th>
               <th data-column-id="mean_arrival_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_ARRIVAL_TIME") %></th>
               <th data-column-id="mean_leave_time" data-width="100"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_MEAN_LEAVE_TIME") %></th>
@@ -39,7 +40,7 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#roadmap_point_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'name';
+__centralgps__.CRUD.grid_search_column = 'name,client,venue';
 __centralgps__.CRUD.grid_command_columns = ["roadmap_id", "order"];
 function _gridCommandFormatter(column, row) {
   return "" +

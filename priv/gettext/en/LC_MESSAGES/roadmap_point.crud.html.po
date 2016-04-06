@@ -66,3 +66,6 @@ msgstr "Venue"
 
 msgid  "COLUMN_FORM"
 msgstr "Form"
+
+msgid  "COLUMN_CLIENT"
+msgstr "Client"

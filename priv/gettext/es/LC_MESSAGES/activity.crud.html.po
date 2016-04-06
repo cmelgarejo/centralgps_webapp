@@ -23,4 +23,4 @@ msgid  "COLUMN_UPDATED_AT"
 msgstr "Fecha y hora de actualización"
 
 msgid  "ITEMS"
-msgstr "Insumos"
+msgstr "Items"

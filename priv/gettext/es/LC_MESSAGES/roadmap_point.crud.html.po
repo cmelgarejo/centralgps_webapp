@@ -66,3 +66,6 @@ msgstr "Establecimiento"
 
 msgid  "COLUMN_FORM"
 msgstr "Formulario"
+
+msgid  "COLUMN_CLIENT"
+msgstr "Cliente"

@@ -64,9 +64,10 @@ $(document).ready(function() {
     no_results_text: __centralgps__.chosen.no_results_text,
     default_single_text: __centralgps__.chosen.no_results_text,
     search_contains: true,
-    width: "100%" });
-  loadChosenSelect('measure_unit', 'measure_unit_id',  'id', 'name', '/checkpoint/measure_units/json', measure_unit_OnChange);
-  loadChosenSelect('item', 'item_id',  'id', 'name', '/checkpoint/items/json', item_OnChange);
+    width: "100%"
+  });
+  loadChosenSelect('item', 'item_id',  'id', 'name', '/checkpoint/items/json?rowCount=1000', item_OnChange);
+  loadChosenSelect('measure_unit', 'measure_unit_id',  'id', 'name', '/checkpoint/measure_units/json?rowCount=1000', measure_unit_OnChange);
 });
 
 function loadChosenSelect(select_name, value_input, value_text, value_obj, url, onChange_callback) {
@@ -78,7 +79,7 @@ function loadChosenSelect(select_name, value_input, value_text, value_obj, url, 
       response.rows.forEach(function(i, aidx, arr) {
         _list.push({ id: i.id, name: i.name });
       });
-      chosenLoadSelect(select_name, _list, value_text, value_obj, onChange_callback, null, null, $(value_input).val());
+      chosenLoadSelect(select_name, _list, value_text, value_obj, onChange_callback, null, 'Sin unidad de Medida', $(value_input).val());
       var selected_value = $(select_name).val();
       if ($(value_input).val())
         selected_value = $(value_input).val();

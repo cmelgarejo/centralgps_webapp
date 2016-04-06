@@ -14,6 +14,7 @@
             <tr>
               <th data-column-id="id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ID") %></th>
               <th data-column-id="active" data-formatter="check"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_ACTIVE") %></th>
+              <th data-column-id="client"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CLIENT") %></th>
               <th data-column-id="name"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></th>
               <th data-column-id="code"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CODE") %></th>
               <th data-column-id="creator"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_CREATOR") %></th>
@@ -33,7 +34,7 @@ __centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#venue_grid';
 __centralgps__.CRUD.grid_method = 'GET';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'name';
+__centralgps__.CRUD.grid_search_column = 'name,code,client,description';
 $(document).ready(function() {
   gridSetup_CRUD({"image": gridImageFormatter, "check": gridCheckFormatter});
 });

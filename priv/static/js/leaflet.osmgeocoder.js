@@ -42,9 +42,10 @@ L.Control.OSMGeocoder = L.Control.extend({
 		var input = this._input = document.createElement('input');
 		input.type = "text";
 
-		var submit = document.createElement('input');
+		var submit = document.createElement('button');
 		submit.type = "submit";
 		submit.value = this.options.text;
+		var submit = document.createElement('i');
 		L.DomUtil.addClass(submit, this.options.cssclass)
 
 		form.appendChild(input);
@@ -99,7 +100,7 @@ L.Control.OSMGeocoder = L.Control.extend({
         else return null;
     },
     _isLatLon_decMin : function (q) {
-        console.log("is LatLon?: "+q);
+        //console.log("is LatLon?: "+q);
         //N 53° 13.785' E 010° 23.887'
         //re = /[NS]\s*(\d+)\D*(\d+\.\d+).?\s*[EW]\s*(\d+)\D*(\d+\.\d+)\D*/;
         re = /([ns])\s*(\d+)\D*(\d+\.\d+).?\s*([ew])\s*(\d+)\D*(\d+\.\d+)/i;
@@ -141,6 +142,8 @@ L.Control.OSMGeocoder = L.Control.extend({
         //and now Nominatim
 		//http://wiki.openstreetmap.org/wiki/Nominatim
         console.log(this._callbackId);
+				if(m !== undefined)
+					console.log("LatLon: "+m	[1]+" "+m[2]);
 		window[("_l_osmgeocoder_"+this._callbackId)] = L.Util.bind(this.options.callback, this);
 
 

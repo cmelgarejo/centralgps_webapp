@@ -90,7 +90,7 @@
         <div class="checkbox">
           <label>
             <input id="active" name="active" type="checkbox"
-            <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "unchecked" %>/>
+            <%= if (@record.__form__ == :edit && @record.active), do: "checked", else: "checked" %>/>
             <i class="input-helper"></i>
             <%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_ACTIVE") %>
           </label>
@@ -165,8 +165,8 @@ $(document).ready(function() {
       }
     }
   });
-  loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>", "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>", true);
   getRoadmapPoints(<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: @parent_record.id %>);
+  loadMap("<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME") %>", "<%= l10n(@session.language_code, "monitor.html", "MAP_VENUE_LAYER_NAME") %>", true);
 });
 
 </script>

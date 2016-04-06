@@ -88,11 +88,13 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{item_id: p.id, configuration_id: s.configuration_id, name: p.name,
-        description: p.description, notes: p.notes , stock: nil, min_qty: nil, max_qty: nil}
+        description: p.description, notes: p.notes , stock: nil, min_qty: nil,
+        max_qty: nil, xtra_info: p.xtra_info}
       {_, res} = api_put_json api_method(data.item_id), s.auth_token, s.account_type, data
     else
       data = %{ configuration_id: s.configuration_id, name: p.name,
-        description: p.description, notes: p.notes , stock: nil, min_qty: nil, max_qty: nil}
+        description: p.description, notes: p.notes , stock: nil, min_qty: nil,
+        max_qty: nil, xtra_info: p.xtra_info  }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body

@@ -100,8 +100,8 @@ function initMonitor(language_code, layers) {
     __centralgps__.asset.map.addControl(new L.Control.OSMGeocoder({
         collapsed: true,
         position: 'bottomright',
-        text: '',
-        cssclass: 'zmdi zmdi-search',
+        text: '',
+        cssclass: 'btn btn-success waves-effect waves-button waves-float',
     }));
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(_browser_geo_success,_browser_geo_error);

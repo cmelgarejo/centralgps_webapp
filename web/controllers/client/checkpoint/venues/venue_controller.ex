@@ -33,7 +33,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :image_placeholder, image_placeholder), "new.html"
+      render (conn |> assign(:image_placeholder, image_placeholder)), "new.html"
     end
   end
 
@@ -42,7 +42,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if(session == :error) do
       redirect conn, to: login_path(Endpoint, :index)
     else #do your stuff and render the page.
-      render (conn |> assign :record, get_record(session, params)), "edit.html"
+      render (conn |> assign(:record, get_record(session, params))), "edit.html"
     end
   end
 
@@ -68,7 +68,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
   defp image_dir, do: "images/checkpoint/venue"
   defp image_placeholder, do: Enum.join([image_dir, centralgps_placeholder_file], "/")
   defp api_method(action \\ "") when is_bitstring(action), do: "/checkpoint/venue/" <> action
-  
+
   defp list_records(s, p) do
     p = objectify_map(p)
       |> (Map.update :current, 1, &(parse_int(&1)))
@@ -90,17 +90,17 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
       if res.body.status do
         rows = res.body.rows
           |> Enum.map(&(objectify_map &1))
-          |> Enum.map &(%{id: &1.id, configuration_id: &1.configuration_id, creator: &1.creator,
+          |> Enum.map(&(%{id: &1.id, configuration_id: &1.configuration_id, creator: &1.creator,
           active: &1.active, name: &1.name, code: &1.code, description: &1.description, address: &1.address,
-          image_path: (if (&1.image_path != nil), do: &1.image_path, else: image_placeholder),
-          lat: &1.lat, lon: &1.lon, detection_radius: &1.detection_radius })
+          client: &1.client, image_path: (if (&1.image_path != nil), do: &1.image_path, else: image_placeholder),
+          lat: &1.lat, lon: &1.lon, detection_radius: &1.detection_radius }))
       else
         res = Map.put res, :body, %{ status: false, msg: (if Map.has_key?(res, :activity), do: res.activity, else: res.body.msg) }
       end
     else
       res = Map.put res, :body, %{ status: false, msg: res.reason }
     end
-    Map.merge (res.body |> Map.put :rows, rows), p
+    Map.merge (res.body |> Map.put(:rows, rows)), p
   end
 
   defp get_record(s, p) do
@@ -153,11 +153,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.VenueController do
     if (String.to_atom(p.__form__) ==  :edit) do
       file = nil
       if (p.image != nil) do #let's create a hash filename for the new pic.
-        image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace "/", ""
+        image_path = (UUID.uuid4 <> "." <> (String.split(upload_file_name(p.image), ".") |> List.last)) |> String.replace("/", "")
         {:ok, file} = File.read p.image.path
         file = Base.url_encode64(file)
       else #or take the already existing one
-        image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace "/", ""
+        image_path = (String.split(p.image_path, image_dir) |> List.last) |> String.replace("/", "")
       end
       data = %{ venue_id: p.id, client_id: p.client_id, venue_type_id: p.venue_type_id, active: p.active,
         configuration_id: s.configuration_id, name: p.name, code: p.code, address: p.address,
