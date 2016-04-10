@@ -128,7 +128,7 @@ function fnChosen_FormsOnChange(event, object) {
 
 var _rpt;
 function setRoadmapPointTemplate(rpt) {
-  _rpt = rpt ? rpt : '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>';
+  _rpt = rpt ? rpt : '<b>{{name}}</b> <br/>{{description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>';
   Mustache.parse(_rpt);
 }
 

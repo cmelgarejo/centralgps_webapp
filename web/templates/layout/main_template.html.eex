@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/theme-fresh.min.css") %>">
     <script src="<%= static_path(@conn, "/js/moment-with-locales.min.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bootstrap.min.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/mustache.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/handlebars-v4.0.5.js") %>"></script>
   </head>
   <body>
     <div class="container">

@@ -96,7 +96,7 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
     qs = %{offset: (p.current - 1) * p.rowCount, limit: p.rowCount,
       search_column: p.searchColumn, search_phrase: p.searchPhrase,
       sort_column: p.sort_column, sort_order: p.sort_order}
-    {api_status, res} = api_get_json api_method, s.auth_token, s.account_type, qs
+    {api_status, res} = api_get_json(api_method, s.auth_token, s.account_type, qs)
     rows = %{}
     if(api_status == :ok) do
       if res.body.status do
@@ -193,12 +193,14 @@ defmodule CentralGPSWebApp.Client.Security.AccountController do
         info_emails: p.emails, info_phones: p.phones, language_template_id: language_template_id, name: p.name, timezone: p.timezone, xtra_info: p.xtra_info }
       account_type = data.account_type
       action = data.account_id
+      {api_status, res} = api_put_json api_method(account_type, action), s.auth_token, s.account_type, data
     else
       data = %{ client_id: s.client_id, account_type: p.account_type, login_name: p.login_name, login_password: p.login_password, dob: p.dob, identity_document: p.identity_document,
         image_path: Enum.join([image_dir(s.client_id), v_image_path], "/"), image_bin: file,
         info_emails: p.emails, info_phones: p.phones, language_template_id: language_template_id, name: p.name, timezone: p.timezone, xtra_info: p.xtra_info }
+      {api_status, res} = api_post_json api_method(account_type, action), s.auth_token, s.account_type, data
     end
-    {api_status, res} = api_post_json api_method(action, account_type), s.auth_token, s.account_type, data
+
     if api_status == :ok do
       if res.body.status && (p.image != nil) do #put the corresponding pic for the record.
         dest_dir = Enum.join [priv_static_path, image_dir(s.client_id)], "/"

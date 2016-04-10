@@ -162,80 +162,6 @@
       </div>
     </div>
     <% end %>
-    <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
-    <div role="tabpanel" class="tab-pane" id="tab_roadmap_list">
-      <div class="card lc-block">
-        <div class="card-body card-padding">
-          <div class="row">
-            <div class="col-sm-4 col-md-4">
-              <div class="input-group" style="width:100%">
-                <span class="input-group-addon">
-                    <i class="zmdi zmdi-center-focus-strong"></i>
-                </span>
-                <div class="fg-line">
-                  <select class="chosen-select form-control" id="_roadmap_asset_list"  data-placeholder="<%= l10n(@session.language_code, "generic", "CHOSEN_NO_RESULTS_TEXT") %>">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 col-md-4">
-              <div class="input-group" style="width:100%">
-                <span class="input-group-addon">
-                    <i class="zmdi zmdi-format-list-numbered"></i>
-                </span>
-                <div class="fg-line">
-                  <select class="chosen-select form-control" id="_roadmap_list"  data-placeholder="<%= l10n(@session.language_code, "generic", "CHOSEN_NO_RESULTS_TEXT") %>">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 col-md-4 text-center">
-              <button class="btn btn-default" onclick="updateRoadmaps()"><i class="zmdi zmdi-filter-list"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_ROADMAP_FILTER") %></button>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-          <div class="row">
-            <div class="col-sm-4 col-md-4">
-              <div class="form-group">
-                <div class='input-group date'>
-                  <span class="input-group-addon">
-                      <i class="zmdi zmdi-calendar"></i>
-                  </span>
-                  <input id="_roadmap_start_dt" type='text' class="form-control date-time-picker"
-                  placeholder="<%= l10n(@session.language_code, "generic", "START") %>"/>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 col-md-4">
-              <div class="form-group">
-                <div class='input-group date'>
-                  <span class="input-group-addon">
-                      <i class="zmdi zmdi-calendar"></i>
-                  </span>
-                  <input id="_roadmap_finish_dt" type='text' class="form-control date-time-picker"
-                  placeholder="<%= l10n(@session.language_code, "generic", "FINISH") %>"/>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 col-md-4 text-center">
-              <button class="btn btn-default" onclick="clearRoadmaps()"><i class="zmdi zmdi-delete"></i><%= l10n(@session.language_code, "monitor.html", "BUTTON_ROADMAP_CLEAR_FILTER") %></button>
-            </div>
-          </div>
-          <div id="roadmap_grid_container" class="grid-container" data-export-filename="<%= l10n(@session.language_code, "monitor.html", "TABPANEL_ROADMAP_TEXT") %>">
-            <table id="roadmap_grid" class="table table-condensed table-hover table-striped">
-                <thead>
-                    <tr>
-                      <th data-column-id="roadmap_at"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_POSITION_AT") %></th>
-                      <th data-column-id="roadmap_mark_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_MARK_TEXT") %></th>
-                      <th data-column-id="roadmap_text"><%= l10n(@session.language_code, "monitor.html", "COLUMN_ROADMAP_TEXT") %></th>
-                    </tr>
-                </thead>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% end %>
     <div role="tabpanel" class="tab-pane active" id="tab_map">
       <div id="_asset_map"></div>
       <div id="timeline"></div>
@@ -254,7 +180,7 @@ function updateChevron(object) {
     down.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
   return false;
 }
-
+var mark_text;
 $(document).ready(function() {
   layers = {
     history:  "<%= l10n(@session.language_code, "monitor.html", "MAP_ASSET_HISTORY_LAYER_NAME" ) %>",
@@ -264,17 +190,18 @@ $(document).ready(function() {
     roadmap:     "<%= l10n(@session.language_code, "monitor.html", "MAP_ROADMAP_LAYER_NAME" ) %>"
   };
   initMonitor('<%= @session.language_code %>', layers);
-  var history_text = '<%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_BEARING") %>: {{&bearing}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_SPEED") %>: {{&speed}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ACCURACY") %>: {{&accuracy}}';
-  var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b> <br/>{{&history_text}}</div>';
-  var mark_text    = '<table class="table-report table-condensed table-bordered-black table-condensed">\
+  var history_text = '<%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_BEARING") %>: {{bearing}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_SPEED") %>: {{speed}} <br/><%= l10n(@session.language_code, "monitor.html", "COLUMN_HISTORY_ACCURACY") %>: {{accuracy}}';
+  var history_html_popup = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{history_at}}</b> <br/>{{history_text}}</div>';
+  mark_text    = '<table class="table-report table-condensed table-bordered-black table-condensed">\
     <tr>\
-      <td><b>{{&mark.venue}}</b></td><td><i class="h6">{{&mark.address}}</i></td>\
-      <td><i class="glyphicon glyphicon-play" style="color: green"></i>&nbsp;{{&executed_at}}</td>\
-      <td><i class="glyphicon glyphicon-stop" style="color: red"></i>&nbsp;{{&finished_at}}</td>\
-      <td><i class="glyphicon glyphicon-time"></i>&nbsp;{{&duration}}</td>\
+      <td><b>{{mark.venue}}</b></td><td><i class="h6">{{mark.address}}</i></td>\
+      <td><i class="glyphicon glyphicon-play" style="color: green"></i>&nbsp;{{executed_at}}</td>\
+      <td><i class="glyphicon glyphicon-stop" style="color: red"></i>&nbsp;{{finished_at}}</td>\
+      <td><i class="glyphicon glyphicon-time"></i>&nbsp;{{duration}}</td>\
     </tr>\
-    <tr><td colspan="6" class="text-center h4">{{&mark.form}}</td></tr>\
-    {{#mark.activities}}\
+    <tr><td colspan="6" class="text-center h4">{{mark.form}}</td></tr>\
+    <tr>\
+    {{#each mark.activities}}\
     <tr><td colspan="6">\
        <button class="btn btn-report btn-block" type="button" data-toggle="collapse" data-target="#collapse{{mark.id}}-{{id}}" aria-expanded="false" aria-controls="collapse{{mark.id}}-{{id}}" onclick="$(\'#collapse{{mark.id}}-{{id}}\').collapse(\'toggle\');updateChevron(this);">\
        {{description}}<i class="pull-left noprint glyphicon glyphicon-chevron-down"></i>\
@@ -282,21 +209,33 @@ $(document).ready(function() {
        <div class="collapse report" id="collapse{{mark.id}}-{{id}}" >\
            <div class="panel-body">\
              <table class="table table-condensed table-striped">\
-               {{#items}}\
+               {{#each items}}\
                 <tr>\
-                 <td>{{name}}</td>\
-                 <td>{{measure_unit}}</td>\
-                 <td>{{quantity}}</td>\
+                  {{#xtra_info.columns}}\
+                    <td colspan="3"><b>{{name}}</b></td>\
+                    {{#each xtra_info.columns}}\
+                        <tr>\
+                          <td></td>\
+                          <td>{{@key}}</td>\
+                          <td>{{.}}</td>\
+                        </tr>\
+                    {{/each}}\
+                  {{/xtra_info.columns}}\
+                  {{^xtra_info.columns}}\
+                     <td><b>{{name}}</b></td>\
+                     <td>{{measure_unit}}</td>\
+                     <td>{{quantity}}</td>\
+                  {{/xtra_info.columns}}\
                 </tr>\
-               {{/items}}\
+               {{/each}}\
                {{^items}}{{/items}}\
              </table>\
              <div class="row" style="padding-left: 10px">\
-             {{#images}}\
+             {{#each images}}\
                <div class="col-sm-2 col-md-2" style="padding-bottom: 10px">\
                  <a href="' + __centralgps__.api_base_url + '/{{image_path}}" target="_blank"><img class="zoomable" src="' + __centralgps__.api_base_url + '/{{image_path}}" data-zoom-image="' + __centralgps__.api_base_url + '/{{image_path}}" style="width:150px"/></a>\
                </div>\
-             {{/images}}\
+             {{/each}}\
              {{^images}}{{/images}}\
              </div>\
              {{#notes}}\
@@ -305,11 +244,11 @@ $(document).ready(function() {
              {{/notes}}\
            </div>\
        </div>\
-    {{/mark.activities}}\
+    {{/each}}\
     {{^mark.activities}}{{/mark.activities}}\
     </td></tr>\
     {{#mark.notes}}\
-    <tr><td><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:</td><td>{{&mark.notes}}</td></tr>\
+    <tr><td><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_NOTES") %>:</td><td>{{mark.notes}}</td></tr>\
     {{/mark.notes}}\
     <tr>\
       {{#mark.asset_name}}\
@@ -352,13 +291,12 @@ $(document).ready(function() {
       {{/mark.contact}}\
     </tr>\
   </tr></td></table>';
-  var mark_html_popup    = '<div class="row"><div class="col-sm-2 col-md-2 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}}</div><div class="col-sm-10 col-md-10">{{&mark_text}}</div>';
-  var roadmap_text    = '<b>{{&name}}</b> <br/>{{&description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'
-  var roadmap_mark_text    = '<b>{{&venue}}</b> <br/>{{&form}} - {{&activity}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{&comment}}</i>'
-  var roadmap_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{roadmap_at}}</b> <br/>{{&roadmap_text}} <br/>{{&roadmap_mark_text}}</div>';
+  var mark_html_popup    = '<div class="row"><div class="col-sm-2 col-md-2 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}}</div><div class="col-sm-10 col-md-10">{{mark_text}}</div>';
+  var roadmap_text    = '<b>{{name}}</b> <br/>{{description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>'
+  var roadmap_mark_text    = '<b>{{venue}}</b> <br/>{{form}} - {{activity}} <br/><i><span style="text-decoration: underline"><%= l10n(@session.language_code, "monitor.html", "COLUMN_MARK_COMMENT") %></span>: {{comment}}</i>'
+  var roadmap_html_popup    = '<div class="row"><div class="col-sm-4 col-md-4 text-center"><img src="<%= CentralGPSWebApp.app_config(:rest_client_base_url) %>/{{asset_image}}" alt="" style="width:70px"> <br/>{{selected_asset_name}} <br/></div><div class="col-sm-8 col-md-8"><b>{{roadmap_at}}</b> <br/>{{roadmap_text}} <br/>{{roadmap_mark_text}}</div>';
   setHistoryTemplate(history_text, history_html_popup);
   setMarkTemplate(mark_text, mark_html_popup);
-  setRoadmapTemplate(roadmap_text, roadmap_mark_text, roadmap_html_popup);
 });
 </script>
 <%# TODO: Timeline kind of implemented, I need to bind the click event on the items to center and show the popup

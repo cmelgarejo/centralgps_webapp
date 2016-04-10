@@ -76,8 +76,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg},
           %{id: record.id, configuration_id: s.configuration_id, name: record.name,
-            description: record.description, notes: record.notes }#, stock: nil, min_qty: nil, max_qty: nil}
-        IO.puts "*****record: #{inspect record}"
+            description: record.description, notes: record.notes, xtra_info: record.xtra_info }#, stock: nil, min_qty: nil, max_qty: nil}
+        IO.puts "record: #{inspect record}"
       end
     end
     record

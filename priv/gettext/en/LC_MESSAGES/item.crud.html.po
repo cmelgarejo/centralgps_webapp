@@ -36,3 +36,6 @@ msgstr "Created at"
 
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Updated at"
+
+msgid  "COLUMN_EXTENDED_PARAMETERS"
+msgstr "Extended parameters"

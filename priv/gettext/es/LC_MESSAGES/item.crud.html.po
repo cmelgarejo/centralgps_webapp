@@ -36,3 +36,6 @@ msgstr "Fecha y hora de inserción"
 
 msgid  "COLUMN_UPDATED_AT"
 msgstr "Fecha y hora de actualización"
+
+msgid  "COLUMN_EXTENDED_PARAMETERS"
+msgstr "Parámetros extendidos"

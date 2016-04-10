@@ -45,8 +45,22 @@
           <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NOTES") %></label>
         </div
         <div class="form-group fg-float">
-            <input class="form-control" type="text" id="xtra_info" name="xtra_info"
-            value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>" />
+          <div class="grid-container">
+            <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_EXTENDED_PARAMETERS") %></label>
+            <table id="extended_parameters_grid" class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                      <th data-column-id="column"  ><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NAME") %></th>
+                      <th data-column-id="commands"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -55,7 +69,35 @@
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
+__centralgps__.CRUD.index_url = '';
+__centralgps__.CRUD.edit_url = '';
+__centralgps__.CRUD.view_url = '';
+__centralgps__.CRUD.detail_url = '';
+__centralgps__.CRUD.delete_url = '';
+__centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
+__centralgps__.CRUD.grid_name = '#extended_parameters_grid';
+__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+__centralgps__.CRUD.grid_search_column = 'column';
+__centralgps__.CRUD.grid_command_columns = ["column"];
+function _gridCommandFormatter(column, row)
+{
+  return "" +
+  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.name + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.name + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
+}
+var __columns = [];
 $(document).ready(function() {
+  __columns = [
+    <%= if @record.xtra_info do %>
+      <%= for item <- (@record.xtra_info["columns"]) do %>
+        { column: "<%= item %>" },
+      <% end %>
+    <% end %>
+  ];
+  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
+  $(__centralgps__.CRUD.grid_name).bootgrid("clear").bootgrid({
+    formatters: { commands: _gridCommandFormatter }
+  }).bootgrid("append", __columns);
   $.applyDataMask('.input-mask');
   $("form").submit(function(){ return __ajaxForm(this);});
   <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
@@ -70,4 +112,5 @@ $(document).ready(function() {
     }
   });
 });
+
 </script>

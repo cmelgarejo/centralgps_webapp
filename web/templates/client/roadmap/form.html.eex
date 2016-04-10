@@ -104,16 +104,16 @@
             <div class="fg-line fg-toggled">
               <select class="chosen-select form-control" id="days_of_month" name="days_of_month[]" multiple>
                 <%= if @record.__form__ == :edit && @record.days_of_month != nil do %>
-                <%=   for (d <- @record.days_of_month) do %>
+                  <%= for (d <- @record.days_of_month) do %>
                 <option selected value="<%= d %>"><%= Integer.to_string(d) %></option>
-                <%    end %>
-                <%=   for (d <- remove_list_from_list Enum.to_list(1..31), @record.days_of_month ) do %>
+                  <%  end %>
+                  <%= for (d <- remove_list_from_list Enum.to_list(1..31), @record.days_of_month ) do %>
                 <option value="<%= d %>"><%= Integer.to_string(d) %></option>
-                <%    end %>
+                  <%  end %>
                 <%  else %>
-                <%=   for (d <- Enum.to_list(1..31)) do %>
+                  <%= for (d <- Enum.to_list(1..31)) do %>
                 <option value="<%= d %>"><%= Integer.to_string(d) %></option>
-                <%    end %>
+                  <%  end %>
                 <%  end %>
               </select>
             </div>
