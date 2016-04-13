@@ -74,13 +74,15 @@ function initMonitor(language_code, layers) {
     L.Icon.Default.imagePath = '../images';
     __centralgps__.asset.map_layers = {};
     __centralgps__.asset.map_layers.OSM    = new L.TileLayer.OpenStreetMap();
-    __centralgps__.asset.map_layers.MAPBOX = new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17});
+    // __centralgps__.asset.map_layers.MAPBOX = new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17});
     __centralgps__.asset.map_layers.ALL = {
-      "OpenStreetMap": __centralgps__.asset.map_layers.OSM,
-      "Mapbox": __centralgps__.asset.map_layers.MAPBOX,
+      "OpenStreetMap": __centralgps__.asset.map_layers.OSM
+      // "Mapbox": __centralgps__.asset.map_layers.MAPBOX,
   	};
     __centralgps__.asset.map = L.map('_asset_map', { center: [0,0], zoom: 2 //});
-      , layers: [__centralgps__.asset.map_layers.MAPBOX, __centralgps__.asset.map_layers.OSM ]});
+      , layers: [
+        //__centralgps__.asset.map_layers.MAPBOX,
+        __centralgps__.asset.map_layers.OSM ]});
     __centralgps__.asset.map_overlays = {};
     __centralgps__.asset.map_overlays[layers.position] = new L.MarkerClusterGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.mark]     = new L.LayerGroup().addTo(__centralgps__.asset.map);
@@ -158,6 +160,7 @@ function clearMarks() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name].clearLayers();
   $("#mark_grid").bootgrid({labels: __centralgps__.bootgrid.labels}).bootgrid('clear');
   $("#_asset_map").removeClass('timeline-toggle');
+  $("#filter_mark_icon").addClass('hidden');
   if (__centralgps__.timeline.instance != null) {
     __centralgps__.timeline.instance.destroy();
     __centralgps__.timeline.instance = null;
@@ -166,6 +169,7 @@ function clearMarks() {
 function updateMarks() {
   clearHistory();
   clearMarks();
+  $("#filter_mark_icon").removeClass('hidden');
   var init   = moment($('#_mark_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_mark_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
   var selected_asset = $('#_marks_asset_list option:selected');
@@ -293,6 +297,7 @@ function clearHistory() {
   __centralgps__.asset.map_overlays[__centralgps__.asset.history.layer_name].clearLayers();
   $("#history_grid").bootgrid({labels: __centralgps__.bootgrid.labels}).bootgrid('clear');
   $("#_asset_map").removeClass('timeline-toggle');
+  $("#filter_history_icon").addClass('hidden');
   if (__centralgps__.timeline.instance != null) {
     __centralgps__.timeline.instance.destroy();
     __centralgps__.timeline.instance = null;
@@ -301,6 +306,7 @@ function clearHistory() {
 function updateHistory() {
   clearHistory();
   clearMarks();
+  $("#filter_history_icon").removeClass('hidden');
   var init   = moment($('#_history_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_history_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
   var selected_asset = $('#_history_asset_list option:selected');

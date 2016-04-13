@@ -9,7 +9,7 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.4.0/vis.min.css"> -->
 <script src="<%= static_path(@conn, "/js/bootstrap-datetimepicker.min.js") %>"></script>
 <!-- <script src="<%= static_path(@conn, "/js/leaflet-07.js") %>"></script> -->
-<script src="<%= static_path(@conn, "/js/leaflet-src.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/leaflet.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/leaflet.markercluster.js") %>"></script>
 <!-- <script src="<%= static_path(@conn, "/js/leaflet.edgemarker.js") %>"></script> -->
 <script src="<%= static_path(@conn, "/js/leaflet.draw.js") %>"></script>
@@ -19,13 +19,12 @@
 <script src="<%= static_path(@conn, "/js/leaflet.osmgeocoder.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/vis.min.js") %>"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.4.0/"></script> -->
-<!-- TODO: Usar latest leaflet y observar Leaflet.markercluster (o arreglar) -->
 <div role="tabpanel">
   <ul class="tab-nav tn-justified" role="tablist" id="centralgps_panel">
       <li><a href="#tab_asset_list" aria-controls="tab_asset_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ASSET_TEXT") %></a></li>
-      <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %></a></li>
+      <li><a href="#tab_history_list" aria-controls="tab_history_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_HISTORY_TEXT") %>&nbsp;<i id="filter_history_icon" class="zmdi hidden zmdi-filter-list"></i></a></li>
       <%= if Permissions.contains(@session.permissions, [Permissions.checkpoint.mark.list]) do %>
-      <li><a href="#tab_mark_list" aria-controls="tab_mark_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %></a></li>
+      <li><a href="#tab_mark_list" aria-controls="tab_mark_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_MARK_TEXT") %>&nbsp;<i id="filter_mark_icon" class="zmdi hidden zmdi-filter-list"></i></a></li>
       <% end %>
       <%= if Permissions.contains(@session.permissions, [Permissions.client.roadmap.list]) do %>
       <!-- <li><a href="#tab_roadmap_list" aria-controls="tab_roadmap_list" role="tab" data-toggle="tab"><%= l10n(@session.language_code, "monitor.html", "TABPANEL_ROADMAP_TEXT") %></a></li> -->
@@ -209,34 +208,43 @@ $(document).ready(function() {
        </button>\
        <div class="collapse report" id="collapse{{mark.id}}-{{id}}" >\
            <div class="panel-body">\
-             <table class="table table-condensed table-striped">\
-               {{#each items}}\
-                <tr>\
-                  {{#xtra_info.columns}}\
-                    <td colspan="1"><b>{{name}}</b></td>\
-                    <td colspan="2">\
-                      <table class="table table-condensed">\
-                        <tr>\
-                        {{#each xtra_info.columns}}\
-                          <td>{{@key}}</td>\
+              <table class="table table-condensed table-striped">\
+              <tr>\
+                <td colspan="1"></td>\
+                <td colspan="2">\
+                  <table class="table table-condensed">\
+                    <tr>\
+                      {{#each column_items}}\
+                        {{#each columns}}\
+                      <td>{{this}}</td>\
                         {{/each}}\
-                        </tr>\
-                        <tr>\
-                        {{#each xtra_info.columns}}\
-                          <td>{{.}}</td>\
-                        {{/each}}\
-                        </tr>\
-                      </table>\
-                    </td>\
-                  {{/xtra_info.columns}}\
-                  {{^xtra_info.columns}}\
-                     <td><b>{{name}}</b></td>\
-                     <td>{{measure_unit}}</td>\
-                     <td>{{quantity}}</td>\
-                  {{/xtra_info.columns}}\
-                </tr>\
-               {{/each}}\
-               {{^items}}{{/items}}\
+                      {{/each}}\
+                    </tr>\
+                  </table>\
+                </td>\
+              </tr>\
+              {{#each items}}\
+              <tr>\
+                {{#xtra_info.columns}}\
+                  <td colspan="1"><b>{{name}}</b></td>\
+                  <td colspan="2">\
+                    <table class="table table-condensed">\
+                      <tr>\
+                      {{#each xtra_info.columns}}\
+                        <td>{{.}}</td>\
+                      {{/each}}\
+                      </tr>\
+                    </table>\
+                  </td>\
+                {{/xtra_info.columns}}\
+                {{^xtra_info.columns}}\
+                   <td><b>{{name}}</b></td>\
+                   <td>{{measure_unit}}</td>\
+                   <td>{{quantity}}</td>\
+                {{/xtra_info.columns}}\
+              </tr>\
+              {{/each}}\
+              {{^items}}{{/items}}\
              </table>\
              <div class="row" style="padding-left: 10px">\
              {{#each images}}\
