@@ -50,7 +50,7 @@ function _browser_geo_error(positionError) {
   $.notify({text:__centralgps__.globalmessages.__online_text, image: '<i class="md-done"></i>'}, 'success');
 }
 function initMonitor(language_code, layers) {
-  try {
+  // try {
     __centralgps__.timeline.container = document.getElementById('timeline');
     __centralgps__.timeline.container_height = '150px'; //$(__centralgps__.timeline.container).height()
     __centralgps__.timeline.instance = null;
@@ -65,42 +65,46 @@ function initMonitor(language_code, layers) {
     $('#_mark_asset_finish_dt').val(_t.endOf('day').format(_dt_format_h));
     $('#_roadmap_start_dt').val(_t.startOf('day').format(_dt_format_h));
     $('#_roadmap_finish_dt').val(_t.endOf('day').format(_dt_format_h));
-    __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, history: { layer_name: null }, roadmap: { layer_name: null}, checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
+    __centralgps__.asset = { position: { layer_name: null, no_pos: [] }, history: { layer_name: null },
+      checkpoint: { mark: { layer_name: null }, venue: { layer_name: null } }};
     __centralgps__.asset.history.layer_name          = layers.history;
     __centralgps__.asset.position.layer_name         = layers.position;
     __centralgps__.asset.checkpoint.venue.layer_name = layers.venue;
     __centralgps__.asset.checkpoint.mark.layer_name  = layers.mark;
-    __centralgps__.asset.roadmap.layer_name  = layers.roadmap;
-    __centralgps__.asset.map = L.map('_asset_map').setView([0, 0], 2);
     L.Icon.Default.imagePath = '../images';
-    __centralgps__.asset.map_layers = {
-      "OpenStreetMap": new L.TileLayer.OpenStreetMap().addTo(__centralgps__.asset.map),
-      "Mapbox": new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17}),
+    __centralgps__.asset.map_layers = {};
+    __centralgps__.asset.map_layers.OSM    = new L.TileLayer.OpenStreetMap();
+    __centralgps__.asset.map_layers.MAPBOX = new L.TileLayer.MapBox({ accessToken: __centralgps__.mapbox.accessToken, id: __centralgps__.mapbox.id , maxZoom: 17});
+    __centralgps__.asset.map_layers.ALL = {
+      "OpenStreetMap": __centralgps__.asset.map_layers.OSM,
+      "Mapbox": __centralgps__.asset.map_layers.MAPBOX,
   	};
+    __centralgps__.asset.map = L.map('_asset_map', { center: [0,0], zoom: 2 //});
+      , layers: [__centralgps__.asset.map_layers.MAPBOX, __centralgps__.asset.map_layers.OSM ]});
     __centralgps__.asset.map_overlays = {};
-    // __centralgps__.asset.map_overlays[layers.position] = new L.LayerGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.position] = new L.MarkerClusterGroup().addTo(__centralgps__.asset.map);
     __centralgps__.asset.map_overlays[layers.mark]     = new L.LayerGroup().addTo(__centralgps__.asset.map);
-    __centralgps__.asset.map_overlays[layers.venue]   = new L.LayerGroup().addTo(__centralgps__.asset.map);
-    __centralgps__.asset.map_overlays[layers.history] = new L.LayerGroup().addTo(__centralgps__.asset.map);
-    __centralgps__.asset.map_overlays[layers.roadmap] = new L.LayerGroup().addTo(__centralgps__.asset.map);
-    L.control.layers(__centralgps__.asset.map_layers, __centralgps__.asset.map_overlays)
-      .addTo(__centralgps__.asset.map);
+    __centralgps__.asset.map_overlays[layers.venue]    = new L.LayerGroup().addTo(__centralgps__.asset.map);
+    __centralgps__.asset.map_overlays[layers.history]  = new L.LayerGroup().addTo(__centralgps__.asset.map);
+    try {
+      L.control.layers(__centralgps__.asset.map_layers.ALL, __centralgps__.asset.map_overlays).addTo(__centralgps__.asset.map);
+    } catch (e) {
+      console.log(e);
+    }
     L.Control.measureControl().addTo(__centralgps__.asset.map);
-    L.edgeMarker({
-        icon: L.icon({ // style markers
-            iconUrl: L.Icon.Default.imagePath + '/edge-arrow-marker.png',
-            clickable: true,
-            iconSize: [32, 32],
-            iconAnchor: [24, 24]
-        }),
-        layerGroup: __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name] //__centralgps__.asset.position.layer // you can specify a certain L.layerGroup to create the edge markers from.
-      }).addTo(__centralgps__.asset.map);
+    // L.edgeMarker({
+    //     icon: L.icon({ // style markers
+    //         iconUrl: L.Icon.Default.imagePath + '/edge-arrow-marker.png',
+    //         clickable: true,
+    //         iconSize: [32, 32],
+    //         iconAnchor: [24, 24]
+    //     }),
+    //     layerGroup: __centralgps__.asset.map_overlays[__centralgps__.asset.position.layer_name] //__centralgps__.asset.position.layer // you can specify a certain L.layerGroup to create the edge markers from.
+    //   }).addTo(__centralgps__.asset.map);
     __centralgps__.asset.map.addControl(new L.Control.Scale());
     __centralgps__.asset.map.addControl(new L.Control.OSMGeocoder({
         collapsed: true,
         position: 'bottomright',
-        text: '',
         cssclass: 'btn btn-success waves-effect waves-button waves-float',
     }));
     if (navigator.geolocation) {
@@ -124,10 +128,18 @@ function initMonitor(language_code, layers) {
         updateAssetGrid();
       //});
     }, 30*1000);
-  }
-  catch(err) {
-    console.log(err);
-  }
+    Handlebars.registerHelper('eachSorted', function(context, options) {
+    	var obj = {};
+    	Object.keys(context).sort().forEach(function(key, k) {
+        obj[key] = context[key];
+        //console.log(options.fn({key: key, value: context[key] }));
+    	})
+    	return options.fn(obj);
+    })
+  // }
+  // catch(err) {
+  //   console.log(err);
+  // }
 }
 function mark_grid_requestHandler() {
   //console("oi, im tem");
@@ -152,6 +164,7 @@ function clearMarks() {
   }
 }
 function updateMarks() {
+  clearHistory();
   clearMarks();
   var init   = moment($('#_mark_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_mark_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
@@ -233,8 +246,12 @@ function getAssetMarks(selected_asset, init, finish) {
           });
           $("#mark_grid").bootgrid('append', mark_list);
           var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.mark.layer_name]);
-          __centralgps__.asset.map.fitBounds(polyline.getBounds());
-          __centralgps__.asset.map.setZoom (__centralgps__.asset.map.getZoom()); //force a refresh event.
+          try {
+            __centralgps__.asset.map.fitBounds(polyline.getBounds());
+            __centralgps__.asset.map.setZoom (__centralgps__.asset.map.getZoom()); //force a refresh event.
+          } catch (e) {
+            console.log(e);
+          }
 
           __centralgps__.timeline.items = new vis.DataSet(timeline_items);
           __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
@@ -283,6 +300,7 @@ function clearHistory() {
 }
 function updateHistory() {
   clearHistory();
+  clearMarks();
   var init   = moment($('#_history_asset_start_dt').val(), _dt_format_h).format(_dt_format_m);
   var finish = moment($('#_history_asset_finish_dt').val(), _dt_format_h).format(_dt_format_m);
   var selected_asset = $('#_history_asset_list option:selected');
@@ -318,8 +336,8 @@ function getAssetHistory(selected_asset, init, finish) {
             var history_at = moment(h.position_at).format(_dt_format_h);
             var template = Handlebars.compile(_history_text, {compat: true});
             var history_text = template({ bearing: h.bearing, speed: h.speed, accuracy: h.accuracy });
-            template = Handlebars.compile(_history_html_popup, {compat: true});
-            var history_html_popup = template({asset_image: asset_image, selected_asset_name: selected_asset.name, history_at: history_at, history_text: history_text});
+            var templatex = Handlebars.compile(_history_html_popup, {compat: true});
+            var history_html_popup = templatex({asset_image: asset_image, selected_asset_name: selected_asset.name, history_at: history_at, history_text: history_text});
             history_list.push({ asset_name: selected_asset.name, history_text: history_text,
               history_html_popup: history_html_popup, lat: h.lat, lon: h.lon, history_at: history_at,
               position_at: h.position_at, id: h.id });
@@ -331,10 +349,15 @@ function getAssetHistory(selected_asset, init, finish) {
               .on('click',
               function() {__centralgps__.timeline.instance.focus(h.id); __centralgps__.timeline.instance.setSelection(h.id)}))
           });
+
           $("#history_grid").bootgrid('append', history_list);
           var polyline = L.polyline(point_list, {color: selected_asset.color, noClip: false}).addTo(__centralgps__.asset.map_overlays[__centralgps__.asset.history.layer_name]);
-          __centralgps__.asset.map.fitBounds(polyline.getBounds());
+          try {
+            __centralgps__.asset.map.fitBounds(polyline.getBounds());
           __centralgps__.asset.map.setZoom(__centralgps__.asset.map.getZoom()); //force a refresh event.
+          } catch (e) {
+            console.log(e);
+          }
 
           __centralgps__.timeline.items = new vis.DataSet(timeline_items);
           __centralgps__.timeline.instance = new vis.Timeline(__centralgps__.timeline.container, __centralgps__.timeline.items,
@@ -344,8 +367,8 @@ function getAssetHistory(selected_asset, init, finish) {
               __centralgps__.asset.map_overlays[__centralgps__.asset.history.layer_name].getLayers().forEach(
                 function setTimelineLatLng(layer) {
                   if (layer.options.history != null && layer.options.history.id == __centralgps__.timeline.items.get(properties.items[0]).history.id) {
-                    layer.openPopup();
-                    __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
+                      layer.openPopup();
+                      __centralgps__.asset.map.setView(layer.getLatLng(), __centralgps__.asset.map.getZoom());
                   }
                 }
               );
@@ -360,14 +383,25 @@ function getAssetHistory(selected_asset, init, finish) {
       }
   });
 }
+
+function showMeInTheMap(index) {
+  var asset = __centralgps__.asset.list.find(function(item){return item.id == index;});
+  $('#centralgps_panel a[href="#tab_map"]').tab('show');
+  //asset.
+  __centralgps__.asset.map.setView([asset.lat, asset.lon], __centralgps__.asset.map.getZoom());
+  return false;
+}
+
 function updateAssetGrid() {
   addLoadScreen("#asset_grid_container");
   $.get('/monitor/assets', function(response, status, xhr) {
     if (response.status == true) {
       var asset_list = [];
       response.rows.forEach(function(a, aidx, arr) {
-        var asset = { id: a.id, name: a.name, asset_image: a.asset_image };
+        var asset = { id: a.id, name: '<a onclick="showMeInTheMap(' + a.id + ')">' + a.name + '</a>', asset_image: a.asset_image };
         a.positions.forEach(function(p, pidx, arr) {
+          asset.lat = p.lat;
+          asset.lon = p.lon;
           asset.address = p.address;
           asset.position_at = moment(p.position_at).format(_dt_format_h);
         });
@@ -486,7 +520,7 @@ function updateVenueMap() {
                 else {
                   var venue_image = 'images/checkpoint/venue/_placeholder.png'
                   if (venue.image_path != null) venue_image = venue.image_path;
-                  venue.getPopup().setContent('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + '/' + venue_image + '\" class=\"thumbnail\" style="width:150px"/>');
+                  venue.getPopup().setContent('<b>' + v.list_name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + '/' + venue_image + '\" class=\"thumbnail\" style="width:150px"/>');
                 }
               }
             });
@@ -497,7 +531,7 @@ function updateVenueMap() {
             if (v.image_path != null) venue_image = v.image_path;
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name].
               addLayer(L.marker([v.lat, v.lon], { venue: { id: v.id }, zIndexOffset: 108, icon: venue_icon })
-                .bindPopup('<b>' + v.name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + venue_image + '\" class=\"thumbnail\" style="width:150px"/>'))
+                .bindPopup('<b>' + v.list_name + '</b><br/><img src=\"' + __centralgps__.api_base_url + '/' + venue_image + '\" class=\"thumbnail\" style="width:150px"/>'))
             //__centralgps__.asset.map
             __centralgps__.asset.map_overlays[__centralgps__.asset.checkpoint.venue.layer_name]
               .addLayer(L.circle([v.lat, v.lon], v.detection_radius, {

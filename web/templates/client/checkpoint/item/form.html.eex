@@ -69,12 +69,6 @@
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
-__centralgps__.CRUD.index_url = '';
-__centralgps__.CRUD.edit_url = '';
-__centralgps__.CRUD.view_url = '';
-__centralgps__.CRUD.detail_url = '';
-__centralgps__.CRUD.delete_url = '';
-__centralgps__.CRUD.form_token = '<%= get_csrf_token %>';
 __centralgps__.CRUD.grid_name = '#extended_parameters_grid';
 __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
 __centralgps__.CRUD.grid_search_column = 'column';
@@ -88,7 +82,7 @@ function _gridCommandFormatter(column, row)
 var __columns = [];
 $(document).ready(function() {
   __columns = [
-    <%= if @record.xtra_info do %>
+    <%= if Map.has_key?(@record, :xtra_info) && @record.xtra_info do %>
       <%= for item <- (@record.xtra_info["columns"]) do %>
         { column: "<%= item %>" },
       <% end %>

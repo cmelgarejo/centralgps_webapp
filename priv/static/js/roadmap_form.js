@@ -83,7 +83,7 @@ function _updateVenueMap() {
         if(available_venues[0])
          val = available_venues[0].id;
       }
-      chosenLoadSelect('venue_id_select', available_venues, 'id', 'name', fnChosen_VenueOnChange, null, null, val);
+      chosenLoadSelect('venue_id_select', available_venues, 'id', 'list_name', fnChosen_VenueOnChange, null, null, val);
       fnChosen_VenueOnChange(null, { selected: val})
     });
   // });
@@ -129,7 +129,7 @@ function fnChosen_FormsOnChange(event, object) {
 var _rpt;
 function setRoadmapPointTemplate(rpt) {
   _rpt = rpt ? rpt : '<b>{{name}}</b> <br/>{{description}} <br/><i>{{mean_arrival_time}} - {{mean_leave_time}}</i>';
-  Mustache.parse(_rpt);
+  _rpt = Handlebars.compile(_rpt, { compat: true});
 }
 
 function loadMap(_roadmap_layer_name, _venue_layer_name, edit_roadmap_points) {
@@ -206,7 +206,7 @@ function setCurrentRoadmapPointPos() {
     var latlng = current_marker.getLatLng();
     if(latlng != null && latlng.lat != 0 && latlng.lng != 0) {
       __centralgps__.roadmap.form.map.setView(latlng, 18);
-      current_marker_popup.setContent(Mustache.render(_rpt, roadmapPoint_popupContent())).update();
+      current_marker_popup.setContent(_rpt(roadmapPoint_popupContent())).update();
       current_marker.openPopup();
     }
   }
@@ -267,8 +267,8 @@ function getRoadmapPoints(roadmap_id) {
           });
           //console.log(response.rows);
           response.rows.forEach(function(rp, idx, arr) {
-            //var text = Mustache.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
-            var html_popup = Mustache.render(_rpt, {name: rp.name, description: rp.description,
+            //var text = Handlebars.render(_mark_text, { venue: m.venue, action: m.action, reason: m.reason, comment: m.comment });
+            var html_popup = _rpt({name: rp.name, description: rp.description,
               mean_arrival_time: rp.mean_arrival_time, mean_leave_time: rp.mean_leave_time});
             point_list.push({ id: rp.id, name: rp.name, point_order: rp.point_order, mean_arrival_time: rp.mean_arrival_time,
               mean_leave_time: rp.mean_leave_time, lat: rp.lat, lon: rp.lon, description: rp.description});

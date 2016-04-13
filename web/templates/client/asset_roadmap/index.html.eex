@@ -21,7 +21,7 @@
               <th data-column-id="roadmap_id" data-visible="false" data-type="numeric" data-identifier="true"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP_ID") %></th>
               <th data-column-id="asset_id"   data-visible="false" data-type="numeric"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET_ID") %></th>
               <th data-column-id="asset_name">  <%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET") %></th>
-              <th data-column-id="roadmap_name"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP") %></th>
+              <th data-column-id="roadmap_name" data-visible="false" ><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP") %></th>
               <th data-column-id="emails"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_EMAILS") %></th>
               <th data-column-id="phones"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_PHONES") %></th>
               <th data-column-id="commands" data-formatter="commands" data-sortable="false"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "GRID_COMMAND_COLUMN") %></th>

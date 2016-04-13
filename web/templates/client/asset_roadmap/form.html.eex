@@ -19,8 +19,8 @@
       <div class="row">
         <div class="form-group fg-float">
           <input type="hidden" id="asset_id" name="asset_id" value="<%= if (@record.__form__ == :edit), do: @record.asset_id, else: nil %>" required/>
-          <input type="hidden" id="roadmap_id" name="roadmap_id" value="<%= if (@record.__form__ == :edit), do: @record.roadmap_id, else: nil %>" required/>
-          <div class="col-sm-6 col-md-6">
+          <input type="hidden" id="roadmap_id" name="roadmap_id" value="<%=@parent_record.roadmap_id%>" required/>
+          <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <div class="fg-line">
                 <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ASSET") %></label>
@@ -31,21 +31,19 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-md-6">
-            <div class="form-group">
-              <div class="fg-line">
-                <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ROADMAP") %></label>
-              </div>
-              <div class="fg-line">
-                <select class="chosen-select form-control" id="roadmap_select">
-                </select>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12 col-md-12">
+          <div class="toggle-switch">
+            <label>
+              <input id="alert" name="alert" type="checkbox" <%= if (@record.__form__ == :edit && @record.alert), do: "checked", else: "unchecked" %>>
+              <i class="ts-helper"></i>&nbsp;
+              <%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ALERT") %>
+            </label>
+          </div><br/><br/>
+        </div>
+        <div id="contact_form" class="col-sm-12 col-md-12 hideme">
           <div class="form-group fg-float">
             <div class="fg-line">
               <input class="form-control" type="text" id="emails" name="emails" value="<%= if (@record.__form__ == :edit), do: @record.emails, else: nil %>" />
@@ -58,13 +56,6 @@
             </div>
             <label class="fg-label"><%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_PHONES") %></label>
           </div>
-          <div class="checkbox">
-            <label>
-              <input id="alert" name="alert" type="checkbox" <%= if (@record.__form__ == :edit && @record.alert), do: "checked", else: "unchecked" %>>
-              <i class="input-helper"></i>
-              <%= l10n(@session.language_code, "asset_roadmap.crud.html", "COLUMN_ALERT") %>
-            </label>
-          </div>
         </div>
       </div>
     </div>
@@ -74,6 +65,18 @@
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
 $(document).ready(function() {
+  $.each($('input'), function(a, b) {
+    var input = $(b).val();
+    if(input) {
+      if (!$(b).parent().hasClass('fg-toggled')) {
+        $(b).parent().addClass('fg-toggled');
+      }
+    }
+  });
+  shContactForm();
+  $('input[name=alert]').on('change', function(){
+    shContactForm()
+  });
   $("form").submit(function(){ return __ajaxForm(this);});
   <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
     showError('<%= @record.msg %>');
@@ -83,10 +86,18 @@ $(document).ready(function() {
     default_single_text: __centralgps__.chosen.no_results_text,
     search_contains: true,
     width: "100%" });
+
   loadChosenSelect('roadmap', 'roadmap_id',  'id', 'name', '/client/roadmap/json', roadmap_OnChange);
   loadChosenSelect('asset', 'asset_id',  'id', 'name', '/client/asset/json', asset_OnChange);
 });
 
+function shContactForm(){
+  if($('input[name=alert]').is(':checked')) {
+    $('#contact_form').removeClass('hideme');
+  } else {
+    $('#contact_form').addClass('hideme');
+  }
+}
 function loadChosenSelect(select_name, value_input, value_text, value_obj, url, onChange_callback) {
   value_input = '#' + value_input;
   select_name = '#' + select_name + '_select';

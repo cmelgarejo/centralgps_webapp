@@ -38,7 +38,7 @@ msgid  "COLUMN_DETECTION_RADIUS"
 msgstr "Radio de detección (en metros)"
 
 msgid  "COLUMN_ACTIVE"
-msgstr "Activo"
+msgstr "Está activo?"
 
 msgid  "COLUMN_ACTIVATED_AT"
 msgstr "Fecha & hora de activación"
