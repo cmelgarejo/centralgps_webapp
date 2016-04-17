@@ -16,6 +16,9 @@ msgstr "ID"
 msgid  "COLUMN_NAME"
 msgstr "Nombre"
 
+msgid  "COLUMN_CODE"
+msgstr "Código"
+
 msgid  "COLUMN_DESCRIPTION"
 msgstr "Descripción"
 

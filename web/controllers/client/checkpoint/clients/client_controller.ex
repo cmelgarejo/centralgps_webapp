@@ -76,7 +76,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
       if res.body.status do
         record = Map.merge %{status: res.body.status, msg: res.body.msg},
           %{ id: record.id, configuration_id: record.configuration_id,
-            name: record.name, description: record.description }
+            name: record.name, code: record.code, description: record.description }
       end
     end
     record
@@ -87,10 +87,11 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ClientController do
     if (!Map.has_key?p, :xtra_info), do: p = Map.put p, :xtra_info, nil
     if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
     if (String.to_atom(p.__form__) ==  :edit) do
-      data = %{ id: p.id, configuration_id: s.configuration_id, name: p.name, description: p.description, xtra_info: p.xtra_info }
+      data = %{ id: p.id, configuration_id: s.configuration_id, name: p.name, code: p.code,
+        description: p.description, xtra_info: p.xtra_info }
       {_, res} = api_put_json api_method(data.id), s.auth_token, s.account_type, data
     else
-      data = %{ configuration_id: s.configuration_id, name: p.name,
+      data = %{ configuration_id: s.configuration_id, name: p.name, code: p.code,
               description: p.description, xtra_info: p.xtra_info }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
