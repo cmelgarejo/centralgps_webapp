@@ -42,3 +42,21 @@ msgstr "Updated at"
 
 msgid  "COLUMN_EXTENDED_PARAMETERS"
 msgstr "Extended parameters"
+
+msgid  "SWAL_EP_TITLE"
+msgstr "Add extended parameter"
+
+msgid  "SWAL_EP_TEXT"
+msgstr " "
+
+msgid  "SWAL_EP_NAME_PLACEHOLDER"
+msgstr "Name"
+
+msgid  "SWAL_EP_NAME_EMPTY_ERROR"
+msgstr "Please fill a value for the name"
+
+msgid  "SWAL_EP_ADDED_TITLE"
+msgstr "Parameter added successfully!"
+
+msgid  "SWAL_EP_ADDED"
+msgstr " "

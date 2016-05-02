@@ -42,3 +42,21 @@ msgstr "Fecha y hora de actualización"
 
 msgid  "COLUMN_EXTENDED_PARAMETERS"
 msgstr "Parámetros extendidos"
+
+msgid  "SWAL_EP_TITLE"
+msgstr "Agregar parámetro"
+
+msgid  "SWAL_EP_TEXT"
+msgstr " "
+
+msgid  "SWAL_EP_NAME_PLACEHOLDER"
+msgstr "Nombre del parametro"
+
+msgid  "SWAL_EP_NAME_EMPTY_ERROR"
+msgstr "Por favor, complete el nombre del parámetro"
+
+msgid  "SWAL_EP_ADDED_TITLE"
+msgstr "Parámetro agregado con éxito!"
+
+msgid  "SWAL_EP_ADDED"
+msgstr " "

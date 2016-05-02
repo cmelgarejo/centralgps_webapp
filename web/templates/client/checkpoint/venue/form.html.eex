@@ -45,7 +45,7 @@
           <div class="form-group fg-float col-sm-6 col-md-6">
             <div class="fg-line">
               <input class="form-control" type="text" id="name" name="name"
-              value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>" required autofocus toggled/>
+              value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"  autofocus required toggled/>
             </div>
             <label class="fg-label"><%= l10n(@session.language_code, "venue.crud.html", "COLUMN_NAME") %></label>
           </div>

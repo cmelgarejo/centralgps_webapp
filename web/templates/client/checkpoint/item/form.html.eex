@@ -3,6 +3,7 @@
     action="<%= item_path Endpoint, :save %>">
     <input type="hidden" id="__form__" name="__form__" value="<%= @record.__form__ %>" required/>
     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token  %>"/>
+    <input type="hidden" id="xtra_info" name="xtra_info"/>
     <%= if (@record.__form__ == :edit) do %>
     <input type="hidden" id="configuration_id" name="configuration_id" value="<%= @record.configuration_id %>" required/>
     <input type="hidden" id="id" name="id" value="<%= @record.id %>" required/>
@@ -26,15 +27,14 @@
           <div class="fg-line fg-toggled">
             <input class="form-control" type="text" id="name" name="name"
             value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
-            required autofocus/>
+            required autofocus toggled/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NAME") %></label>
         </div>
         <div class="form-group fg-float">
-          <div class="fg-line fg-toggled">
+          <div class="fg-line fg-float">
             <input class="form-control" type="text" id="code" name="code"
-            value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>"
-            required autofocus/>
+            value="<%= if (@record.__form__ == :edit), do: @record.code, else: nil %>"  />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_CODE") %></label>
         </div>
@@ -51,55 +51,87 @@
             value="<%= if (@record.__form__ == :edit), do: @record.notes, else: nil %>" />
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NOTES") %></label>
-        </div
-        <div class="form-group fg-float">
-          <div class="grid-container">
-            <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_EXTENDED_PARAMETERS") %></label>
-            <table id="extended_parameters_grid" class="table table-condensed table-hover table-striped">
-                <thead>
-                    <tr>
-                      <th data-column-id="column"  ><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NAME") %></th>
-                      <th data-column-id="commands"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td></td>
-                  </tr>
-                </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
   </form>
+  <div class="card-body card-padding">
+    <div class="form-group fg-float">
+      <div style="float:right !important; width: 50px;">
+        <a onclick="add_extended_parameter()" class="btn btn-success btn-float" >
+          <i class="zmdi zmdi-plus"></i>
+        </a>
+      </div>
+    </div>
+    <div class="grid-container">
+      <label class="fg-label"><%= l10n(@session.language_code, "item.crud.html", "COLUMN_EXTENDED_PARAMETERS") %></label>
+      <table id="extended_parameters_grid" class="table table-condensed table-hover table-striped">
+        <thead>
+          <tr>
+            <th data-column-id="column"  ><%= l10n(@session.language_code, "item.crud.html", "COLUMN_NAME") %></th>
+            <th data-column-id="commands" data-width="280" data-formatter="commands" data-sortable="false"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <script src="<%= static_path(@conn, "/js/fileinput.min.js") %>"></script>
 <script src="<%= static_path(@conn, "/js/jquery.form.js") %>"></script>
 <script>
-__centralgps__.CRUD.grid_name = '#extended_parameters_grid';
-__centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
-__centralgps__.CRUD.grid_search_column = 'column';
-__centralgps__.CRUD.grid_command_columns = ["column"];
+// __centralgps__.CRUD.grid_name = '#extended_parameters_grid';
+// __centralgps__.CRUD.grid_css_dropDownMenuItems = 'dropdown-menu pull-left';
+//__centralgps__.CRUD.grid_search_column = 'column';
+// __centralgps__.CRUD.grid_command_columns = ["column"];
 function _gridCommandFormatter(column, row)
 {
-  return "" +
-  "<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row.name + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
-  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row.name + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
+  return "" + //"<button type='button' class='btn btn-default cmd-edit'   data-row-id='" + row[__centralgps__.CRUD.grid_search_column] + "' title='" + __centralgps__.globalmessages.generic._edit   + "'><span class='zmdi zmdi-edit'  </span></button> " +
+  "<button type='submit' class='btn btn-danger  cmd-delete' data-row-id='" + row['column'] + "' title='" + __centralgps__.globalmessages.generic._delete + "'><span class='zmdi zmdi-delete'</span></button>";
 }
-var __columns = [];
+var __columns_arr = [];
+
+function reloadObjectData(obj) {
+  var __columns_obj = { columns: [] };
+  obj.forEach(function(c) {
+    __columns_obj.columns.push(c["column"]);
+  });
+  $('#xtra_info').val(JSON.stringify(__columns_obj));
+  $('#extended_parameters_grid').bootgrid("clear").bootgrid("append", obj);
+}
+
 $(document).ready(function() {
-  __columns = [
+  __columns_arr = [
     <%= if Map.has_key?(@record, :xtra_info) && @record.xtra_info do %>
       <%= for item <- (@record.xtra_info["columns"]) do %>
         { column: "<%= item %>" },
       <% end %>
     <% end %>
   ];
-  gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns);
-  $(__centralgps__.CRUD.grid_name).bootgrid("clear").bootgrid({
-    formatters: { commands: _gridCommandFormatter }
-  }).bootgrid("append", __columns);
+
+  //gridSetup_CRUD({ commands: _gridCommandFormatter }, __centralgps__.CRUD.grid_command_columns)
+  $('#extended_parameters_grid')
+    .bootgrid({
+      //css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
+      labels: __centralgps__.bootgrid.labels,
+      ajax: false,
+      formatters: { commands: _gridCommandFormatter },
+      caseSensitive: false
+    })
+    .bootgrid("clear").bootgrid("append", __columns_arr)
+    .on("loaded.rs.jquery.bootgrid", function _onLoadedBootgrid() {
+      $(this).find(".cmd-detail").on("click", function _detailOnClick(e) {
+        gridSetup_CRUD().bootgrid("clear").bootgrid("append", __columns_arr);
+        reloadObjectData(__columns_arr);
+      }).end().find(".cmd-delete").on("click", function _deleteOnClick(e) {
+        deleteFromGrid(e);
+      });
+    });
+  //.bootgrid({    formatters: { commands: _gridCommandFormatter }  });
   $.applyDataMask('.input-mask');
   $("form").submit(function(){ return __ajaxForm(this);});
   <%= if (Map.has_key?(@record, :status) && !@record.status) do %>
@@ -113,6 +145,57 @@ $(document).ready(function() {
       }
     }
   });
-});
 
+  function deleteFromGrid(event) {
+    var _text = __centralgps__.globalmessages._delete_record_removed
+      .replace("#{RECORD}", event.target.dataset.rowId)
+      .replace("undefined", "")
+      .replace("  ", " ");
+    swal({
+        title: __centralgps__.globalmessages._delete_record_title_sure,
+        text: _text,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "red",
+        confirmButtonText: __centralgps__.globalmessages._delete_record_confirm_text,
+        cancelButtonText: __centralgps__.globalmessages._delete_record_cancel_text,
+        closeOnConfirm: false
+    }, function bootgrid_delete_OnConfirm(confirmed){
+          if(confirmed) {
+            var deleteMe = __columns_arr.filter(function(c){return c.column == event.target.dataset.rowId})[0];
+            if(deleteMe != undefined) {
+              __columns_arr.splice(__columns_arr.lastIndexOf( deleteMe ), 1)
+              reloadObjectData(__columns_arr);
+              swal(__centralgps__.globalmessages._delete_record_title_done, "", "success");
+            } else {
+              swal(__centralgps__.globalmessages._delete_record_title_done, "", "error");
+            }
+          }
+      });
+      // }).fail(function bootgrid_delete_Fail(data, status, jqXHR) {
+      //   swal(__centralgps__.globalmessages._delete_record_title_done, status, "error");
+      // });
+  }
+
+});
+function add_extended_parameter() {
+  swal({ title: "<%= l10n(@session.language_code, "item.crud.html", "SWAL_EP_TITLE") %>",
+  text: "<%= l10n(@session.language_code, "item.crud.html", "SWAL_EP_TEXT") %>",
+  type: "input",
+  showCancelButton: true,
+  closeOnConfirm: false,
+  animation: "slide-from-top",
+  inputPlaceholder: "<%= l10n(@session.language_code, "item.crud.html", "SWAL_EP_NAME_PLACEHOLDER") %>" },
+  function(value) {
+    if (value === false) return false;
+    if (value === "") {
+      swal.showInputError("<%= l10n(@session.language_code, "item.crud.html", "SWAL_EP_NAME_EMPTY_ERROR") %>");
+      return false;
+    }
+    __columns_arr.push({column: value});
+    gridSetup_CRUD().bootgrid("clear").bootgrid("append", __columns_arr);
+    reloadObjectData(__columns_arr);
+    swal("<%= l10n(@session.language_code, "item.crud.html", "SWAL_EP_ADDED_TITLE") %>", "<%= l10n(@session.language_code, "item.crud.html", "SWAL_EP_ADDED") %>");
+  });
+}
 </script>

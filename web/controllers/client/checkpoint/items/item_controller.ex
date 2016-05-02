@@ -85,17 +85,18 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
 
   defp save_record(s, p) do
     p = objectify_map(p)
-    if (!Map.has_key?p, :__form__), do: p = Map.put p, :__form__, :edit
-    if (!Map.has_key?p, :xtra_info), do: p = Map.put p, :xtra_info, nil
+    IO.puts "params: #{inspect p}"
+    if (!Map.has_key?p, :__form__), do: p = Map.put(p, :__form__, :edit)
+    if (!Map.has_key?p, :xtra_info), do: p = Map.put(p, :xtra_info, nil)
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{item_id: p.id, configuration_id: s.configuration_id, name: p.name, code: p.code,
         description: p.description, notes: p.notes , stock: nil, min_qty: nil,
-        max_qty: nil, xtra_info: p.xtra_info}
+        max_qty: nil, xtra_info: p.xtra_info |> Poison.decode! |> objectify_map}
       {_, res} = api_put_json api_method(data.item_id), s.auth_token, s.account_type, data
     else
       data = %{ configuration_id: s.configuration_id, name: p.name, code: p.code,
         description: p.description, notes: p.notes , stock: nil, min_qty: nil,
-        max_qty: nil, xtra_info: p.xtra_info  }
+        max_qty: nil, xtra_info: p.xtra_info |> Poison.decode! |> objectify_map  }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body

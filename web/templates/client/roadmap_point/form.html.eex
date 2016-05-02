@@ -28,7 +28,7 @@
           <div class="fg-line">
             <input class="form-control" type="text" id="name" name="name"
             value="<%= if (@record.__form__ == :edit), do: @record.name, else: nil %>"
-            required autofocus toggled/>
+            autofocus required toggled/>
           </div>
           <label class="fg-label"><%= l10n(@session.language_code, "roadmap_point.crud.html", "COLUMN_NAME") %></label>
         </div>

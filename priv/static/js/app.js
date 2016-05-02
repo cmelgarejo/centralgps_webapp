@@ -237,7 +237,7 @@ function bootgrid_delete(grid, delete_url, record) {
 function gridSetup_CRUD(gridFormatters, params){
   gridFormatters = (gridFormatters != null) ? gridFormatters : {};
   if(!gridFormatters.commands) gridFormatters.commands = gridCommandFormatter;
-  if (!__centralgps__.CRUD.grid_command_columns) __centralgps__.CRUD.grid_command_columns = []
+  if (!__centralgps__.CRUD.grid_command_columns) __centralgps__.CRUD.grid_command_columns = [];
   params = (params != null) ? params : __centralgps__.CRUD.grid_command_columns;
   __centralgps__.CRUD.grid = $(__centralgps__.CRUD.grid_name).bootgrid({
     css: { dropDownMenuItems: __centralgps__.CRUD.grid_css_dropDownMenuItems },
@@ -284,6 +284,7 @@ function gridSetup_CRUD(gridFormatters, params){
   bootgrid_appendSearchControl(); /*this appends the clear control to all active bootgrids.*/
   //bootgrid_appendExportControls(); /*this appends the export control to all active bootgrids.*/
   bootgrid_appendPrintControls(__centralgps__.CRUD.grid_name); /*this appends the print control to all active bootgrids.*/
+  return __centralgps__.CRUD.grid;
 }
 
 function gridSetup_CRUD_requestHandler(req) {
