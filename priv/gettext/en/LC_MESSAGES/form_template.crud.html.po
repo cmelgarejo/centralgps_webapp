@@ -1,0 +1,32 @@
+msgid  "PAGE_LIST_TITLE"
+msgstr "Items"
+
+msgid  "PAGE_NEW_TITLE"
+msgstr "New item assignment"
+
+msgid  "PAGE_EDIT_TITLE"
+msgstr "Edit item assignment"
+
+msgid  "GRID_COMMAND_COLUMN"
+msgstr "Commandos"
+
+msgid  "COLUMN_ID"
+msgstr "ID"
+
+msgid  "COLUMN_FORM_ID"
+msgstr "Form ID"
+
+msgid  "COLUMN_ACTIVITY_ID"
+msgstr "Activity ID"
+
+msgid  "COLUMN_ITEM"
+msgstr "Item"
+
+msgid  "COLUMN_MEASURE_UNIT"
+msgstr "Measure unit"
+
+msgid  "COLUMN_CREATED_AT"
+msgstr "Created at"
+
+msgid  "COLUMN_UPDATED_AT"
+msgstr "Updated at"

@@ -87,7 +87,8 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
     p = objectify_map(p)
     IO.puts "params: #{inspect p}"
     if (!Map.has_key?p, :__form__), do: p = Map.put(p, :__form__, :edit)
-    if (!Map.has_key?p, :xtra_info), do: p = Map.put(p, :xtra_info, nil)
+    if (!Map.has_key?(p, :xtra_info)), do: p = Map.put(p, :xtra_info, nil)
+    if (Map.has_key?(p, :xtra_info) && p.xtra_info == ""), do: p.xtra_info = nil
     if (String.to_atom(p.__form__) ==  :edit) do
       data = %{item_id: p.id, configuration_id: s.configuration_id, name: p.name, code: p.code,
         description: p.description, notes: p.notes , stock: nil, min_qty: nil,
@@ -96,7 +97,7 @@ defmodule CentralGPSWebApp.Client.Checkpoint.ItemController do
     else
       data = %{ configuration_id: s.configuration_id, name: p.name, code: p.code,
         description: p.description, notes: p.notes , stock: nil, min_qty: nil,
-        max_qty: nil, xtra_info: p.xtra_info |> Poison.decode! |> objectify_map  }
+        max_qty: nil, xtra_info: (p.xtra_info |> Poison.decode! |> objectify_map)  }
       {_, res} = api_post_json api_method("create"), s.auth_token, s.account_type, data
     end
     res.body
