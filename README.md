@@ -1,4 +1,4 @@
-# CentralGPSWebApp
+# CentralGPS WebApp
 
 To start your new Phoenix application:
 
